@@ -23,6 +23,7 @@
   --primary: #6366f1;
   --primary2: #8b5cf6;
   --green: #22c55e;
+  --red: #ef4444;
 }
 
 body.dark {
@@ -41,23 +42,33 @@ body {
   padding-bottom: 90px;
 }
 
+button,
+input,
+textarea {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
 .app {
   width: 100%;
-  max-width: 520px;
+  max-width: 560px;
   margin: auto;
-  padding: 18px 16px 30px;
+  padding: 18px 15px 35px;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .logo {
   font-size: 23px;
-  font-weight: 800;
+  font-weight: 850;
 }
 
 .subtitle {
@@ -74,16 +85,15 @@ body {
   color: var(--text);
   border-radius: 13px;
   font-size: 18px;
-  cursor: pointer;
 }
 
 .date-card {
   background: linear-gradient(135deg, var(--primary), var(--primary2));
   color: white;
   border-radius: 22px;
-  padding: 18px;
-  margin-bottom: 14px;
-  box-shadow: 0 10px 30px rgba(99,102,241,.25);
+  padding: 17px;
+  margin-bottom: 13px;
+  box-shadow: 0 10px 30px rgba(99,102,241,.22);
 }
 
 .date-row {
@@ -95,8 +105,8 @@ body {
 .date-title {
   text-align: center;
   flex: 1;
-  font-weight: 700;
-  font-size: 15px;
+  font-weight: 750;
+  font-size: 14px;
 }
 
 .date-btn {
@@ -106,27 +116,25 @@ body {
   border-radius: 12px;
   background: rgba(255,255,255,.18);
   color: white;
-  font-size: 20px;
-  cursor: pointer;
+  font-size: 22px;
 }
 
 .today-btn {
-  margin-top: 12px;
+  margin-top: 11px;
   width: 100%;
   border: none;
   border-radius: 11px;
   padding: 9px;
   background: rgba(255,255,255,.15);
   color: white;
-  cursor: pointer;
 }
 
-.progress-card {
+.card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 18px;
-  padding: 17px;
-  margin-bottom: 20px;
+  padding: 15px;
+  margin-bottom: 13px;
 }
 
 .progress-top {
@@ -136,13 +144,13 @@ body {
 }
 
 .progress-title {
-  font-weight: 700;
+  font-weight: 750;
   font-size: 14px;
 }
 
 .progress-percent {
   color: var(--primary);
-  font-weight: 800;
+  font-weight: 850;
 }
 
 .progress-bg {
@@ -163,21 +171,21 @@ body {
 .stats {
   display: grid;
   grid-template-columns: repeat(3,1fr);
-  gap: 9px;
-  margin-bottom: 23px;
+  gap: 8px;
+  margin-bottom: 22px;
 }
 
 .stat {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 15px;
-  padding: 13px 5px;
+  padding: 12px 4px;
   text-align: center;
 }
 
 .stat-number {
-  font-size: 20px;
-  font-weight: 800;
+  font-size: 19px;
+  font-weight: 850;
 }
 
 .stat-label {
@@ -190,7 +198,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 22px 2px 10px;
+  margin: 21px 2px 10px;
 }
 
 .section-title h2 {
@@ -211,12 +219,11 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  cursor: pointer;
   transition: .15s;
 }
 
 .item:active {
-  transform: scale(.98);
+  transform: scale(.985);
 }
 
 .item.done {
@@ -271,9 +278,13 @@ body {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 15px;
-  margin-bottom: 9px;
-  cursor: pointer;
+  padding: 14px;
+  margin-bottom: 8px;
+}
+
+.goal.done {
+  border-color: var(--green);
+  background: rgba(34,197,94,.06);
 }
 
 .goal-top {
@@ -293,6 +304,12 @@ body {
   justify-content: center;
   font-weight: 800;
   font-size: 12px;
+  flex-shrink: 0;
+}
+
+.goal.done .goal-number {
+  background: var(--green);
+  color: white;
 }
 
 .goal-content {
@@ -311,32 +328,110 @@ body {
   line-height: 1.4;
 }
 
-.goal.done {
-  border-color: var(--green);
-}
-
-.goal.done .goal-number {
-  background: var(--green);
-  color: white;
-}
-
-.note-box {
-  background: var(--card);
+.input,
+textarea {
+  width: 100%;
+  padding: 11px;
   border: 1px solid var(--border);
-  border-radius: 17px;
-  padding: 14px;
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 11px;
+  outline: none;
+  font-size: 13px;
 }
 
 textarea {
-  width: 100%;
-  min-height: 120px;
+  min-height: 115px;
   resize: vertical;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+}
+
+.row > * {
+  flex: 1;
+}
+
+.small-btn {
   border: none;
-  outline: none;
-  background: transparent;
+  background: var(--primary);
+  color: white;
+  border-radius: 10px;
+  padding: 10px 13px;
+  font-weight: 700;
+}
+
+.secondary-btn {
+  border: 1px solid var(--border);
+  background: var(--card);
   color: var(--text);
-  font-family: inherit;
+  border-radius: 10px;
+  padding: 10px 13px;
+}
+
+.money-total {
+  margin-top: 10px;
   font-size: 13px;
+  color: var(--muted);
+}
+
+.money-total strong {
+  color: var(--text);
+  font-size: 17px;
+}
+
+.water {
+  display: grid;
+  grid-template-columns: repeat(8,1fr);
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.water-btn {
+  height: 39px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  border-radius: 9px;
+  font-size: 17px;
+}
+
+.water-btn.active {
+  background: #dbeafe;
+  border-color: #60a5fa;
+}
+
+.task-list {
+  margin-top: 10px;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.task:last-child {
+  border-bottom: none;
+}
+
+.task.done span {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.task input {
+  accent-color: var(--primary);
+}
+
+.delete-task {
+  margin-left: auto;
+  border: none;
+  background: none;
+  color: var(--muted);
 }
 
 .ai-box {
@@ -347,7 +442,7 @@ textarea {
 }
 
 .ai-title {
-  font-weight: 800;
+  font-weight: 850;
   margin-bottom: 4px;
 }
 
@@ -357,14 +452,27 @@ textarea {
   margin-bottom: 12px;
 }
 
-.input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--text);
+.chat {
+  margin-top: 10px;
+  max-height: 330px;
+  overflow-y: auto;
+}
+
+.message {
+  padding: 10px;
   border-radius: 11px;
-  outline: none;
+  margin-bottom: 7px;
+  font-size: 12px;
+  white-space: pre-wrap;
+  line-height: 1.55;
+}
+
+.user-message {
+  background: rgba(99,102,241,.12);
+}
+
+.ai-message {
+  background: var(--bg);
 }
 
 .ai-row {
@@ -378,40 +486,16 @@ textarea {
 }
 
 .ai-btn {
+  width: 48px;
   border: none;
   background: var(--primary);
   color: white;
   border-radius: 11px;
-  padding: 0 17px;
-  cursor: pointer;
   font-size: 20px;
 }
 
 .ai-btn:disabled {
   opacity: .5;
-}
-
-.chat {
-  margin-top: 10px;
-  max-height: 260px;
-  overflow-y: auto;
-}
-
-.message {
-  padding: 10px;
-  border-radius: 11px;
-  margin-bottom: 7px;
-  font-size: 12px;
-  white-space: pre-wrap;
-  line-height: 1.5;
-}
-
-.user-message {
-  background: rgba(99,102,241,.12);
-}
-
-.ai-message {
-  background: var(--bg);
 }
 
 .bottom-nav {
@@ -420,8 +504,8 @@ textarea {
   transform: translateX(-50%);
   bottom: 0;
   width: 100%;
-  max-width: 520px;
-  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  max-width: 560px;
+  padding: 9px 10px calc(9px + env(safe-area-inset-bottom));
   background: var(--card);
   border-top: 1px solid var(--border);
   display: flex;
@@ -433,19 +517,13 @@ textarea {
   border: none;
   background: none;
   color: var(--muted);
-  font-size: 10px;
-  cursor: pointer;
+  font-size: 9px;
 }
 
 .nav-btn span {
   display: block;
-  font-size: 20px;
+  font-size: 19px;
   margin-bottom: 2px;
-}
-
-.nav-btn.active {
-  color: var(--primary);
-  font-weight: 700;
 }
 
 .toast {
@@ -484,42 +562,23 @@ textarea {
   <button class="icon-btn" onclick="toggleDark()">🌙</button>
 </header>
 
-
-<!-- DATE -->
-
 <div class="date-card">
-
   <div class="date-row">
-
     <button class="date-btn" onclick="changeDate(-1)">‹</button>
-
     <div id="date-display" class="date-title"></div>
-
     <button class="date-btn" onclick="changeDate(1)">›</button>
-
   </div>
 
   <button class="today-btn" onclick="goToday()">
     📅 Өнөөдөр
   </button>
-
 </div>
 
-
-<!-- PROGRESS -->
-
-<div class="progress-card">
+<div class="card">
 
   <div class="progress-top">
-
-    <span class="progress-title">
-      Өнөөдрийн ахиц
-    </span>
-
-    <span id="progress-percent" class="progress-percent">
-      0%
-    </span>
-
+    <span class="progress-title">Өнөөдрийн ахиц</span>
+    <span id="progress-percent" class="progress-percent">0%</span>
   </div>
 
   <div class="progress-bg">
@@ -528,14 +587,11 @@ textarea {
 
 </div>
 
-
-<!-- STATS -->
-
 <div class="stats">
 
   <div class="stat">
     <div id="done-count" class="stat-number">0</div>
-    <div class="stat-label">Өнөөдөр</div>
+    <div class="stat-label">Биелүүлсэн</div>
   </div>
 
   <div class="stat">
@@ -550,18 +606,12 @@ textarea {
 
 </div>
 
-
-<!-- HABITS -->
-
 <div class="section-title">
   <h2>☀️ Өдөр тутмын зуршил</h2>
   <span>8 зүйл</span>
 </div>
 
 <div id="habits-container"></div>
-
-
-<!-- GOALS -->
 
 <div class="section-title">
   <h2>🎯 13 том зорилго</h2>
@@ -570,25 +620,87 @@ textarea {
 
 <div id="goals-container"></div>
 
+<div class="section-title">
+  <h2>💧 Ус</h2>
+  <span>Өнөөдөр</span>
+</div>
 
-<!-- NOTE -->
+<div class="card">
+  <div id="water-count">0 стакан</div>
+
+  <div class="water" id="water-container"></div>
+</div>
+
+<div class="section-title">
+  <h2>⏰ Өнөөдрийн хийх зүйл</h2>
+</div>
+
+<div class="card">
+
+  <div class="row">
+    <input
+      id="task-input"
+      class="input"
+      placeholder="Жишээ: Математик 30 минут"
+    >
+
+    <button
+      class="small-btn"
+      onclick="addTask()"
+    >
+      Нэмэх
+    </button>
+  </div>
+
+  <div id="task-list" class="task-list"></div>
+
+</div>
+
+<div class="section-title">
+  <h2>💰 Өдрийн зарлага</h2>
+</div>
+
+<div class="card">
+
+  <div class="row">
+    <input
+      id="expense-input"
+      class="input"
+      type="number"
+      min="0"
+      placeholder="Дүн ₮"
+    >
+
+    <button
+      class="small-btn"
+      onclick="addExpense()"
+    >
+      Нэмэх
+    </button>
+  </div>
+
+  <div class="money-total">
+    Өнөөдрийн нийт:
+    <strong id="expense-total">0₮</strong>
+  </div>
+
+</div>
 
 <div class="section-title">
   <h2>📝 Өдрийн тэмдэглэл</h2>
 </div>
 
-<div class="note-box">
+<div class="card">
 
 <textarea
   id="daily-note"
-  placeholder="Өнөөдөр юу хийв? Юу сурсан бэ? Маргааш юу хийх вэ?"
+  placeholder="Өнөөдөр юу хийв?
+Юу сурсан бэ?
+Маргааш юу хийх вэ?"
   oninput="saveNote()"
 ></textarea>
 
 </div>
-
-
-<!-- AI -->
 
 <div class="section-title">
   <h2>🤖 AI Coach</h2>
@@ -601,7 +713,7 @@ textarea {
   </div>
 
   <div class="ai-sub">
-    API key энд хэрэггүй. Асуултаа шууд бич.
+    AI чиний өнөөдрийн зуршил, зорилго, хийх зүйл, тэмдэглэл зэргийг харгалзан зөвлөгөө өгнө.
   </div>
 
   <div id="chat" class="chat"></div>
@@ -611,7 +723,7 @@ textarea {
     <input
       id="ai-query"
       class="input"
-      placeholder="Надаас асуу..."
+      placeholder="Жишээ: Өнөөдөр юу хийх вэ?"
       onkeydown="if(event.key==='Enter') askAI()"
     >
 
@@ -629,12 +741,9 @@ textarea {
 
 </div>
 
-
-<!-- NAV -->
-
 <div class="bottom-nav">
 
-<button class="nav-btn active" onclick="scrollTopPage()">
+<button class="nav-btn" onclick="scrollTopPage()">
   <span>🏠</span>
   Нүүр
 </button>
@@ -661,9 +770,7 @@ textarea {
 
 </div>
 
-
 <div id="toast" class="toast"></div>
-
 
 <script>
 
@@ -673,14 +780,14 @@ const habits = [
     id:"h1",
     icon:"⏰",
     name:"Эрт босох",
-    desc:"Өглөөг зөв эхлүүлэх"
+    desc:"Өглөөг тайван эхлүүлэх"
   },
 
   {
     id:"h2",
     icon:"💧",
     name:"Ус уух",
-    desc:"Өдрийн турш ус уух"
+    desc:"Өдрийн турш тогтмол ус уух"
   },
 
   {
@@ -707,8 +814,8 @@ const habits = [
   {
     id:"h6",
     icon:"🥗",
-    name:"Эрүүл хооллох",
-    desc:"Биеэ зөв хооллох"
+    name:"Тэнцвэртэй хооллох",
+    desc:"Өдрийн хоолоо алгасахгүй"
   },
 
   {
@@ -722,15 +829,14 @@ const habits = [
     id:"h8",
     icon:"🚫",
     name:"Vape хэрэглэхгүй",
-    desc:"Эрүүл сонголт хийх"
+    desc:"Өөртөө эрүүл сонголт хийх"
   }
 
 ];
 
-
 const goals = [
 
-["g1","1","Сургуулиа enjoy-дох & Дүн","Дурсамж бүтээж, хичээлдээ анхаарах."],
+["g1","1","Сургууль & Дүн","Хичээлдээ анхаарч, сайхан дурсамж бүтээх."],
 
 ["g2","2","Англи & Орос хэл","Англи хэлээ ахиулж, Орос хэл сурч эхлэх."],
 
@@ -738,15 +844,15 @@ const goals = [
 
 ["g4","4","Код & AI","Python сурч, өөрийн жижиг төслүүд хийх."],
 
-["g5","5","Мөнгөө зөв зарцуулах","Дэмий зардлаа багасгаж, хуримтлалтай болох."],
+["g5","5","Мөнгөө зөв зарцуулах","Дэмий зардлаа багасгаж, хуримтлал бий болгох."],
 
-["g6","6","Биеэ хөгжүүлэх","Тогтмол хөдөлгөөн, эрүүл дадал бий болгох."],
+["g6","6","Биеэ хөгжүүлэх","Тогтмол хөдөлгөөн, амралтын зөв дадал бий болгох."],
 
-["g7","7","Өөрийн хүчтэй тал","Юунд хамгийн сайн байдгаа олох."],
+["g7","7","Өөрийн хүчтэй тал","Юунд сайн, юу сонирхдог гэдгээ олох."],
 
 ["g8","8","Эелдэг харилцаа","Хүмүүстэй хүндэтгэлтэй харилцах."],
 
-["g9","9","Уур бухимдлаа хянах","Сэтгэл хөдлөлөө зөв удирдаж сурах."],
+["g9","9","Сэтгэл хөдлөлөө удирдах","Уур бухимдлаа зөв зохицуулж сурах."],
 
 ["g10","10","Vape-ээс гарах","Vape хэрэглэхгүй байх зорилго."],
 
@@ -758,36 +864,35 @@ const goals = [
 
 ];
 
-
 let db = {};
 
 try {
-  db = JSON.parse(
-    localStorage.getItem("lifeTrackerDB")
-  ) || {};
+  db =
+    JSON.parse(
+      localStorage.getItem("lifeTrackerDB")
+    ) || {};
 } catch {
   db = {};
 }
 
 let currentDate = new Date();
 
-
 function dateKey(date){
 
-  const y = date.getFullYear();
+  const y =
+    date.getFullYear();
 
-  const m = String(
-    date.getMonth()+1
-  ).padStart(2,"0");
+  const m =
+    String(date.getMonth()+1)
+    .padStart(2,"0");
 
-  const d = String(
-    date.getDate()
-  ).padStart(2,"0");
+  const d =
+    String(date.getDate())
+    .padStart(2,"0");
 
   return `${y}-${m}-${d}`;
 
 }
-
 
 function getDay(key){
 
@@ -796,15 +901,26 @@ function getDay(key){
     db[key] = {
       habits:{},
       goals:{},
-      note:""
+      note:"",
+      water:0,
+      tasks:[],
+      expenses:[]
     };
 
   }
 
+  if(!db[key].tasks)
+    db[key].tasks = [];
+
+  if(!db[key].expenses)
+    db[key].expenses = [];
+
+  if(typeof db[key].water !== "number")
+    db[key].water = 0;
+
   return db[key];
 
 }
-
 
 function saveDB(){
 
@@ -815,12 +931,13 @@ function saveDB(){
 
 }
 
-
 function render(){
 
-  const key = dateKey(currentDate);
+  const key =
+    dateKey(currentDate);
 
-  const day = getDay(key);
+  const day =
+    getDay(key);
 
   document.getElementById(
     "date-display"
@@ -834,7 +951,6 @@ function render(){
         day:"numeric"
       }
     );
-
 
   const hc =
     document.getElementById(
@@ -852,7 +968,8 @@ function render(){
       document.createElement("div");
 
     div.className =
-      "item" + (done ? " done" : "");
+      "item" +
+      (done ? " done" : "");
 
     div.onclick =
       ()=>toggle("habits",h.id);
@@ -885,7 +1002,6 @@ function render(){
 
   });
 
-
   const gc =
     document.getElementById(
       "goals-container"
@@ -909,7 +1025,8 @@ function render(){
       document.createElement("div");
 
     div.className =
-      "goal" + (done ? " done" : "");
+      "goal" +
+      (done ? " done" : "");
 
     div.onclick =
       ()=>toggle("goals",id);
@@ -942,16 +1059,18 @@ function render(){
 
   });
 
-
   document.getElementById(
     "daily-note"
-  ).value = day.note || "";
+  ).value =
+    day.note || "";
 
+  renderWater(day);
+  renderTasks(day);
+  renderExpenses(day);
   updateProgress();
   updateStreak();
 
 }
-
 
 function toggle(type,id){
 
@@ -965,7 +1084,6 @@ function toggle(type,id){
     !day[type][id];
 
   saveDB();
-
   render();
 
   showToast(
@@ -976,30 +1094,30 @@ function toggle(type,id){
 
 }
 
-
 function updateProgress(){
 
-  const key =
-    dateKey(currentDate);
-
   const day =
-    getDay(key);
+    getDay(dateKey(currentDate));
 
   let done = 0;
 
   habits.forEach(h=>{
-    if(day.habits[h.id]) done++;
+    if(day.habits[h.id])
+      done++;
   });
 
   goals.forEach(g=>{
-    if(day.goals[g[0]]) done++;
+    if(day.goals[g[0]])
+      done++;
   });
 
   const total =
     habits.length + goals.length;
 
   const percent =
-    Math.round((done/total)*100);
+    Math.round(
+      (done / total) * 100
+    );
 
   document.getElementById(
     "progress-bar"
@@ -1019,16 +1137,16 @@ function updateProgress(){
   let goalDone = 0;
 
   goals.forEach(g=>{
-    if(day.goals[g[0]]) goalDone++;
+    if(day.goals[g[0]])
+      goalDone++;
   });
 
   document.getElementById(
     "goal-count"
   ).textContent =
-    goalDone+"/13";
+    goalDone + "/13";
 
 }
-
 
 function updateStreak(){
 
@@ -1041,7 +1159,8 @@ function updateStreak(){
     const key =
       dateKey(d);
 
-    if(!db[key]) break;
+    if(!db[key])
+      break;
 
     const day =
       db[key];
@@ -1049,14 +1168,17 @@ function updateStreak(){
     let done = 0;
 
     habits.forEach(h=>{
-      if(day.habits?.[h.id]) done++;
+      if(day.habits?.[h.id])
+        done++;
     });
 
     goals.forEach(g=>{
-      if(day.goals?.[g[0]]) done++;
+      if(day.goals?.[g[0]])
+        done++;
     });
 
-    if(done === 0) break;
+    if(done === 0)
+      break;
 
     streak++;
 
@@ -1069,10 +1191,230 @@ function updateStreak(){
   document.getElementById(
     "streak-count"
   ).textContent =
-    streak+"🔥";
+    streak + "🔥";
 
 }
 
+function renderWater(day){
+
+  const container =
+    document.getElementById(
+      "water-container"
+    );
+
+  container.innerHTML = "";
+
+  for(let i=1;i<=8;i++){
+
+    const btn =
+      document.createElement("button");
+
+    btn.className =
+      "water-btn" +
+      (i <= day.water
+        ? " active"
+        : "");
+
+    btn.textContent = "💧";
+
+    btn.onclick = ()=>{
+      day.water =
+        i === day.water
+          ? i-1
+          : i;
+
+      saveDB();
+      render();
+    };
+
+    container.appendChild(btn);
+
+  }
+
+  document.getElementById(
+    "water-count"
+  ).textContent =
+    day.water + " стакан";
+
+}
+
+function addTask(){
+
+  const input =
+    document.getElementById(
+      "task-input"
+    );
+
+  const text =
+    input.value.trim();
+
+  if(!text)
+    return;
+
+  const day =
+    getDay(dateKey(currentDate));
+
+  day.tasks.push({
+    id: Date.now(),
+    text,
+    done:false
+  });
+
+  input.value = "";
+
+  saveDB();
+  render();
+
+  showToast("✅ Task нэмэгдлээ");
+
+}
+
+function toggleTask(id){
+
+  const day =
+    getDay(dateKey(currentDate));
+
+  const task =
+    day.tasks.find(
+      t=>t.id===id
+    );
+
+  if(task)
+    task.done = !task.done;
+
+  saveDB();
+  render();
+
+}
+
+function deleteTask(id){
+
+  const day =
+    getDay(dateKey(currentDate));
+
+  day.tasks =
+    day.tasks.filter(
+      t=>t.id!==id
+    );
+
+  saveDB();
+  render();
+
+}
+
+function renderTasks(day){
+
+  const container =
+    document.getElementById(
+      "task-list"
+    );
+
+  container.innerHTML = "";
+
+  if(day.tasks.length === 0){
+
+    container.innerHTML =
+      `<div style="color:var(--muted);font-size:12px;padding:8px 0">
+        Өнөөдрийн хийх зүйл алга.
+      </div>`;
+
+    return;
+  }
+
+  day.tasks.forEach(task=>{
+
+    const div =
+      document.createElement("div");
+
+    div.className =
+      "task" +
+      (task.done ? " done" : "");
+
+    div.innerHTML = `
+
+      <input
+        type="checkbox"
+        ${task.done ? "checked" : ""}
+        onchange="toggleTask(${task.id})"
+      >
+
+      <span>${escapeHTML(task.text)}</span>
+
+      <button
+        class="delete-task"
+        onclick="deleteTask(${task.id})"
+      >
+        ✕
+      </button>
+
+    `;
+
+    container.appendChild(div);
+
+  });
+
+}
+
+function addExpense(){
+
+  const input =
+    document.getElementById(
+      "expense-input"
+    );
+
+  const amount =
+    Number(input.value);
+
+  if(!amount || amount <= 0)
+    return;
+
+  const day =
+    getDay(dateKey(currentDate));
+
+  day.expenses.push({
+    id:Date.now(),
+    amount
+  });
+
+  input.value = "";
+
+  saveDB();
+  render();
+
+  showToast("💰 Зарлага бүртгэгдлээ");
+
+}
+
+function deleteExpense(id){
+
+  const day =
+    getDay(dateKey(currentDate));
+
+  day.expenses =
+    day.expenses.filter(
+      e=>e.id!==id
+    );
+
+  saveDB();
+  render();
+
+}
+
+function renderExpenses(day){
+
+  const total =
+    day.expenses.reduce(
+      (sum,e)=>sum+e.amount,
+      0
+    );
+
+  document.getElementById(
+    "expense-total"
+  ).textContent =
+    total.toLocaleString("mn-MN")
+    + "₮";
+
+}
 
 function changeDate(days){
 
@@ -1084,15 +1426,14 @@ function changeDate(days){
 
 }
 
-
 function goToday(){
 
-  currentDate = new Date();
+  currentDate =
+    new Date();
 
   render();
 
 }
-
 
 function saveNote(){
 
@@ -1108,31 +1449,38 @@ function saveNote(){
 
 }
 
-
 function toggleDark(){
 
-  document.body.classList.toggle("dark");
+  document.body.classList.toggle(
+    "dark"
+  );
 
   localStorage.setItem(
     "darkMode",
-    document.body.classList.contains("dark")
+    document.body.classList.contains(
+      "dark"
+    )
   );
 
 }
-
 
 if(
   localStorage.getItem("darkMode")
   === "true"
 ){
-  document.body.classList.add("dark");
-}
 
+  document.body.classList.add(
+    "dark"
+  );
+
+}
 
 function showToast(text){
 
   const toast =
-    document.getElementById("toast");
+    document.getElementById(
+      "toast"
+    );
 
   toast.textContent = text;
 
@@ -1144,20 +1492,20 @@ function showToast(text){
 
 }
 
-
 function scrollToSection(id){
 
   const el =
     document.getElementById(id);
 
   if(el){
+
     el.scrollIntoView({
       behavior:"smooth"
     });
+
   }
 
 }
-
 
 function scrollTopPage(){
 
@@ -1168,9 +1516,8 @@ function scrollTopPage(){
 
 }
 
-
 /* =========================
-   GEMINI AI
+   AI COACH
 ========================= */
 
 async function askAI(){
@@ -1193,8 +1540,45 @@ async function askAI(){
   const query =
     input.value.trim();
 
-  if(!query) return;
+  if(!query)
+    return;
 
+  const day =
+    getDay(dateKey(currentDate));
+
+  const habitStatus = {};
+
+  habits.forEach(h=>{
+    habitStatus[h.name] =
+      !!day.habits[h.id];
+  });
+
+  const goalStatus = {};
+
+  goals.forEach(g=>{
+    goalStatus[g[2]] =
+      !!day.goals[g[0]];
+  });
+
+  const tracker = {
+
+    date:dateKey(currentDate),
+
+    habits:habitStatus,
+
+    goals:goalStatus,
+
+    water:day.water,
+
+    tasks:day.tasks,
+
+    expenses:day.expenses,
+
+    note:day.note || "",
+
+    streak:getCurrentStreak()
+
+  };
 
   chat.innerHTML += `
 
@@ -1205,9 +1589,21 @@ async function askAI(){
   `;
 
   input.value = "";
-
   button.disabled = true;
 
+  chat.innerHTML += `
+
+    <div
+      id="ai-loading"
+      class="message ai-message"
+    >
+      🤖 Бодож байна...
+    </div>
+
+  `;
+
+  chat.scrollTop =
+    chat.scrollHeight;
 
   try{
 
@@ -1223,15 +1619,22 @@ async function askAI(){
           },
 
           body:JSON.stringify({
-            message:query
+            message:query,
+            tracker
           })
         }
       );
 
-
     const data =
       await response.json();
 
+    const loading =
+      document.getElementById(
+        "ai-loading"
+      );
+
+    if(loading)
+      loading.remove();
 
     if(!response.ok){
 
@@ -1242,11 +1645,12 @@ async function askAI(){
 
     }
 
-
     chat.innerHTML += `
 
       <div class="message ai-message">
-        🤖 ${escapeHTML(data.reply)}
+        🤖 ${escapeHTML(
+          data.reply || "AI хариу өгсөнгүй."
+        )}
       </div>
 
     `;
@@ -1255,10 +1659,20 @@ async function askAI(){
 
   catch(error){
 
+    const loading =
+      document.getElementById(
+        "ai-loading"
+      );
+
+    if(loading)
+      loading.remove();
+
     chat.innerHTML += `
 
       <div class="message ai-message">
-        ⚠️ ${escapeHTML(error.message)}
+        ⚠️ ${escapeHTML(
+          error.message
+        )}
       </div>
 
     `;
@@ -1276,18 +1690,63 @@ async function askAI(){
 
 }
 
+function getCurrentStreak(){
+
+  let streak = 0;
+
+  let d = new Date();
+
+  while(true){
+
+    const key =
+      dateKey(d);
+
+    if(!db[key])
+      break;
+
+    const day =
+      db[key];
+
+    let done = 0;
+
+    habits.forEach(h=>{
+      if(day.habits?.[h.id])
+        done++;
+    });
+
+    goals.forEach(g=>{
+      if(day.goals?.[g[0]])
+        done++;
+    });
+
+    if(done === 0)
+      break;
+
+    streak++;
+
+    d.setDate(
+      d.getDate()-1
+    );
+
+  }
+
+  return streak;
+
+}
 
 function escapeHTML(str){
 
   const div =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
-  div.textContent = str;
+  div.textContent =
+    String(str ?? "");
 
   return div.innerHTML;
 
 }
-
 
 render();
 
