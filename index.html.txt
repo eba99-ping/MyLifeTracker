@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#6366f1">
+
+<title>My Life Tracker</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #f5f7fb;
+  --card: #ffffff;
+  --text: #111827;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --primary: #6366f1;
+  --primary2: #8b5cf6;
+  --green: #22c55e;
+}
+
+body.dark {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --border: #334155;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: 90px;
+}
+
+.app {
+  width: 100%;
+  max-width: 520px;
+  margin: auto;
+  padding: 18px 16px 30px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.icon-btn {
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  border-radius: 13px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.date-card {
+  background: linear-gradient(135deg, var(--primary), var(--primary2));
+  color: white;
+  border-radius: 22px;
+  padding: 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 10px 30px rgba(99,102,241,.25);
+}
+
+.date-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.date-title {
+  text-align: center;
+  flex: 1;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.date-btn {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 12px;
+  background: rgba(255,255,255,.18);
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.today-btn {
+  margin-top: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 11px;
+  padding: 9px;
+  background: rgba(255,255,255,.15);
+  color: white;
+  cursor: pointer;
+}
+
+.progress-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 17px;
+  margin-bottom: 20px;
+}
+
+.progress-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 9px;
+}
+
+.progress-title {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.progress-percent {
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.progress-bg {
+  height: 11px;
+  background: var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--primary), var(--primary2));
+  border-radius: 20px;
+  transition: .35s;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 9px;
+  margin-bottom: 23px;
+}
+
+.stat {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 13px 5px;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 3px;
+}
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 22px 2px 10px;
+}
+
+.section-title h2 {
+  font-size: 17px;
+}
+
+.section-title span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 13px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: .15s;
+}
+
+.item:active {
+  transform: scale(.98);
+}
+
+.item.done {
+  border-color: var(--green);
+  background: rgba(34,197,94,.08);
+}
+
+.item-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  border-radius: 12px;
+  font-size: 20px;
+}
+
+.item-content {
+  flex: 1;
+}
+
+.item-name {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.item-desc {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+.check {
+  width: 25px;
+  height: 25px;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 13px;
+}
+
+.done .check {
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.goal {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 15px;
+  margin-bottom: 9px;
+  cursor: pointer;
+}
+
+.goal-top {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+}
+
+.goal-number {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: rgba(99,102,241,.12);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.goal-content {
+  flex: 1;
+}
+
+.goal-title {
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.goal-desc {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.goal.done {
+  border-color: var(--green);
+}
+
+.goal.done .goal-number {
+  background: var(--green);
+  color: white;
+}
+
+.note-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  padding: 14px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 120px;
+  resize: vertical;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.ai-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 15px;
+}
+
+.ai-title {
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.ai-sub {
+  color: var(--muted);
+  font-size: 11px;
+  margin-bottom: 12px;
+}
+
+.input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 11px;
+  outline: none;
+}
+
+.ai-row {
+  display: flex;
+  gap: 7px;
+  margin-top: 8px;
+}
+
+.ai-row .input {
+  flex: 1;
+}
+
+.ai-btn {
+  border: none;
+  background: var(--primary);
+  color: white;
+  border-radius: 11px;
+  padding: 0 17px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.ai-btn:disabled {
+  opacity: .5;
+}
+
+.chat {
+  margin-top: 10px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.message {
+  padding: 10px;
+  border-radius: 11px;
+  margin-bottom: 7px;
+  font-size: 12px;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+.user-message {
+  background: rgba(99,102,241,.12);
+}
+
+.ai-message {
+  background: var(--bg);
+}
+
+.bottom-nav {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 100%;
+  max-width: 520px;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  z-index: 20;
+}
+
+.nav-btn {
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.nav-btn span {
+  display: block;
+  font-size: 20px;
+  margin-bottom: 2px;
+}
+
+.nav-btn.active {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 75px;
+  transform: translateX(-50%) translateY(20px);
+  background: #111827;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-size: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: .25s;
+  z-index: 50;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="header">
+  <div>
+    <div class="logo">🚀 My Life Tracker</div>
+    <div class="subtitle">Өдөр бүр 1% илүү сайн</div>
+  </div>
+
+  <button class="icon-btn" onclick="toggleDark()">🌙</button>
+</header>
+
+
+<!-- DATE -->
+
+<div class="date-card">
+
+  <div class="date-row">
+
+    <button class="date-btn" onclick="changeDate(-1)">‹</button>
+
+    <div id="date-display" class="date-title"></div>
+
+    <button class="date-btn" onclick="changeDate(1)">›</button>
+
+  </div>
+
+  <button class="today-btn" onclick="goToday()">
+    📅 Өнөөдөр
+  </button>
+
+</div>
+
+
+<!-- PROGRESS -->
+
+<div class="progress-card">
+
+  <div class="progress-top">
+
+    <span class="progress-title">
+      Өнөөдрийн ахиц
+    </span>
+
+    <span id="progress-percent" class="progress-percent">
+      0%
+    </span>
+
+  </div>
+
+  <div class="progress-bg">
+    <div id="progress-bar" class="progress-bar"></div>
+  </div>
+
+</div>
+
+
+<!-- STATS -->
+
+<div class="stats">
+
+  <div class="stat">
+    <div id="done-count" class="stat-number">0</div>
+    <div class="stat-label">Өнөөдөр</div>
+  </div>
+
+  <div class="stat">
+    <div id="streak-count" class="stat-number">0🔥</div>
+    <div class="stat-label">Streak</div>
+  </div>
+
+  <div class="stat">
+    <div id="goal-count" class="stat-number">0/13</div>
+    <div class="stat-label">Зорилго</div>
+  </div>
+
+</div>
+
+
+<!-- HABITS -->
+
+<div class="section-title">
+  <h2>☀️ Өдөр тутмын зуршил</h2>
+  <span>8 зүйл</span>
+</div>
+
+<div id="habits-container"></div>
+
+
+<!-- GOALS -->
+
+<div class="section-title">
+  <h2>🎯 13 том зорилго</h2>
+  <span>2026–2027</span>
+</div>
+
+<div id="goals-container"></div>
+
+
+<!-- NOTE -->
+
+<div class="section-title">
+  <h2>📝 Өдрийн тэмдэглэл</h2>
+</div>
+
+<div class="note-box">
+
+<textarea
+  id="daily-note"
+  placeholder="Өнөөдөр юу хийв? Юу сурсан бэ? Маргааш юу хийх вэ?"
+  oninput="saveNote()"
+></textarea>
+
+</div>
+
+
+<!-- AI -->
+
+<div class="section-title">
+  <h2>🤖 AI Coach</h2>
+</div>
+
+<div class="ai-box">
+
+  <div class="ai-title">
+    Миний хувийн AI туслах
+  </div>
+
+  <div class="ai-sub">
+    API key энд хэрэггүй. Асуултаа шууд бич.
+  </div>
+
+  <div id="chat" class="chat"></div>
+
+  <div class="ai-row">
+
+    <input
+      id="ai-query"
+      class="input"
+      placeholder="Надаас асуу..."
+      onkeydown="if(event.key==='Enter') askAI()"
+    >
+
+    <button
+      id="ai-btn"
+      class="ai-btn"
+      onclick="askAI()"
+    >
+      →
+    </button>
+
+  </div>
+
+</div>
+
+</div>
+
+
+<!-- NAV -->
+
+<div class="bottom-nav">
+
+<button class="nav-btn active" onclick="scrollTopPage()">
+  <span>🏠</span>
+  Нүүр
+</button>
+
+<button class="nav-btn" onclick="scrollToSection('habits-container')">
+  <span>✅</span>
+  Зуршил
+</button>
+
+<button class="nav-btn" onclick="scrollToSection('goals-container')">
+  <span>🎯</span>
+  Зорилго
+</button>
+
+<button class="nav-btn" onclick="scrollToSection('daily-note')">
+  <span>📝</span>
+  Тэмдэглэл
+</button>
+
+<button class="nav-btn" onclick="scrollToSection('chat')">
+  <span>🤖</span>
+  AI
+</button>
+
+</div>
+
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+
+const habits = [
+
+  {
+    id:"h1",
+    icon:"⏰",
+    name:"Эрт босох",
+    desc:"Өглөөг зөв эхлүүлэх"
+  },
+
+  {
+    id:"h2",
+    icon:"💧",
+    name:"Ус уух",
+    desc:"Өдрийн турш ус уух"
+  },
+
+  {
+    id:"h3",
+    icon:"🧹",
+    name:"Өрөөгөө цэгцлэх",
+    desc:"Орчноо цэвэр байлгах"
+  },
+
+  {
+    id:"h4",
+    icon:"🪥",
+    name:"Шүдээ угаах",
+    desc:"Өглөө + орой"
+  },
+
+  {
+    id:"h5",
+    icon:"🏃",
+    name:"Хөдөлгөөн хийх",
+    desc:"Алхах, гүйх эсвэл дасгал"
+  },
+
+  {
+    id:"h6",
+    icon:"🥗",
+    name:"Эрүүл хооллох",
+    desc:"Биеэ зөв хооллох"
+  },
+
+  {
+    id:"h7",
+    icon:"📚",
+    name:"Хичээл давтах",
+    desc:"Өдөр бүр сурах"
+  },
+
+  {
+    id:"h8",
+    icon:"🚫",
+    name:"Vape хэрэглэхгүй",
+    desc:"Эрүүл сонголт хийх"
+  }
+
+];
+
+
+const goals = [
+
+["g1","1","Сургуулиа enjoy-дох & Дүн","Дурсамж бүтээж, хичээлдээ анхаарах."],
+
+["g2","2","Англи & Орос хэл","Англи хэлээ ахиулж, Орос хэл сурч эхлэх."],
+
+["g3","3","Ирээдүйн мэргэжил","Өөрийн сонирхол, чадвараа судлах."],
+
+["g4","4","Код & AI","Python сурч, өөрийн жижиг төслүүд хийх."],
+
+["g5","5","Мөнгөө зөв зарцуулах","Дэмий зардлаа багасгаж, хуримтлалтай болох."],
+
+["g6","6","Биеэ хөгжүүлэх","Тогтмол хөдөлгөөн, эрүүл дадал бий болгох."],
+
+["g7","7","Өөрийн хүчтэй тал","Юунд хамгийн сайн байдгаа олох."],
+
+["g8","8","Эелдэг харилцаа","Хүмүүстэй хүндэтгэлтэй харилцах."],
+
+["g9","9","Уур бухимдлаа хянах","Сэтгэл хөдлөлөө зөв удирдаж сурах."],
+
+["g10","10","Vape-ээс гарах","Vape хэрэглэхгүй байх зорилго."],
+
+["g11","11","Эрүүл амьдрал","Нойр, хооллолт, хөдөлгөөний зөв дадал."],
+
+["g12","12","Арьс арчилгаа","Арьсаа зөв арчлах тогтмол routine."],
+
+["g13","13","Өөрийн зохиол","Өдөр бүр бага багаар бичиж бүтээл гаргах."]
+
+];
+
+
+let db = {};
+
+try {
+  db = JSON.parse(
+    localStorage.getItem("lifeTrackerDB")
+  ) || {};
+} catch {
+  db = {};
+}
+
+let currentDate = new Date();
+
+
+function dateKey(date){
+
+  const y = date.getFullYear();
+
+  const m = String(
+    date.getMonth()+1
+  ).padStart(2,"0");
+
+  const d = String(
+    date.getDate()
+  ).padStart(2,"0");
+
+  return `${y}-${m}-${d}`;
+
+}
+
+
+function getDay(key){
+
+  if(!db[key]){
+
+    db[key] = {
+      habits:{},
+      goals:{},
+      note:""
+    };
+
+  }
+
+  return db[key];
+
+}
+
+
+function saveDB(){
+
+  localStorage.setItem(
+    "lifeTrackerDB",
+    JSON.stringify(db)
+  );
+
+}
+
+
+function render(){
+
+  const key = dateKey(currentDate);
+
+  const day = getDay(key);
+
+  document.getElementById(
+    "date-display"
+  ).textContent =
+    currentDate.toLocaleDateString(
+      "mn-MN",
+      {
+        weekday:"long",
+        year:"numeric",
+        month:"long",
+        day:"numeric"
+      }
+    );
+
+
+  const hc =
+    document.getElementById(
+      "habits-container"
+    );
+
+  hc.innerHTML = "";
+
+  habits.forEach(h=>{
+
+    const done =
+      !!day.habits[h.id];
+
+    const div =
+      document.createElement("div");
+
+    div.className =
+      "item" + (done ? " done" : "");
+
+    div.onclick =
+      ()=>toggle("habits",h.id);
+
+    div.innerHTML = `
+
+      <div class="item-icon">
+        ${h.icon}
+      </div>
+
+      <div class="item-content">
+
+        <div class="item-name">
+          ${h.name}
+        </div>
+
+        <div class="item-desc">
+          ${h.desc}
+        </div>
+
+      </div>
+
+      <div class="check">
+        ${done ? "✓" : ""}
+      </div>
+
+    `;
+
+    hc.appendChild(div);
+
+  });
+
+
+  const gc =
+    document.getElementById(
+      "goals-container"
+    );
+
+  gc.innerHTML = "";
+
+  goals.forEach(g=>{
+
+    const [
+      id,
+      number,
+      title,
+      desc
+    ] = g;
+
+    const done =
+      !!day.goals[id];
+
+    const div =
+      document.createElement("div");
+
+    div.className =
+      "goal" + (done ? " done" : "");
+
+    div.onclick =
+      ()=>toggle("goals",id);
+
+    div.innerHTML = `
+
+      <div class="goal-top">
+
+        <div class="goal-number">
+          ${number}
+        </div>
+
+        <div class="goal-content">
+
+          <div class="goal-title">
+            ${done ? "✓ " : ""}${title}
+          </div>
+
+          <div class="goal-desc">
+            ${desc}
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+    gc.appendChild(div);
+
+  });
+
+
+  document.getElementById(
+    "daily-note"
+  ).value = day.note || "";
+
+  updateProgress();
+  updateStreak();
+
+}
+
+
+function toggle(type,id){
+
+  const key =
+    dateKey(currentDate);
+
+  const day =
+    getDay(key);
+
+  day[type][id] =
+    !day[type][id];
+
+  saveDB();
+
+  render();
+
+  showToast(
+    day[type][id]
+      ? "✅ Амжилттай!"
+      : "↩️ Буцаалаа"
+  );
+
+}
+
+
+function updateProgress(){
+
+  const key =
+    dateKey(currentDate);
+
+  const day =
+    getDay(key);
+
+  let done = 0;
+
+  habits.forEach(h=>{
+    if(day.habits[h.id]) done++;
+  });
+
+  goals.forEach(g=>{
+    if(day.goals[g[0]]) done++;
+  });
+
+  const total =
+    habits.length + goals.length;
+
+  const percent =
+    Math.round((done/total)*100);
+
+  document.getElementById(
+    "progress-bar"
+  ).style.width =
+    percent+"%";
+
+  document.getElementById(
+    "progress-percent"
+  ).textContent =
+    percent+"%";
+
+  document.getElementById(
+    "done-count"
+  ).textContent =
+    done;
+
+  let goalDone = 0;
+
+  goals.forEach(g=>{
+    if(day.goals[g[0]]) goalDone++;
+  });
+
+  document.getElementById(
+    "goal-count"
+  ).textContent =
+    goalDone+"/13";
+
+}
+
+
+function updateStreak(){
+
+  let streak = 0;
+
+  let d = new Date();
+
+  while(true){
+
+    const key =
+      dateKey(d);
+
+    if(!db[key]) break;
+
+    const day =
+      db[key];
+
+    let done = 0;
+
+    habits.forEach(h=>{
+      if(day.habits?.[h.id]) done++;
+    });
+
+    goals.forEach(g=>{
+      if(day.goals?.[g[0]]) done++;
+    });
+
+    if(done === 0) break;
+
+    streak++;
+
+    d.setDate(
+      d.getDate()-1
+    );
+
+  }
+
+  document.getElementById(
+    "streak-count"
+  ).textContent =
+    streak+"🔥";
+
+}
+
+
+function changeDate(days){
+
+  currentDate.setDate(
+    currentDate.getDate()+days
+  );
+
+  render();
+
+}
+
+
+function goToday(){
+
+  currentDate = new Date();
+
+  render();
+
+}
+
+
+function saveNote(){
+
+  const key =
+    dateKey(currentDate);
+
+  getDay(key).note =
+    document.getElementById(
+      "daily-note"
+    ).value;
+
+  saveDB();
+
+}
+
+
+function toggleDark(){
+
+  document.body.classList.toggle("dark");
+
+  localStorage.setItem(
+    "darkMode",
+    document.body.classList.contains("dark")
+  );
+
+}
+
+
+if(
+  localStorage.getItem("darkMode")
+  === "true"
+){
+  document.body.classList.add("dark");
+}
+
+
+function showToast(text){
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent = text;
+
+  toast.classList.add("show");
+
+  setTimeout(()=>{
+    toast.classList.remove("show");
+  },1500);
+
+}
+
+
+function scrollToSection(id){
+
+  const el =
+    document.getElementById(id);
+
+  if(el){
+    el.scrollIntoView({
+      behavior:"smooth"
+    });
+  }
+
+}
+
+
+function scrollTopPage(){
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =========================
+   GEMINI AI
+========================= */
+
+async function askAI(){
+
+  const input =
+    document.getElementById(
+      "ai-query"
+    );
+
+  const chat =
+    document.getElementById(
+      "chat"
+    );
+
+  const button =
+    document.getElementById(
+      "ai-btn"
+    );
+
+  const query =
+    input.value.trim();
+
+  if(!query) return;
+
+
+  chat.innerHTML += `
+
+    <div class="message user-message">
+      🧑 ${escapeHTML(query)}
+    </div>
+
+  `;
+
+  input.value = "";
+
+  button.disabled = true;
+
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/chat",
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:JSON.stringify({
+            message:query
+          })
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if(!response.ok){
+
+      throw new Error(
+        data.error ||
+        "AI серверийн алдаа"
+      );
+
+    }
+
+
+    chat.innerHTML += `
+
+      <div class="message ai-message">
+        🤖 ${escapeHTML(data.reply)}
+      </div>
+
+    `;
+
+  }
+
+  catch(error){
+
+    chat.innerHTML += `
+
+      <div class="message ai-message">
+        ⚠️ ${escapeHTML(error.message)}
+      </div>
+
+    `;
+
+  }
+
+  finally{
+
+    button.disabled = false;
+
+    chat.scrollTop =
+      chat.scrollHeight;
+
+  }
+
+}
+
+
+function escapeHTML(str){
+
+  const div =
+    document.createElement("div");
+
+  div.textContent = str;
+
+  return div.innerHTML;
+
+}
+
+
+render();
+
+</script>
+
+</body>
+</html>
