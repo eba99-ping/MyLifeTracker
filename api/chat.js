@@ -1,7 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 
 export default async function handler(req, res) {
-
   if (req.method !== "POST") {
     return res.status(405).json({
       error: "POST request required"
@@ -9,7 +8,6 @@ export default async function handler(req, res) {
   }
 
   try {
-
     const { message } = req.body || {};
 
     if (!message || !message.trim()) {
@@ -18,87 +16,82 @@ export default async function handler(req, res) {
       });
     }
 
-    const apiKey =
-      process.env.GEMINI_API_KEY;
+    const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
       return res.status(500).json({
-        error:
-          "GEMINI_API_KEY тохируулагдаагүй байна."
+        error: "GEMINI_API_KEY тохируулагдаагүй байна."
       });
     }
 
-    const ai =
-      new GoogleGenAI({
-        apiKey: apiKey
-      });
+    const ai = new GoogleGenAI({
+      apiKey
+    });
 
+    const response = await ai.models.generateContent({
+      model: "gemini-3.6-flash",
 
-    const response =
-      await ai.models.generateContent({
+      contents: message.trim(),
 
-        model: "gemini-3.6-flash",
+      config: {
+        systemInstruction: `
+Чи бол "My Life Tracker" аппын хувийн AI Coach.
 
-        contents: message,
+ХЭЛ:
+- Үндсэндээ Монгол хэлээр хариул.
+- Монгол хэлний зөв дүрэм, ойлгомжтой үг хэрэглэ.
+- Хэрэглэгч Англи эсвэл Орос хэлээр асуувал тухайн хэлээр хариулж болно.
+- Хэт албан ёсны биш, найрсаг бөгөөд байгалийн байдлаар ярь.
 
-        config: {
+ХЭРЭГЛЭГЧИД ТУСЛАХ:
+- Өдөр тутмын зуршил
+- Сургууль, хичээл
+- Англи болон Орос хэл
+- Python, программчлал, AI
+- Ирээдүйн мэргэжил
+- Мөнгөний зөв дадал
+- Эрүүл амьдралын хэв маяг
+- Цагийн менежмент
+- Өөрийгөө хөгжүүлэх
+- Зорилго төлөвлөлт
 
-          systemInstruction: `
-Чи бол хэрэглэгчийн хувийн AI Coach.
+ХАРИУЛТЫН ДҮРЭМ:
+- Асуултыг шууд ойлгоод шууд хариул.
+- Боломжтой бол 3-7 богино өгүүлбэр эсвэл bullet ашигла.
+- Хэрэггүй урт тайлбар бүү өг.
+- Тодорхой алхам хэрэгтэй бол 1, 2, 3 гэж дарааллуул.
+- Хэрэглэгчийн асуултад байхгүй мэдээллийг зохиож бүү хэл.
+- Тоо, нэр, техникийн мэдээллийг боломжтой хэмжээнд шалгаж байж хэл.
+- Хэрэглэгчийн ойлгоход хэцүү үг хэрэглэвэл тайлбарла.
+- Загнах, доромжлох, шоолох хэрэггүй.
+- Хэрэглэгч алдаа гаргасан бол эелдгээр засаж тайлбарла.
 
-Чиний үүрэг:
-- Монгол хэлээр хариулах
-- Хичээл, код, AI, хэл сурах,
-  өдөр тутмын төлөвлөгөө болон
-  зорилгын талаар туслах
-- Хэрэгжүүлэхэд амархан зөвлөгөө өгөх
-- Хэт урт хариу өгөхгүй байх
-- Хэрэглэгчийн зорилгыг дэмжих
+Чиний гол зорилго:
+Хэрэглэгчид өдөр бүр жижиг боловч бодит алхам хийж, урт хугацааны зорилгодоо хүрэхэд нь туслах.
+        `,
 
-Хэрэглэгчийн асуултад шууд хариул.
-          `,
+        temperature: 0.4,
+        maxOutputTokens: 500
+      }
+    });
 
-          temperature: 0.7,
+    const reply = response.text;
 
-          maxOutputTokens: 800
-
-        }
-
-      });
-
-
-    const reply =
-      response.text;
-
-
-    if (!reply) {
-
+    if (!reply || !reply.trim()) {
       return res.status(500).json({
-        error:
-          "Gemini хариу буцаасангүй."
+        error: "Gemini хариу буцаасангүй."
       });
-
     }
-
 
     return res.status(200).json({
-      reply: reply
+      reply: reply.trim()
     });
-
 
   } catch (error) {
-
-    console.error(
-      "Gemini Error:",
-      error
-    );
+    console.error("Gemini Error:", error);
 
     return res.status(500).json({
-      error:
-        error?.message ||
-        "Gemini API алдаа гарлаа."
+      error: error?.message || "Gemini API алдаа гарлаа."
     });
-
   }
-
 }
