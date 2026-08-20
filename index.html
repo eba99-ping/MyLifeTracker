@@ -10,6 +10,8 @@
   <meta name="apple-mobile-web-app-title" content="Life Tracker">
   <title>My Life Tracker</title>
   <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/icon-192.png">
 
   <style>
     :root{
@@ -236,6 +238,121 @@
       pointer-events:none;transition:.2s;z-index:200;box-shadow:var(--shadow)
     }
     .toast.show{opacity:1;transform:translate(-50%,0)}
+
+    /* PREMIUM AUTH + PROFILE */
+    .top-actions{display:flex;align-items:center;gap:10px}
+    .profile-chip{
+      border:1px solid var(--line);background:rgba(255,255,255,.82);color:var(--ink);
+      border-radius:999px;min-height:44px;padding:5px 10px 5px 5px;display:flex;align-items:center;
+      gap:9px;max-width:220px
+    }
+    .profile-chip:hover{background:#fff}
+    .profile-chip img{
+      width:34px;height:34px;border-radius:50%;object-fit:cover;background:var(--brand-soft);
+      border:1px solid rgba(109,93,252,.14)
+    }
+    .profile-chip span{font-size:12px;font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .app-logo{width:45px;height:45px;border-radius:15px;display:block;box-shadow:0 10px 26px rgba(109,93,252,.23)}
+
+    .auth-screen{
+      position:fixed;inset:0;z-index:500;display:none;align-items:center;justify-content:center;
+      padding:24px;background:
+        radial-gradient(circle at 15% 15%,rgba(132,94,247,.24),transparent 30rem),
+        radial-gradient(circle at 85% 80%,rgba(109,93,252,.18),transparent 28rem),
+        #0b1020;color:#fff;overflow:auto
+    }
+    .auth-screen.open{display:flex}
+    .auth-shell{width:min(980px,100%);display:grid;grid-template-columns:1.05fr .95fr;gap:18px}
+    .auth-hero{
+      padding:42px;border:1px solid rgba(255,255,255,.12);border-radius:32px;
+      background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+      backdrop-filter:blur(22px);min-height:610px;display:flex;flex-direction:column;justify-content:space-between
+    }
+    .auth-logo{display:flex;align-items:center;gap:13px}
+    .auth-logo img{width:58px;height:58px;border-radius:18px;box-shadow:0 18px 45px rgba(0,0,0,.28)}
+    .auth-logo strong{font-size:20px}
+    .auth-hero h1{font-size:clamp(36px,6vw,62px);line-height:.98;letter-spacing:-.055em;margin:35px 0 18px}
+    .auth-hero p{color:#c8cedb;max-width:560px;font-size:16px}
+    .auth-features{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:28px}
+    .auth-feature{
+      padding:13px;border-radius:16px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);
+      color:#d7dbe5;font-size:12px
+    }
+    .auth-credit{font-size:12px;color:#9aa4b7;margin-top:28px}
+
+    .auth-card{
+      background:#fff;color:#101828;border-radius:32px;padding:32px;box-shadow:0 40px 110px rgba(0,0,0,.35);
+      align-self:center
+    }
+    .auth-card h2{font-size:28px;letter-spacing:-.03em;margin:0 0 6px}
+    .auth-card>p{margin:0 0 22px;color:#667085}
+    .auth-tabs{display:grid;grid-template-columns:1fr 1fr;background:#f2f4f7;border-radius:13px;padding:4px;margin-bottom:18px}
+    .auth-tab{border:0;background:transparent;border-radius:10px;min-height:40px;font-weight:850;color:#667085}
+    .auth-tab.active{background:#fff;color:#101828;box-shadow:0 4px 12px rgba(16,24,40,.08)}
+    .provider-btn{
+      width:100%;min-height:48px;border:1px solid #e4e7ec;background:#fff;color:#101828;border-radius:14px;
+      font-weight:850;margin-bottom:9px;display:flex;align-items:center;justify-content:center;gap:9px
+    }
+    .provider-btn:hover{background:#f8fafc}
+    .provider-btn.apple{background:#101828;color:#fff;border-color:#101828}
+    .auth-divider{display:flex;align-items:center;gap:10px;color:#98a2b3;font-size:11px;margin:14px 0}
+    .auth-divider:before,.auth-divider:after{content:"";height:1px;background:#e4e7ec;flex:1}
+    .auth-fields{display:flex;flex-direction:column;gap:10px}
+    .auth-fields input{
+      width:100%;min-height:48px;border:1px solid #dfe3ea;border-radius:14px;padding:11px 13px;color:#101828
+    }
+    .auth-submit{
+      width:100%;min-height:49px;border:0;border-radius:14px;color:#fff;font-weight:900;
+      background:linear-gradient(135deg,#6d5dfc,#9c68ff);margin-top:2px
+    }
+    .device-btn{
+      width:100%;min-height:47px;border:1px solid #d9dce4;border-radius:14px;background:#f8fafc;color:#344054;
+      font-weight:850;margin-top:10px
+    }
+    .auth-note{margin-top:13px!important;font-size:11px!important;color:#98a2b3!important;line-height:1.5}
+    .auth-error{display:none;padding:10px 12px;border-radius:12px;background:#fff1f2;color:#b42318;font-size:12px;margin-bottom:12px}
+    .auth-error.show{display:block}
+
+    .profile-header{
+      display:flex;align-items:center;gap:14px;padding:15px;border-radius:18px;background:linear-gradient(135deg,var(--brand-soft),#f8f7ff);
+      margin-bottom:16px
+    }
+    .profile-avatar-wrap{position:relative;flex:none}
+    .profile-avatar{
+      width:74px;height:74px;border-radius:22px;object-fit:cover;background:#fff;border:3px solid #fff;
+      box-shadow:0 10px 28px rgba(109,93,252,.18)
+    }
+    .avatar-edit{
+      position:absolute;right:-3px;bottom:-3px;width:29px;height:29px;border-radius:50%;border:2px solid #fff;
+      background:var(--brand);color:#fff;display:grid;place-items:center;font-size:13px
+    }
+    .profile-header h4{margin:0;font-size:18px}.profile-header p{margin:3px 0 0;color:var(--muted);font-size:12px}
+    .profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .profile-section{
+      border:1px solid var(--line);border-radius:16px;padding:14px;margin-top:13px;background:var(--surface-2)
+    }
+    .profile-section h4{margin:0 0 5px;font-size:14px}
+    .profile-section p{margin:0 0 11px;color:var(--muted);font-size:11px}
+    .profile-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .profile-actions .btn{width:100%}
+    .branding{
+      text-align:center;color:var(--muted);font-size:11px;padding:16px 0 2px
+    }
+
+    @media(max-width:760px){
+      .top-actions{gap:6px}.status{display:none}
+      .profile-chip{max-width:145px}.profile-chip span{max-width:85px}
+      .auth-screen{padding:0;align-items:flex-start}
+      .auth-shell{display:block}
+      .auth-hero{min-height:auto;border-radius:0;padding:28px 22px 34px;border:0}
+      .auth-hero h1{font-size:42px;margin-top:28px}
+      .auth-features{grid-template-columns:1fr 1fr}
+      .auth-credit{margin-top:20px}
+      .auth-card{border-radius:28px 28px 0 0;padding:27px 20px;min-height:520px}
+      .profile-grid{grid-template-columns:1fr}
+      .profile-actions{grid-template-columns:1fr}
+    }
+
     @media(max-width:760px){
       .app{padding:17px 14px calc(var(--nav-h) + 28px)}
       .topbar{margin-bottom:19px}.brand p{display:none}
@@ -257,13 +374,72 @@
 </head>
 
 <body>
+  <section class="auth-screen" id="authScreen" aria-label="Login and signup">
+    <div class="auth-shell">
+      <div class="auth-hero">
+        <div>
+          <div class="auth-logo">
+            <img src="/icon-192.png" alt="My Life Tracker">
+            <div><strong>My Life Tracker</strong><div style="color:#9aa4b7;font-size:12px">Premium personal productivity</div></div>
+          </div>
+
+          <h1>Build the life<br>you want.</h1>
+          <p>Planner, Smart Goals, Journal, AI Coach болон таны хувийн progress — бүгд нэг app дотор.</p>
+
+          <div class="auth-features">
+            <div class="auth-feature">📅 Smart daily planner</div>
+            <div class="auth-feature">🎯 Goal milestones</div>
+            <div class="auth-feature">📝 Private journal archive</div>
+            <div class="auth-feature">🤖 Personal AI Coach</div>
+          </div>
+        </div>
+
+        <div class="auth-credit">Made by Elbegabyar · Device Mode үед таны data зөвхөн энэ төхөөрөмж дээр хадгалагдана.</div>
+      </div>
+
+      <div class="auth-card">
+        <h2 id="authTitle">Welcome back</h2>
+        <p id="authSubtitle">Account-аараа нэвтрэх эсвэл Device Mode ашигла.</p>
+
+        <div class="auth-tabs">
+          <button class="auth-tab active" type="button" data-auth-tab="login">Login</button>
+          <button class="auth-tab" type="button" data-auth-tab="signup">Sign up</button>
+        </div>
+
+        <div class="auth-error" id="authError"></div>
+
+        <button class="provider-btn" type="button" data-provider="google">G&nbsp; Continue with Google</button>
+        <button class="provider-btn apple" type="button" data-provider="apple">&nbsp; Continue with Apple</button>
+
+        <div class="auth-divider">OR</div>
+
+        <form id="emailAuthForm" class="auth-fields">
+          <input id="authName" type="text" maxlength="60" placeholder="Your name" autocomplete="name">
+          <input id="authEmail" type="email" maxlength="120" placeholder="Email address" autocomplete="email">
+          <input id="authPassword" type="password" minlength="6" placeholder="Password" autocomplete="current-password">
+          <button class="auth-submit" type="submit" id="authSubmit">Continue with email</button>
+        </form>
+
+        <button class="device-btn" type="button" id="deviceModeBtn">📱 Continue on this device</button>
+        <p class="auth-note">Cloud authentication тохируулаагүй үед Google / Apple / Email товчнууд integration hook ашиглана. Device Mode нь password хадгалахгүй бөгөөд app-ийг бүрэн ашиглуулна.</p>
+      </div>
+    </div>
+  </section>
+
   <main class="app">
     <header class="topbar">
       <div class="brand">
-        <div class="brand-mark">✦</div>
-        <div><h1>My Life Tracker</h1><p>Өдөр бүр 1% илүү сайн</p></div>
+        <img class="app-logo" src="/icon-192.png" alt="My Life Tracker logo">
+        <div><h1>My Life Tracker</h1><p>Made by Elbegabyar</p></div>
       </div>
-      <div class="status" id="networkStatus"><i></i><span>Online</span></div>
+
+      <div class="top-actions">
+        <div class="status" id="networkStatus"><i></i><span>Online</span></div>
+        <button class="profile-chip" id="openProfile" aria-label="Profile">
+          <img id="topProfileAvatar" src="/icon-192.png" alt="">
+          <span id="topProfileName">My Profile</span>
+        </button>
+      </div>
     </header>
 
     <section class="page active" id="page-today" aria-labelledby="todayTitle">
@@ -362,6 +538,7 @@
         </form>
       </div>
     </section>
+    <div class="branding">Made by Elbegabyar · My Life Tracker</div>
   </main>
 
   <nav class="nav" aria-label="Үндсэн цэс">
@@ -463,13 +640,91 @@
     </div>
   </div>
 
+  <div class="modal-wrap" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="profileModalTitle">Profile</h3>
+        <button class="icon-btn" data-close="profileModal" aria-label="Хаах">×</button>
+      </div>
+
+      <div class="profile-header">
+        <div class="profile-avatar-wrap">
+          <img class="profile-avatar" id="profileAvatarPreview" src="/icon-192.png" alt="Profile photo">
+          <button class="avatar-edit" type="button" id="chooseAvatar" aria-label="Зураг солих">✎</button>
+          <input id="avatarFile" type="file" accept="image/*" hidden>
+        </div>
+        <div>
+          <h4 id="profileHeaderName">My Profile</h4>
+          <p id="profileHeaderMode">Device Mode</p>
+        </div>
+      </div>
+
+      <form id="profileForm">
+        <div class="profile-grid">
+          <div class="field">
+            <label for="profileName">Display name</label>
+            <input id="profileName" maxlength="60" placeholder="Your name">
+          </div>
+          <div class="field">
+            <label for="profileHandle">Username</label>
+            <input id="profileHandle" maxlength="30" placeholder="@username">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="profileEmail">Email</label>
+          <input id="profileEmail" type="email" maxlength="120" placeholder="name@example.com">
+        </div>
+
+        <div class="field">
+          <label for="profileBio">About me</label>
+          <textarea id="profileBio" maxlength="240" placeholder="Өөрийнхөө тухай богинохон бичээрэй…"></textarea>
+        </div>
+
+        <div class="modal-foot">
+          <button class="btn secondary" type="button" data-close="profileModal">Болих</button>
+          <button class="btn primary" type="submit">Profile хадгалах</button>
+        </div>
+      </form>
+
+      <div class="profile-section">
+        <h4>💾 Backup & Restore</h4>
+        <p>Planner, goals, journal, profile болон settings-ээ JSON backup болгож хадгална.</p>
+        <div class="profile-actions">
+          <button class="btn secondary small" type="button" id="backupData">⬇ Backup татах</button>
+          <button class="btn secondary small" type="button" id="restoreData">⬆ Backup сэргээх</button>
+        </div>
+        <input id="restoreFile" type="file" accept="application/json,.json" hidden>
+      </div>
+
+      <div class="profile-section">
+        <h4>☁ Cloud account</h4>
+        <p id="cloudAccountStatus">Device Mode — Cloud sync хараахан холбогдоогүй.</p>
+        <div class="profile-actions">
+          <button class="btn secondary small" type="button" data-provider="google">G Google</button>
+          <button class="btn secondary small" type="button" data-provider="apple"> Apple</button>
+        </div>
+      </div>
+
+      <div class="profile-section">
+        <h4>Session</h4>
+        <p>Logout хийхэд local data устахгүй. Дахин Device Mode-оор нэвтрэхэд data хэвээр байна.</p>
+        <button class="btn danger" type="button" id="logoutBtn" style="width:100%">Log out</button>
+      </div>
+
+      <div class="branding">Made by Elbegabyar</div>
+    </div>
+  </div>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
   (() => {
     'use strict';
 
-    const KEY = 'myLifeTracker.v4';
+    const KEY = 'myLifeTracker.v5';
+    const PROFILE_KEY = 'myLifeTracker.profile.v1';
+    const SESSION_KEY = 'myLifeTracker.session.v1';
     const $ = (q, root=document) => root.querySelector(q);
     const $$ = (q, root=document) => [...root.querySelectorAll(q)];
     const uid = (p='id') => `${p}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,8)}`;
@@ -503,7 +758,7 @@
 
     function initialState(){
       return {
-        version:4,
+        version:5,
         tasks:[],
         goals:[],
         journal:{},
@@ -644,6 +899,21 @@
         };
       }
 
+      // Previous premium-ready version used the same normalized schema.
+      const previousV4 = readJSON('myLifeTracker.v4');
+      if(previousV4 && typeof previousV4 === 'object'){
+        const normalized = {
+          ...initialState(),
+          ...previousV4,
+          version:5,
+          tasks:Array.isArray(previousV4.tasks) ? previousV4.tasks.map(normalizeTask) : [],
+          goals:Array.isArray(previousV4.goals) ? previousV4.goals.map(normalizeGoal) : [],
+          journal:(previousV4.journal && typeof previousV4.journal === 'object') ? previousV4.journal : {},
+          settings:{...initialState().settings,...(previousV4.settings||{})}
+        };
+        if(hasMeaningfulData(normalized)) return normalized;
+      }
+
       // IMPORTANT: previous versions used these exact keys.
       const mlt4 = readJSON('mlt_v4');
       if(mlt4){
@@ -730,8 +1000,342 @@
     let readerDate = null;
     let saveTimer = null;
 
+    function defaultProfile(){
+      return {
+        name:'My Profile',
+        handle:'',
+        email:'',
+        bio:'',
+        avatar:'',
+        authMode:'device',
+        updatedAt:Date.now()
+      };
+    }
+
+    let profile = {
+      ...defaultProfile(),
+      ...(readJSON(PROFILE_KEY) || {})
+    };
+
+    let session = {
+      active:false,
+      mode:'device',
+      ...(readJSON(SESSION_KEY) || {})
+    };
+
+    let authTab = 'login';
+
     function save(){ localStorage.setItem(KEY,JSON.stringify(state)); }
+    function saveProfile(){ localStorage.setItem(PROFILE_KEY,JSON.stringify(profile)); }
+    function saveSession(){ localStorage.setItem(SESSION_KEY,JSON.stringify(session)); }
     save();
+    saveProfile();
+    saveSession();
+
+    function avatarSrc(){
+      return profile.avatar || '/icon-192.png';
+    }
+
+    function renderProfile(){
+      const name = profile.name?.trim() || 'My Profile';
+      const handle = profile.handle?.trim() || '';
+      const modeLabel = session.mode === 'cloud'
+        ? 'Cloud account'
+        : 'Device Mode · data энэ төхөөрөмж дээр';
+
+      $('#topProfileName').textContent = name;
+      $('#topProfileAvatar').src = avatarSrc();
+      $('#profileAvatarPreview').src = avatarSrc();
+      $('#profileHeaderName').textContent = handle ? `${name} · ${handle}` : name;
+      $('#profileHeaderMode').textContent = modeLabel;
+      $('#profileName').value = name === 'My Profile' ? (profile.name || '') : name;
+      $('#profileHandle').value = profile.handle || '';
+      $('#profileEmail').value = profile.email || '';
+      $('#profileBio').value = profile.bio || '';
+      $('#cloudAccountStatus').textContent = session.mode === 'cloud'
+        ? 'Cloud account холбогдсон.'
+        : 'Device Mode — Cloud sync хараахан холбогдоогүй.';
+    }
+
+    function setAuthError(message=''){
+      const el = $('#authError');
+      el.textContent = message;
+      el.classList.toggle('show',!!message);
+    }
+
+    function setAuthTab(tab){
+      authTab = tab;
+      $$('[data-auth-tab]').forEach(b => b.classList.toggle('active',b.dataset.authTab===tab));
+      $('#authTitle').textContent = tab === 'signup' ? 'Create your account' : 'Welcome back';
+      $('#authSubtitle').textContent = tab === 'signup'
+        ? 'Profile-оо үүсгээд My Life Tracker-аа эхлүүл.'
+        : 'Account-аараа нэвтрэх эсвэл Device Mode ашигла.';
+      $('#authName').style.display = tab === 'signup' ? '' : 'none';
+      $('#authPassword').autocomplete = tab === 'signup' ? 'new-password' : 'current-password';
+      setAuthError('');
+    }
+
+    function showAuthScreen(){
+      $('#authScreen').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      setAuthTab(authTab);
+    }
+
+    function hideAuthScreen(){
+      $('#authScreen').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function activateDeviceMode({name='',email=''}={}){
+      if(name.trim()) profile.name = name.trim();
+      if(email.trim()) profile.email = email.trim();
+
+      profile.authMode = 'device';
+      profile.updatedAt = Date.now();
+
+      session.active = true;
+      session.mode = 'device';
+      session.signedInAt = Date.now();
+
+      saveProfile();
+      saveSession();
+      renderProfile();
+      hideAuthScreen();
+      toast('📱 Device Mode идэвхжлээ');
+    }
+
+    async function cloudProviderAction(provider){
+      setAuthError('');
+
+      // Future-ready integration hook:
+      // window.MyLifeCloudAuth.signIn("google" | "apple" | "email", payload)
+      if(window.MyLifeCloudAuth && typeof window.MyLifeCloudAuth.signIn === 'function'){
+        try{
+          const result = await window.MyLifeCloudAuth.signIn(provider,{
+            mode:authTab,
+            email:$('#authEmail')?.value || '',
+            name:$('#authName')?.value || ''
+          });
+
+          if(result?.profile){
+            profile = {...profile,...result.profile,authMode:'cloud',updatedAt:Date.now()};
+            session = {...session,active:true,mode:'cloud',provider,signedInAt:Date.now()};
+            saveProfile();saveSession();renderProfile();hideAuthScreen();
+            toast('☁ Cloud account холбогдлоо');
+            return;
+          }
+        }catch(err){
+          setAuthError(err?.message || 'Cloud authentication алдаа гарлаа.');
+          return;
+        }
+      }
+
+      setAuthError(
+        `${provider === 'google' ? 'Google' : provider === 'apple' ? 'Apple' : 'Email'} cloud authentication хараахан тохируулагдаагүй. Device Mode ашиглаад app-аа бүрэн ашиглаж болно.`
+      );
+    }
+
+    $$('[data-auth-tab]').forEach(b => b.addEventListener('click',() => setAuthTab(b.dataset.authTab)));
+
+    $$('[data-provider]').forEach(b => b.addEventListener('click',() => {
+      cloudProviderAction(b.dataset.provider);
+    }));
+
+    $('#deviceModeBtn').addEventListener('click',() => {
+      activateDeviceMode({
+        name:$('#authName').value,
+        email:$('#authEmail').value
+      });
+    });
+
+    $('#emailAuthForm').addEventListener('submit',async e => {
+      e.preventDefault();
+
+      const email = $('#authEmail').value.trim();
+      const name = $('#authName').value.trim();
+      const password = $('#authPassword').value;
+
+      if(!email){
+        setAuthError('Email address оруулна уу.');
+        return;
+      }
+      if(password.length < 6){
+        setAuthError('Password хамгийн багадаа 6 тэмдэгт байна.');
+        return;
+      }
+
+      // Never save the password locally. If cloud hook exists it handles real auth.
+      if(window.MyLifeCloudAuth && typeof window.MyLifeCloudAuth.signIn === 'function'){
+        return cloudProviderAction('email');
+      }
+
+      // Safe local fallback: account-looking UI, but password is discarded.
+      activateDeviceMode({name:name || profile.name,email});
+      $('#authPassword').value = '';
+      toast('Email profile Device Mode-оор нээгдлээ');
+    });
+
+    $('#openProfile').addEventListener('click',() => {
+      renderProfile();
+      openModal('profileModal');
+    });
+
+    $('#profileForm').addEventListener('submit',e => {
+      e.preventDefault();
+
+      const name = $('#profileName').value.trim() || 'My Profile';
+      let handle = $('#profileHandle').value.trim();
+      if(handle && !handle.startsWith('@')) handle = '@'+handle;
+
+      profile.name = name;
+      profile.handle = handle.slice(0,31);
+      profile.email = $('#profileEmail').value.trim();
+      profile.bio = $('#profileBio').value.trim();
+      profile.updatedAt = Date.now();
+
+      saveProfile();
+      renderProfile();
+      closeModal('profileModal');
+      toast('✅ Profile шинэчлэгдлээ');
+    });
+
+    $('#chooseAvatar').addEventListener('click',() => $('#avatarFile').click());
+
+    $('#avatarFile').addEventListener('change',async e => {
+      const file = e.target.files?.[0];
+      if(!file) return;
+
+      if(!file.type.startsWith('image/')){
+        toast('Зургийн файл сонгоно уу');
+        return;
+      }
+
+      try{
+        const dataUrl = await new Promise((resolve,reject) => {
+          const img = new Image();
+          const reader = new FileReader();
+
+          reader.onerror = reject;
+          reader.onload = () => {
+            img.onload = () => {
+              const size = 320;
+              const canvas = document.createElement('canvas');
+              canvas.width = size;
+              canvas.height = size;
+              const ctx = canvas.getContext('2d');
+
+              const scale = Math.max(size/img.width,size/img.height);
+              const w = img.width*scale;
+              const h = img.height*scale;
+              const x = (size-w)/2;
+              const y = (size-h)/2;
+
+              ctx.fillStyle = '#eef0f5';
+              ctx.fillRect(0,0,size,size);
+              ctx.drawImage(img,x,y,w,h);
+
+              resolve(canvas.toDataURL('image/jpeg',0.84));
+            };
+            img.onerror = reject;
+            img.src = reader.result;
+          };
+          reader.readAsDataURL(file);
+        });
+
+        profile.avatar = dataUrl;
+        profile.updatedAt = Date.now();
+        saveProfile();
+        renderProfile();
+        toast('📷 Profile зураг шинэчлэгдлээ');
+      }catch{
+        toast('Зураг боловсруулахад алдаа гарлаа');
+      }
+
+      e.target.value = '';
+    });
+
+    function downloadJSON(filename,data){
+      const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url),1000);
+    }
+
+    $('#backupData').addEventListener('click',() => {
+      const backup = {
+        app:'My Life Tracker',
+        version:5,
+        exportedAt:new Date().toISOString(),
+        state,
+        profile,
+        settings:state.settings || {}
+      };
+
+      downloadJSON(`my-life-tracker-backup-${today()}.json`,backup);
+      toast('💾 Backup бэлэн');
+    });
+
+    $('#restoreData').addEventListener('click',() => $('#restoreFile').click());
+
+    $('#restoreFile').addEventListener('change',async e => {
+      const file = e.target.files?.[0];
+      if(!file) return;
+
+      try{
+        const data = JSON.parse(await file.text());
+        if(!data || typeof data !== 'object' || !data.state){
+          throw new Error('Invalid backup');
+        }
+
+        if(!confirm('Backup сэргээвэл одоогийн local data солигдоно. Үргэлжлүүлэх үү?')){
+          e.target.value = '';
+          return;
+        }
+
+        state = {
+          ...initialState(),
+          ...data.state,
+          version:5,
+          settings:{...initialState().settings,...(data.state.settings||{})}
+        };
+
+        if(data.profile && typeof data.profile === 'object'){
+          profile = {...defaultProfile(),...data.profile};
+        }
+
+        goalFilter = state.settings.goalFilter || 'all';
+
+        save();
+        saveProfile();
+        renderProfile();
+        renderTasks();
+        renderGoals();
+        loadJournal(selectedJournal);
+        renderChat();
+
+        closeModal('profileModal');
+        toast('✅ Backup сэргээгдлээ');
+      }catch{
+        toast('⚠ Backup файл буруу эсвэл эвдэрсэн байна');
+      }
+
+      e.target.value = '';
+    });
+
+    $('#logoutBtn').addEventListener('click',() => {
+      if(!confirm('Log out хийх үү? Local data устахгүй.')) return;
+
+      session.active = false;
+      session.mode = 'device';
+      saveSession();
+      closeModal('profileModal');
+      showAuthScreen();
+    });
 
     function toast(msg){
       const el = $('#toast');
@@ -1511,10 +2115,14 @@
     }
 
     network();
+    renderProfile();
     renderTasks();
     renderGoals();
     loadJournal(today());
     renderChat();
+
+    if(session.active) hideAuthScreen();
+    else showAuthScreen();
 
     const hash = location.hash.slice(1);
     if(['today','planner','goals','journal','ai'].includes(hash)){
