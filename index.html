@@ -3193,21 +3193,14 @@
 
     startApp();
   })();
-    <script>
+
+<script>
 if("serviceWorker" in navigator){
-
-  navigator.serviceWorker.register(
-    "/firebase-messaging-sw.js"
-  )
-  .then(()=>{
-    console.log("FCM Service Worker ready");
-  })
-  .catch((error)=>{
-    console.log("FCM SW error:", error);
-  });
-
+  navigator.serviceWorker.register("/firebase-messaging-sw.js")
+    .then(()=>console.log("FCM Service Worker ready"))
+    .catch(error=>console.log("FCM SW error:", error));
 }
 </script>
- 
+
 </body>
 </html>
