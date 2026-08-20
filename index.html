@@ -721,8 +721,8 @@
         <h4>☁ Cloud account</h4>
         <p id="cloudAccountStatus">Device Mode — Cloud sync хараахан холбогдоогүй.</p>
         <div class="profile-actions">
-          <button class="btn secondary small" type="button" data-provider="google">G Google</button>
-          <button class="btn secondary small" type="button" data-provider="apple">Apple</button>
+          <button class="btn secondary small" type="button" data-provider="google">G Google account</button>
+          <button class="btn secondary small" type="button" data-provider="apple" disabled>Apple · Soon</button>
         </div>
       </div>
 
@@ -746,6 +746,20 @@
     const PROFILE_KEY = 'myLifeTracker.profile.v1';
     const SESSION_KEY = 'myLifeTracker.session.v1';
     const HOW_TO_SEEN_KEY = 'myLifeTracker.howToStartSeen.v1';
+
+    const FIREBASE_VERSION = '12.17.1';
+    const FIREBASE_CONFIG = {
+      apiKey: "AIzaSyD2IpjP7BGUikR5cc7L2DvW0PYbPPQTPNw",
+      authDomain: "my-life-tracker-6c19b.firebaseapp.com",
+      projectId: "my-life-tracker-6c19b",
+      storageBucket: "my-life-tracker-6c19b.firebasestorage.app",
+      messagingSenderId: "932788931683",
+      appId: "1:932788931683:web:d19934806548790d39bc56",
+      measurementId: "G-10S02Y89LX"
+    };
+
+    let firebaseBundlePromise = null;
+    let firebaseCurrentUser = null;
     const $ = (q, root=document) => root.querySelector(q);
     const $$ = (q, root=document) => [...root.querySelectorAll(q)];
     const uid = (p='id') => `${p}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,8)}`;
@@ -1072,10 +1086,14 @@
       $('#profileName').value = name === 'My Profile' ? (profile.name || '') : name;
       $('#profileHandle').value = profile.handle || '';
       $('#profileEmail').value = profile.email || '';
+      $('#profileEmail').readOnly = session.mode === 'cloud';
+      $('#profileEmail').title = session.mode === 'cloud'
+        ? 'Account email-ээ Firebase account settings-ээс солино.'
+        : '';
       $('#profileBio').value = profile.bio || '';
       $('#cloudAccountStatus').textContent = session.mode === 'cloud'
-        ? 'Cloud account холбогдсон.'
-        : 'Device Mode — Cloud sync хараахан холбогдоогүй.';
+        ? 'Firebase account холбогдсон. Planner, Goals, Journal data одоогоор энэ төхөөрөмж дээр хадгалагдана.'
+        : 'Device Mode — data энэ төхөөрөмж дээр хадгалагдана.';
     }
 
     function setAuthError(message=''){
@@ -1127,56 +1145,239 @@
       toast('📱 Device Mode идэвхжлээ');
     }
 
+    function isLocalFilePreview(){
+      return location.protocol === 'file:';
+    }
+
+    function firebaseErrorMessage(error){
+      const code = error?.code || '';
+      const raw = error?.message || '';
+
+      const map = {
+        'auth/email-already-in-use':'Энэ email-ээр account аль хэдийн үүссэн байна. Login хэсгээр нэвтэр.',
+        'auth/invalid-email':'Email address буруу байна.',
+        'auth/weak-password':'Password хамгийн багадаа 6 тэмдэгт байна.',
+        'auth/invalid-credential':'Email эсвэл password буруу байна.',
+        'auth/user-not-found':'Ийм email-тэй account олдсонгүй.',
+        'auth/wrong-password':'Password буруу байна.',
+        'auth/popup-closed-by-user':'Google login цонхыг хаасан байна.',
+        'auth/popup-blocked':'Browser Google login popup-ийг хаалаа. Popup зөвшөөрөөд дахин оролдоорой.',
+        'auth/unauthorized-domain':'Энэ Vercel domain Firebase Authorized domains-д нэмэгдээгүй байна.',
+        'auth/network-request-failed':'Интернет холболтоо шалгаад дахин оролдоорой.',
+        'auth/too-many-requests':'Олон удаа оролдсон байна. Түр хүлээгээд дахин оролдоорой.',
+        'auth/operation-not-allowed':'Firebase дээр энэ нэвтрэх аргыг Enable хийгээгүй байна.',
+      };
+
+      return map[code] || raw.replace(/^Firebase:\s*/,'') || 'Firebase Authentication алдаа гарлаа.';
+    }
+
+    async function initFirebaseAuth(){
+      if(firebaseBundlePromise) return firebaseBundlePromise;
+
+      firebaseBundlePromise = (async () => {
+        const appUrl = `https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}/firebase-app.js`;
+        const authUrl = `https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}/firebase-auth.js`;
+
+        const [appMod, authMod] = await Promise.all([
+          import(appUrl),
+          import(authUrl)
+        ]);
+
+        const app = appMod.getApps().length
+          ? appMod.getApp()
+          : appMod.initializeApp(FIREBASE_CONFIG);
+
+        const auth = authMod.getAuth(app);
+        authMod.useDeviceLanguage(auth);
+
+        return {
+          auth,
+          GoogleAuthProvider:authMod.GoogleAuthProvider,
+          signInWithPopup:authMod.signInWithPopup,
+          signInWithRedirect:authMod.signInWithRedirect,
+          getRedirectResult:authMod.getRedirectResult,
+          createUserWithEmailAndPassword:authMod.createUserWithEmailAndPassword,
+          signInWithEmailAndPassword:authMod.signInWithEmailAndPassword,
+          signOut:authMod.signOut,
+          onAuthStateChanged:authMod.onAuthStateChanged,
+          updateProfile:authMod.updateProfile,
+          sendEmailVerification:authMod.sendEmailVerification
+        };
+      })();
+
+      return firebaseBundlePromise;
+    }
+
+    function firebaseProviderName(user){
+      const providerId = user?.providerData?.[0]?.providerId || '';
+      if(providerId === 'google.com') return 'google';
+      if(providerId === 'password') return 'email';
+      return providerId || 'firebase';
+    }
+
+    function syncFirebaseUserToProfile(user){
+      if(!user) return;
+
+      firebaseCurrentUser = user;
+
+      const currentName = profile.name?.trim();
+      if(user.displayName){
+        profile.name = user.displayName;
+      } else if(!currentName || currentName === 'My Profile'){
+        profile.name = user.email?.split('@')[0] || 'My Profile';
+      }
+
+      profile.email = user.email || profile.email || '';
+
+      // Google photo-г зөвхөн хэрэглэгч custom avatar сонгоогүй үед авна.
+      if(user.photoURL && !profile.avatar){
+        profile.avatar = user.photoURL;
+      }
+
+      profile.authMode = 'cloud';
+      profile.updatedAt = Date.now();
+
+      session.active = true;
+      session.mode = 'cloud';
+      session.provider = firebaseProviderName(user);
+      session.firebaseUid = user.uid;
+      session.signedInAt = session.signedInAt || Date.now();
+
+      saveProfile();
+      saveSession();
+      renderProfile();
+    }
+
+    async function initializeFirebaseSession(){
+      renderCloudAuthAvailability();
+      renderEmailAuthAvailability();
+
+      // file:/// preview дээр OAuth origin байхгүй.
+      if(isLocalFilePreview()){
+        if(session.active && session.mode === 'device') hideAuthScreen();
+        else showAuthScreen();
+        return;
+      }
+
+      try{
+        const fb = await initFirebaseAuth();
+
+        // Redirect login (mobile) буцаж ирсэн үед алдааг барина.
+        try{
+          const result = await fb.getRedirectResult(fb.auth);
+          if(result?.user) syncFirebaseUserToProfile(result.user);
+        }catch(error){
+          setAuthError(firebaseErrorMessage(error));
+        }
+
+        await new Promise(resolve => {
+          let first = true;
+
+          fb.onAuthStateChanged(fb.auth,user => {
+            firebaseCurrentUser = user || null;
+
+            if(user){
+              syncFirebaseUserToProfile(user);
+              hideAuthScreen();
+            }else if(session.active && session.mode === 'device'){
+              hideAuthScreen();
+            }else{
+              if(session.mode === 'cloud'){
+                session.active = false;
+                session.firebaseUid = '';
+                saveSession();
+              }
+              showAuthScreen();
+            }
+
+            if(first){
+              first = false;
+              resolve();
+            }
+          });
+
+          setTimeout(() => {
+            if(first){
+              first = false;
+              resolve();
+            }
+          },2500);
+        });
+      }catch(error){
+        console.error('Firebase init error:',error);
+
+        if(session.active && session.mode === 'device'){
+          hideAuthScreen();
+        }else{
+          showAuthScreen();
+          setAuthError('Firebase ачаалж чадсангүй. Интернетээ шалгаад Vercel link-ээр нээгээрэй.');
+        }
+      }
+    }
+
     async function cloudProviderAction(provider){
       setAuthError('');
 
-      // Future-ready integration hook:
-      // window.MyLifeCloudAuth.signIn("google" | "apple" | "email", payload)
-      if(window.MyLifeCloudAuth && typeof window.MyLifeCloudAuth.signIn === 'function'){
-        try{
-          const result = await window.MyLifeCloudAuth.signIn(provider,{
-            mode:authTab,
-            email:$('#authEmail')?.value || '',
-            name:$('#authName')?.value || ''
-          });
-
-          if(result?.profile){
-            profile = {...profile,...result.profile,authMode:'cloud',updatedAt:Date.now()};
-            session = {...session,active:true,mode:'cloud',provider,signedInAt:Date.now()};
-            saveProfile();saveSession();renderProfile();hideAuthScreen();
-            toast('☁ Cloud account холбогдлоо');
-            return;
-          }
-        }catch(err){
-          setAuthError(err?.message || 'Cloud authentication алдаа гарлаа.');
-          return;
-        }
+      if(provider === 'apple'){
+        setAuthError('Apple login дараагийн шатанд холбогдоно. Одоогоор Google, Email эсвэл Device Mode ашиглаарай.');
+        return;
       }
 
-      setAuthError(
-        `${provider === 'google' ? 'Google' : provider === 'apple' ? 'Apple' : 'Email'} cloud authentication хараахан тохируулагдаагүй. Device Mode ашиглаад app-аа бүрэн ашиглаж болно.`
-      );
+      if(isLocalFilePreview()){
+        setAuthError('Google/Email login local file preview дээр ажиллахгүй. GitHub → Vercel production link-ээр app-аа нээгээд оролдоорой.');
+        return;
+      }
+
+      try{
+        const fb = await initFirebaseAuth();
+
+        if(provider === 'google'){
+          const googleProvider = new fb.GoogleAuthProvider();
+          googleProvider.setCustomParameters({prompt:'select_account'});
+
+          const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+                         window.matchMedia('(max-width:760px)').matches;
+
+          if(mobile){
+            await fb.signInWithRedirect(fb.auth,googleProvider);
+            return;
+          }
+
+          const result = await fb.signInWithPopup(fb.auth,googleProvider);
+          syncFirebaseUserToProfile(result.user);
+          hideAuthScreen();
+          toast('✅ Google account-аар нэвтэрлээ');
+        }
+      }catch(error){
+        console.error('Firebase provider login:',error);
+        setAuthError(firebaseErrorMessage(error));
+      }
     }
 
     $$('[data-auth-tab]').forEach(b => b.addEventListener('click',() => setAuthTab(b.dataset.authTab)));
 
     function renderCloudAuthAvailability(){
-      const ready = !!(window.MyLifeCloudAuth && typeof window.MyLifeCloudAuth.signIn === 'function');
       const googleBtn = $('#googleAuthBtn');
       const appleBtn = $('#appleAuthBtn');
+
       if(googleBtn){
-        googleBtn.disabled = !ready;
-        googleBtn.innerHTML = ready ? 'G&nbsp; Continue with Google' : 'G&nbsp; Google · Coming soon';
+        googleBtn.disabled = isLocalFilePreview();
+        googleBtn.innerHTML = isLocalFilePreview()
+          ? 'G&nbsp; Google · Use Vercel link'
+          : 'G&nbsp; Continue with Google';
       }
+
       if(appleBtn){
-        appleBtn.disabled = !ready;
-        appleBtn.innerHTML = ready ? 'Apple · Continue' : 'Apple · Coming soon';
+        appleBtn.disabled = true;
+        appleBtn.innerHTML = 'Apple · Coming soon';
       }
     }
 
-    renderCloudAuthAvailability();
-
     $$('[data-provider]').forEach(b => b.addEventListener('click',() => {
+      if(b.dataset.provider === 'apple'){
+        setAuthError('Apple login дараагийн шатанд холбогдоно.');
+        return;
+      }
       if(b.disabled) return;
       cloudProviderAction(b.dataset.provider);
     }));
@@ -1205,16 +1406,25 @@
     });
 
     function renderEmailAuthAvailability(){
-      const ready = !!(window.MyLifeCloudAuth && typeof window.MyLifeCloudAuth.signIn === 'function');
-      $('#authSubmit').textContent = ready
-        ? (authTab === 'signup' ? 'Create account' : 'Login with email')
-        : 'Continue with email profile';
+      const submit = $('#authSubmit');
+      if(!submit) return;
+
+      submit.disabled = isLocalFilePreview();
+      submit.textContent = isLocalFilePreview()
+        ? 'Email login · Use Vercel link'
+        : (authTab === 'signup' ? 'Create account' : 'Login with email');
     }
 
     renderEmailAuthAvailability();
 
     $('#emailAuthForm').addEventListener('submit',async e => {
       e.preventDefault();
+      setAuthError('');
+
+      if(isLocalFilePreview()){
+        setAuthError('Email authentication-аа Vercel production link дээр туршина уу.');
+        return;
+      }
 
       const email = $('#authEmail').value.trim();
       const name = $('#authName').value.trim();
@@ -1224,20 +1434,51 @@
         setAuthError('Email address оруулна уу.');
         return;
       }
+
       if(password.length < 6){
         setAuthError('Password хамгийн багадаа 6 тэмдэгт байна.');
         return;
       }
 
-      // Never save the password locally. If cloud hook exists it handles real auth.
-      if(window.MyLifeCloudAuth && typeof window.MyLifeCloudAuth.signIn === 'function'){
-        return cloudProviderAction('email');
-      }
+      const btn = $('#authSubmit');
+      btn.disabled = true;
+      const oldText = btn.textContent;
+      btn.textContent = authTab === 'signup' ? 'Creating…' : 'Signing in…';
 
-      // Safe local fallback: account-looking UI, but password is discarded.
-      activateDeviceMode({name:name || profile.name,email});
-      $('#authPassword').value = '';
-      toast('Email profile Device Mode-оор нээгдлээ');
+      try{
+        const fb = await initFirebaseAuth();
+        let credential;
+
+        if(authTab === 'signup'){
+          credential = await fb.createUserWithEmailAndPassword(fb.auth,email,password);
+
+          if(name){
+            await fb.updateProfile(credential.user,{displayName:name});
+          }
+
+          // Verification email явуулна, гэхдээ app ашиглахыг блоклохгүй.
+          fb.sendEmailVerification(credential.user).catch(() => {});
+
+          // updateProfile дараах шинэ мэдээллийг profile-д оруулна.
+          await credential.user.reload?.();
+          syncFirebaseUserToProfile(credential.user);
+          toast('✅ Account үүслээ. Email verification илгээлээ.');
+        }else{
+          credential = await fb.signInWithEmailAndPassword(fb.auth,email,password);
+          syncFirebaseUserToProfile(credential.user);
+          toast('✅ Email account-аар нэвтэрлээ');
+        }
+
+        $('#authPassword').value = '';
+        hideAuthScreen();
+      }catch(error){
+        console.error('Firebase email auth:',error);
+        setAuthError(firebaseErrorMessage(error));
+      }finally{
+        btn.disabled = false;
+        renderEmailAuthAvailability();
+        if(!btn.textContent) btn.textContent = oldText;
+      }
     });
 
     $('#openProfile').addEventListener('click',() => {
@@ -1245,7 +1486,7 @@
       openModal('profileModal');
     });
 
-    $('#profileForm').addEventListener('submit',e => {
+    $('#profileForm').addEventListener('submit',async e => {
       e.preventDefault();
 
       const name = $('#profileName').value.trim() || 'My Profile';
@@ -1254,9 +1495,23 @@
 
       profile.name = name;
       profile.handle = handle.slice(0,31);
-      profile.email = $('#profileEmail').value.trim();
+
+      // Cloud account-ийн email-ийг эндээс шууд солихгүй.
+      if(session.mode !== 'cloud'){
+        profile.email = $('#profileEmail').value.trim();
+      }
+
       profile.bio = $('#profileBio').value.trim();
       profile.updatedAt = Date.now();
+
+      if(session.mode === 'cloud' && firebaseCurrentUser){
+        try{
+          const fb = await initFirebaseAuth();
+          await fb.updateProfile(firebaseCurrentUser,{displayName:name});
+        }catch(error){
+          console.warn('Firebase displayName update failed:',error);
+        }
+      }
 
       saveProfile();
       renderProfile();
@@ -1392,14 +1647,28 @@
       e.target.value = '';
     });
 
-    $('#logoutBtn').addEventListener('click',() => {
-      if(!confirm('Log out хийх үү? Local data устахгүй.')) return;
+    $('#logoutBtn').addEventListener('click',async () => {
+      if(!confirm('Log out хийх үү? Local Planner/Journal data устахгүй.')) return;
 
+      try{
+        if(session.mode === 'cloud' && !isLocalFilePreview()){
+          const fb = await initFirebaseAuth();
+          await fb.signOut(fb.auth);
+        }
+      }catch(error){
+        console.warn('Firebase logout:',error);
+      }
+
+      firebaseCurrentUser = null;
       session.active = false;
       session.mode = 'device';
+      session.provider = '';
+      session.firebaseUid = '';
       saveSession();
+
       closeModal('profileModal');
       showAuthScreen();
+      toast('Log out хийлээ');
     });
 
     function toast(msg){
@@ -2179,20 +2448,23 @@
       );
     }
 
-    network();
-    renderProfile();
-    renderTasks();
-    renderGoals();
-    loadJournal(today());
-    renderChat();
+    async function startApp(){
+      network();
+      renderProfile();
+      renderTasks();
+      renderGoals();
+      loadJournal(today());
+      renderChat();
 
-    if(session.active) hideAuthScreen();
-    else showAuthScreen();
+      await initializeFirebaseSession();
 
-    const hash = location.hash.slice(1);
-    if(['today','planner','goals','journal','ai'].includes(hash)){
-      switchPage(hash);
+      const hash = location.hash.slice(1);
+      if(['today','planner','goals','journal','ai'].includes(hash)){
+        switchPage(hash);
+      }
     }
+
+    startApp();
   })();
   </script>
 </body>
