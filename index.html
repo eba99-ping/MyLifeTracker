@@ -151,6 +151,55 @@
     }
     .goal-actions .primary { background:var(--primary); color:white; border-color:var(--primary); }
 
+
+    /* JOURNAL ARCHIVE */
+    .journal-editor-card { padding:14px; }
+    .journal-topline { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:9px; }
+    .journal-save-status { color:var(--muted); font-size:10px; }
+    .journal-actions-row { display:flex; gap:7px; margin-top:9px; }
+    .journal-actions-row button {
+      flex:1; border:1px solid var(--border); background:var(--bg); color:var(--text);
+      border-radius:10px; padding:9px; font-size:10px; font-weight:800;
+    }
+    .journal-actions-row .starred { color:var(--amber); border-color:rgba(245,158,11,.35); background:rgba(245,158,11,.08); }
+
+    .journal-stats {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:12px;
+    }
+    .journal-stat {
+      background:var(--card); border:1px solid var(--border); border-radius:14px; padding:11px 5px; text-align:center;
+    }
+    .journal-stat b { display:block; font-size:17px; }
+    .journal-stat span { color:var(--muted); font-size:9px; }
+
+    .journal-search {
+      width:100%; border:1px solid var(--border); background:var(--card); color:var(--text);
+      border-radius:13px; padding:11px 12px; outline:none; margin-bottom:9px;
+    }
+    .journal-entry {
+      display:flex; align-items:flex-start; gap:10px; background:var(--card); border:1px solid var(--border);
+      border-radius:16px; padding:12px; margin-bottom:8px;
+    }
+    .journal-entry.favorite { border-color:rgba(245,158,11,.45); }
+    .journal-entry-main { flex:1; min-width:0; cursor:pointer; }
+    .journal-entry-head { display:flex; align-items:center; gap:7px; margin-bottom:5px; }
+    .journal-entry-date { font-weight:850; font-size:12px; }
+    .journal-entry-preview {
+      color:var(--muted); font-size:11px; line-height:1.45; display:-webkit-box;
+      -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
+    }
+    .journal-entry-meta { color:var(--muted); font-size:9px; margin-top:6px; }
+    .journal-star {
+      border:0; background:transparent; color:var(--muted); font-size:20px; padding:3px; flex-shrink:0;
+    }
+    .journal-star.active { color:var(--amber); }
+
+    .journal-reader-text {
+      white-space:pre-wrap; line-height:1.65; font-size:13px; background:var(--bg);
+      border:1px solid var(--border); border-radius:14px; padding:13px; min-height:140px;
+    }
+    .journal-reader-meta { color:var(--muted); font-size:10px; margin:6px 0 12px; }
+
     textarea {
       width:100%; min-height:180px; resize:vertical; border:1px solid var(--border);
       background:var(--card); color:var(--text); border-radius:15px; padding:13px; outline:none;
@@ -305,8 +354,61 @@
   </section>
 
   <section id="journalView" class="view">
-    <div class="section-title"><h2>📝 Өдрийн тэмдэглэл</h2><small id="journalDate"></small></div>
-    <textarea id="journal" placeholder="Өнөөдөр юу болсон бэ? Юу сурсан бэ? Маргааш юуг илүү сайн хийх вэ?" oninput="saveJournal()"></textarea>
+    <div class="section-title">
+      <h2>📝 Өдрийн тэмдэглэл</h2>
+      <small id="journalDate"></small>
+    </div>
+
+    <div class="card journal-editor-card">
+      <div class="journal-topline">
+        <strong id="journalEditorTitle">Өнөөдрийн тэмдэглэл</strong>
+        <span id="journalSaveStatus" class="journal-save-status">Хадгалагдсан</span>
+      </div>
+
+      <textarea
+        id="journal"
+        placeholder="Өнөөдөр юу болсон бэ?
+Юу сурсан бэ?
+Юунд баярлав?
+Маргааш юуг илүү сайн хийх вэ?"
+        oninput="saveJournal()"
+      ></textarea>
+
+      <div class="journal-actions-row">
+        <button id="journalFavoriteBtn" onclick="toggleCurrentJournalFavorite()">☆ Favorite</button>
+        <button onclick="goTodayJournal()">📅 Өнөөдөр</button>
+        <button onclick="clearCurrentJournal()">🗑️ Устгах</button>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <h2>📚 Миний тэмдэглэлүүд</h2>
+      <small id="journalArchiveCount">0</small>
+    </div>
+
+    <div class="journal-stats">
+      <div class="journal-stat">
+        <b id="journalMonthCount">0</b>
+        <span>Энэ сард</span>
+      </div>
+      <div class="journal-stat">
+        <b id="journalFavoriteCount">0⭐</b>
+        <span>Favorite</span>
+      </div>
+      <div class="journal-stat">
+        <b id="journalWordCount">0</b>
+        <span>Нийт үг</span>
+      </div>
+    </div>
+
+    <input
+      id="journalSearch"
+      class="journal-search"
+      placeholder="🔍 Тэмдэглэл хайх..."
+      oninput="renderJournalArchive()"
+    />
+
+    <div id="journalArchive"></div>
   </section>
 
   <section id="aiView" class="view">
@@ -415,6 +517,26 @@ if/else сурах
   </div>
 </div>
 
+
+<!-- JOURNAL READER MODAL -->
+<div id="journalReaderModal" class="modal-backdrop" onclick="if(event.target===this) closeJournalReader()">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="journalReaderTitle">📝 Тэмдэглэл</h3>
+      <button class="close-btn" onclick="closeJournalReader()">✕</button>
+    </div>
+
+    <div id="journalReaderMeta" class="journal-reader-meta"></div>
+    <div id="journalReaderText" class="journal-reader-text"></div>
+
+    <div class="modal-actions">
+      <button id="journalReaderFavoriteBtn" class="ghost-btn" onclick="toggleReaderFavorite()">☆ Favorite</button>
+      <button class="ghost-btn" onclick="editReaderJournal()">✏️ Засах</button>
+      <button class="danger-btn" onclick="deleteReaderJournal()">🗑️ Устгах</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast" class="toast"></div>
 
 <script>
@@ -448,9 +570,11 @@ function dateKey(date){
   return `${y}-${m}-${d}`;
 }
 function getDay(key){
-  if(!state.days[key]) state.days[key]={tasks:[],journal:""};
+  if(!state.days[key]) state.days[key]={tasks:[],journal:"",journalFavorite:false,journalUpdatedAt:""};
   if(!Array.isArray(state.days[key].tasks)) state.days[key].tasks=[];
   if(typeof state.days[key].journal!=="string") state.days[key].journal="";
+  if(typeof state.days[key].journalFavorite!=="boolean") state.days[key].journalFavorite=false;
+  if(typeof state.days[key].journalUpdatedAt!=="string") state.days[key].journalUpdatedAt="";
   return state.days[key];
 }
 function clone(obj){ return JSON.parse(JSON.stringify(obj)); }
@@ -850,14 +974,253 @@ function formatDateShort(key){
 }
 
 /* JOURNAL */
+let journalReaderKey = null;
+let journalSaveTimer = null;
+
 function renderJournal(){
-  const key=dateKey(selectedDate), day=getDay(key);
-  document.getElementById("journalDate").textContent=selectedDate.toLocaleDateString("mn-MN",{month:"long",day:"numeric"});
+  const key=dateKey(selectedDate);
+  const day=getDay(key);
+
+  document.getElementById("journalDate").textContent=
+    selectedDate.toLocaleDateString("mn-MN",{month:"long",day:"numeric"});
+
+  document.getElementById("journalEditorTitle").textContent=
+    selectedDate.toLocaleDateString("mn-MN",{weekday:"long",month:"long",day:"numeric"});
+
   document.getElementById("journal").value=day.journal||"";
+
+  const favBtn=document.getElementById("journalFavoriteBtn");
+  favBtn.textContent=day.journalFavorite?"★ Favorite":"☆ Favorite";
+  favBtn.classList.toggle("starred",day.journalFavorite);
+
+  document.getElementById("journalSaveStatus").textContent=
+    day.journalUpdatedAt ? "Автоматаар хадгалагдсан" : "Бичиж эхлээрэй";
+
+  renderJournalArchive();
 }
+
 function saveJournal(){
-  getDay(dateKey(selectedDate)).journal=document.getElementById("journal").value;
+  const key=dateKey(selectedDate);
+  const day=getDay(key);
+
+  day.journal=document.getElementById("journal").value;
+  day.journalUpdatedAt=new Date().toISOString();
+
+  document.getElementById("journalSaveStatus").textContent="Хадгалж байна...";
   persist();
+
+  clearTimeout(journalSaveTimer);
+  journalSaveTimer=setTimeout(()=>{
+    document.getElementById("journalSaveStatus").textContent="✓ Хадгалагдсан";
+    renderJournalArchive();
+  },350);
+}
+
+function toggleCurrentJournalFavorite(){
+  const day=getDay(dateKey(selectedDate));
+
+  if(!day.journal.trim()){
+    toast("Эхлээд тэмдэглэл бичээрэй");
+    return;
+  }
+
+  day.journalFavorite=!day.journalFavorite;
+  day.journalUpdatedAt=new Date().toISOString();
+  persist();
+  renderJournal();
+  toast(day.journalFavorite?"⭐ Favorite болголоо":"☆ Favorite-аас хаслаа");
+}
+
+function clearCurrentJournal(){
+  const key=dateKey(selectedDate);
+  const day=getDay(key);
+
+  if(!day.journal.trim()){
+    toast("Устгах тэмдэглэл алга");
+    return;
+  }
+
+  if(!confirm("Энэ өдрийн тэмдэглэлийг бүр мөсөн устгах уу?")) return;
+
+  day.journal="";
+  day.journalFavorite=false;
+  day.journalUpdatedAt="";
+  persist();
+  renderJournal();
+  toast("🗑️ Тэмдэглэл устлаа");
+}
+
+function goTodayJournal(){
+  selectedDate=new Date();
+  renderAll();
+}
+
+function journalEntries(){
+  return Object.entries(state.days)
+    .filter(([key,day])=>typeof day.journal==="string" && day.journal.trim())
+    .map(([key,day])=>({
+      key,
+      text:day.journal.trim(),
+      favorite:!!day.journalFavorite,
+      updatedAt:day.journalUpdatedAt||""
+    }))
+    .sort((a,b)=>b.key.localeCompare(a.key));
+}
+
+function countWords(text){
+  return String(text||"").trim().split(/\s+/).filter(Boolean).length;
+}
+
+function renderJournalArchive(){
+  const container=document.getElementById("journalArchive");
+  if(!container) return;
+
+  const all=journalEntries();
+  const q=(document.getElementById("journalSearch")?.value||"").trim().toLowerCase();
+
+  const visible=all.filter(entry=>{
+    if(!q) return true;
+    const dateText=formatJournalDate(entry.key).toLowerCase();
+    return entry.text.toLowerCase().includes(q) || dateText.includes(q);
+  });
+
+  const monthPrefix=dateKey(selectedDate).slice(0,7);
+  const monthEntries=all.filter(x=>x.key.startsWith(monthPrefix));
+  const favoriteCount=all.filter(x=>x.favorite).length;
+  const wordCount=all.reduce((sum,x)=>sum+countWords(x.text),0);
+
+  document.getElementById("journalArchiveCount").textContent=`${all.length} тэмдэглэл`;
+  document.getElementById("journalMonthCount").textContent=monthEntries.length;
+  document.getElementById("journalFavoriteCount").textContent=`${favoriteCount}⭐`;
+  document.getElementById("journalWordCount").textContent=wordCount;
+
+  if(!visible.length){
+    container.innerHTML=`<div class="empty">${q?"Хайлтад тохирох тэмдэглэл олдсонгүй.":"Одоогоор хадгалсан тэмдэглэл алга."}</div>`;
+    return;
+  }
+
+  container.innerHTML=visible.map(entry=>{
+    const updated=entry.updatedAt ? new Date(entry.updatedAt).toLocaleString("mn-MN",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"}) : "";
+    return `<div class="journal-entry ${entry.favorite?"favorite":""}">
+      <div class="journal-entry-main" onclick="openJournalReader('${entry.key}')">
+        <div class="journal-entry-head">
+          <span class="journal-entry-date">${escapeHTML(formatJournalDate(entry.key))}</span>
+          ${entry.favorite?'<span>⭐</span>':""}
+        </div>
+        <div class="journal-entry-preview">${escapeHTML(entry.text)}</div>
+        <div class="journal-entry-meta">${countWords(entry.text)} үг${updated?` · ${escapeHTML(updated)}`:""}</div>
+      </div>
+
+      <button
+        class="journal-star ${entry.favorite?"active":""}"
+        onclick="event.stopPropagation();toggleJournalFavoriteByKey('${entry.key}')"
+        aria-label="Favorite"
+      >
+        ${entry.favorite?"★":"☆"}
+      </button>
+    </div>`;
+  }).join("");
+}
+
+function formatJournalDate(key){
+  const d=new Date(key+"T12:00:00");
+  return d.toLocaleDateString("mn-MN",{year:"numeric",month:"long",day:"numeric",weekday:"short"});
+}
+
+function toggleJournalFavoriteByKey(key){
+  const day=getDay(key);
+  if(!day.journal.trim()) return;
+
+  day.journalFavorite=!day.journalFavorite;
+  day.journalUpdatedAt=new Date().toISOString();
+  persist();
+  renderJournalArchive();
+
+  if(key===dateKey(selectedDate)){
+    const favBtn=document.getElementById("journalFavoriteBtn");
+    favBtn.textContent=day.journalFavorite?"★ Favorite":"☆ Favorite";
+    favBtn.classList.toggle("starred",day.journalFavorite);
+  }
+
+  if(journalReaderKey===key) renderJournalReader();
+}
+
+function openJournalReader(key){
+  const day=getDay(key);
+  if(!day.journal.trim()) return;
+
+  journalReaderKey=key;
+  renderJournalReader();
+  document.getElementById("journalReaderModal").classList.add("show");
+}
+
+function renderJournalReader(){
+  if(!journalReaderKey) return;
+  const day=getDay(journalReaderKey);
+
+  document.getElementById("journalReaderTitle").textContent=`📝 ${formatJournalDate(journalReaderKey)}`;
+  document.getElementById("journalReaderText").textContent=day.journal||"";
+
+  const meta=[];
+  meta.push(`${countWords(day.journal)} үг`);
+  if(day.journalUpdatedAt){
+    meta.push(`Сүүлд хадгалсан: ${new Date(day.journalUpdatedAt).toLocaleString("mn-MN")}`);
+  }
+  document.getElementById("journalReaderMeta").textContent=meta.join(" · ");
+
+  const favBtn=document.getElementById("journalReaderFavoriteBtn");
+  favBtn.textContent=day.journalFavorite?"★ Favorite":"☆ Favorite";
+}
+
+function closeJournalReader(){
+  document.getElementById("journalReaderModal").classList.remove("show");
+  journalReaderKey=null;
+}
+
+function toggleReaderFavorite(){
+  if(!journalReaderKey) return;
+  toggleJournalFavoriteByKey(journalReaderKey);
+  renderJournalReader();
+}
+
+function editReaderJournal(){
+  if(!journalReaderKey) return;
+
+  selectedDate=new Date(journalReaderKey+"T12:00:00");
+  closeJournalReader();
+
+  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+  document.getElementById("journalView").classList.add("active");
+  currentView="journal";
+
+  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+  document.querySelector('.nav-btn[data-view="journal"]')?.classList.add("active");
+
+  document.getElementById("fab").style.display="none";
+  renderJournal();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function deleteReaderJournal(){
+  if(!journalReaderKey) return;
+  const key=journalReaderKey;
+
+  if(!confirm("Энэ тэмдэглэлийг бүр мөсөн устгах уу?")) return;
+
+  const day=getDay(key);
+  day.journal="";
+  day.journalFavorite=false;
+  day.journalUpdatedAt="";
+  persist();
+
+  closeJournalReader();
+  renderJournal();
+
+  if(key===dateKey(selectedDate)){
+    document.getElementById("journal").value="";
+  }
+
+  toast("🗑️ Тэмдэглэл устлаа");
 }
 
 function changeDate(days){ selectedDate.setDate(selectedDate.getDate()+days); renderAll(); }
