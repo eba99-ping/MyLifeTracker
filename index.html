@@ -1,1318 +1,1526 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="mn">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#0f172a" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Life Tracker" />
-  <link rel="manifest" href="/manifest.json" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#101828">
+  <meta name="description" content="My Life Tracker — өдөр тутмын төлөвлөгөө, зорилго, тэмдэглэл болон AI coach.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Life Tracker">
   <title>My Life Tracker</title>
+  <link rel="manifest" href="/manifest.json">
 
   <style>
-    * { box-sizing: border-box; }
-    :root {
-      --bg:#f5f7fb; --card:#fff; --text:#111827; --muted:#6b7280; --border:#e5e7eb;
-      --primary:#6366f1; --primary2:#8b5cf6; --green:#22c55e; --red:#ef4444; --amber:#f59e0b;
-      --shadow:0 10px 28px rgba(15,23,42,.08);
+    :root{
+      --bg:#f5f7fb;--surface:#fff;--surface-2:#f8fafc;--ink:#101828;--muted:#667085;
+      --line:#e4e7ec;--brand:#6d5dfc;--brand-2:#8b7fff;--brand-soft:#efedff;
+      --green:#16a36a;--green-soft:#eafaf3;--red:#e5484d;--red-soft:#fff0f0;
+      --amber:#f79009;--shadow:0 16px 50px rgba(16,24,40,.09);--radius:22px;
+      --nav-h:78px;color-scheme:light
     }
-    body.dark {
-      --bg:#0f172a; --card:#111827; --text:#f8fafc; --muted:#94a3b8; --border:#243044;
-      --shadow:0 10px 28px rgba(0,0,0,.25);
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:radial-gradient(circle at 10% 0,#ebe8ff 0,transparent 26rem),var(--bg);
+      color:var(--ink);
+      font:15px/1.5 Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      -webkit-font-smoothing:antialiased
     }
-    html,body { margin:0; padding:0; background:var(--bg); color:var(--text); }
-    body {
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-      min-height:100vh; padding-bottom:86px;
+    button,input,textarea,select{font:inherit}
+    button{cursor:pointer}
+    button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{
+      outline:3px solid rgba(109,93,252,.25);outline-offset:2px
     }
-    button,input,textarea,select { font:inherit; }
-    button { cursor:pointer; }
-    .app { max-width:560px; margin:0 auto; padding:18px 14px 28px; }
-    .topbar { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px; }
-    .brand h1 { margin:0; font-size:23px; line-height:1.1; }
-    .brand p { margin:5px 0 0; color:var(--muted); font-size:12px; }
-    .icon-btn {
-      width:42px; height:42px; border-radius:13px; border:1px solid var(--border);
-      background:var(--card); color:var(--text);
+    .app{width:min(1120px,100%);margin:auto;padding:22px 22px calc(var(--nav-h) + 34px)}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand-mark{
+      display:grid;place-items:center;width:45px;height:45px;border-radius:15px;
+      background:linear-gradient(135deg,var(--brand),#a15dfc);color:#fff;font-size:22px;
+      box-shadow:0 10px 26px rgba(109,93,252,.28)
     }
-
-    .hero {
-      background:linear-gradient(135deg,var(--primary),var(--primary2)); color:white;
-      border-radius:22px; padding:17px; box-shadow:0 14px 35px rgba(99,102,241,.25); margin-bottom:13px;
+    .brand h1{font-size:18px;line-height:1.15;margin:0}
+    .brand p{margin:3px 0 0;color:var(--muted);font-size:12px}
+    .status{
+      display:flex;align-items:center;gap:7px;padding:8px 12px;border:1px solid var(--line);
+      border-radius:999px;background:rgba(255,255,255,.75);color:var(--muted);
+      font-size:12px;font-weight:700
     }
-    .hero-date { display:flex; align-items:center; gap:10px; }
-    .hero-date button {
-      width:38px; height:38px; border:0; border-radius:12px; background:rgba(255,255,255,.16); color:white; font-size:21px;
+    .status i{width:8px;height:8px;border-radius:50%;background:var(--green)}
+    .status.offline i{background:var(--amber)}
+    .page{display:none;animation:rise .25s ease}
+    .page.active{display:block}
+    @keyframes rise{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+    .hero{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:20px}
+    .hero h2{margin:0 0 5px;font-size:clamp(25px,4vw,38px);line-height:1.15;letter-spacing:-.035em}
+    .hero p{margin:0;color:var(--muted)}
+    .date-nav{display:flex;align-items:center;gap:8px}
+    .date-nav input,.field input,.field textarea,.field select,.search{
+      border:1px solid var(--line);background:var(--surface);color:var(--ink);
+      border-radius:13px;padding:11px 13px;min-height:44px
     }
-    .date-title { flex:1; text-align:center; font-weight:800; font-size:14px; }
-    .today-btn { width:100%; margin-top:10px; border:0; border-radius:11px; padding:9px; background:rgba(255,255,255,.14); color:white; }
-
-    .card {
-      background:var(--card); border:1px solid var(--border); border-radius:18px;
-      padding:14px; box-shadow:var(--shadow); margin-bottom:12px;
+    .date-nav input{min-width:145px}
+    .icon-btn{
+      border:1px solid var(--line);background:var(--surface);color:var(--ink);
+      border-radius:12px;width:44px;height:44px;display:grid;place-items:center;font-size:18px
     }
-    .progress-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:9px; }
-    .progress-head strong { font-size:14px; }
-    .progress-percent { color:var(--primary); font-weight:900; }
-    .progress-bg { height:11px; border-radius:999px; background:var(--border); overflow:hidden; }
-    .progress-bar { height:100%; width:0%; background:linear-gradient(90deg,var(--primary),var(--primary2)); transition:.3s; }
-    .mini-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:12px; }
-    .stat { text-align:center; background:var(--bg); border-radius:12px; padding:10px 4px; }
-    .stat b { display:block; font-size:18px; }
-    .stat span { color:var(--muted); font-size:10px; }
-
-    .view { display:none; }
-    .view.active { display:block; }
-    .section-title {
-      display:flex; align-items:center; justify-content:space-between; margin:20px 2px 9px; gap:10px;
+    .icon-btn:hover{background:var(--surface-2)}
+    .btn{
+      border:0;border-radius:13px;min-height:44px;padding:10px 16px;font-weight:800;
+      display:inline-flex;align-items:center;justify-content:center;gap:8px
     }
-    .section-title h2 { margin:0; font-size:16px; }
-    .section-title small { color:var(--muted); }
-
-    .task {
-      display:flex; align-items:center; gap:10px; padding:12px;
-      background:var(--card); border:1px solid var(--border); border-radius:15px; margin-bottom:8px;
+    .btn.primary{
+      color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand-2));
+      box-shadow:0 8px 20px rgba(109,93,252,.2)
     }
-    .task.done { opacity:.68; }
-    .task.done .task-name { text-decoration:line-through; }
-    .task-check {
-      width:28px; height:28px; border-radius:50%; border:2px solid var(--border);
-      display:flex; align-items:center; justify-content:center; flex-shrink:0; color:white;
+    .btn.secondary{color:var(--ink);background:var(--surface);border:1px solid var(--line)}
+    .btn.ghost{color:var(--muted);background:transparent}
+    .btn.danger{color:var(--red);background:var(--red-soft)}
+    .btn.small{min-height:36px;padding:7px 11px;font-size:13px}
+    .btn:disabled{opacity:.55;cursor:not-allowed}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .card{
+      background:rgba(255,255,255,.9);border:1px solid rgba(228,231,236,.9);
+      border-radius:var(--radius);box-shadow:var(--shadow)
     }
-    .task.done .task-check { background:var(--green); border-color:var(--green); }
-    .task-main { flex:1; min-width:0; }
-    .task-top { display:flex; align-items:center; gap:7px; }
-    .task-time { font-size:12px; color:var(--primary); font-weight:800; }
-    .task-name { font-weight:750; font-size:14px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-    .task-meta { margin-top:3px; color:var(--muted); font-size:10px; display:flex; gap:7px; flex-wrap:wrap; }
-    .task-actions { display:flex; gap:4px; }
-    .task-actions button { border:0; background:transparent; color:var(--muted); font-size:16px; padding:5px; }
-
-    .empty {
-      border:1px dashed var(--border); color:var(--muted); border-radius:15px; padding:18px; text-align:center; font-size:12px;
+    .card-pad{padding:20px}
+    .progress-card{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:18px;margin-bottom:18px}
+    .progress-ring{
+      --p:0;display:grid;place-items:center;width:92px;height:92px;border-radius:50%;
+      background:conic-gradient(var(--brand) calc(var(--p) * 1%),#eceef4 0);position:relative
     }
-    .fab {
-      position:fixed; right:max(18px,calc((100vw - 560px)/2 + 18px)); bottom:86px;
-      width:56px; height:56px; border:0; border-radius:18px; color:white;
-      background:linear-gradient(135deg,var(--primary),var(--primary2)); font-size:28px;
-      box-shadow:0 12px 28px rgba(99,102,241,.32); z-index:25;
+    .progress-ring:before{content:"";position:absolute;inset:9px;border-radius:50%;background:#fff}
+    .progress-ring strong{position:relative;font-size:22px}
+    .progress-card h3{margin:0 0 5px;font-size:19px}
+    .progress-card p{margin:0;color:var(--muted)}
+    .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 14px}
+    .section-head h3{margin:0;font-size:16px}
+    .section-head span{font-size:12px;color:var(--muted)}
+    .task-list{display:flex;flex-direction:column;gap:9px}
+    .task{
+      display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:12px;
+      border:1px solid var(--line);border-radius:15px;background:var(--surface)
     }
-
-    .planner-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
-    .day-chip {
-      border:1px solid var(--border); background:var(--card); color:var(--text);
-      border-radius:13px; padding:9px 2px; text-align:center;
+    .task.done .task-title{text-decoration:line-through;color:#98a2b3}
+    .check{
+      appearance:none;width:24px;height:24px;border:2px solid #cbd0d9;border-radius:8px;
+      display:grid;place-items:center;margin:0
     }
-    .day-chip.active { border-color:var(--primary); background:rgba(99,102,241,.10); }
-    .day-chip b { display:block; font-size:13px; }
-    .day-chip span { color:var(--muted); font-size:9px; }
-
-    /* SMART GOALS */
-    .goal-toolbar { display:flex; gap:7px; overflow-x:auto; padding-bottom:4px; }
-    .goal-filter {
-      white-space:nowrap; border:1px solid var(--border); background:var(--card); color:var(--muted);
-      border-radius:999px; padding:8px 11px; font-size:11px;
+    .check:checked{background:var(--brand);border-color:var(--brand)}
+    .check:checked:after{content:"✓";color:#fff;font-weight:900;font-size:15px}
+    .task-title{font-weight:750}
+    .task-meta{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:12px;margin-top:2px}
+    .pill{
+      display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:4px 8px;
+      background:var(--surface-2);color:var(--muted);font-size:11px;font-weight:750
     }
-    .goal-filter.active { background:var(--primary); border-color:var(--primary); color:white; }
-    .goal-card {
-      background:var(--card); border:1px solid var(--border); border-radius:18px; padding:14px;
-      margin-bottom:10px; box-shadow:var(--shadow);
+    .task-actions{display:flex;gap:3px}
+    .mini{border:0;background:transparent;color:#98a2b3;width:32px;height:32px;border-radius:9px}
+    .mini:hover{background:var(--surface-2);color:var(--ink)}
+    .period{margin-bottom:18px}
+    .period-label{display:flex;align-items:center;gap:9px;margin:0 0 10px;font-weight:850}
+    .period-label b{display:grid;place-items:center;width:31px;height:31px;border-radius:10px;background:var(--brand-soft)}
+    .empty{padding:30px 16px;text-align:center;border:1px dashed #d5d9e1;border-radius:16px;color:var(--muted)}
+    .empty b{display:block;color:var(--ink);margin-bottom:4px}
+    .filters{display:flex;gap:7px;overflow:auto;padding-bottom:3px}
+    .filter{
+      border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;
+      padding:8px 12px;font-size:12px;font-weight:800;white-space:nowrap
     }
-    .goal-card.completed { border-color:var(--green); }
-    .goal-card.overdue { border-color:var(--amber); }
-    .goal-head { display:flex; gap:10px; align-items:flex-start; }
-    .goal-icon {
-      width:40px; height:40px; border-radius:12px; background:rgba(99,102,241,.12); display:flex;
-      align-items:center; justify-content:center; font-size:19px; flex-shrink:0;
+    .filter.active{background:var(--brand-soft);border-color:#d7d2ff;color:var(--brand)}
+    .goal-list{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;margin-top:17px}
+    .goal{padding:18px}
+    .goal-top{display:flex;justify-content:space-between;gap:12px}
+    .goal h3{font-size:17px;margin:0 0 6px}
+    .goal-date{font-size:12px;color:var(--muted)}
+    .goal.overdue{border-color:#ffd1d3}
+    .bar{height:8px;background:#edeef3;border-radius:999px;overflow:hidden;margin:15px 0 8px}
+    .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),#a15dfc);border-radius:inherit}
+    .goal-progress{font-size:12px;color:var(--muted)}
+    .step-list{display:flex;flex-direction:column;gap:7px;margin-top:14px}
+    .step{display:flex;align-items:center;gap:8px;font-size:13px}
+    .step input{width:18px;height:18px;accent-color:var(--brand)}
+    .goal-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}
+    .notice{padding:13px 15px;border:1px solid #fed7aa;background:#fff8ed;border-radius:14px;color:#9a5b08;margin-bottom:16px}
+    .notice b{color:#713b00}
+    .journal-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);gap:18px}
+    .editor{padding:22px}
+    .editor-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:15px}
+    .save-state{font-size:12px;color:var(--green);font-weight:750}
+    .journal-title{
+      width:100%;border:0;background:transparent;font-size:22px;font-weight:850;
+      padding:4px 0;margin-bottom:8px;color:var(--ink)
     }
-    .goal-head-main { flex:1; min-width:0; }
-    .goal-name { font-weight:850; font-size:14px; }
-    .goal-sub { color:var(--muted); font-size:10px; margin-top:4px; line-height:1.4; }
-    .goal-menu { border:0; background:transparent; color:var(--muted); font-size:18px; }
-    .goal-progress-row { display:flex; align-items:center; gap:10px; margin-top:12px; }
-    .goal-progress-row .progress-bg { flex:1; height:9px; }
-    .goal-progress-row strong { color:var(--primary); font-size:11px; min-width:34px; text-align:right; }
-    .goal-steps { margin-top:11px; }
-    .goal-step {
-      display:flex; align-items:flex-start; gap:8px; padding:8px 0; border-top:1px solid var(--border); font-size:12px;
+    .journal-title::placeholder{color:#b2b7c1}
+    .journal-body{
+      display:block;width:100%;min-height:330px;border:0;resize:vertical;background:transparent;
+      color:var(--ink);line-height:1.75;padding:4px 0
     }
-    .goal-step:first-child { border-top:0; }
-    .goal-step input { margin-top:2px; accent-color:var(--primary); }
-    .goal-step span { flex:1; }
-    .goal-badges { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
-    .badge { border-radius:999px; padding:5px 8px; background:var(--bg); color:var(--muted); font-size:9px; }
-    .badge.warn { background:rgba(245,158,11,.12); color:#b45309; }
-    .badge.good { background:rgba(34,197,94,.12); color:#15803d; }
-    .goal-actions { display:flex; gap:7px; margin-top:11px; }
-    .goal-actions button {
-      flex:1; border:1px solid var(--border); background:var(--bg); color:var(--text); border-radius:10px;
-      padding:8px; font-size:10px; font-weight:700;
+    .journal-body::placeholder{color:#a7adb8}
+    .editor-footer{
+      display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);
+      padding-top:14px;color:var(--muted);font-size:12px
     }
-    .goal-actions .primary { background:var(--primary); color:white; border-color:var(--primary); }
-
-
-    /* JOURNAL ARCHIVE */
-    .journal-editor-card { padding:14px; }
-    .journal-topline { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:9px; }
-    .journal-save-status { color:var(--muted); font-size:10px; }
-    .journal-actions-row { display:flex; gap:7px; margin-top:9px; }
-    .journal-actions-row button {
-      flex:1; border:1px solid var(--border); background:var(--bg); color:var(--text);
-      border-radius:10px; padding:9px; font-size:10px; font-weight:800;
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:15px}
+    .stat{padding:12px;border-radius:14px;background:var(--surface-2);text-align:center}
+    .stat strong{display:block;font-size:20px}
+    .stat span{font-size:11px;color:var(--muted)}
+    .archive{padding:18px}
+    .archive-tools{display:flex;gap:8px;margin-bottom:13px}
+    .search{width:100%;padding-left:14px}
+    .entry-list{display:flex;flex-direction:column;gap:9px;max-height:480px;overflow:auto}
+    .entry{
+      display:grid;grid-template-columns:1fr auto;gap:8px;padding:13px;border:1px solid var(--line);
+      background:var(--surface);border-radius:14px;text-align:left
     }
-    .journal-actions-row .starred { color:var(--amber); border-color:rgba(245,158,11,.35); background:rgba(245,158,11,.08); }
-
-    .journal-stats {
-      display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:12px;
+    .entry:hover{border-color:#cfc9ff}
+    .entry h4{margin:0 0 3px;font-size:14px}
+    .entry p{
+      margin:0;color:var(--muted);font-size:12px;display:-webkit-box;
+      -webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden
     }
-    .journal-stat {
-      background:var(--card); border:1px solid var(--border); border-radius:14px; padding:11px 5px; text-align:center;
+    .entry-date{font-size:11px;color:var(--brand);font-weight:800;margin-bottom:4px}
+    .star{border:0;background:transparent;color:#c7cad1;font-size:19px;align-self:start}
+    .star.on{color:#f5a524}
+    .ai-shell{display:grid;grid-template-rows:auto minmax(360px,1fr) auto;min-height:620px;overflow:hidden}
+    .ai-head{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+    .ai-head h3{margin:0}
+    .messages{
+      padding:22px;overflow:auto;display:flex;flex-direction:column;gap:12px;
+      background:linear-gradient(180deg,#fbfbfe,#fff)
     }
-    .journal-stat b { display:block; font-size:17px; }
-    .journal-stat span { color:var(--muted); font-size:9px; }
-
-    .journal-search {
-      width:100%; border:1px solid var(--border); background:var(--card); color:var(--text);
-      border-radius:13px; padding:11px 12px; outline:none; margin-bottom:9px;
+    .bubble{max-width:min(76%,640px);padding:12px 15px;border-radius:17px;white-space:pre-wrap;word-break:break-word}
+    .bubble.user{align-self:flex-end;color:#fff;background:var(--brand);border-bottom-right-radius:5px}
+    .bubble.ai{align-self:flex-start;background:#f0f2f6;border-bottom-left-radius:5px}
+    .ai-form{display:grid;grid-template-columns:1fr auto;gap:9px;padding:14px;border-top:1px solid var(--line);background:#fff}
+    .ai-form textarea{resize:none;min-height:46px;max-height:130px;border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+    .nav{
+      position:fixed;left:50%;bottom:max(12px,env(safe-area-inset-bottom));transform:translateX(-50%);
+      width:min(640px,calc(100% - 22px));height:var(--nav-h);padding:8px;display:grid;
+      grid-template-columns:repeat(5,1fr);gap:4px;background:rgba(16,24,40,.94);
+      backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.12);border-radius:24px;
+      box-shadow:0 20px 50px rgba(16,24,40,.28);z-index:50
     }
-    .journal-entry {
-      display:flex; align-items:flex-start; gap:10px; background:var(--card); border:1px solid var(--border);
-      border-radius:16px; padding:12px; margin-bottom:8px;
+    .nav button{
+      border:0;background:transparent;color:#98a2b3;border-radius:17px;font-size:11px;
+      font-weight:750;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px
     }
-    .journal-entry.favorite { border-color:rgba(245,158,11,.45); }
-    .journal-entry-main { flex:1; min-width:0; cursor:pointer; }
-    .journal-entry-head { display:flex; align-items:center; gap:7px; margin-bottom:5px; }
-    .journal-entry-date { font-weight:850; font-size:12px; }
-    .journal-entry-preview {
-      color:var(--muted); font-size:11px; line-height:1.45; display:-webkit-box;
-      -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
+    .nav button b{font-size:20px;line-height:1}
+    .nav button.active{background:rgba(255,255,255,.12);color:#fff}
+    .modal-wrap{
+      position:fixed;inset:0;background:rgba(16,24,40,.48);backdrop-filter:blur(4px);
+      display:none;align-items:flex-end;justify-content:center;padding:18px;z-index:100
     }
-    .journal-entry-meta { color:var(--muted); font-size:9px; margin-top:6px; }
-    .journal-star {
-      border:0; background:transparent; color:var(--muted); font-size:20px; padding:3px; flex-shrink:0;
+    .modal-wrap.open{display:flex}
+    .modal{
+      width:min(560px,100%);max-height:min(88vh,760px);overflow:auto;background:#fff;
+      border-radius:25px;padding:22px;box-shadow:0 30px 80px rgba(16,24,40,.3);animation:sheet .2s ease
     }
-    .journal-star.active { color:var(--amber); }
-
-    .journal-reader-text {
-      white-space:pre-wrap; line-height:1.65; font-size:13px; background:var(--bg);
-      border:1px solid var(--border); border-radius:14px; padding:13px; min-height:140px;
+    @keyframes sheet{from{transform:translateY(15px);opacity:.5}}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+    .modal-head h3{margin:0;font-size:20px}
+    .modal-foot{display:flex;justify-content:flex-end;gap:9px;margin-top:20px}
+    .field{margin-bottom:14px}
+    .field label{display:block;margin-bottom:6px;font-size:12px;font-weight:800;color:#475467}
+    .field input,.field textarea,.field select{width:100%}
+    .field textarea{min-height:90px;resize:vertical}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .reader-date{color:var(--brand);font-size:12px;font-weight:850}
+    .reader-title{font-size:24px;margin:8px 0 15px}
+    .reader-body{white-space:pre-wrap;line-height:1.8;min-height:120px}
+    .toast{
+      position:fixed;left:50%;bottom:calc(var(--nav-h) + 28px);transform:translate(-50%,20px);
+      padding:11px 16px;background:#101828;color:#fff;border-radius:12px;opacity:0;
+      pointer-events:none;transition:.2s;z-index:200;box-shadow:var(--shadow)
     }
-    .journal-reader-meta { color:var(--muted); font-size:10px; margin:6px 0 12px; }
-
-    textarea {
-      width:100%; min-height:180px; resize:vertical; border:1px solid var(--border);
-      background:var(--card); color:var(--text); border-radius:15px; padding:13px; outline:none;
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:760px){
+      .app{padding:17px 14px calc(var(--nav-h) + 28px)}
+      .topbar{margin-bottom:19px}.brand p{display:none}
+      .hero{align-items:flex-start;flex-direction:column}.hero .btn{width:100%}
+      .grid,.goal-list,.journal-layout{grid-template-columns:1fr}
+      .progress-card{grid-template-columns:76px 1fr}.progress-ring{width:76px;height:76px}
+      .date-nav{width:100%}.date-nav input{flex:1;min-width:0}
+      .journal-layout{display:flex;flex-direction:column}.archive{order:-1}
+      .journal-body{min-height:250px}.ai-shell{min-height:calc(100vh - 180px)}
+      .bubble{max-width:88%}.modal-wrap{padding:0;align-items:flex-end}
+      .modal{border-radius:24px 24px 0 0;padding-bottom:calc(22px + env(safe-area-inset-bottom))}
+      .row{grid-template-columns:1fr}.nav{height:72px}
+      .nav button{font-size:10px}.nav button b{font-size:18px}
     }
-
-    .chat { max-height:420px; overflow:auto; margin-bottom:9px; }
-    .msg { padding:10px 11px; border-radius:13px; margin-bottom:7px; font-size:12px; line-height:1.5; white-space:pre-wrap; }
-    .msg.user { background:rgba(99,102,241,.12); }
-    .msg.ai { background:var(--card); border:1px solid var(--border); }
-    .ai-row { display:flex; gap:7px; }
-    .ai-row input {
-      flex:1; border:1px solid var(--border); background:var(--card); color:var(--text);
-      border-radius:13px; padding:12px; outline:none;
+    @media(prefers-reduced-motion:reduce){
+      *{scroll-behavior:auto!important;animation:none!important;transition:none!important}
     }
-    .ai-row button { width:48px; border:0; border-radius:13px; background:var(--primary); color:white; font-size:20px; }
-
-    .bottom-nav {
-      position:fixed; left:50%; transform:translateX(-50%); bottom:0; width:100%; max-width:560px;
-      background:var(--card); border-top:1px solid var(--border); padding:8px 8px calc(8px + env(safe-area-inset-bottom));
-      display:grid; grid-template-columns:repeat(5,1fr); z-index:20;
-    }
-    .nav-btn { border:0; background:transparent; color:var(--muted); font-size:9px; padding:5px 2px; }
-    .nav-btn span { display:block; font-size:20px; margin-bottom:2px; }
-    .nav-btn.active { color:var(--primary); font-weight:800; }
-
-    .modal-backdrop {
-      position:fixed; inset:0; background:rgba(15,23,42,.48); display:none; align-items:flex-end; justify-content:center;
-      z-index:50; padding:0;
-    }
-    .modal-backdrop.show { display:flex; }
-    .modal {
-      width:100%; max-width:560px; background:var(--card); border-radius:24px 24px 0 0;
-      padding:18px 15px calc(18px + env(safe-area-inset-bottom)); max-height:90vh; overflow:auto;
-    }
-    .modal-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
-    .modal-head h3 { margin:0; }
-    .close-btn { border:0; background:var(--bg); color:var(--text); width:34px; height:34px; border-radius:10px; }
-    .field { margin-bottom:11px; }
-    .field label { display:block; color:var(--muted); font-size:11px; margin-bottom:5px; }
-    .field input,.field select,.field textarea {
-      width:100%; border:1px solid var(--border); background:var(--bg); color:var(--text);
-      border-radius:12px; padding:11px; outline:none;
-    }
-    .field textarea { min-height:110px; }
-    .hint { color:var(--muted); font-size:9px; margin-top:4px; line-height:1.4; }
-    .modal-actions { display:flex; gap:8px; margin-top:14px; }
-    .primary-btn,.danger-btn,.ghost-btn { flex:1; border:0; border-radius:12px; padding:11px; font-weight:800; }
-    .primary-btn { background:var(--primary); color:white; }
-    .danger-btn { background:rgba(239,68,68,.12); color:var(--red); }
-    .ghost-btn { background:var(--bg); color:var(--text); }
-    .ai-step-btn {
-      width:100%; border:1px solid var(--border); background:rgba(99,102,241,.08); color:var(--primary);
-      border-radius:12px; padding:10px; font-weight:800; margin-top:4px;
-    }
-
-    .review-box {
-      background:rgba(245,158,11,.10); border:1px solid rgba(245,158,11,.35); border-radius:16px; padding:13px;
-      margin-bottom:12px;
-    }
-    .review-box strong { display:block; margin-bottom:4px; }
-    .review-box p { margin:0 0 10px; color:var(--muted); font-size:11px; line-height:1.4; }
-    .review-actions { display:flex; gap:7px; }
-    .review-actions button { flex:1; border:0; border-radius:10px; padding:9px; font-size:10px; font-weight:800; }
-
-    .toast {
-      position:fixed; left:50%; bottom:84px; transform:translateX(-50%) translateY(12px);
-      background:#111827; color:white; border-radius:11px; padding:10px 14px; font-size:12px;
-      opacity:0; pointer-events:none; transition:.25s; z-index:80;
-    }
-    .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
   </style>
 </head>
 
 <body>
-<div class="app">
-
-  <header class="topbar">
-    <div class="brand">
-      <h1>🚀 My Life Tracker</h1>
-      <p>Өдөр бүр 1% илүү сайн</p>
-    </div>
-    <button class="icon-btn" onclick="toggleDark()">🌙</button>
-  </header>
-
-  <section id="todayView" class="view active">
-    <div class="hero">
-      <div class="hero-date">
-        <button onclick="changeDate(-1)">‹</button>
-        <div id="dateDisplay" class="date-title"></div>
-        <button onclick="changeDate(1)">›</button>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">✦</div>
+        <div><h1>My Life Tracker</h1><p>Өдөр бүр 1% илүү сайн</p></div>
       </div>
-      <button class="today-btn" onclick="goToday()">📅 Өнөөдөр рүү буцах</button>
-    </div>
+      <div class="status" id="networkStatus"><i></i><span>Online</span></div>
+    </header>
 
-    <div class="card">
-      <div class="progress-head">
-        <strong>Өдрийн ахиц</strong>
-        <span id="progressPercent" class="progress-percent">0%</span>
+    <section class="page active" id="page-today" aria-labelledby="todayTitle">
+      <div class="hero">
+        <div><h2 id="todayTitle">Өнөөдөр</h2><p id="todaySubtitle"></p></div>
+        <button class="btn primary" data-add-task>＋ Task нэмэх</button>
       </div>
-      <div class="progress-bg"><div id="progressBar" class="progress-bar"></div></div>
-
-      <div class="mini-stats">
-        <div class="stat"><b id="doneTasks">0</b><span>Хийсэн</span></div>
-        <div class="stat"><b id="totalTasks">0</b><span>Нийт task</span></div>
-        <div class="stat"><b id="streak">0🔥</b><span>Streak</span></div>
+      <div id="todayDeadlineNotices"></div>
+      <div class="card card-pad progress-card">
+        <div class="progress-ring" id="todayRing"><strong id="todayPercent">0%</strong></div>
+        <div><h3>Өдрийн ахиц</h3><p id="todayProgressText">Өнөөдрийн ажлуудаа эхлүүлээрэй.</p></div>
       </div>
-    </div>
+      <div class="grid" id="todayPeriods"></div>
+    </section>
 
-    <div class="section-title"><h2>🌅 Өглөө</h2><small id="morningCount"></small></div>
-    <div id="morningTasks"></div>
-
-    <div class="section-title"><h2>☀️ Өдөр</h2><small id="dayCount"></small></div>
-    <div id="dayTasks"></div>
-
-    <div class="section-title"><h2>🌙 Орой</h2><small id="eveningCount"></small></div>
-    <div id="eveningTasks"></div>
-  </section>
-
-  <section id="plannerView" class="view">
-    <div class="section-title"><h2>📅 Planner</h2><small>7 хоног</small></div>
-    <div class="card"><div id="weekGrid" class="planner-grid"></div></div>
-
-    <div class="card">
-      <div class="progress-head">
-        <strong id="plannerDateTitle">Сонгосон өдөр</strong>
-        <span id="plannerProgress" class="progress-percent">0%</span>
+    <section class="page" id="page-planner" aria-labelledby="plannerTitle">
+      <div class="hero">
+        <div><h2 id="plannerTitle">Planner</h2><p>Ирээдүйн өдрөө тайван төлөвлө.</p></div>
+        <button class="btn primary" data-add-task>＋ Task нэмэх</button>
       </div>
-      <div class="progress-bg"><div id="plannerProgressBar" class="progress-bar"></div></div>
-    </div>
+      <div class="date-nav" style="margin-bottom:18px">
+        <button class="icon-btn" id="prevDate" aria-label="Өмнөх өдөр">‹</button>
+        <input type="date" id="plannerDate" aria-label="Төлөвлөх өдөр">
+        <button class="icon-btn" id="nextDate" aria-label="Дараагийн өдөр">›</button>
+        <button class="btn secondary small" id="goToday">Өнөөдөр</button>
+      </div>
+      <div class="card card-pad progress-card">
+        <div class="progress-ring" id="plannerRing"><strong id="plannerPercent">0%</strong></div>
+        <div><h3 id="plannerDateTitle">Сонгосон өдөр</h3><p id="plannerProgressText"></p></div>
+      </div>
+      <div class="grid" id="plannerPeriods"></div>
+    </section>
 
-    <div id="plannerTasks"></div>
-  </section>
+    <section class="page" id="page-goals" aria-labelledby="goalsTitle">
+      <div class="hero">
+        <div><h2 id="goalsTitle">Smart Goals</h2><p>Том зорилгоо жижиг, бодит алхмууд болго.</p></div>
+        <button class="btn primary" id="addGoal">＋ Зорилго нэмэх</button>
+      </div>
+      <div id="goalDeadlineNotices"></div>
+      <div class="filters" id="goalFilters" aria-label="Зорилгын шүүлтүүр"></div>
+      <div class="goal-list" id="goalList"></div>
+    </section>
 
-  <section id="goalsView" class="view">
-    <div class="section-title">
-      <h2>🎯 Smart Goals</h2>
-      <small id="goalCount">0 active</small>
-    </div>
-
-    <div id="goalReviewArea"></div>
-
-    <div class="goal-toolbar">
-      <button class="goal-filter active" data-filter="all" onclick="setGoalFilter('all',this)">Бүгд</button>
-      <button class="goal-filter" data-filter="week" onclick="setGoalFilter('week',this)">7 хоног</button>
-      <button class="goal-filter" data-filter="month" onclick="setGoalFilter('month',this)">Сар</button>
-      <button class="goal-filter" data-filter="year" onclick="setGoalFilter('year',this)">Жил</button>
-      <button class="goal-filter" data-filter="completed" onclick="setGoalFilter('completed',this)">Дууссан</button>
-    </div>
-
-    <div style="height:10px"></div>
-    <div id="goalsList"></div>
-  </section>
-
-  <section id="journalView" class="view">
-    <div class="section-title">
-      <h2>📝 Өдрийн тэмдэглэл</h2>
-      <small id="journalDate"></small>
-    </div>
-
-    <div class="card journal-editor-card">
-      <div class="journal-topline">
-        <strong id="journalEditorTitle">Өнөөдрийн тэмдэглэл</strong>
-        <span id="journalSaveStatus" class="journal-save-status">Хадгалагдсан</span>
+    <section class="page" id="page-journal" aria-labelledby="journalPageTitle">
+      <div class="hero">
+        <div><h2 id="journalPageTitle">Journal</h2><p>Бодол, сургамж, ялалтуудаа нэг дор хадгал.</p></div>
+        <button class="btn secondary" id="newTodayEntry">✍️ Өнөөдөр бичих</button>
       </div>
 
-      <textarea
-        id="journal"
-        placeholder="Өнөөдөр юу болсон бэ?
-Юу сурсан бэ?
-Юунд баярлав?
-Маргааш юуг илүү сайн хийх вэ?"
-        oninput="saveJournal()"
-      ></textarea>
+      <div class="journal-layout">
+        <article class="card editor">
+          <div class="editor-head">
+            <div class="date-nav">
+              <button class="icon-btn" id="journalPrev" aria-label="Өмнөх тэмдэглэл">‹</button>
+              <input type="date" id="journalDate" aria-label="Тэмдэглэлийн огноо">
+              <button class="icon-btn" id="journalNext" aria-label="Дараагийн тэмдэглэл">›</button>
+            </div>
+            <span class="save-state" id="journalSaveState">Хадгалагдсан</span>
+          </div>
 
-      <div class="journal-actions-row">
-        <button id="journalFavoriteBtn" onclick="toggleCurrentJournalFavorite()">☆ Favorite</button>
-        <button onclick="goTodayJournal()">📅 Өнөөдөр</button>
-        <button onclick="clearCurrentJournal()">🗑️ Устгах</button>
+          <input class="journal-title" id="journalTitle" maxlength="120" placeholder="Өнөөдрийн гарчиг…" aria-label="Тэмдэглэлийн гарчиг">
+          <textarea class="journal-body" id="journalBody" placeholder="Өнөөдөр юу болсон бэ? Юунд талархаж байна? Юу сурсан бэ?" aria-label="Тэмдэглэл"></textarea>
+
+          <div class="editor-footer">
+            <span id="journalWordCount">0 үг</span>
+            <button class="btn ghost small" id="toggleEditorFavorite">☆ Favorite</button>
+          </div>
+        </article>
+
+        <aside class="card archive">
+          <div class="section-head"><h3>Миний тэмдэглэлүүд</h3><span id="archiveCount">0 бичлэг</span></div>
+          <div class="stats">
+            <div class="stat"><strong id="statDays">0</strong><span>энэ сард</span></div>
+            <div class="stat"><strong id="statWords">0</strong><span>нийт үг</span></div>
+            <div class="stat"><strong id="statFavorites">0</strong><span>favorite</span></div>
+          </div>
+          <div class="archive-tools">
+            <input class="search" id="journalSearch" type="search" placeholder="🔎 Тэмдэглэл хайх…" aria-label="Тэмдэглэл хайх">
+            <button class="icon-btn" id="favoriteFilter" aria-label="Зөвхөн favorite">☆</button>
+          </div>
+          <div class="entry-list" id="entryList"></div>
+        </aside>
       </div>
-    </div>
+    </section>
 
-    <div class="section-title">
-      <h2>📚 Миний тэмдэглэлүүд</h2>
-      <small id="journalArchiveCount">0</small>
-    </div>
-
-    <div class="journal-stats">
-      <div class="journal-stat">
-        <b id="journalMonthCount">0</b>
-        <span>Энэ сард</span>
+    <section class="page" id="page-ai" aria-labelledby="aiPageTitle">
+      <div class="hero">
+        <div><h2 id="aiPageTitle">AI Coach</h2><p>Төлөвлөгөө, зорилго, дадалдаа ухаалаг тусламж ав.</p></div>
       </div>
-      <div class="journal-stat">
-        <b id="journalFavoriteCount">0⭐</b>
-        <span>Favorite</span>
+      <div class="card ai-shell">
+        <div class="ai-head"><h3>🤖 Таны хувийн coach</h3><button class="btn ghost small" id="clearChat">Цэвэрлэх</button></div>
+        <div class="messages" id="messages" aria-live="polite"></div>
+        <form class="ai-form" id="aiForm">
+          <textarea id="aiInput" rows="1" placeholder="Надад өнөөдрийн төлөвлөгөө гаргаж өг…" aria-label="AI-д бичих"></textarea>
+          <button class="btn primary" id="sendAi" type="submit">Илгээх</button>
+        </form>
       </div>
-      <div class="journal-stat">
-        <b id="journalWordCount">0</b>
-        <span>Нийт үг</span>
+    </section>
+  </main>
+
+  <nav class="nav" aria-label="Үндсэн цэс">
+    <button class="active" data-page="today"><b>🏠</b><span>Өнөөдөр</span></button>
+    <button data-page="planner"><b>📅</b><span>Planner</span></button>
+    <button data-page="goals"><b>🎯</b><span>Зорилго</span></button>
+    <button data-page="journal"><b>📝</b><span>Journal</span></button>
+    <button data-page="ai"><b>🤖</b><span>AI Coach</span></button>
+  </nav>
+
+  <div class="modal-wrap" id="taskModal" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="taskModalTitle">Task нэмэх</h3>
+        <button class="icon-btn" data-close="taskModal" aria-label="Хаах">×</button>
       </div>
-    </div>
-
-    <input
-      id="journalSearch"
-      class="journal-search"
-      placeholder="🔍 Тэмдэглэл хайх..."
-      oninput="renderJournalArchive()"
-    />
-
-    <div id="journalArchive"></div>
-  </section>
-
-  <section id="aiView" class="view">
-    <div class="section-title"><h2>🤖 AI Coach</h2><small>My Life Tracker</small></div>
-    <div class="card">
-      <div id="chat" class="chat"></div>
-      <div class="ai-row">
-        <input id="aiInput" placeholder="Жишээ: Өнөөдөр юу хийх вэ?" onkeydown="if(event.key==='Enter') askAI()" />
-        <button id="aiBtn" onclick="askAI()">→</button>
-      </div>
-    </div>
-  </section>
-</div>
-
-<button class="fab" id="fab" onclick="fabAction()">+</button>
-
-<nav class="bottom-nav">
-  <button class="nav-btn active" data-view="today" onclick="switchView('today',this)"><span>🏠</span>Өнөөдөр</button>
-  <button class="nav-btn" data-view="planner" onclick="switchView('planner',this)"><span>📅</span>Planner</button>
-  <button class="nav-btn" data-view="goals" onclick="switchView('goals',this)"><span>🎯</span>Зорилго</button>
-  <button class="nav-btn" data-view="journal" onclick="switchView('journal',this)"><span>📝</span>Тэмдэглэл</button>
-  <button class="nav-btn" data-view="ai" onclick="switchView('ai',this)"><span>🤖</span>AI</button>
-</nav>
-
-<!-- TASK MODAL -->
-<div id="taskModal" class="modal-backdrop" onclick="if(event.target===this) closeTaskModal()">
-  <div class="modal">
-    <div class="modal-head">
-      <h3 id="taskModalTitle">➕ Task нэмэх</h3>
-      <button class="close-btn" onclick="closeTaskModal()">✕</button>
-    </div>
-    <div class="field"><label>Task нэр</label><input id="taskName" placeholder="Жишээ: Python 30 минут" /></div>
-    <div class="field"><label>Цаг</label><input id="taskTime" type="time" /></div>
-    <div class="field">
-      <label>Үе</label>
-      <select id="taskPeriod">
-        <option value="morning">🌅 Өглөө</option>
-        <option value="day">☀️ Өдөр</option>
-        <option value="evening">🌙 Орой</option>
-      </select>
-    </div>
-    <div class="field">
-      <label>Давталт</label>
-      <select id="taskRepeat">
-        <option value="once">Нэг удаа</option>
-        <option value="daily">🔁 Өдөр бүр</option>
-      </select>
-    </div>
-    <div class="modal-actions">
-      <button id="deleteTaskBtn" class="danger-btn" onclick="deleteEditingTask()" style="display:none">Устгах</button>
-      <button class="primary-btn" onclick="saveTask()">Хадгалах</button>
+      <form id="taskForm">
+        <input type="hidden" id="taskId">
+        <div class="field"><label for="taskName">Task-ийн нэр</label><input id="taskName" maxlength="100" required placeholder="Жишээ: 30 минут ном унших"></div>
+        <div class="row">
+          <div class="field"><label for="taskDate">Өдөр</label><input type="date" id="taskDate" required></div>
+          <div class="field"><label for="taskTime">Цаг</label><input type="time" id="taskTime"></div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="taskPeriod">Үе</label>
+            <select id="taskPeriod">
+              <option value="morning">🌅 Өглөө</option>
+              <option value="day">☀️ Өдөр</option>
+              <option value="evening">🌙 Орой</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="taskRepeat">Давталт</label>
+            <select id="taskRepeat">
+              <option value="once">Нэг удаа</option>
+              <option value="daily">Өдөр бүр</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-foot">
+          <button type="button" class="btn danger" id="deleteTask" hidden>Устгах</button>
+          <button type="button" class="btn secondary" data-close="taskModal">Болих</button>
+          <button class="btn primary" type="submit">Хадгалах</button>
+        </div>
+      </form>
     </div>
   </div>
-</div>
 
-<!-- GOAL MODAL -->
-<div id="goalModal" class="modal-backdrop" onclick="if(event.target===this) closeGoalModal()">
-  <div class="modal">
-    <div class="modal-head">
-      <h3 id="goalModalTitle">🎯 Шинэ зорилго</h3>
-      <button class="close-btn" onclick="closeGoalModal()">✕</button>
-    </div>
-
-    <div class="field">
-      <label>Зорилгын нэр</label>
-      <input id="goalName" placeholder="Жишээ: 1 сарын дотор Python-ийн суурь сурах" />
-    </div>
-
-    <div class="field">
-      <label>Хугацаа</label>
-      <select id="goalDuration" onchange="updateGoalEndDate()">
-        <option value="7">7 хоног</option>
-        <option value="30">1 сар</option>
-        <option value="90">3 сар</option>
-        <option value="365">1 жил</option>
-        <option value="custom">Өөрийн огноо</option>
-      </select>
-    </div>
-
-    <div class="field">
-      <label>Эхлэх өдөр</label>
-      <input id="goalStart" type="date" onchange="updateGoalEndDate()" />
-    </div>
-
-    <div class="field">
-      <label>Дуусах өдөр</label>
-      <input id="goalEnd" type="date" />
-    </div>
-
-    <div class="field">
-      <label>Зорилгод хүрэх алхмууд</label>
-      <textarea id="goalSteps" placeholder="Алхам бүрийг шинэ мөрөнд бич:
-Python суулгах
-Variables сурах
-if/else сурах
-Жижиг project хийх"></textarea>
-      <div class="hint">Алхам бүрийг шинэ мөрөөр тусгаарлана. Хадгалсны дараа checkbox болно.</div>
-    </div>
-
-    <button class="ai-step-btn" id="goalAiBtn" onclick="generateGoalSteps()">🤖 AI-аар алхам санал болгох</button>
-
-    <div class="modal-actions">
-      <button id="deleteGoalBtn" class="danger-btn" onclick="deleteEditingGoal()" style="display:none">Устгах</button>
-      <button class="primary-btn" onclick="saveGoal()">Хадгалах</button>
+  <div class="modal-wrap" id="goalModal" role="dialog" aria-modal="true" aria-labelledby="goalModalTitle">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="goalModalTitle">Зорилго нэмэх</h3>
+        <button class="icon-btn" data-close="goalModal" aria-label="Хаах">×</button>
+      </div>
+      <form id="goalForm">
+        <input type="hidden" id="goalId">
+        <div class="field"><label for="goalName">Зорилгын нэр</label><input id="goalName" maxlength="120" required placeholder="Жишээ: 1 сарын дотор Python сурах"></div>
+        <div class="row">
+          <div class="field"><label for="goalStart">Эхлэх өдөр</label><input type="date" id="goalStart" required></div>
+          <div class="field"><label for="goalDeadline">Дуусах өдөр</label><input type="date" id="goalDeadline" required></div>
+        </div>
+        <div class="field">
+          <label for="goalPreset">Хугацааг хурдан сонгох</label>
+          <select id="goalPreset">
+            <option value="custom">Өөрийн огноо</option>
+            <option value="7">7 хоног</option>
+            <option value="30">1 сар</option>
+            <option value="90">3 сар</option>
+            <option value="365">1 жил</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="goalSteps">Алхамууд — мөр бүрт нэг</label>
+          <textarea id="goalSteps" placeholder="Судлах сэдвээ жагсаах&#10;Өдөр бүр 30 минут давтах&#10;Жижиг төсөл хийх"></textarea>
+        </div>
+        <button class="btn secondary" id="goalAiSteps" type="button">🤖 AI-аар алхам санал болгох</button>
+        <div class="modal-foot">
+          <button type="button" class="btn danger" id="deleteGoal" hidden>Устгах</button>
+          <button type="button" class="btn secondary" data-close="goalModal">Болих</button>
+          <button class="btn primary" type="submit">Хадгалах</button>
+        </div>
+      </form>
     </div>
   </div>
-</div>
 
-
-<!-- JOURNAL READER MODAL -->
-<div id="journalReaderModal" class="modal-backdrop" onclick="if(event.target===this) closeJournalReader()">
-  <div class="modal">
-    <div class="modal-head">
-      <h3 id="journalReaderTitle">📝 Тэмдэглэл</h3>
-      <button class="close-btn" onclick="closeJournalReader()">✕</button>
-    </div>
-
-    <div id="journalReaderMeta" class="journal-reader-meta"></div>
-    <div id="journalReaderText" class="journal-reader-text"></div>
-
-    <div class="modal-actions">
-      <button id="journalReaderFavoriteBtn" class="ghost-btn" onclick="toggleReaderFavorite()">☆ Favorite</button>
-      <button class="ghost-btn" onclick="editReaderJournal()">✏️ Засах</button>
-      <button class="danger-btn" onclick="deleteReaderJournal()">🗑️ Устгах</button>
+  <div class="modal-wrap" id="readerModal" role="dialog" aria-modal="true" aria-labelledby="readerTitle">
+    <div class="modal">
+      <div class="modal-head">
+        <div><div class="reader-date" id="readerDate"></div><h3 class="reader-title" id="readerTitle"></h3></div>
+        <button class="icon-btn" data-close="readerModal" aria-label="Хаах">×</button>
+      </div>
+      <div class="reader-body" id="readerBody"></div>
+      <div class="modal-foot">
+        <button class="btn danger" id="readerDelete">🗑️ Устгах</button>
+        <button class="btn secondary" id="readerFavorite">☆ Favorite</button>
+        <button class="btn primary" id="readerEdit">✏️ Засах</button>
+      </div>
     </div>
   </div>
-</div>
 
-<div id="toast" class="toast"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script>
-const STORAGE_KEY = "mlt_v4";
-const LEGACY_KEY = "mlt_v3";
+  <script>
+  (() => {
+    'use strict';
 
-let state = loadJSON(STORAGE_KEY,null);
-if(!state){
-  const old = loadJSON(LEGACY_KEY,{days:{},templates:[]});
-  state = {days:old.days||{}, templates:old.templates||[], goals:[]};
-}
-if(!Array.isArray(state.goals)) state.goals=[];
+    const KEY = 'myLifeTracker.v4';
+    const $ = (q, root=document) => root.querySelector(q);
+    const $$ = (q, root=document) => [...root.querySelectorAll(q)];
+    const uid = (p='id') => `${p}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,8)}`;
 
-let selectedDate = new Date();
-let editingTaskId = null;
-let editingGoalId = null;
-let currentView = "today";
-let goalFilter = "all";
+    const localDate = (d=new Date()) => {
+      const x = new Date(d);
+      x.setMinutes(x.getMinutes() - x.getTimezoneOffset());
+      return x.toISOString().slice(0,10);
+    };
 
-function loadJSON(key,fallback){
-  try {
-    const v = localStorage.getItem(key);
-    return v ? JSON.parse(v) : fallback;
-  } catch { return fallback; }
-}
-function persist(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(state)); }
-function dateKey(date){
-  const y=date.getFullYear();
-  const m=String(date.getMonth()+1).padStart(2,"0");
-  const d=String(date.getDate()).padStart(2,"0");
-  return `${y}-${m}-${d}`;
-}
-function getDay(key){
-  if(!state.days[key]) state.days[key]={tasks:[],journal:"",journalFavorite:false,journalUpdatedAt:""};
-  if(!Array.isArray(state.days[key].tasks)) state.days[key].tasks=[];
-  if(typeof state.days[key].journal!=="string") state.days[key].journal="";
-  if(typeof state.days[key].journalFavorite!=="boolean") state.days[key].journalFavorite=false;
-  if(typeof state.days[key].journalUpdatedAt!=="string") state.days[key].journalUpdatedAt="";
-  return state.days[key];
-}
-function clone(obj){ return JSON.parse(JSON.stringify(obj)); }
-function todayKey(){ return dateKey(new Date()); }
+    const today = () => localDate();
+    const addDays = (iso,n) => {
+      const d = new Date(iso + 'T12:00:00');
+      d.setDate(d.getDate() + n);
+      return localDate(d);
+    };
+    const prettyDate = iso => new Intl.DateTimeFormat('mn-MN',{
+      year:'numeric',month:'long',day:'numeric',weekday:'short'
+    }).format(new Date(iso+'T12:00:00'));
+    const shortDate = iso => new Intl.DateTimeFormat('mn-MN',{
+      month:'short',day:'numeric'
+    }).format(new Date(iso+'T12:00:00'));
+    const words = s => (s||'').trim().split(/\s+/).filter(Boolean).length;
+    const esc = s => String(s||'').replace(/[&<>'"]/g,c=>({
+      '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'
+    }[c]));
+    const readJSON = key => {
+      try { return JSON.parse(localStorage.getItem(key)); }
+      catch { return null; }
+    };
 
-function ensureStarterTemplates(){
-  if(state.templates.length) return;
-  state.templates = [
-    {id:"tpl1",name:"Ороо хураах",time:"07:10",period:"morning",repeat:"daily"},
-    {id:"tpl2",name:"Өглөө шүдээ угаах",time:"07:15",period:"morning",repeat:"daily"},
-    {id:"tpl3",name:"Ус уух",time:"07:20",period:"morning",repeat:"daily"},
-    {id:"tpl4",name:"Хичээл давтах",time:"17:00",period:"day",repeat:"daily"},
-    {id:"tpl5",name:"Орой шүдээ угаах",time:"22:00",period:"evening",repeat:"daily"},
-    {id:"tpl6",name:"Өдрийн тэмдэглэл",time:"22:15",period:"evening",repeat:"daily"},
-    {id:"tpl7",name:"Унтахад бэлдэх",time:"22:45",period:"evening",repeat:"daily"}
-  ];
-  persist();
-}
-
-function tasksForDate(key){
-  const day = getDay(key);
-  const recurring = state.templates.map(t=>({
-    ...clone(t),
-    id:`${t.id}_${key}`,
-    templateId:t.id,
-    recurring:true,
-    done:!!day.tasks.find(x=>x.templateId===t.id)?.done
-  }));
-  const once = day.tasks.filter(t=>!t.templateId);
-  return [...recurring,...once].sort((a,b)=>(a.time||"99:99").localeCompare(b.time||"99:99"));
-}
-
-function setTaskDone(task){
-  const key=dateKey(selectedDate);
-  const day=getDay(key);
-  if(task.recurring){
-    const existing=day.tasks.find(x=>x.templateId===task.templateId);
-    if(existing) existing.done=!existing.done;
-    else day.tasks.push({id:crypto.randomUUID(),templateId:task.templateId,done:true});
-  } else {
-    const existing=day.tasks.find(x=>x.id===task.id);
-    if(existing) existing.done=!existing.done;
-  }
-  persist(); renderAll();
-}
-
-function taskCard(task){
-  const meta=[
-    task.repeat==="daily"||task.recurring ? "🔁 Өдөр бүр" : "Нэг удаа",
-    task.period==="morning"?"🌅 Өглөө":task.period==="day"?"☀️ Өдөр":"🌙 Орой"
-  ].join(" · ");
-
-  return `<div class="task ${task.done?"done":""}">
-    <div class="task-check" onclick='toggleTaskFromId(${JSON.stringify(task.id)})'>${task.done?"✓":""}</div>
-    <div class="task-main">
-      <div class="task-top"><span class="task-time">${escapeHTML(task.time||"--:--")}</span><span class="task-name">${escapeHTML(task.name)}</span></div>
-      <div class="task-meta">${meta}</div>
-    </div>
-    <div class="task-actions"><button onclick='editTaskById(${JSON.stringify(task.id)})'>✏️</button></div>
-  </div>`;
-}
-function findRenderedTask(id){ return tasksForDate(dateKey(selectedDate)).find(t=>t.id===id); }
-function toggleTaskFromId(id){ const task=findRenderedTask(id); if(task) setTaskDone(task); }
-function editTaskById(id){
-  const task=findRenderedTask(id); if(!task) return;
-  editingTaskId=id;
-  document.getElementById("taskModalTitle").textContent="✏️ Task засах";
-  document.getElementById("taskName").value=task.name;
-  document.getElementById("taskTime").value=task.time||"";
-  document.getElementById("taskPeriod").value=task.period;
-  document.getElementById("taskRepeat").value=task.recurring||task.repeat==="daily"?"daily":"once";
-  document.getElementById("deleteTaskBtn").style.display="block";
-  document.getElementById("taskModal").classList.add("show");
-}
-function openTaskModal(){
-  editingTaskId=null;
-  document.getElementById("taskModalTitle").textContent="➕ Task нэмэх";
-  document.getElementById("taskName").value="";
-  document.getElementById("taskTime").value="";
-  document.getElementById("taskPeriod").value="morning";
-  document.getElementById("taskRepeat").value="once";
-  document.getElementById("deleteTaskBtn").style.display="none";
-  document.getElementById("taskModal").classList.add("show");
-}
-function closeTaskModal(){ document.getElementById("taskModal").classList.remove("show"); }
-function saveTask(){
-  const name=document.getElementById("taskName").value.trim();
-  const time=document.getElementById("taskTime").value;
-  const period=document.getElementById("taskPeriod").value;
-  const repeat=document.getElementById("taskRepeat").value;
-  if(!name){ toast("Task нэрээ бичээрэй"); return; }
-
-  const key=dateKey(selectedDate), day=getDay(key);
-  if(editingTaskId){
-    const old=findRenderedTask(editingTaskId);
-    if(old){
-      if(old.recurring){
-        state.templates=state.templates.filter(t=>t.id!==old.templateId);
-        day.tasks=day.tasks.filter(x=>x.templateId!==old.templateId);
-      } else day.tasks=day.tasks.filter(x=>x.id!==old.id);
+    function initialState(){
+      return {
+        version:4,
+        tasks:[],
+        goals:[],
+        journal:{},
+        chat:[{
+          role:'ai',
+          text:'Сайн уу! Би таны AI Coach. Өнөөдрийн төлөвлөгөө, зорилго эсвэл дадлын талаар юугаар туслах вэ?'
+        }],
+        settings:{goalFilter:'all'}
+      };
     }
-  }
-  if(repeat==="daily") state.templates.push({id:crypto.randomUUID(),name,time,period,repeat:"daily"});
-  else day.tasks.push({id:crypto.randomUUID(),name,time,period,repeat:"once",done:false});
 
-  persist(); closeTaskModal(); renderAll(); toast("✅ Хадгаллаа");
-}
-function deleteEditingTask(){
-  if(!editingTaskId) return;
-  const key=dateKey(selectedDate), day=getDay(key), task=findRenderedTask(editingTaskId);
-  if(!task) return;
-  if(task.recurring){
-    state.templates=state.templates.filter(t=>t.id!==task.templateId);
-    Object.values(state.days).forEach(d=>{ d.tasks=(d.tasks||[]).filter(x=>x.templateId!==task.templateId); });
-  } else day.tasks=day.tasks.filter(x=>x.id!==task.id);
-  persist(); closeTaskModal(); renderAll(); toast("🗑️ Устгалаа");
-}
+    function normalizeTask(t){
+      const date = t.date || t.startDate || today();
+      const doneDates = {...(t.doneDates||{})};
+      if(t.completed || t.done) doneDates[date] = true;
 
-function renderToday(){
-  const key=dateKey(selectedDate), tasks=tasksForDate(key);
-  const buckets={morning:[],day:[],evening:[]};
-  tasks.forEach(t=>buckets[t.period]?.push(t));
-  document.getElementById("dateDisplay").textContent=selectedDate.toLocaleDateString("mn-MN",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
-  renderBucket("morningTasks",buckets.morning);
-  renderBucket("dayTasks",buckets.day);
-  renderBucket("eveningTasks",buckets.evening);
-  document.getElementById("morningCount").textContent=`${buckets.morning.filter(x=>x.done).length}/${buckets.morning.length}`;
-  document.getElementById("dayCount").textContent=`${buckets.day.filter(x=>x.done).length}/${buckets.day.length}`;
-  document.getElementById("eveningCount").textContent=`${buckets.evening.filter(x=>x.done).length}/${buckets.evening.length}`;
-  const done=tasks.filter(t=>t.done).length, total=tasks.length, pct=total?Math.round(done/total*100):0;
-  document.getElementById("progressPercent").textContent=pct+"%";
-  document.getElementById("progressBar").style.width=pct+"%";
-  document.getElementById("doneTasks").textContent=done;
-  document.getElementById("totalTasks").textContent=total;
-  document.getElementById("streak").textContent=getStreak()+"🔥";
-}
-function renderBucket(id,list){
-  document.getElementById(id).innerHTML=list.length?list.map(taskCard).join(""):`<div class="empty">Энд task алга. + дарж нэмээрэй.</div>`;
-}
-function renderPlanner(){
-  const week=[], base=new Date(selectedDate);
-  for(let i=-3;i<=3;i++){ const d=new Date(base); d.setDate(base.getDate()+i); week.push(d); }
-  document.getElementById("weekGrid").innerHTML=week.map(d=>{
-    const active=dateKey(d)===dateKey(selectedDate);
-    return `<button class="day-chip ${active?"active":""}" onclick="selectDate('${dateKey(d)}')"><span>${d.toLocaleDateString("mn-MN",{weekday:"short"})}</span><b>${d.getDate()}</b></button>`;
-  }).join("");
-  const tasks=tasksForDate(dateKey(selectedDate)), done=tasks.filter(t=>t.done).length, pct=tasks.length?Math.round(done/tasks.length*100):0;
-  document.getElementById("plannerDateTitle").textContent=selectedDate.toLocaleDateString("mn-MN",{month:"long",day:"numeric"});
-  document.getElementById("plannerProgress").textContent=pct+"%";
-  document.getElementById("plannerProgressBar").style.width=pct+"%";
-  document.getElementById("plannerTasks").innerHTML=tasks.length?tasks.map(taskCard).join(""):`<div class="empty">Энэ өдөр task алга.</div>`;
-}
+      return {
+        id:t.id || uid('task'),
+        title:t.title || t.name || 'Task',
+        date,
+        period:['morning','day','evening'].includes(t.period)
+          ? t.period
+          : (t.category==='Өглөө' ? 'morning' : t.category==='Орой' ? 'evening' : 'day'),
+        time:t.time || '',
+        repeat:(t.repeat==='daily' || t.recurring===true) ? 'daily' : 'once',
+        doneDates
+      };
+    }
 
-/* SMART GOALS */
-function openGoalModal(goalId=null){
-  editingGoalId=goalId;
-  const today=todayKey();
-  document.getElementById("goalModalTitle").textContent=goalId?"✏️ Зорилго засах":"🎯 Шинэ зорилго";
-  document.getElementById("deleteGoalBtn").style.display=goalId?"block":"none";
+    function normalizeGoal(g){
+      const start = g.start || g.startDate || today();
+      const deadline = g.deadline || g.endDate || addDays(start,30);
+      const raw = Array.isArray(g.steps) ? g.steps : [];
 
-  if(goalId){
-    const g=state.goals.find(x=>x.id===goalId);
-    if(!g) return;
-    document.getElementById("goalName").value=g.name;
-    document.getElementById("goalDuration").value=g.durationPreset||"custom";
-    document.getElementById("goalStart").value=g.startDate;
-    document.getElementById("goalEnd").value=g.endDate;
-    document.getElementById("goalSteps").value=(g.steps||[]).map(s=>s.text).join("\n");
-  } else {
-    document.getElementById("goalName").value="";
-    document.getElementById("goalDuration").value="30";
-    document.getElementById("goalStart").value=today;
-    document.getElementById("goalSteps").value="";
-    updateGoalEndDate();
-  }
-  document.getElementById("goalModal").classList.add("show");
-}
-function closeGoalModal(){ document.getElementById("goalModal").classList.remove("show"); }
+      return {
+        id:g.id || uid('goal'),
+        title:g.title || g.name || 'Зорилго',
+        start,
+        deadline,
+        completed:!!g.completed,
+        reviewed:!!g.reviewed,
+        steps:raw.map(s => typeof s === 'string'
+          ? {id:uid('step'),text:s,done:false}
+          : {
+              id:s.id || uid('step'),
+              text:s.text || s.title || '',
+              done:!!(s.done || s.completed)
+            }
+        )
+      };
+    }
 
-function updateGoalEndDate(){
-  const preset=document.getElementById("goalDuration").value;
-  const start=document.getElementById("goalStart").value||todayKey();
-  const endInput=document.getElementById("goalEnd");
-  if(preset==="custom"){ endInput.disabled=false; return; }
-  const d=new Date(start+"T12:00:00");
-  d.setDate(d.getDate()+Number(preset));
-  endInput.value=dateKey(d);
-  endInput.disabled=true;
-}
+    function hasMeaningfulData(s){
+      if(!s || typeof s !== 'object') return false;
+      return (Array.isArray(s.tasks) && s.tasks.length) ||
+             (Array.isArray(s.goals) && s.goals.length) ||
+             (s.journal && typeof s.journal === 'object' && Object.keys(s.journal).length);
+    }
 
-function saveGoal(){
-  const name=document.getElementById("goalName").value.trim();
-  const durationPreset=document.getElementById("goalDuration").value;
-  const startDate=document.getElementById("goalStart").value;
-  const endDate=document.getElementById("goalEnd").value;
-  const stepLines=document.getElementById("goalSteps").value.split("\n").map(x=>x.trim()).filter(Boolean);
+    // Converts the older mlt_v4/mlt_v3 structure without losing tasks, goals or journals.
+    function migrateMltState(old){
+      const out = initialState();
+      if(!old || typeof old !== 'object') return out;
 
-  if(!name){ toast("Зорилгын нэрээ бичээрэй"); return; }
-  if(!startDate||!endDate){ toast("Огноогоо сонгоорой"); return; }
+      const days = old.days && typeof old.days === 'object' ? old.days : {};
+      const templates = Array.isArray(old.templates) ? old.templates : [];
 
-  if(editingGoalId){
-    const g=state.goals.find(x=>x.id===editingGoalId);
-    if(!g) return;
-    const oldDone=new Map((g.steps||[]).map(s=>[s.text,s.done]));
-    g.name=name; g.durationPreset=durationPreset; g.startDate=startDate; g.endDate=endDate;
-    g.steps=stepLines.map(text=>({id:crypto.randomUUID(),text,done:oldDone.get(text)||false}));
-    g.reviewed=false;
-  } else {
-    state.goals.push({
-      id:crypto.randomUUID(),
-      name,
-      durationPreset,
-      startDate,
-      endDate,
-      steps:stepLines.map(text=>({id:crypto.randomUUID(),text,done:false})),
-      completed:false,
-      reviewed:false,
-      createdAt:new Date().toISOString()
+      // Daily recurring templates.
+      templates.forEach(tpl => {
+        const doneDates = {};
+        Object.entries(days).forEach(([date,day]) => {
+          const hit = Array.isArray(day?.tasks)
+            ? day.tasks.find(x => x.templateId === tpl.id && x.done)
+            : null;
+          if(hit) doneDates[date] = true;
+        });
+
+        out.tasks.push({
+          id:tpl.id || uid('task'),
+          title:tpl.name || tpl.title || 'Task',
+          date:old.createdAt?.slice?.(0,10) || today(),
+          period:['morning','day','evening'].includes(tpl.period) ? tpl.period : 'day',
+          time:tpl.time || '',
+          repeat:'daily',
+          doneDates
+        });
+      });
+
+      // One-time tasks and journals from each day.
+      Object.entries(days).forEach(([date,day]) => {
+        if(!/^\d{4}-\d{2}-\d{2}$/.test(date) || !day) return;
+
+        if(Array.isArray(day.tasks)){
+          day.tasks
+            .filter(t => !t.templateId && (t.name || t.title))
+            .forEach(t => {
+              out.tasks.push({
+                id:t.id || uid('task'),
+                title:t.name || t.title || 'Task',
+                date,
+                period:['morning','day','evening'].includes(t.period) ? t.period : 'day',
+                time:t.time || '',
+                repeat:'once',
+                doneDates:{[date]:!!t.done}
+              });
+            });
+        }
+
+        const journalText = typeof day.journal === 'string'
+          ? day.journal
+          : (day.note || day.text || '');
+
+        if(String(journalText).trim()){
+          out.journal[date] = {
+            date,
+            title:day.journalTitle || '',
+            body:String(journalText),
+            favorite:!!day.journalFavorite,
+            createdAt:day.journalCreatedAt || Date.now(),
+            updatedAt:day.journalUpdatedAt
+              ? new Date(day.journalUpdatedAt).getTime()
+              : Date.now()
+          };
+        }
+      });
+
+      if(Array.isArray(old.goals)) out.goals = old.goals.map(normalizeGoal);
+      return out;
+    }
+
+    function migrate(){
+      const current = readJSON(KEY);
+      if(hasMeaningfulData(current)){
+        return {
+          ...initialState(),
+          ...current,
+          settings:{...initialState().settings,...(current.settings||{})}
+        };
+      }
+
+      // IMPORTANT: previous versions used these exact keys.
+      const mlt4 = readJSON('mlt_v4');
+      if(mlt4){
+        const migrated = migrateMltState(mlt4);
+        if(hasMeaningfulData(migrated)) return migrated;
+      }
+
+      const mlt3 = readJSON('mlt_v3');
+      if(mlt3){
+        const migrated = migrateMltState(mlt3);
+        if(hasMeaningfulData(migrated)) return migrated;
+      }
+
+      const legacy =
+        readJSON('mltState') ||
+        readJSON('mltData') ||
+        readJSON('mlt-data') ||
+        readJSON('lifeTrackerV2') ||
+        readJSON('lifeTrackerData') ||
+        readJSON('myLifeTracker') ||
+        readJSON('myLifeTrackerData') ||
+        {};
+
+      const out = initialState();
+
+      const oldTasks = legacy.tasks || readJSON('tasks') || [];
+      if(Array.isArray(oldTasks)) out.tasks = oldTasks.map(normalizeTask);
+
+      const oldGoals = legacy.goals || readJSON('goals') || [];
+      if(Array.isArray(oldGoals)) out.goals = oldGoals.map(normalizeGoal);
+
+      const oldJournal =
+        legacy.journal ||
+        legacy.journals ||
+        readJSON('journalEntries') ||
+        readJSON('journal') ||
+        {};
+
+      if(Array.isArray(oldJournal)){
+        oldJournal.forEach(e => {
+          const date = e.date || today();
+          out.journal[date] = {
+            date,
+            title:e.title || '',
+            body:e.body || e.text || e.content || '',
+            favorite:!!e.favorite,
+            createdAt:e.createdAt || Date.now(),
+            updatedAt:e.updatedAt || Date.now()
+          };
+        });
+      } else if(oldJournal && typeof oldJournal === 'object'){
+        Object.entries(oldJournal).forEach(([date,e]) => {
+          out.journal[date] = {
+            date,
+            title:typeof e === 'object' ? (e.title || '') : '',
+            body:typeof e === 'string' ? e : (e.body || e.text || e.content || e.note || ''),
+            favorite:!!(e && e.favorite),
+            createdAt:(e && e.createdAt) || Date.now(),
+            updatedAt:(e && e.updatedAt) || Date.now()
+          };
+        });
+      }
+
+      const firstVersion = readJSON('lifeTrackerDB');
+      if(firstVersion && typeof firstVersion === 'object'){
+        Object.entries(firstVersion).forEach(([date,day]) => {
+          if(/^\d{4}-\d{2}-\d{2}$/.test(date) && day?.note && !out.journal[date]){
+            out.journal[date] = {
+              date,title:'',body:String(day.note),favorite:false,
+              createdAt:Date.now(),updatedAt:Date.now()
+            };
+          }
+        });
+      }
+
+      return out;
+    }
+
+    let state = migrate();
+    let selectedPlanner = today();
+    let selectedJournal = today();
+    let goalFilter = state.settings.goalFilter || 'all';
+    let favoritesOnly = false;
+    let readerDate = null;
+    let saveTimer = null;
+
+    function save(){ localStorage.setItem(KEY,JSON.stringify(state)); }
+    save();
+
+    function toast(msg){
+      const el = $('#toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(toast.t);
+      toast.t = setTimeout(() => el.classList.remove('show'),2200);
+    }
+
+    function openModal(id){
+      $('#'+id).classList.add('open');
+      setTimeout(() => $('#'+id+' input:not([type=hidden]),#'+id+' textarea,#'+id+' button')?.focus(),30);
+    }
+
+    function closeModal(id){ $('#'+id).classList.remove('open'); }
+
+    $$('[data-close]').forEach(b => b.addEventListener('click',() => closeModal(b.dataset.close)));
+    $$('.modal-wrap').forEach(m => m.addEventListener('click',e => {
+      if(e.target === m) closeModal(m.id);
+    }));
+    document.addEventListener('keydown',e => {
+      if(e.key === 'Escape') $$('.modal-wrap.open').forEach(m => closeModal(m.id));
     });
-  }
 
-  persist(); closeGoalModal(); renderGoals(); toast("🎯 Зорилго хадгалагдлаа");
-}
+    const periods = {
+      morning:{icon:'🌅',name:'Өглөө'},
+      day:{icon:'☀️',name:'Өдөр'},
+      evening:{icon:'🌙',name:'Орой'}
+    };
 
-function deleteEditingGoal(){
-  if(!editingGoalId) return;
-  state.goals=state.goals.filter(g=>g.id!==editingGoalId);
-  persist(); closeGoalModal(); renderGoals(); toast("🗑️ Зорилго устлаа");
-}
+    function visibleTasks(date){
+      return state.tasks
+        .filter(t => (t.repeat==='daily' && t.date<=date) || (t.repeat!=='daily' && t.date===date))
+        .sort((a,b) => (a.time||'99:99').localeCompare(b.time||'99:99'));
+    }
 
-function toggleGoalStep(goalId,stepId){
-  const g=state.goals.find(x=>x.id===goalId); if(!g) return;
-  const s=g.steps.find(x=>x.id===stepId); if(!s) return;
-  s.done=!s.done;
-  if(g.steps.length && g.steps.every(x=>x.done)) g.completed=true;
-  else if(g.completed && !g.steps.every(x=>x.done)) g.completed=false;
-  persist(); renderGoals();
-}
+    function taskListMarkup(date,period){
+      const list = visibleTasks(date).filter(t => t.period===period);
 
-function goalProgress(g){
-  if(!g.steps?.length) return g.completed?100:0;
-  return Math.round(g.steps.filter(s=>s.done).length/g.steps.length*100);
-}
-function daysRemaining(g){
-  const today=new Date(todayKey()+"T12:00:00");
-  const end=new Date(g.endDate+"T12:00:00");
-  return Math.ceil((end-today)/(1000*60*60*24));
-}
-function durationGroup(g){
-  const start=new Date(g.startDate+"T12:00:00");
-  const end=new Date(g.endDate+"T12:00:00");
-  const days=Math.round((end-start)/(1000*60*60*24));
-  if(days<=8) return "week";
-  if(days<=100) return "month";
-  return "year";
-}
-function setGoalFilter(filter,btn){
-  goalFilter=filter;
-  document.querySelectorAll(".goal-filter").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
-  renderGoals();
-}
-function markGoalCompleted(goalId){
-  const g=state.goals.find(x=>x.id===goalId); if(!g) return;
-  g.completed=true; g.reviewed=true;
-  (g.steps||[]).forEach(s=>s.done=true);
-  persist(); renderGoals(); toast("✅ Зорилго биелсэн!");
-}
-function extendGoal(goalId,days=7){
-  const g=state.goals.find(x=>x.id===goalId); if(!g) return;
-  const d=new Date(g.endDate+"T12:00:00");
-  d.setDate(d.getDate()+days);
-  g.endDate=dateKey(d); g.reviewed=false; g.completed=false;
-  persist(); renderGoals(); toast(`🔁 ${days} хоногоор сунгалаа`);
-}
-function reviewNotCompleted(goalId){
-  const g=state.goals.find(x=>x.id===goalId); if(!g) return;
-  g.reviewed=true;
-  persist(); renderGoals();
-}
+      if(!list.length){
+        return '<div class="empty"><b>Одоогоор task алга</b>＋ дарж нэгийг нэмээрэй.</div>';
+      }
 
-function renderGoalReviewArea(){
-  const overdue=state.goals.filter(g=>!g.completed && daysRemaining(g)<0 && !g.reviewed);
-  const area=document.getElementById("goalReviewArea");
-  if(!overdue.length){ area.innerHTML=""; return; }
-  const g=overdue[0];
-  area.innerHTML=`<div class="review-box">
-    <strong>⏰ "${escapeHTML(g.name)}" зорилгын хугацаа дууслаа</strong>
-    <p>Биелүүлсэн үү, эсвэл хугацаагаа сунгах уу?</p>
-    <div class="review-actions">
-      <button style="background:var(--green);color:white" onclick="markGoalCompleted('${g.id}')">✅ Биелүүлсэн</button>
-      <button style="background:var(--primary);color:white" onclick="extendGoal('${g.id}',7)">🔁 +7 хоног</button>
-      <button style="background:var(--bg);color:var(--text)" onclick="reviewNotCompleted('${g.id}')">Дараа</button>
-    </div>
-  </div>`;
-}
-
-function renderGoals(){
-  renderGoalReviewArea();
-  let list=state.goals.slice().sort((a,b)=>a.endDate.localeCompare(b.endDate));
-
-  list=list.filter(g=>{
-    if(goalFilter==="all") return !g.completed;
-    if(goalFilter==="completed") return g.completed;
-    return !g.completed && durationGroup(g)===goalFilter;
-  });
-
-  const activeCount=state.goals.filter(g=>!g.completed).length;
-  document.getElementById("goalCount").textContent=`${activeCount} active`;
-
-  const container=document.getElementById("goalsList");
-  if(!list.length){
-    container.innerHTML=`<div class="empty">Зорилго алга. + товч дарж шинэ зорилго нэмээрэй.</div>`;
-    return;
-  }
-
-  container.innerHTML=list.map(g=>{
-    const pct=goalProgress(g);
-    const remain=daysRemaining(g);
-    const overdue=remain<0&&!g.completed;
-    const cls=`goal-card ${g.completed?"completed":""} ${overdue?"overdue":""}`;
-    const timeText=g.completed?"✅ Дууссан":overdue?`⏰ ${Math.abs(remain)} хоног хэтэрсэн`:`⏳ ${remain} хоног үлдсэн`;
-    const steps=(g.steps||[]).map(s=>`
-      <label class="goal-step">
-        <input type="checkbox" ${s.done?"checked":""} onchange="toggleGoalStep('${g.id}','${s.id}')">
-        <span>${escapeHTML(s.text)}</span>
-      </label>`).join("");
-
-    return `<div class="${cls}">
-      <div class="goal-head">
-        <div class="goal-icon">🎯</div>
-        <div class="goal-head-main">
-          <div class="goal-name">${escapeHTML(g.name)}</div>
-          <div class="goal-sub">${formatDateShort(g.startDate)} → ${formatDateShort(g.endDate)}</div>
+      return `<div class="task-list">${list.map(t => `
+        <div class="task ${t.doneDates?.[date]?'done':''}">
+          <input
+            class="check"
+            type="checkbox"
+            data-toggle-task="${esc(t.id)}"
+            data-date="${date}"
+            ${t.doneDates?.[date]?'checked':''}
+            aria-label="${esc(t.title)} хийсэн"
+          >
+          <div>
+            <div class="task-title">${esc(t.title)}</div>
+            <div class="task-meta">
+              ${t.time ? `<span>⏰ ${esc(t.time)}</span>` : ''}
+              ${t.repeat==='daily' ? '<span class="pill">↻ Өдөр бүр</span>' : ''}
+            </div>
+          </div>
+          <div class="task-actions">
+            <button class="mini" data-edit-task="${esc(t.id)}" aria-label="Task засах">✎</button>
+          </div>
         </div>
-        <button class="goal-menu" onclick="openGoalModal('${g.id}')">✏️</button>
-      </div>
+      `).join('')}</div>`;
+    }
 
-      <div class="goal-progress-row">
-        <div class="progress-bg"><div class="progress-bar" style="width:${pct}%"></div></div>
-        <strong>${pct}%</strong>
-      </div>
+    function periodMarkup(date,p){
+      return `
+        <section class="card card-pad period">
+          <h3 class="period-label"><b>${periods[p].icon}</b>${periods[p].name}</h3>
+          ${taskListMarkup(date,p)}
+        </section>
+      `;
+    }
 
-      <div class="goal-badges">
-        <span class="badge ${overdue?"warn":g.completed?"good":""}">${timeText}</span>
-        <span class="badge">🪜 ${(g.steps||[]).filter(s=>s.done).length}/${(g.steps||[]).length} алхам</span>
-      </div>
+    function progress(date){
+      const list = visibleTasks(date);
+      const done = list.filter(t => t.doneDates?.[date]).length;
+      return {total:list.length,done,pct:list.length?Math.round(done/list.length*100):0};
+    }
 
-      <div class="goal-steps">${steps || `<div class="empty" style="margin-top:10px;padding:11px">Алхам нэмээгүй байна.</div>`}</div>
+    function bindTaskButtons(root){
+      $$('[data-toggle-task]',root).forEach(c => c.addEventListener('change',() => {
+        const t = state.tasks.find(x => x.id===c.dataset.toggleTask);
+        if(!t) return;
+        t.doneDates = t.doneDates || {};
+        t.doneDates[c.dataset.date] = c.checked;
+        save();
+        renderTasks();
+      }));
 
-      <div class="goal-actions">
-        <button onclick="openGoalModal('${g.id}')">✏️ Засах</button>
-        ${!g.completed?`<button class="primary" onclick="markGoalCompleted('${g.id}')">✅ Биелсэн</button>`:""}
-      </div>
-    </div>`;
-  }).join("");
-}
+      $$('[data-edit-task]',root).forEach(b => b.addEventListener('click',() => {
+        showTaskModal(state.tasks.find(t => t.id===b.dataset.editTask));
+      }));
+    }
 
-async function generateGoalSteps(){
-  const name=document.getElementById("goalName").value.trim();
-  const start=document.getElementById("goalStart").value;
-  const end=document.getElementById("goalEnd").value;
-  const btn=document.getElementById("goalAiBtn");
-  if(!name){ toast("Эхлээд зорилгын нэрээ бичээрэй"); return; }
+    function renderTasks(){
+      const t = today();
+      const p = progress(t);
 
-  btn.disabled=true;
-  btn.textContent="🤖 Алхам гаргаж байна...";
+      $('#todaySubtitle').textContent = prettyDate(t);
+      $('#todayRing').style.setProperty('--p',p.pct);
+      $('#todayPercent').textContent = p.pct+'%';
+      $('#todayProgressText').textContent = p.total
+        ? `${p.done}/${p.total} task дууссан${p.done===p.total?' — Өнөөдөр гайхалтай байлаа!':' — үргэлжлүүлээрэй.'}`
+        : 'Өнөөдрийн ажлуудаа эхлүүлээрэй.';
 
-  try{
-    const prompt=`"${name}" гэсэн зорилгод ${start||"өнөөдрөөс"} ${end||"сонгосон хугацаанд"} хүрэхэд хэрэгтэй 5-8 маш тодорхой алхам гарга. Зөвхөн алхам бүрийг шинэ мөрөөр бич. Дугаар, тайлбар, гарчиг бүү нэм. Монгол хэлээр бич.`;
-    const res=await fetch("/api/chat",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({message:prompt,tracker:{}})
+      $('#todayPeriods').innerHTML = ['morning','day','evening'].map(x => periodMarkup(t,x)).join('');
+      bindTaskButtons($('#todayPeriods'));
+
+      const q = progress(selectedPlanner);
+      $('#plannerDate').value = selectedPlanner;
+      $('#plannerDateTitle').textContent = prettyDate(selectedPlanner);
+      $('#plannerRing').style.setProperty('--p',q.pct);
+      $('#plannerPercent').textContent = q.pct+'%';
+      $('#plannerProgressText').textContent = q.total
+        ? `${q.done}/${q.total} task дууссан`
+        : 'Энэ өдөр task төлөвлөөгүй байна.';
+
+      $('#plannerPeriods').innerHTML = ['morning','day','evening'].map(x => periodMarkup(selectedPlanner,x)).join('');
+      bindTaskButtons($('#plannerPeriods'));
+
+      const due = state.goals.filter(g => !g.completed && g.deadline < today());
+      $('#todayDeadlineNotices').innerHTML = due.length
+        ? `<div class="notice"><b>🎯 ${due.length} зорилгын хугацаа дууссан.</b> Зорилго хэсэгт орж шалгаарай.</div>`
+        : '';
+    }
+
+    function showTaskModal(t=null){
+      $('#taskModalTitle').textContent = t ? 'Task засах' : 'Task нэмэх';
+      $('#taskId').value = t?.id || '';
+      $('#taskName').value = t?.title || '';
+      $('#taskDate').value = t?.date || (document.querySelector('.page.active')?.id==='page-planner' ? selectedPlanner : today());
+      $('#taskTime').value = t?.time || '';
+      $('#taskPeriod').value = t?.period || 'morning';
+      $('#taskRepeat').value = t?.repeat || 'once';
+      $('#deleteTask').hidden = !t;
+      openModal('taskModal');
+    }
+
+    $$('[data-add-task]').forEach(b => b.addEventListener('click',() => showTaskModal()));
+
+    $('#taskForm').addEventListener('submit',e => {
+      e.preventDefault();
+
+      const id = $('#taskId').value;
+      const old = state.tasks.find(t => t.id===id);
+      const item = {
+        id:id || uid('task'),
+        title:$('#taskName').value.trim(),
+        date:$('#taskDate').value,
+        period:$('#taskPeriod').value,
+        time:$('#taskTime').value,
+        repeat:$('#taskRepeat').value,
+        doneDates:old?.doneDates || {}
+      };
+
+      if(id) state.tasks = state.tasks.map(t => t.id===id ? item : t);
+      else state.tasks.push(item);
+
+      save();
+      closeModal('taskModal');
+      renderTasks();
+      toast(id ? 'Task шинэчлэгдлээ' : 'Task нэмэгдлээ');
     });
-    const data=await res.json();
-    if(!res.ok) throw new Error(data.error||"AI алдаа");
-    const cleaned=(data.reply||"")
-      .split("\n")
-      .map(x=>x.replace(/^\s*[-*•\d.)]+\s*/,"").trim())
-      .filter(Boolean)
-      .slice(0,8)
-      .join("\n");
-    document.getElementById("goalSteps").value=cleaned;
-    toast("🤖 AI алхмууд бэлэн");
-  }catch(e){
-    toast("⚠️ AI алхам гаргаж чадсангүй");
-  }finally{
-    btn.disabled=false;
-    btn.textContent="🤖 AI-аар алхам санал болгох";
-  }
-}
 
-function formatDateShort(key){
-  const d=new Date(key+"T12:00:00");
-  return d.toLocaleDateString("mn-MN",{month:"short",day:"numeric"});
-}
+    $('#deleteTask').addEventListener('click',() => {
+      const id = $('#taskId').value;
+      if(id && confirm('Энэ task-ийг бүр мөсөн устгах уу?')){
+        state.tasks = state.tasks.filter(t => t.id!==id);
+        save();
+        closeModal('taskModal');
+        renderTasks();
+        toast('Task устгагдлаа');
+      }
+    });
 
-/* JOURNAL */
-let journalReaderKey = null;
-let journalSaveTimer = null;
+    $('#plannerDate').addEventListener('change',e => {
+      selectedPlanner = e.target.value || today();
+      renderTasks();
+    });
+    $('#prevDate').onclick = () => { selectedPlanner=addDays(selectedPlanner,-1);renderTasks(); };
+    $('#nextDate').onclick = () => { selectedPlanner=addDays(selectedPlanner,1);renderTasks(); };
+    $('#goToday').onclick = () => { selectedPlanner=today();renderTasks(); };
 
-function renderJournal(){
-  const key=dateKey(selectedDate);
-  const day=getDay(key);
+    const goalFilters = [
+      ['all','Бүгд'],['week','7 хоног'],['month','Сар'],['year','Жил'],['done','Дууссан']
+    ];
 
-  document.getElementById("journalDate").textContent=
-    selectedDate.toLocaleDateString("mn-MN",{month:"long",day:"numeric"});
+    function goalProgress(g){
+      const n = g.steps.length;
+      const d = g.steps.filter(s => s.done).length;
+      return {n,d,pct:g.completed?100:(n?Math.round(d/n*100):0)};
+    }
 
-  document.getElementById("journalEditorTitle").textContent=
-    selectedDate.toLocaleDateString("mn-MN",{weekday:"long",month:"long",day:"numeric"});
+    function goalBucket(g){
+      const days = Math.ceil((new Date(g.deadline+'T12:00:00') - new Date(g.start+'T12:00:00'))/86400000);
+      return days<=8 ? 'week' : days<=100 ? 'month' : 'year';
+    }
 
-  document.getElementById("journal").value=day.journal||"";
+    function renderGoals(){
+      $('#goalFilters').innerHTML = goalFilters.map(([k,n]) =>
+        `<button class="filter ${goalFilter===k?'active':''}" data-goal-filter="${k}">${n}</button>`
+      ).join('');
 
-  const favBtn=document.getElementById("journalFavoriteBtn");
-  favBtn.textContent=day.journalFavorite?"★ Favorite":"☆ Favorite";
-  favBtn.classList.toggle("starred",day.journalFavorite);
+      $$('[data-goal-filter]').forEach(b => b.onclick = () => {
+        goalFilter = b.dataset.goalFilter;
+        state.settings.goalFilter = goalFilter;
+        save();
+        renderGoals();
+      });
 
-  document.getElementById("journalSaveStatus").textContent=
-    day.journalUpdatedAt ? "Автоматаар хадгалагдсан" : "Бичиж эхлээрэй";
+      let list = state.goals.filter(g =>
+        goalFilter==='all' ||
+        (goalFilter==='done' ? g.completed : !g.completed && goalBucket(g)===goalFilter)
+      );
 
-  renderJournalArchive();
-}
+      list.sort((a,b) => Number(a.completed)-Number(b.completed) || a.deadline.localeCompare(b.deadline));
 
-function saveJournal(){
-  const key=dateKey(selectedDate);
-  const day=getDay(key);
+      $('#goalDeadlineNotices').innerHTML = state.goals.some(g => !g.completed && g.deadline<today())
+        ? '<div class="notice"><b>Review хийх цаг боллоо.</b> Хугацаа дууссан зорилгоо биелүүлсэн гэж тэмдэглэх эсвэл 7 хоногоор сунгаж болно.</div>'
+        : '';
 
-  day.journal=document.getElementById("journal").value;
-  day.journalUpdatedAt=new Date().toISOString();
+      $('#goalList').innerHTML = list.length ? list.map(g => {
+        const p = goalProgress(g);
+        const over = !g.completed && g.deadline<today();
 
-  document.getElementById("journalSaveStatus").textContent="Хадгалж байна...";
-  persist();
+        return `
+          <article class="card goal ${over?'overdue':''}">
+            <div class="goal-top">
+              <div>
+                <h3>${esc(g.title)}</h3>
+                <div class="goal-date">${esc(shortDate(g.start))} → ${esc(prettyDate(g.deadline))}${over?' · Хугацаа дууссан':''}</div>
+              </div>
+              <button class="mini" data-edit-goal="${g.id}" aria-label="Зорилго засах">✎</button>
+            </div>
 
-  clearTimeout(journalSaveTimer);
-  journalSaveTimer=setTimeout(()=>{
-    document.getElementById("journalSaveStatus").textContent="✓ Хадгалагдсан";
-    renderJournalArchive();
-  },350);
-}
+            <div class="bar"><i style="width:${p.pct}%"></i></div>
+            <div class="goal-progress">${p.d}/${p.n} алхам · ${p.pct}%</div>
 
-function toggleCurrentJournalFavorite(){
-  const day=getDay(dateKey(selectedDate));
+            <div class="step-list">
+              ${g.steps.map(s => `
+                <label class="step">
+                  <input type="checkbox" data-goal="${g.id}" data-step="${s.id}" ${s.done?'checked':''}>
+                  <span>${esc(s.text)}</span>
+                </label>
+              `).join('') || '<span class="goal-progress">Алхам нэмээгүй байна.</span>'}
+            </div>
 
-  if(!day.journal.trim()){
-    toast("Эхлээд тэмдэглэл бичээрэй");
-    return;
-  }
+            <div class="goal-actions">
+              ${!g.completed ? `<button class="btn secondary small" data-complete-goal="${g.id}">✅ Биелүүлсэн</button>` : '<span class="pill">✅ Дууссан</span>'}
+              ${over ? `<button class="btn secondary small" data-extend-goal="${g.id}">↻ +7 хоног</button>` : ''}
+              <button class="btn secondary small" data-ai-goal="${g.id}">🤖 AI зөвлөгөө</button>
+            </div>
+          </article>
+        `;
+      }).join('') : '<div class="card empty" style="grid-column:1/-1"><b>Энд зорилго алга</b>Шинэ зорилго нэмээд эхний алхмаа хийгээрэй.</div>';
 
-  day.journalFavorite=!day.journalFavorite;
-  day.journalUpdatedAt=new Date().toISOString();
-  persist();
-  renderJournal();
-  toast(day.journalFavorite?"⭐ Favorite болголоо":"☆ Favorite-аас хаслаа");
-}
+      $$('[data-edit-goal]').forEach(b => b.onclick = () =>
+        showGoalModal(state.goals.find(g => g.id===b.dataset.editGoal))
+      );
 
-function clearCurrentJournal(){
-  const key=dateKey(selectedDate);
-  const day=getDay(key);
+      $$('[data-goal][data-step]').forEach(c => c.onchange = () => {
+        const g = state.goals.find(x => x.id===c.dataset.goal);
+        if(!g) return;
+        const s = g.steps.find(x => x.id===c.dataset.step);
+        if(!s) return;
+        s.done = c.checked;
+        save();
+        renderGoals();
+      });
 
-  if(!day.journal.trim()){
-    toast("Устгах тэмдэглэл алга");
-    return;
-  }
+      $$('[data-complete-goal]').forEach(b => b.onclick = () => {
+        const g = state.goals.find(x => x.id===b.dataset.completeGoal);
+        if(g && confirm(`“${g.title}” зорилгыг биелүүлсэн гэж тэмдэглэх үү?`)){
+          g.completed = true;
+          g.reviewed = true;
+          save();
+          renderGoals();
+          renderTasks();
+          toast('Баяр хүргэе! Зорилго биеллээ 🎉');
+        }
+      });
 
-  if(!confirm("Энэ өдрийн тэмдэглэлийг бүр мөсөн устгах уу?")) return;
+      $$('[data-extend-goal]').forEach(b => b.onclick = () => {
+        const g = state.goals.find(x => x.id===b.dataset.extendGoal);
+        if(!g) return;
+        g.deadline = addDays(g.deadline,7);
+        g.reviewed = false;
+        save();
+        renderGoals();
+        renderTasks();
+        toast('Зорилгыг 7 хоногоор сунгалаа');
+      });
 
-  day.journal="";
-  day.journalFavorite=false;
-  day.journalUpdatedAt="";
-  persist();
-  renderJournal();
-  toast("🗑️ Тэмдэглэл устлаа");
-}
+      $$('[data-ai-goal]').forEach(b => b.onclick = () =>
+        askGoalAdvice(state.goals.find(g => g.id===b.dataset.aiGoal))
+      );
+    }
 
-function goTodayJournal(){
-  selectedDate=new Date();
-  renderAll();
-}
+    function showGoalModal(g=null){
+      $('#goalModalTitle').textContent = g ? 'Зорилго засах' : 'Зорилго нэмэх';
+      $('#goalId').value = g?.id || '';
+      $('#goalName').value = g?.title || '';
+      $('#goalStart').value = g?.start || today();
+      $('#goalDeadline').value = g?.deadline || addDays(today(),30);
+      $('#goalPreset').value = 'custom';
+      $('#goalSteps').value = g?.steps.map(s => s.text).join('\n') || '';
+      $('#deleteGoal').hidden = !g;
+      openModal('goalModal');
+    }
 
-function journalEntries(){
-  return Object.entries(state.days)
-    .filter(([key,day])=>typeof day.journal==="string" && day.journal.trim())
-    .map(([key,day])=>({
-      key,
-      text:day.journal.trim(),
-      favorite:!!day.journalFavorite,
-      updatedAt:day.journalUpdatedAt||""
-    }))
-    .sort((a,b)=>b.key.localeCompare(a.key));
-}
+    $('#addGoal').onclick = () => showGoalModal();
 
-function countWords(text){
-  return String(text||"").trim().split(/\s+/).filter(Boolean).length;
-}
+    $('#goalPreset').onchange = e => {
+      if(e.target.value!=='custom'){
+        $('#goalDeadline').value = addDays($('#goalStart').value || today(),Number(e.target.value));
+      }
+    };
 
-function renderJournalArchive(){
-  const container=document.getElementById("journalArchive");
-  if(!container) return;
+    $('#goalForm').onsubmit = e => {
+      e.preventDefault();
 
-  const all=journalEntries();
-  const q=(document.getElementById("journalSearch")?.value||"").trim().toLowerCase();
+      const id = $('#goalId').value;
+      const old = state.goals.find(g => g.id===id);
+      const lines = $('#goalSteps').value.split('\n').map(x => x.trim()).filter(Boolean);
 
-  const visible=all.filter(entry=>{
-    if(!q) return true;
-    const dateText=formatJournalDate(entry.key).toLowerCase();
-    return entry.text.toLowerCase().includes(q) || dateText.includes(q);
-  });
+      const item = {
+        id:id || uid('goal'),
+        title:$('#goalName').value.trim(),
+        start:$('#goalStart').value,
+        deadline:$('#goalDeadline').value,
+        completed:old?.completed || false,
+        reviewed:old?.reviewed || false,
+        steps:lines.map(text => {
+          const prev = old?.steps.find(s => s.text===text);
+          return prev || {id:uid('step'),text,done:false};
+        })
+      };
 
-  const monthPrefix=dateKey(selectedDate).slice(0,7);
-  const monthEntries=all.filter(x=>x.key.startsWith(monthPrefix));
-  const favoriteCount=all.filter(x=>x.favorite).length;
-  const wordCount=all.reduce((sum,x)=>sum+countWords(x.text),0);
+      if(item.deadline < item.start){
+        toast('Дуусах өдөр эхлэх өдрөөс хойш байх ёстой');
+        return;
+      }
 
-  document.getElementById("journalArchiveCount").textContent=`${all.length} тэмдэглэл`;
-  document.getElementById("journalMonthCount").textContent=monthEntries.length;
-  document.getElementById("journalFavoriteCount").textContent=`${favoriteCount}⭐`;
-  document.getElementById("journalWordCount").textContent=wordCount;
+      if(id) state.goals = state.goals.map(g => g.id===id ? item : g);
+      else state.goals.push(item);
 
-  if(!visible.length){
-    container.innerHTML=`<div class="empty">${q?"Хайлтад тохирох тэмдэглэл олдсонгүй.":"Одоогоор хадгалсан тэмдэглэл алга."}</div>`;
-    return;
-  }
+      save();
+      closeModal('goalModal');
+      renderGoals();
+      renderTasks();
+      toast(id ? 'Зорилго шинэчлэгдлээ' : 'Зорилго нэмэгдлээ');
+    };
 
-  container.innerHTML=visible.map(entry=>{
-    const updated=entry.updatedAt ? new Date(entry.updatedAt).toLocaleString("mn-MN",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"}) : "";
-    return `<div class="journal-entry ${entry.favorite?"favorite":""}">
-      <div class="journal-entry-main" onclick="openJournalReader('${entry.key}')">
-        <div class="journal-entry-head">
-          <span class="journal-entry-date">${escapeHTML(formatJournalDate(entry.key))}</span>
-          ${entry.favorite?'<span>⭐</span>':""}
+    $('#deleteGoal').onclick = () => {
+      const id = $('#goalId').value;
+      if(id && confirm('Энэ зорилго болон бүх алхмыг бүр мөсөн устгах уу?')){
+        state.goals = state.goals.filter(g => g.id!==id);
+        save();
+        closeModal('goalModal');
+        renderGoals();
+        renderTasks();
+        toast('Зорилго устгагдлаа');
+      }
+    };
+
+    function journalEntry(date){ return state.journal[date] || null; }
+
+    function loadJournal(date){
+      selectedJournal = date;
+      $('#journalDate').value = date;
+      const e = journalEntry(date);
+      $('#journalTitle').value = e?.title || '';
+      $('#journalBody').value = e?.body || '';
+      $('#toggleEditorFavorite').textContent = e?.favorite ? '★ Favorite' : '☆ Favorite';
+      updateWordCount();
+      $('#journalSaveState').textContent = 'Хадгалагдсан';
+      renderArchive();
+    }
+
+    function saveJournal(){
+      clearTimeout(saveTimer);
+
+      const title = $('#journalTitle').value.trim();
+      const body = $('#journalBody').value;
+      const old = journalEntry(selectedJournal);
+
+      if(title || body.trim()){
+        state.journal[selectedJournal] = {
+          date:selectedJournal,
+          title,
+          body,
+          favorite:old?.favorite || false,
+          createdAt:old?.createdAt || Date.now(),
+          updatedAt:Date.now()
+        };
+        save();
+        $('#journalSaveState').textContent = 'Хадгалагдсан';
+        renderArchive();
+      } else if(old){
+        $('#journalSaveState').textContent = 'Хоосон бичлэг';
+      }
+
+      updateWordCount();
+    }
+
+    function queueJournalSave(){
+      $('#journalSaveState').textContent = 'Хадгалж байна…';
+      updateWordCount();
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(saveJournal,550);
+    }
+
+    function updateWordCount(){
+      $('#journalWordCount').textContent = words($('#journalBody').value)+' үг';
+    }
+
+    function journalStats(){
+      const month = selectedJournal.slice(0,7);
+      const all = Object.values(state.journal).filter(e => e.body?.trim() || e.title);
+      const monthly = all.filter(e => e.date.startsWith(month));
+
+      return {
+        all,
+        monthly,
+        words:monthly.reduce((n,e) => n+words(e.body),0),
+        fav:monthly.filter(e => e.favorite).length
+      };
+    }
+
+    function renderArchive(){
+      const st = journalStats();
+      const query = $('#journalSearch').value.trim().toLocaleLowerCase('mn');
+
+      let list = st.all
+        .filter(e =>
+          (!favoritesOnly || e.favorite) &&
+          (!query || `${e.title} ${e.body} ${e.date}`.toLocaleLowerCase('mn').includes(query))
+        )
+        .sort((a,b) => b.date.localeCompare(a.date));
+
+      $('#statDays').textContent = st.monthly.length;
+      $('#statWords').textContent = st.words;
+      $('#statFavorites').textContent = st.fav;
+      $('#archiveCount').textContent = list.length+' бичлэг';
+      $('#favoriteFilter').textContent = favoritesOnly ? '★' : '☆';
+      $('#favoriteFilter').style.color = favoritesOnly ? '#f5a524' : '';
+
+      $('#entryList').innerHTML = list.length ? list.map(e => `
+        <div class="entry" role="button" tabindex="0" data-open-entry="${e.date}">
+          <div>
+            <div class="entry-date">${esc(prettyDate(e.date))}</div>
+            <h4>${esc(e.title || 'Гарчиггүй тэмдэглэл')}</h4>
+            <p>${esc(e.body || 'Текст бичээгүй')}</p>
+          </div>
+          <button class="star ${e.favorite?'on':''}" data-star-entry="${e.date}" aria-label="Favorite">${e.favorite?'★':'☆'}</button>
         </div>
-        <div class="journal-entry-preview">${escapeHTML(entry.text)}</div>
-        <div class="journal-entry-meta">${countWords(entry.text)} үг${updated?` · ${escapeHTML(updated)}`:""}</div>
-      </div>
+      `).join('') : '<div class="empty"><b>Тэмдэглэл олдсонгүй</b>Өнөөдрийн бодлоо бичиж эхлээрэй.</div>';
 
-      <button
-        class="journal-star ${entry.favorite?"active":""}"
-        onclick="event.stopPropagation();toggleJournalFavoriteByKey('${entry.key}')"
-        aria-label="Favorite"
-      >
-        ${entry.favorite?"★":"☆"}
-      </button>
-    </div>`;
-  }).join("");
-}
+      $$('[data-open-entry]').forEach(el => {
+        el.onclick = e => {
+          if(!e.target.closest('[data-star-entry]')) openReader(el.dataset.openEntry);
+        };
+        el.onkeydown = e => {
+          if(e.key==='Enter') openReader(el.dataset.openEntry);
+        };
+      });
 
-function formatJournalDate(key){
-  const d=new Date(key+"T12:00:00");
-  return d.toLocaleDateString("mn-MN",{year:"numeric",month:"long",day:"numeric",weekday:"short"});
-}
+      $$('[data-star-entry]').forEach(b => b.onclick = e => {
+        e.stopPropagation();
+        toggleFavorite(b.dataset.starEntry);
+      });
+    }
 
-function toggleJournalFavoriteByKey(key){
-  const day=getDay(key);
-  if(!day.journal.trim()) return;
+    function toggleFavorite(date){
+      const e = journalEntry(date);
+      if(!e) return;
 
-  day.journalFavorite=!day.journalFavorite;
-  day.journalUpdatedAt=new Date().toISOString();
-  persist();
-  renderJournalArchive();
+      e.favorite = !e.favorite;
+      e.updatedAt = Date.now();
+      save();
 
-  if(key===dateKey(selectedDate)){
-    const favBtn=document.getElementById("journalFavoriteBtn");
-    favBtn.textContent=day.journalFavorite?"★ Favorite":"☆ Favorite";
-    favBtn.classList.toggle("starred",day.journalFavorite);
-  }
+      if(date===selectedJournal){
+        $('#toggleEditorFavorite').textContent = e.favorite ? '★ Favorite' : '☆ Favorite';
+      }
 
-  if(journalReaderKey===key) renderJournalReader();
-}
+      renderArchive();
 
-function openJournalReader(key){
-  const day=getDay(key);
-  if(!day.journal.trim()) return;
+      if(readerDate===date){
+        $('#readerFavorite').textContent = e.favorite ? '★ Favorite' : '☆ Favorite';
+      }
+    }
 
-  journalReaderKey=key;
-  renderJournalReader();
-  document.getElementById("journalReaderModal").classList.add("show");
-}
+    function openReader(date){
+      const e = journalEntry(date);
+      if(!e) return;
 
-function renderJournalReader(){
-  if(!journalReaderKey) return;
-  const day=getDay(journalReaderKey);
+      readerDate = date;
+      $('#readerDate').textContent = prettyDate(date);
+      $('#readerTitle').textContent = e.title || 'Гарчиггүй тэмдэглэл';
+      $('#readerBody').textContent = e.body || 'Текст бичээгүй';
+      $('#readerFavorite').textContent = e.favorite ? '★ Favorite' : '☆ Favorite';
+      openModal('readerModal');
+    }
 
-  document.getElementById("journalReaderTitle").textContent=`📝 ${formatJournalDate(journalReaderKey)}`;
-  document.getElementById("journalReaderText").textContent=day.journal||"";
+    $('#journalTitle').oninput = queueJournalSave;
+    $('#journalBody').oninput = queueJournalSave;
 
-  const meta=[];
-  meta.push(`${countWords(day.journal)} үг`);
-  if(day.journalUpdatedAt){
-    meta.push(`Сүүлд хадгалсан: ${new Date(day.journalUpdatedAt).toLocaleString("mn-MN")}`);
-  }
-  document.getElementById("journalReaderMeta").textContent=meta.join(" · ");
+    $('#journalDate').onchange = e => {
+      saveJournal();
+      loadJournal(e.target.value || today());
+    };
 
-  const favBtn=document.getElementById("journalReaderFavoriteBtn");
-  favBtn.textContent=day.journalFavorite?"★ Favorite":"☆ Favorite";
-}
+    $('#journalPrev').onclick = () => {
+      saveJournal();
+      loadJournal(addDays(selectedJournal,-1));
+    };
 
-function closeJournalReader(){
-  document.getElementById("journalReaderModal").classList.remove("show");
-  journalReaderKey=null;
-}
+    $('#journalNext').onclick = () => {
+      saveJournal();
+      loadJournal(addDays(selectedJournal,1));
+    };
 
-function toggleReaderFavorite(){
-  if(!journalReaderKey) return;
-  toggleJournalFavoriteByKey(journalReaderKey);
-  renderJournalReader();
-}
+    $('#newTodayEntry').onclick = () => {
+      saveJournal();
+      loadJournal(today());
+      $('#journalTitle').focus();
+    };
 
-function editReaderJournal(){
-  if(!journalReaderKey) return;
+    $('#toggleEditorFavorite').onclick = () => {
+      saveJournal();
+      if(journalEntry(selectedJournal)) toggleFavorite(selectedJournal);
+      else toast('Эхлээд тэмдэглэл бичээрэй');
+    };
 
-  selectedDate=new Date(journalReaderKey+"T12:00:00");
-  closeJournalReader();
+    $('#journalSearch').oninput = renderArchive;
 
-  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
-  document.getElementById("journalView").classList.add("active");
-  currentView="journal";
+    $('#favoriteFilter').onclick = () => {
+      favoritesOnly = !favoritesOnly;
+      renderArchive();
+    };
 
-  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
-  document.querySelector('.nav-btn[data-view="journal"]')?.classList.add("active");
+    $('#readerFavorite').onclick = () => toggleFavorite(readerDate);
 
-  document.getElementById("fab").style.display="none";
-  renderJournal();
-  window.scrollTo({top:0,behavior:"smooth"});
-}
+    $('#readerEdit').onclick = () => {
+      closeModal('readerModal');
+      loadJournal(readerDate);
+      $('#journalTitle').focus();
+    };
 
-function deleteReaderJournal(){
-  if(!journalReaderKey) return;
-  const key=journalReaderKey;
+    $('#readerDelete').onclick = () => {
+      if(readerDate && confirm(`${prettyDate(readerDate)}-ны тэмдэглэлийг бүр мөсөн устгах уу?`)){
+        delete state.journal[readerDate];
+        save();
+        closeModal('readerModal');
 
-  if(!confirm("Энэ тэмдэглэлийг бүр мөсөн устгах уу?")) return;
+        if(selectedJournal===readerDate) loadJournal(readerDate);
+        else renderArchive();
 
-  const day=getDay(key);
-  day.journal="";
-  day.journalFavorite=false;
-  day.journalUpdatedAt="";
-  persist();
+        toast('Тэмдэглэл устгагдлаа');
+      }
+    };
 
-  closeJournalReader();
-  renderJournal();
+    function aiContext(){
+      const t = progress(today());
+      const active = state.goals
+        .filter(g => !g.completed)
+        .slice(0,6)
+        .map(g => ({
+          title:g.title,
+          deadline:g.deadline,
+          progress:goalProgress(g).pct
+        }));
 
-  if(key===dateKey(selectedDate)){
-    document.getElementById("journal").value="";
-  }
+      return {
+        date:today(),
+        todayTasks:{
+          done:t.done,
+          total:t.total,
+          items:visibleTasks(today()).map(x => ({
+            title:x.title,
+            time:x.time,
+            done:!!x.doneDates?.[today()]
+          }))
+        },
+        activeGoals:active
+      };
+    }
 
-  toast("🗑️ Тэмдэглэл устлаа");
-}
+    async function callAI(message){
+      const res = await fetch('/api/chat',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        // FIX: existing Vercel API expects "tracker", not "context".
+        body:JSON.stringify({
+          message,
+          tracker:aiContext()
+        })
+      });
 
-function changeDate(days){ selectedDate.setDate(selectedDate.getDate()+days); renderAll(); }
-function goToday(){ selectedDate=new Date(); renderAll(); }
-function selectDate(key){ selectedDate=new Date(key+"T12:00:00"); renderAll(); }
-function getStreak(){
-  let streak=0, d=new Date();
-  while(true){
-    const key=dateKey(d), tasks=tasksForDate(key);
-    if(!tasks.length || tasks.every(t=>!t.done)) break;
-    streak++; d.setDate(d.getDate()-1);
-  }
-  return streak;
-}
-function fabAction(){
-  if(currentView==="goals") openGoalModal();
-  else openTaskModal();
-}
-function switchView(view,btn){
-  currentView=view;
-  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
-  document.getElementById(view+"View").classList.add("active");
-  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
-  document.getElementById("fab").style.display=(view==="today"||view==="planner"||view==="goals")?"block":"none";
-  if(view==="journal") renderJournal();
-  if(view==="goals") renderGoals();
-  if(view==="planner") renderPlanner();
-  window.scrollTo({top:0,behavior:"smooth"});
-}
+      let data = {};
+      try { data = await res.json(); } catch {}
 
-/* AI */
-async function askAI(){
-  const input=document.getElementById("aiInput"), chat=document.getElementById("chat"), btn=document.getElementById("aiBtn");
-  const message=input.value.trim(); if(!message) return;
+      if(!res.ok){
+        throw new Error(data.error || data.message || `Server ${res.status}`);
+      }
 
-  chat.innerHTML+=`<div class="msg user">🧑 ${escapeHTML(message)}</div>`;
-  input.value=""; btn.disabled=true;
-  const loadingId="loading_"+Date.now();
-  chat.innerHTML+=`<div id="${loadingId}" class="msg ai">🤖 Бодож байна...</div>`;
-  chat.scrollTop=chat.scrollHeight;
+      return data.reply || data.message || data.text || data.response || data.content || 'AI хариу хоосон ирлээ.';
+    }
 
-  const tasks=tasksForDate(dateKey(selectedDate));
-  const tracker={
-    date:dateKey(selectedDate),
-    tasks:tasks.map(t=>({name:t.name,time:t.time,period:t.period,done:t.done,repeat:t.recurring||t.repeat==="daily"?"daily":"once"})),
-    journal:getDay(dateKey(selectedDate)).journal||"",
-    goals:state.goals.map(g=>({name:g.name,startDate:g.startDate,endDate:g.endDate,progress:goalProgress(g),completed:g.completed,steps:g.steps})),
-    streak:getStreak()
-  };
+    async function askGoalAdvice(g){
+      if(!g) return;
+      if(!navigator.onLine){
+        toast('AI ашиглахын тулд интернет хэрэгтэй');
+        return;
+      }
 
-  try{
-    const res=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message,tracker})});
-    const data=await res.json();
-    document.getElementById(loadingId)?.remove();
-    if(!res.ok) throw new Error(data.error||"AI серверийн алдаа");
-    chat.innerHTML+=`<div class="msg ai">🤖 ${escapeHTML(data.reply||"Хариу ирсэнгүй.")}</div>`;
-  }catch(e){
-    document.getElementById(loadingId)?.remove();
-    chat.innerHTML+=`<div class="msg ai">⚠️ ${escapeHTML(e.message)}</div>`;
-  }finally{
-    btn.disabled=false; chat.scrollTop=chat.scrollHeight;
-  }
-}
+      toast('AI зөвлөгөө бэлдэж байна…');
 
-function toggleDark(){
-  document.body.classList.toggle("dark");
-  localStorage.setItem("mlt_dark",document.body.classList.contains("dark"));
-}
-if(localStorage.getItem("mlt_dark")==="true") document.body.classList.add("dark");
+      try{
+        const reply = await callAI(
+          `Миний зорилго: "${g.title}". Дуусах өдөр: ${g.deadline}. ` +
+          `Одоогийн алхмууд: ${g.steps.map(s=>s.text).join(', ') || 'байхгүй'}. ` +
+          `Монгол хэлээр товч, бодитой дараагийн алхам зөвлө.`
+        );
 
-function toast(text){
-  const el=document.getElementById("toast");
-  el.textContent=text; el.classList.add("show");
-  clearTimeout(window.__toast);
-  window.__toast=setTimeout(()=>el.classList.remove("show"),1500);
-}
-function escapeHTML(v){
-  const d=document.createElement("div");
-  d.textContent=String(v??"");
-  return d.innerHTML;
-}
-function renderAll(){
-  renderToday(); renderPlanner(); renderGoals(); renderJournal(); persist();
-}
+        state.chat.push(
+          {role:'user',text:`“${g.title}” зорилгод зөвлөгөө өг.`},
+          {role:'ai',text:reply}
+        );
 
-ensureStarterTemplates();
-renderAll();
+        save();
+        switchPage('ai');
+        renderChat();
+      } catch(err){
+        toast('AI холбогдсонгүй: '+err.message);
+      }
+    }
 
-if("serviceWorker" in navigator){
-  window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));
-}
-</script>
+    async function generateGoalSteps(){
+      const title = $('#goalName').value.trim();
+
+      if(!title){
+        toast('Эхлээд зорилгын нэрээ бичээрэй');
+        return;
+      }
+
+      if(!navigator.onLine){
+        toast('AI ашиглахын тулд интернет хэрэгтэй');
+        return;
+      }
+
+      const b = $('#goalAiSteps');
+      b.disabled = true;
+      b.textContent = 'Бэлдэж байна…';
+
+      try{
+        const reply = await callAI(
+          `Зорилго: "${title}". Хугацаа: ${$('#goalStart').value} - ${$('#goalDeadline').value}. ` +
+          `Монгол хэлээр 5-8 хэрэгжихүйц алхам гарга. ` +
+          `Зөвхөн мөр бүрт нэг алхам бич, дугаар болон нэмэлт тайлбар бүү оруул.`
+        );
+
+        const lines = String(reply)
+          .split('\n')
+          .map(x => x.replace(/^[-*•\d.)\s]+/,'').trim())
+          .filter(Boolean)
+          .slice(0,8);
+
+        if(lines.length) $('#goalSteps').value = lines.join('\n');
+        else toast('Алхам ялгаж чадсангүй, дахин оролдоорой');
+      } catch(err){
+        toast('AI холбогдсонгүй: '+err.message);
+      } finally{
+        b.disabled = false;
+        b.textContent = '🤖 AI-аар алхам санал болгох';
+      }
+    }
+
+    $('#goalAiSteps').onclick = generateGoalSteps;
+
+    function renderChat(){
+      const box = $('#messages');
+      box.innerHTML = state.chat.map(m =>
+        `<div class="bubble ${m.role==='user'?'user':'ai'}">${esc(m.text)}</div>`
+      ).join('');
+      box.scrollTop = box.scrollHeight;
+    }
+
+    $('#aiForm').onsubmit = async e => {
+      e.preventDefault();
+
+      const text = $('#aiInput').value.trim();
+      if(!text) return;
+
+      if(!navigator.onLine){
+        toast('AI ашиглахын тулд интернет хэрэгтэй');
+        return;
+      }
+
+      state.chat.push({role:'user',text});
+      $('#aiInput').value = '';
+      renderChat();
+      save();
+
+      const b = $('#sendAi');
+      b.disabled = true;
+      b.textContent = '…';
+
+      try{
+        const reply = await callAI(text);
+        state.chat.push({role:'ai',text:reply});
+      } catch(err){
+        state.chat.push({
+          role:'ai',
+          text:`Уучлаарай, AI сервертэй холбогдож чадсангүй. ${err.message}`
+        });
+      } finally{
+        b.disabled = false;
+        b.textContent = 'Илгээх';
+        save();
+        renderChat();
+      }
+    };
+
+    $('#aiInput').addEventListener('keydown',e => {
+      if(e.key==='Enter' && !e.shiftKey){
+        e.preventDefault();
+        $('#aiForm').requestSubmit();
+      }
+    });
+
+    $('#clearChat').onclick = () => {
+      if(confirm('AI ярилцлагын түүхийг цэвэрлэх үү?')){
+        state.chat = initialState().chat;
+        save();
+        renderChat();
+      }
+    };
+
+    function switchPage(name){
+      saveJournal();
+
+      $$('.page').forEach(p => p.classList.toggle('active',p.id===`page-${name}`));
+      $$('.nav button').forEach(b => b.classList.toggle('active',b.dataset.page===name));
+
+      history.replaceState(null,'','#'+name);
+
+      if(name==='journal') loadJournal(selectedJournal);
+      if(name==='goals') renderGoals();
+
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    $$('.nav button').forEach(b => b.onclick = () => switchPage(b.dataset.page));
+
+    function network(){
+      const online = navigator.onLine;
+      const el = $('#networkStatus');
+      el.classList.toggle('offline',!online);
+      $('span',el).textContent = online ? 'Online' : 'Offline';
+    }
+
+    window.addEventListener('online',network);
+    window.addEventListener('offline',network);
+    window.addEventListener('beforeunload',saveJournal);
+    document.addEventListener('visibilitychange',() => {
+      if(document.hidden) saveJournal();
+    });
+
+    if('serviceWorker' in navigator){
+      window.addEventListener('load',() =>
+        navigator.serviceWorker.register('/sw.js').catch(() => {})
+      );
+    }
+
+    network();
+    renderTasks();
+    renderGoals();
+    loadJournal(today());
+    renderChat();
+
+    const hash = location.hash.slice(1);
+    if(['today','planner','goals','journal','ai'].includes(hash)){
+      switchPage(hash);
+    }
+  })();
+  </script>
 </body>
 </html>
