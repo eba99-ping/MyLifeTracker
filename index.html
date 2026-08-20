@@ -313,6 +313,8 @@
     .auth-error{display:none;padding:10px 12px;border-radius:12px;background:#fff1f2;color:#b42318;font-size:12px;margin-bottom:12px}
     .auth-error.show{display:block}
 
+    #howToStartModal{z-index:650}
+    #howToStartModal .modal{max-width:500px}
     .profile-header{
       display:flex;align-items:center;gap:14px;padding:15px;border-radius:18px;background:linear-gradient(135deg,var(--brand-soft),#f8f7ff);
       margin-bottom:16px
@@ -379,7 +381,7 @@
       <div class="auth-hero">
         <div>
           <div class="auth-logo">
-            <img src="/icon-192.png" alt="My Life Tracker">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAEf0lEQVR42u3bMU7dQBQFUBhckRRkB0SiZidsAqXIklJEbIKdUCOxBBpEh5SCBikC/M3MeN6bc8sk+rGfj++M8ef429n5kcjWFCMQgAQgAUgAEgFIABKABCARgAQgAUgAEgFIABKABCARgAQgAUgAEoBENmQJetzXV/f5LsbN7UW4Yz6O8nthKcUk8DQ6oAndxJI0KCBuokgaDhA6sRgNBAidiIyGAIROXEaFntDZfXqFHoZCLmHo5FjOCj2qKBggejLNttDDUBhA9OSbc6GHoQCA6MlqqNDD0NCA6MltyFdaZWBA6id9CRV6GPpKWr0L66/n8vQk1kW9e37p/D+2eFm2hL6xwqF57+D7Yxq6gTrUT2g6O3ZS9RJaQt+4yfJ6arHaqH4DtaufxHR6tlHdEiqx7s55EuV8KwNqVD+z6Wl61nWv0eJGtCtKu4RNrifEHGoCqtuN9LSbRsUr5WWqZASkfqLMpBqgiq1IT4fJ1LpexX2mh+yBGubXHzOIA0j9hJuSBvq8fpRQc0BVdmTqp/Osqlw1DbRq96OERgekfoJOTAMJQF2e3q1iAElSQKNtgN4rm9FKaIS5aSABSAAaf/2ylQZIANq1fpQQQALQrvWjhAASgASguOuXVQwgAWjX+lFCAAlAAlDc9csqBpAAtGv9KCGA5KtZpj3zj5vj+4+f///h0+PDBx/19zdA1qx36Lz9q48ZzSZpQWelnrf/5j1DExbSws1BelYamqeQFnQO1bPe0AyFtEzuZpueQw0lLqRlcjp7HWQaRgs32+pnQwmlLKRlZjoKaVJA+d4exC2kBR2FNBGg18kmZqSBuk45jSR7IIU0HZ08j/FfLKSnx4fNT/LbnuGP/BxIIU1bOZkBbS6kbSV0UP14F5a8kA41tF6Pt/GzFNJ6Q2v0+D7QjIW0xtCnenwjcepCevVx0HeiJ3QzL6CVhWSDvDJ+rUcAqrGi7fgJAAlASkj9ACQACUDTrGLWL4AEoJ1KSP0AJAAJQBFXMesXQALQTiWkfgASgHYqIfUDkAAkAL3N3fNLiFVstPVrhLlpIAGoSwnZPgMkeQGNtg0aP4NMTAOtWsWsX20B3dxeKKFw9VPlqmmgz0tI/YQBpITCTUkDHfw8L0MDUkKx5lMNUJUdGUPdJlPrehX3me6xB5IUgCquYkqo6TQqXqkyz9ToaZElxOwuT0/QmeIxvu4qNnkVNTrruteouBed71dy/O3svPqHXl/dtzvi9MtZUzrVl4gl6HxTMorYsk0aqHUJ5WujPnRa7FCXNHMPhynHrq5VA3UrIdn3AbmEO2IZ6lqUoMctg1wFL1NlbEBKKHH9dGoghrLq6beEMZRST9c9EEP59PTeRDOUb84l8bnRkxAQQ8lmWyY5T3oapeG7sDXxviz6DVmmPXN6MgBiKPr0dl7CLGfRb7yBAGEUsbOHA4RRrOV+UEAkRdkmjg5oZkkhHi/CAJrBU8QH0qiAZJD4SqsAJAAJQAKQCEACkAAkAIkAJAAJQAKQCEACkAAkAIkAJAAJQAKQTJt/c8S9iPFTHGQAAAAASUVORK5CYII=" alt="My Life Tracker">
             <div><strong>My Life Tracker</strong><div style="color:#9aa4b7;font-size:12px">Premium personal productivity</div></div>
           </div>
 
@@ -394,12 +396,12 @@
           </div>
         </div>
 
-        <div class="auth-credit">Made by Elbegabyar · Device Mode үед таны data зөвхөн энэ төхөөрөмж дээр хадгалагдана.</div>
+        <div class="auth-credit">Made by Elbegbayar · 2026</div>
       </div>
 
       <div class="auth-card">
         <h2 id="authTitle">Welcome back</h2>
-        <p id="authSubtitle">Account-аараа нэвтрэх эсвэл Device Mode ашигла.</p>
+        <p id="authSubtitle">Sign in to continue.</p>
 
         <div class="auth-tabs">
           <button class="auth-tab active" type="button" data-auth-tab="login">Login</button>
@@ -408,8 +410,8 @@
 
         <div class="auth-error" id="authError"></div>
 
-        <button class="provider-btn" type="button" data-provider="google">G&nbsp; Continue with Google</button>
-        <button class="provider-btn apple" type="button" data-provider="apple">&nbsp; Continue with Apple</button>
+        <button class="provider-btn" type="button" data-provider="google" id="googleAuthBtn">G&nbsp; Continue with Google</button>
+        <button class="provider-btn apple" type="button" data-provider="apple" id="appleAuthBtn">Apple · Continue</button>
 
         <div class="auth-divider">OR</div>
 
@@ -421,7 +423,8 @@
         </form>
 
         <button class="device-btn" type="button" id="deviceModeBtn">📱 Continue on this device</button>
-        <p class="auth-note">Cloud authentication тохируулаагүй үед Google / Apple / Email товчнууд integration hook ашиглана. Device Mode нь password хадгалахгүй бөгөөд app-ийг бүрэн ашиглуулна.</p>
+        <button class="device-btn" type="button" id="howToStartBtn" style="margin-top:8px;background:#fff">? How to start</button>
+        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px">Made by Elbegbayar · 2026</div>
       </div>
     </div>
   </section>
@@ -429,14 +432,14 @@
   <main class="app">
     <header class="topbar">
       <div class="brand">
-        <img class="app-logo" src="/icon-192.png" alt="My Life Tracker logo">
-        <div><h1>My Life Tracker</h1><p>Made by Elbegabyar</p></div>
+        <img class="app-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAEf0lEQVR42u3bMU7dQBQFUBhckRRkB0SiZidsAqXIklJEbIKdUCOxBBpEh5SCBikC/M3MeN6bc8sk+rGfj++M8ef429n5kcjWFCMQgAQgAUgAEgFIABKABCARgAQgAUgAEgFIABKABCARgAQgAUgAEoBENmQJetzXV/f5LsbN7UW4Yz6O8nthKcUk8DQ6oAndxJI0KCBuokgaDhA6sRgNBAidiIyGAIROXEaFntDZfXqFHoZCLmHo5FjOCj2qKBggejLNttDDUBhA9OSbc6GHoQCA6MlqqNDD0NCA6MltyFdaZWBA6id9CRV6GPpKWr0L66/n8vQk1kW9e37p/D+2eFm2hL6xwqF57+D7Yxq6gTrUT2g6O3ZS9RJaQt+4yfJ6arHaqH4DtaufxHR6tlHdEiqx7s55EuV8KwNqVD+z6Wl61nWv0eJGtCtKu4RNrifEHGoCqtuN9LSbRsUr5WWqZASkfqLMpBqgiq1IT4fJ1LpexX2mh+yBGubXHzOIA0j9hJuSBvq8fpRQc0BVdmTqp/Osqlw1DbRq96OERgekfoJOTAMJQF2e3q1iAElSQKNtgN4rm9FKaIS5aSABSAAaf/2ylQZIANq1fpQQQALQrvWjhAASgASguOuXVQwgAWjX+lFCAAlAAlDc9csqBpAAtGv9KCGA5KtZpj3zj5vj+4+f///h0+PDBx/19zdA1qx36Lz9q48ZzSZpQWelnrf/5j1DExbSws1BelYamqeQFnQO1bPe0AyFtEzuZpueQw0lLqRlcjp7HWQaRgs32+pnQwmlLKRlZjoKaVJA+d4exC2kBR2FNBGg18kmZqSBuk45jSR7IIU0HZ08j/FfLKSnx4fNT/LbnuGP/BxIIU1bOZkBbS6kbSV0UP14F5a8kA41tF6Pt/GzFNJ6Q2v0+D7QjIW0xtCnenwjcepCevVx0HeiJ3QzL6CVhWSDvDJ+rUcAqrGi7fgJAAlASkj9ACQACUDTrGLWL4AEoJ1KSP0AJAAJQBFXMesXQALQTiWkfgASgHYqIfUDkAAkAL3N3fNLiFVstPVrhLlpIAGoSwnZPgMkeQGNtg0aP4NMTAOtWsWsX20B3dxeKKFw9VPlqmmgz0tI/YQBpITCTUkDHfw8L0MDUkKx5lMNUJUdGUPdJlPrehX3me6xB5IUgCquYkqo6TQqXqkyz9ToaZElxOwuT0/QmeIxvu4qNnkVNTrruteouBed71dy/O3svPqHXl/dtzvi9MtZUzrVl4gl6HxTMorYsk0aqHUJ5WujPnRa7FCXNHMPhynHrq5VA3UrIdn3AbmEO2IZ6lqUoMctg1wFL1NlbEBKKHH9dGoghrLq6beEMZRST9c9EEP59PTeRDOUb84l8bnRkxAQQ8lmWyY5T3oapeG7sDXxviz6DVmmPXN6MgBiKPr0dl7CLGfRb7yBAGEUsbOHA4RRrOV+UEAkRdkmjg5oZkkhHi/CAJrBU8QH0qiAZJD4SqsAJAAJQAKQCEACkAAkAIkAJAAJQAKQCEACkAAkAIkAJAAJQAKQTJt/c8S9iPFTHGQAAAAASUVORK5CYII=" alt="My Life Tracker">
+        <div><h1>My Life Tracker</h1><p>Made by Elbegbayar</p></div>
       </div>
 
       <div class="top-actions">
         <div class="status" id="networkStatus"><i></i><span>Online</span></div>
         <button class="profile-chip" id="openProfile" aria-label="Profile">
-          <img id="topProfileAvatar" src="/icon-192.png" alt="">
+          <img id="topProfileAvatar" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAEf0lEQVR42u3bMU7dQBQFUBhckRRkB0SiZidsAqXIklJEbIKdUCOxBBpEh5SCBikC/M3MeN6bc8sk+rGfj++M8ef429n5kcjWFCMQgAQgAUgAEgFIABKABCARgAQgAUgAEgFIABKABCARgAQgAUgAEoBENmQJetzXV/f5LsbN7UW4Yz6O8nthKcUk8DQ6oAndxJI0KCBuokgaDhA6sRgNBAidiIyGAIROXEaFntDZfXqFHoZCLmHo5FjOCj2qKBggejLNttDDUBhA9OSbc6GHoQCA6MlqqNDD0NCA6MltyFdaZWBA6id9CRV6GPpKWr0L66/n8vQk1kW9e37p/D+2eFm2hL6xwqF57+D7Yxq6gTrUT2g6O3ZS9RJaQt+4yfJ6arHaqH4DtaufxHR6tlHdEiqx7s55EuV8KwNqVD+z6Wl61nWv0eJGtCtKu4RNrifEHGoCqtuN9LSbRsUr5WWqZASkfqLMpBqgiq1IT4fJ1LpexX2mh+yBGubXHzOIA0j9hJuSBvq8fpRQc0BVdmTqp/Osqlw1DbRq96OERgekfoJOTAMJQF2e3q1iAElSQKNtgN4rm9FKaIS5aSABSAAaf/2ylQZIANq1fpQQQALQrvWjhAASgASguOuXVQwgAWjX+lFCAAlAAlDc9csqBpAAtGv9KCGA5KtZpj3zj5vj+4+f///h0+PDBx/19zdA1qx36Lz9q48ZzSZpQWelnrf/5j1DExbSws1BelYamqeQFnQO1bPe0AyFtEzuZpueQw0lLqRlcjp7HWQaRgs32+pnQwmlLKRlZjoKaVJA+d4exC2kBR2FNBGg18kmZqSBuk45jSR7IIU0HZ08j/FfLKSnx4fNT/LbnuGP/BxIIU1bOZkBbS6kbSV0UP14F5a8kA41tF6Pt/GzFNJ6Q2v0+D7QjIW0xtCnenwjcepCevVx0HeiJ3QzL6CVhWSDvDJ+rUcAqrGi7fgJAAlASkj9ACQACUDTrGLWL4AEoJ1KSP0AJAAJQBFXMesXQALQTiWkfgASgHYqIfUDkAAkAL3N3fNLiFVstPVrhLlpIAGoSwnZPgMkeQGNtg0aP4NMTAOtWsWsX20B3dxeKKFw9VPlqmmgz0tI/YQBpITCTUkDHfw8L0MDUkKx5lMNUJUdGUPdJlPrehX3me6xB5IUgCquYkqo6TQqXqkyz9ToaZElxOwuT0/QmeIxvu4qNnkVNTrruteouBed71dy/O3svPqHXl/dtzvi9MtZUzrVl4gl6HxTMorYsk0aqHUJ5WujPnRa7FCXNHMPhynHrq5VA3UrIdn3AbmEO2IZ6lqUoMctg1wFL1NlbEBKKHH9dGoghrLq6beEMZRST9c9EEP59PTeRDOUb84l8bnRkxAQQ8lmWyY5T3oapeG7sDXxviz6DVmmPXN6MgBiKPr0dl7CLGfRb7yBAGEUsbOHA4RRrOV+UEAkRdkmjg5oZkkhHi/CAJrBU8QH0qiAZJD4SqsAJAAJQAKQCEACkAAkAIkAJAAJQAKQCEACkAAkAIkAJAAJQAKQTJt/c8S9iPFTHGQAAAAASUVORK5CYII=" alt="">
           <span id="topProfileName">My Profile</span>
         </button>
       </div>
@@ -538,7 +541,7 @@
         </form>
       </div>
     </section>
-    <div class="branding">Made by Elbegabyar · My Life Tracker</div>
+    <div class="branding">Made by Elbegbayar · My Life Tracker</div>
   </main>
 
   <nav class="nav" aria-label="Үндсэн цэс">
@@ -640,6 +643,23 @@
     </div>
   </div>
 
+  <div class="modal-wrap" id="howToStartModal" role="dialog" aria-modal="true" aria-labelledby="howToStartTitle">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="howToStartTitle">How to start</h3>
+        <button class="icon-btn" data-close="howToStartModal" aria-label="Хаах">×</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="profile-section" style="margin-top:0"><h4>1. First time here?</h4><p>Sign up хэсгийг сонгоод profile мэдээллээ бөглөнө.</p></div>
+        <div class="profile-section" style="margin-top:0"><h4>2. Already have an account?</h4><p>Login хэсгийг сонгоно. Cloud account холбогдсон үед account-аараа нэвтэрнэ.</p></div>
+        <div class="profile-section" style="margin-top:0"><h4>3. Want to try the app now?</h4><p><b>Continue on this device</b> дээр дар. Planner, Goals, Journal, AI Coach бүгд ажиллана.</p></div>
+        <div class="profile-section" style="margin-top:0"><h4>Device Mode</h4><p>Таны planner, goals, journal болон profile data энэ төхөөрөмжийн browser дээр хадгалагдана.</p></div>
+      </div>
+      <div class="modal-foot"><button class="btn primary" type="button" id="howToGotIt" data-close="howToStartModal">Got it</button></div>
+      <div class="branding">Made by Elbegbayar · 2026</div>
+    </div>
+  </div>
+
   <div class="modal-wrap" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
     <div class="modal">
       <div class="modal-head">
@@ -649,7 +669,7 @@
 
       <div class="profile-header">
         <div class="profile-avatar-wrap">
-          <img class="profile-avatar" id="profileAvatarPreview" src="/icon-192.png" alt="Profile photo">
+          <img class="profile-avatar" id="profileAvatarPreview" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAEf0lEQVR42u3bMU7dQBQFUBhckRRkB0SiZidsAqXIklJEbIKdUCOxBBpEh5SCBikC/M3MeN6bc8sk+rGfj++M8ef429n5kcjWFCMQgAQgAUgAEgFIABKABCARgAQgAUgAEgFIABKABCARgAQgAUgAEoBENmQJetzXV/f5LsbN7UW4Yz6O8nthKcUk8DQ6oAndxJI0KCBuokgaDhA6sRgNBAidiIyGAIROXEaFntDZfXqFHoZCLmHo5FjOCj2qKBggejLNttDDUBhA9OSbc6GHoQCA6MlqqNDD0NCA6MltyFdaZWBA6id9CRV6GPpKWr0L66/n8vQk1kW9e37p/D+2eFm2hL6xwqF57+D7Yxq6gTrUT2g6O3ZS9RJaQt+4yfJ6arHaqH4DtaufxHR6tlHdEiqx7s55EuV8KwNqVD+z6Wl61nWv0eJGtCtKu4RNrifEHGoCqtuN9LSbRsUr5WWqZASkfqLMpBqgiq1IT4fJ1LpexX2mh+yBGubXHzOIA0j9hJuSBvq8fpRQc0BVdmTqp/Osqlw1DbRq96OERgekfoJOTAMJQF2e3q1iAElSQKNtgN4rm9FKaIS5aSABSAAaf/2ylQZIANq1fpQQQALQrvWjhAASgASguOuXVQwgAWjX+lFCAAlAAlDc9csqBpAAtGv9KCGA5KtZpj3zj5vj+4+f///h0+PDBx/19zdA1qx36Lz9q48ZzSZpQWelnrf/5j1DExbSws1BelYamqeQFnQO1bPe0AyFtEzuZpueQw0lLqRlcjp7HWQaRgs32+pnQwmlLKRlZjoKaVJA+d4exC2kBR2FNBGg18kmZqSBuk45jSR7IIU0HZ08j/FfLKSnx4fNT/LbnuGP/BxIIU1bOZkBbS6kbSV0UP14F5a8kA41tF6Pt/GzFNJ6Q2v0+D7QjIW0xtCnenwjcepCevVx0HeiJ3QzL6CVhWSDvDJ+rUcAqrGi7fgJAAlASkj9ACQACUDTrGLWL4AEoJ1KSP0AJAAJQBFXMesXQALQTiWkfgASgHYqIfUDkAAkAL3N3fNLiFVstPVrhLlpIAGoSwnZPgMkeQGNtg0aP4NMTAOtWsWsX20B3dxeKKFw9VPlqmmgz0tI/YQBpITCTUkDHfw8L0MDUkKx5lMNUJUdGUPdJlPrehX3me6xB5IUgCquYkqo6TQqXqkyz9ToaZElxOwuT0/QmeIxvu4qNnkVNTrruteouBed71dy/O3svPqHXl/dtzvi9MtZUzrVl4gl6HxTMorYsk0aqHUJ5WujPnRa7FCXNHMPhynHrq5VA3UrIdn3AbmEO2IZ6lqUoMctg1wFL1NlbEBKKHH9dGoghrLq6beEMZRST9c9EEP59PTeRDOUb84l8bnRkxAQQ8lmWyY5T3oapeG7sDXxviz6DVmmPXN6MgBiKPr0dl7CLGfRb7yBAGEUsbOHA4RRrOV+UEAkRdkmjg5oZkkhHi/CAJrBU8QH0qiAZJD4SqsAJAAJQAKQCEACkAAkAIkAJAAJQAKQCEACkAAkAIkAJAAJQAKQTJt/c8S9iPFTHGQAAAAASUVORK5CYII=" alt="Profile photo">
           <button class="avatar-edit" type="button" id="chooseAvatar" aria-label="Зураг солих">✎</button>
           <input id="avatarFile" type="file" accept="image/*" hidden>
         </div>
@@ -702,7 +722,7 @@
         <p id="cloudAccountStatus">Device Mode — Cloud sync хараахан холбогдоогүй.</p>
         <div class="profile-actions">
           <button class="btn secondary small" type="button" data-provider="google">G Google</button>
-          <button class="btn secondary small" type="button" data-provider="apple"> Apple</button>
+          <button class="btn secondary small" type="button" data-provider="apple">Apple</button>
         </div>
       </div>
 
@@ -712,7 +732,7 @@
         <button class="btn danger" type="button" id="logoutBtn" style="width:100%">Log out</button>
       </div>
 
-      <div class="branding">Made by Elbegabyar</div>
+      <div class="branding">Made by Elbegbayar</div>
     </div>
   </div>
 
@@ -725,6 +745,7 @@
     const KEY = 'myLifeTracker.v5';
     const PROFILE_KEY = 'myLifeTracker.profile.v1';
     const SESSION_KEY = 'myLifeTracker.session.v1';
+    const HOW_TO_SEEN_KEY = 'myLifeTracker.howToStartSeen.v1';
     const $ = (q, root=document) => root.querySelector(q);
     const $$ = (q, root=document) => [...root.querySelectorAll(q)];
     const uid = (p='id') => `${p}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,8)}`;
@@ -1033,7 +1054,7 @@
     saveSession();
 
     function avatarSrc(){
-      return profile.avatar || '/icon-192.png';
+      return profile.avatar || 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAEf0lEQVR42u3bMU7dQBQFUBhckRRkB0SiZidsAqXIklJEbIKdUCOxBBpEh5SCBikC/M3MeN6bc8sk+rGfj++M8ef429n5kcjWFCMQgAQgAUgAEgFIABKABCARgAQgAUgAEgFIABKABCARgAQgAUgAEoBENmQJetzXV/f5LsbN7UW4Yz6O8nthKcUk8DQ6oAndxJI0KCBuokgaDhA6sRgNBAidiIyGAIROXEaFntDZfXqFHoZCLmHo5FjOCj2qKBggejLNttDDUBhA9OSbc6GHoQCA6MlqqNDD0NCA6MltyFdaZWBA6id9CRV6GPpKWr0L66/n8vQk1kW9e37p/D+2eFm2hL6xwqF57+D7Yxq6gTrUT2g6O3ZS9RJaQt+4yfJ6arHaqH4DtaufxHR6tlHdEiqx7s55EuV8KwNqVD+z6Wl61nWv0eJGtCtKu4RNrifEHGoCqtuN9LSbRsUr5WWqZASkfqLMpBqgiq1IT4fJ1LpexX2mh+yBGubXHzOIA0j9hJuSBvq8fpRQc0BVdmTqp/Osqlw1DbRq96OERgekfoJOTAMJQF2e3q1iAElSQKNtgN4rm9FKaIS5aSABSAAaf/2ylQZIANq1fpQQQALQrvWjhAASgASguOuXVQwgAWjX+lFCAAlAAlDc9csqBpAAtGv9KCGA5KtZpj3zj5vj+4+f///h0+PDBx/19zdA1qx36Lz9q48ZzSZpQWelnrf/5j1DExbSws1BelYamqeQFnQO1bPe0AyFtEzuZpueQw0lLqRlcjp7HWQaRgs32+pnQwmlLKRlZjoKaVJA+d4exC2kBR2FNBGg18kmZqSBuk45jSR7IIU0HZ08j/FfLKSnx4fNT/LbnuGP/BxIIU1bOZkBbS6kbSV0UP14F5a8kA41tF6Pt/GzFNJ6Q2v0+D7QjIW0xtCnenwjcepCevVx0HeiJ3QzL6CVhWSDvDJ+rUcAqrGi7fgJAAlASkj9ACQACUDTrGLWL4AEoJ1KSP0AJAAJQBFXMesXQALQTiWkfgASgHYqIfUDkAAkAL3N3fNLiFVstPVrhLlpIAGoSwnZPgMkeQGNtg0aP4NMTAOtWsWsX20B3dxeKKFw9VPlqmmgz0tI/YQBpITCTUkDHfw8L0MDUkKx5lMNUJUdGUPdJlPrehX3me6xB5IUgCquYkqo6TQqXqkyz9ToaZElxOwuT0/QmeIxvu4qNnkVNTrruteouBed71dy/O3svPqHXl/dtzvi9MtZUzrVl4gl6HxTMorYsk0aqHUJ5WujPnRa7FCXNHMPhynHrq5VA3UrIdn3AbmEO2IZ6lqUoMctg1wFL1NlbEBKKHH9dGoghrLq6beEMZRST9c9EEP59PTeRDOUb84l8bnRkxAQQ8lmWyY5T3oapeG7sDXxviz6DVmmPXN6MgBiKPr0dl7CLGfRb7yBAGEUsbOHA4RRrOV+UEAkRdkmjg5oZkkhHi/CAJrBU8QH0qiAZJD4SqsAJAAJQAKQCEACkAAkAIkAJAAJQAKQCEACkAAkAIkAJAAJQAKQTJt/c8S9iPFTHGQAAAAASUVORK5CYII=';
     }
 
     function renderProfile(){
@@ -1068,10 +1089,11 @@
       $$('[data-auth-tab]').forEach(b => b.classList.toggle('active',b.dataset.authTab===tab));
       $('#authTitle').textContent = tab === 'signup' ? 'Create your account' : 'Welcome back';
       $('#authSubtitle').textContent = tab === 'signup'
-        ? 'Profile-оо үүсгээд My Life Tracker-аа эхлүүл.'
-        : 'Account-аараа нэвтрэх эсвэл Device Mode ашигла.';
+        ? 'Create your profile to continue.'
+        : 'Sign in to continue.';
       $('#authName').style.display = tab === 'signup' ? '' : 'none';
       $('#authPassword').autocomplete = tab === 'signup' ? 'new-password' : 'current-password';
+      if(typeof renderEmailAuthAvailability === 'function') renderEmailAuthAvailability();
       setAuthError('');
     }
 
@@ -1079,6 +1101,7 @@
       $('#authScreen').classList.add('open');
       document.body.style.overflow = 'hidden';
       setAuthTab(authTab);
+      maybeShowHowToStart();
     }
 
     function hideAuthScreen(){
@@ -1137,9 +1160,42 @@
 
     $$('[data-auth-tab]').forEach(b => b.addEventListener('click',() => setAuthTab(b.dataset.authTab)));
 
+    function renderCloudAuthAvailability(){
+      const ready = !!(window.MyLifeCloudAuth && typeof window.MyLifeCloudAuth.signIn === 'function');
+      const googleBtn = $('#googleAuthBtn');
+      const appleBtn = $('#appleAuthBtn');
+      if(googleBtn){
+        googleBtn.disabled = !ready;
+        googleBtn.innerHTML = ready ? 'G&nbsp; Continue with Google' : 'G&nbsp; Google · Coming soon';
+      }
+      if(appleBtn){
+        appleBtn.disabled = !ready;
+        appleBtn.innerHTML = ready ? 'Apple · Continue' : 'Apple · Coming soon';
+      }
+    }
+
+    renderCloudAuthAvailability();
+
     $$('[data-provider]').forEach(b => b.addEventListener('click',() => {
+      if(b.disabled) return;
       cloudProviderAction(b.dataset.provider);
     }));
+
+    $('#howToStartBtn').addEventListener('click',() => openModal('howToStartModal'));
+
+    $('#howToGotIt').addEventListener('click',() => {
+      localStorage.setItem(HOW_TO_SEEN_KEY,'true');
+    });
+
+    function maybeShowHowToStart(){
+      if(localStorage.getItem(HOW_TO_SEEN_KEY)==='true') return;
+
+      setTimeout(() => {
+        if($('#authScreen').classList.contains('open')){
+          openModal('howToStartModal');
+        }
+      },300);
+    }
 
     $('#deviceModeBtn').addEventListener('click',() => {
       activateDeviceMode({
@@ -1147,6 +1203,15 @@
         email:$('#authEmail').value
       });
     });
+
+    function renderEmailAuthAvailability(){
+      const ready = !!(window.MyLifeCloudAuth && typeof window.MyLifeCloudAuth.signIn === 'function');
+      $('#authSubmit').textContent = ready
+        ? (authTab === 'signup' ? 'Create account' : 'Login with email')
+        : 'Continue with email profile';
+    }
+
+    renderEmailAuthAvailability();
 
     $('#emailAuthForm').addEventListener('submit',async e => {
       e.preventDefault();
