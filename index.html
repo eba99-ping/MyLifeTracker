@@ -1,4 +1,4 @@
-\<!doctype html>
+<!doctype html>
 <html lang="mn">
 <head>
   <meta charset="utf-8">
@@ -212,8 +212,8 @@
     .ai-form textarea{resize:none;min-height:46px;max-height:130px;border:1px solid var(--line);border-radius:14px;padding:12px 14px}
     .nav{
       position:fixed;left:50%;bottom:max(12px,env(safe-area-inset-bottom));transform:translateX(-50%);
-      width:min(640px,calc(100% - 22px));height:var(--nav-h);padding:8px;display:grid;
-      grid-template-columns:repeat(5,1fr);gap:4px;background:rgba(16,24,40,.94);
+      width:min(460px,calc(100% - 22px));height:var(--nav-h);padding:8px;display:grid;
+      grid-template-columns:repeat(3,1fr);gap:4px;background:rgba(16,24,40,.94);
       backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.12);border-radius:24px;
       box-shadow:0 20px 50px rgba(16,24,40,.28);z-index:50
     }
@@ -381,6 +381,104 @@
     html[data-theme="dark"] .topbar .status,html[data-theme="dark"] .profile-chip{background:rgba(20,27,45,.9);border-color:#2b344b;color:var(--ink)}
     html[data-theme="dark"] .icon-btn,html[data-theme="dark"] .btn.secondary{background:var(--surface);border-color:var(--line);color:var(--ink)}
 
+
+    /* ===== Tools Hub ===== */
+    .tools-hero{
+      padding:26px;
+      border-radius:28px;
+      background:
+        radial-gradient(circle at 85% 20%,rgba(255,255,255,.22),transparent 14rem),
+        linear-gradient(135deg,var(--brand),#8d66ff);
+      color:#fff;
+      box-shadow:0 20px 55px rgba(109,93,252,.24);
+      margin-bottom:18px;
+    }
+    .tools-hero h2{margin:0 0 7px;font-size:clamp(28px,5vw,42px);letter-spacing:-.04em}
+    .tools-hero p{margin:0;color:rgba(255,255,255,.78)}
+    .tools-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
+    .tool-card{
+      border:1px solid var(--line);background:var(--surface);color:var(--ink);
+      border-radius:22px;padding:20px;text-align:left;box-shadow:var(--shadow);
+      min-height:155px;display:flex;flex-direction:column;justify-content:space-between;
+      transition:transform .16s ease,border-color .16s ease
+    }
+    .tool-card:hover{transform:translateY(-2px);border-color:#cbc5ff}
+    .tool-card-icon{
+      width:48px;height:48px;border-radius:15px;display:grid;place-items:center;
+      background:var(--brand-soft);font-size:24px;margin-bottom:18px
+    }
+    .tool-card h3{margin:0 0 5px;font-size:18px}
+    .tool-card p{margin:0;color:var(--muted);font-size:12px}
+    .tool-card-foot{margin-top:18px;display:flex;justify-content:space-between;align-items:center;gap:9px}
+    .tool-stat{font-size:11px;color:var(--brand);font-weight:850}
+    .tool-arrow{font-size:20px;color:var(--muted)}
+    .tool-back{
+      border:0;background:transparent;color:var(--muted);font-weight:850;
+      padding:5px 0 12px;display:inline-flex;align-items:center;gap:6px
+    }
+    .tool-back:hover{color:var(--brand)}
+
+    /* ===== Money ===== */
+    .money-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+    .money-stat{padding:18px;border:1px solid var(--line);border-radius:19px;background:var(--surface)}
+    .money-stat span{display:block;font-size:11px;color:var(--muted);font-weight:750;margin-bottom:5px}
+    .money-stat strong{font-size:21px;letter-spacing:-.025em}
+    .money-stat.income strong{color:var(--green)}
+    .money-stat.expense strong{color:var(--red)}
+    .money-main{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(280px,.7fr);gap:16px}
+    .money-panel{padding:19px}
+    .money-progress-row{display:flex;justify-content:space-between;gap:12px;align-items:end;margin-bottom:7px}
+    .money-progress-row strong{font-size:16px}
+    .money-progress-row span{font-size:11px;color:var(--muted)}
+    .money-bar{height:10px;background:var(--surface-2);border-radius:999px;overflow:hidden}
+    .money-bar i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--brand),var(--brand-2))}
+    .money-bar.danger i{background:linear-gradient(90deg,#ff7b7f,var(--red))}
+    .money-settings-grid{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:end;margin-top:15px}
+    .money-settings-grid .field{margin:0}
+    .money-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:13px}
+    .money-toolbar input,.money-toolbar select{
+      min-height:40px;border:1px solid var(--line);border-radius:12px;background:var(--surface);
+      color:var(--ink);padding:8px 10px
+    }
+    .money-toolbar input[type="month"]{min-width:145px}
+    .money-list{display:flex;flex-direction:column;gap:8px}
+    .transaction{
+      display:grid;grid-template-columns:auto 1fr auto auto;gap:11px;align-items:center;
+      padding:12px;border:1px solid var(--line);border-radius:15px;background:var(--surface)
+    }
+    .transaction-icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--surface-2);font-size:18px}
+    .transaction h4{margin:0;font-size:14px}
+    .transaction p{margin:2px 0 0;color:var(--muted);font-size:11px}
+    .transaction-amount{font-weight:900;white-space:nowrap}
+    .transaction-amount.income{color:var(--green)}
+    .transaction-amount.expense{color:var(--red)}
+    .money-insight{
+      padding:14px;border:1px solid var(--line);border-radius:15px;background:var(--surface-2);
+      font-size:12px;line-height:1.6;margin-top:14px
+    }
+    .money-insight b{color:var(--ink)}
+    .money-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .money-actions .btn{flex:1}
+    .category-chip{display:inline-flex;border-radius:999px;padding:3px 7px;background:var(--surface-2);font-size:10px;color:var(--muted);font-weight:750}
+
+    html[data-theme="dark"] .tool-card,
+    html[data-theme="dark"] .money-stat,
+    html[data-theme="dark"] .transaction{background:var(--surface);border-color:var(--line)}
+    html[data-theme="dark"] .money-toolbar input,
+    html[data-theme="dark"] .money-toolbar select{background:#101829;border-color:#303a55;color:#f7f8fb}
+
+    @media(max-width:760px){
+      .tools-grid{grid-template-columns:1fr}
+      .tool-card{min-height:135px}
+      .money-summary{grid-template-columns:1fr 1fr}
+      .money-summary .money-stat:last-child{grid-column:1/-1}
+      .money-main{grid-template-columns:1fr}
+      .money-settings-grid{grid-template-columns:1fr}
+      .transaction{grid-template-columns:auto 1fr auto}
+      .transaction .mini{grid-column:3}
+      .nav{width:min(390px,calc(100% - 22px))}
+    }
+
     @media(max-width:760px){
       .top-actions{gap:6px}.status{display:none}
       .profile-chip{max-width:145px}.profile-chip span{max-width:85px}
@@ -517,7 +615,53 @@
       <div class="grid" id="plannerPeriods"></div>
     </section>
 
+    <section class="page" id="page-tools" aria-labelledby="toolsTitle">
+      <div class="tools-hero">
+        <h2 id="toolsTitle">Tools</h2>
+        <p>Хэрэгтэй зүйлээ нэг газраас нээгээрэй.</p>
+      </div>
+
+      <div class="tools-grid">
+        <button class="tool-card" type="button" data-open-tool="goals">
+          <div>
+            <div class="tool-card-icon">🎯</div>
+            <h3>Smart Goals</h3>
+            <p>Зорилго, хугацаа, алхам болон progress-оо хяна.</p>
+          </div>
+          <div class="tool-card-foot"><span class="tool-stat" id="toolGoalsStat">0 идэвхтэй</span><span class="tool-arrow">›</span></div>
+        </button>
+
+        <button class="tool-card" type="button" data-open-tool="money">
+          <div>
+            <div class="tool-card-icon">💰</div>
+            <h3>Money</h3>
+            <p>Орлого, зарлага, төсөв, хадгаламжаа нэг дор тооц.</p>
+          </div>
+          <div class="tool-card-foot"><span class="tool-stat" id="toolMoneyStat">0₮ зарлага</span><span class="tool-arrow">›</span></div>
+        </button>
+
+        <button class="tool-card" type="button" data-open-tool="journal">
+          <div>
+            <div class="tool-card-icon">📝</div>
+            <h3>Journal</h3>
+            <p>Өдрийн тэмдэглэлээ хадгалж, дараа нь эргэж унш.</p>
+          </div>
+          <div class="tool-card-foot"><span class="tool-stat" id="toolJournalStat">0 бичлэг</span><span class="tool-arrow">›</span></div>
+        </button>
+
+        <button class="tool-card" type="button" data-open-tool="ai">
+          <div>
+            <div class="tool-card-icon">🤖</div>
+            <h3>AI Coach</h3>
+            <p>Planner, goals болон money data дээрээ AI тусламж ав.</p>
+          </div>
+          <div class="tool-card-foot"><span class="tool-stat" id="toolAiStat">Online</span><span class="tool-arrow">›</span></div>
+        </button>
+      </div>
+    </section>
+
     <section class="page" id="page-goals" aria-labelledby="goalsTitle">
+      <button class="tool-back" type="button" data-back-tools>← Tools</button>
       <div class="hero">
         <div><h2 id="goalsTitle">Smart Goals</h2><p>Том зорилгоо жижиг, бодит алхмууд болго.</p></div>
         <button class="btn primary" id="addGoal">＋ Зорилго нэмэх</button>
@@ -527,7 +671,68 @@
       <div class="goal-list" id="goalList"></div>
     </section>
 
+    <section class="page" id="page-money" aria-labelledby="moneyTitle">
+      <button class="tool-back" type="button" data-back-tools>← Tools</button>
+
+      <div class="hero">
+        <div><h2 id="moneyTitle">Money</h2><p>Мөнгөө хаашаа зарцуулж байгаагаа ойлгож, бага багаар хэмнэ.</p></div>
+        <div class="money-actions">
+          <button class="btn secondary" type="button" data-add-money="income">＋ Орлого</button>
+          <button class="btn primary" type="button" data-add-money="expense">＋ Зарлага</button>
+        </div>
+      </div>
+
+      <div class="money-summary">
+        <div class="money-stat income"><span>Энэ сарын орлого</span><strong id="moneyIncome">0₮</strong></div>
+        <div class="money-stat expense"><span>Энэ сарын зарлага</span><strong id="moneyExpense">0₮</strong></div>
+        <div class="money-stat"><span>Үлдэгдэл</span><strong id="moneyBalance">0₮</strong></div>
+      </div>
+
+      <div class="money-main">
+        <section class="card money-panel">
+          <div class="section-head"><h3>Гүйлгээ</h3><span id="moneyCount">0</span></div>
+
+          <div class="money-toolbar">
+            <input type="month" id="moneyMonth" aria-label="Сар">
+            <select id="moneyTypeFilter" aria-label="Төрөл">
+              <option value="all">Бүх төрөл</option>
+              <option value="expense">Зарлага</option>
+              <option value="income">Орлого</option>
+            </select>
+            <select id="moneyCategoryFilter" aria-label="Ангилал">
+              <option value="all">Бүх ангилал</option>
+            </select>
+          </div>
+
+          <div class="money-list" id="moneyList"></div>
+        </section>
+
+        <aside>
+          <section class="card money-panel" style="margin-bottom:16px">
+            <div class="section-head"><h3>Сарын төсөв</h3><span id="budgetPercent">0%</span></div>
+            <div class="money-progress-row"><strong id="budgetUsedText">0₮ / 0₮</strong><span id="budgetRemaining">Төсөв тохируулаагүй</span></div>
+            <div class="money-bar" id="budgetBar"><i id="budgetBarFill" style="width:0%"></i></div>
+
+            <div class="money-settings-grid">
+              <div class="field"><label for="moneyBudget">Төсөв</label><input type="number" id="moneyBudget" min="0" step="1000" placeholder="800000"></div>
+              <div class="field"><label for="moneySavingsGoal">Хадгаламжийн зорилго</label><input type="number" id="moneySavingsGoal" min="0" step="1000" placeholder="500000"></div>
+              <div class="field"><label for="moneySaved">Хадгалсан</label><input type="number" id="moneySaved" min="0" step="1000" placeholder="0"></div>
+              <button class="btn secondary small" type="button" id="saveMoneySettings">Хадгалах</button>
+            </div>
+          </section>
+
+          <section class="card money-panel">
+            <div class="section-head"><h3>Хадгаламж</h3><span id="savingsPercent">0%</span></div>
+            <div class="money-progress-row"><strong id="savingsText">0₮ / 0₮</strong><span>зорилго</span></div>
+            <div class="money-bar"><i id="savingsBarFill" style="width:0%"></i></div>
+            <div class="money-insight" id="moneyInsight"><b>💡 Tip:</b> Эхлээд орлого, зарлагаа оруулаарай.</div>
+          </section>
+        </aside>
+      </div>
+    </section>
+
     <section class="page" id="page-journal" aria-labelledby="journalPageTitle">
+      <button class="tool-back" type="button" data-back-tools>← Tools</button>
       <div class="hero">
         <div><h2 id="journalPageTitle">Journal</h2><p>Бодол, сургамж, ялалтуудаа нэг дор хадгал.</p></div>
         <button class="btn secondary" id="newTodayEntry">✍️ Өнөөдөр бичих</button>
@@ -570,6 +775,7 @@
     </section>
 
     <section class="page" id="page-ai" aria-labelledby="aiPageTitle">
+      <button class="tool-back" type="button" data-back-tools>← Tools</button>
       <div class="hero">
         <div><h2 id="aiPageTitle">AI Coach</h2><p>Төлөвлөгөө, зорилго, дадалдаа ухаалаг тусламж ав.</p></div>
       </div>
@@ -588,9 +794,7 @@
   <nav class="nav" aria-label="Үндсэн цэс">
     <button class="active" data-page="today"><b>🏠</b><span>Өнөөдөр</span></button>
     <button data-page="planner"><b>📅</b><span>Planner</span></button>
-    <button data-page="goals"><b>🎯</b><span>Зорилго</span></button>
-    <button data-page="journal"><b>📝</b><span>Journal</span></button>
-    <button data-page="ai"><b>🤖</b><span>AI Coach</span></button>
+    <button data-page="tools"><b>🧰</b><span>Tools</span></button>
   </nav>
 
   <div class="modal-wrap" id="taskModal" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle">
@@ -663,6 +867,55 @@
         <div class="modal-foot">
           <button type="button" class="btn danger" id="deleteGoal" hidden>Устгах</button>
           <button type="button" class="btn secondary" data-close="goalModal">Болих</button>
+          <button class="btn primary" type="submit">Хадгалах</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-wrap" id="moneyModal" role="dialog" aria-modal="true" aria-labelledby="moneyModalTitle">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="moneyModalTitle">Зарлага нэмэх</h3>
+        <button class="icon-btn" data-close="moneyModal" aria-label="Хаах">×</button>
+      </div>
+
+      <form id="moneyForm">
+        <input type="hidden" id="moneyTransactionId">
+
+        <div class="row">
+          <div class="field">
+            <label for="moneyTransactionType">Төрөл</label>
+            <select id="moneyTransactionType">
+              <option value="expense">💸 Зарлага</option>
+              <option value="income">💵 Орлого</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="moneyAmount">Дүн (₮)</label>
+            <input type="number" id="moneyAmount" min="1" step="1" required placeholder="18000">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="moneyCategory">Ангилал</label>
+            <select id="moneyCategory"></select>
+          </div>
+          <div class="field">
+            <label for="moneyDate">Огноо</label>
+            <input type="date" id="moneyDate" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="moneyNote">Тайлбар</label>
+          <input id="moneyNote" maxlength="100" placeholder="Жишээ: Өдрийн хоол">
+        </div>
+
+        <div class="modal-foot">
+          <button type="button" class="btn danger" id="deleteMoneyTransaction" hidden>Устгах</button>
+          <button type="button" class="btn secondary" data-close="moneyModal">Болих</button>
           <button class="btn primary" type="submit">Хадгалах</button>
         </div>
       </form>
@@ -839,6 +1092,12 @@
         tasks:[],
         goals:[],
         journal:{},
+        money:{
+          transactions:[],
+          monthlyBudget:0,
+          savingsGoal:0,
+          savedAmount:0
+        },
         chat:[{
           role:'ai',
           text:'Сайн уу! Би таны AI Coach. Өнөөдрийн төлөвлөгөө, зорилго эсвэл дадлын талаар юугаар туслах вэ?'
@@ -892,7 +1151,8 @@
       if(!s || typeof s !== 'object') return false;
       return (Array.isArray(s.tasks) && s.tasks.length) ||
              (Array.isArray(s.goals) && s.goals.length) ||
-             (s.journal && typeof s.journal === 'object' && Object.keys(s.journal).length);
+             (s.journal && typeof s.journal === 'object' && Object.keys(s.journal).length) ||
+             (s.money && Array.isArray(s.money.transactions) && s.money.transactions.length);
     }
 
     // Converts the older mlt_v4/mlt_v3 structure without losing tasks, goals or journals.
@@ -1070,12 +1330,24 @@
     }
 
     let state = migrate();
+    state.money = {
+      transactions:[],
+      monthlyBudget:0,
+      savingsGoal:0,
+      savedAmount:0,
+      ...(state.money || {})
+    };
+    if(!Array.isArray(state.money.transactions)) state.money.transactions = [];
+
     let selectedPlanner = today();
     let selectedJournal = today();
     let goalFilter = state.settings.goalFilter || 'all';
     let favoritesOnly = false;
     let readerDate = null;
     let saveTimer = null;
+    let selectedMoneyMonth = today().slice(0,7);
+    let moneyTypeFilter = 'all';
+    let moneyCategoryFilter = 'all';
 
     function defaultProfile(){
       return {
@@ -2332,6 +2604,243 @@
       }
     };
 
+    const moneyCategories = {
+      expense:[
+        ['🍜','Хоол'],['🚌','Унаа'],['📚','Хичээл'],['👕','Хувцас'],
+        ['🎮','Entertainment'],['🧴','Хувийн хэрэгцээ'],['📦','Бусад']
+      ],
+      income:[
+        ['💵','Халаасны мөнгө'],['💼','Цалин'],['🎁','Бэлэг'],
+        ['🛍️','Борлуулалт'],['💰','Бусад']
+      ]
+    };
+
+    function moneyFmt(n){
+      return Math.round(Number(n)||0).toLocaleString('mn-MN') + '₮';
+    }
+
+    function moneyMonthTransactions(month=selectedMoneyMonth){
+      return state.money.transactions
+        .filter(t => String(t.date||'').startsWith(month))
+        .sort((a,b) => (b.date||'').localeCompare(a.date||'') || Number(b.createdAt||0)-Number(a.createdAt||0));
+    }
+
+    function moneySummary(month=selectedMoneyMonth){
+      const tx = moneyMonthTransactions(month);
+      const income = tx.filter(t=>t.type==='income').reduce((n,t)=>n+Number(t.amount||0),0);
+      const expense = tx.filter(t=>t.type==='expense').reduce((n,t)=>n+Number(t.amount||0),0);
+      return {tx,income,expense,balance:income-expense};
+    }
+
+    function moneyCategoryIcon(type,category){
+      const hit = (moneyCategories[type]||[]).find(x=>x[1]===category);
+      return hit?.[0] || (type==='income'?'💵':'💸');
+    }
+
+    function updateMoneyCategorySelect(type, selected=''){
+      const select = $('#moneyCategory');
+      const cats = moneyCategories[type] || moneyCategories.expense;
+      select.innerHTML = cats.map(([icon,name]) =>
+        `<option value="${esc(name)}">${icon} ${esc(name)}</option>`
+      ).join('');
+      if(selected && cats.some(x=>x[1]===selected)) select.value = selected;
+    }
+
+    function moneyInsightText(summary){
+      if(!summary.tx.length){
+        return '<b>💡 Tip:</b> Эхлээд нэг орлого эсвэл зарлага оруулбал app таны зардлын хэв маягийг харуулна.';
+      }
+
+      const expenses = summary.tx.filter(t=>t.type==='expense');
+      const byCat = {};
+      expenses.forEach(t => byCat[t.category] = (byCat[t.category]||0) + Number(t.amount||0));
+      const top = Object.entries(byCat).sort((a,b)=>b[1]-a[1])[0];
+
+      if(Number(state.money.monthlyBudget)>0 && summary.expense > Number(state.money.monthlyBudget)){
+        return `<b>⚠️ Төсөв:</b> Энэ сард төсвөөс ${moneyFmt(summary.expense-Number(state.money.monthlyBudget))} хэтэрсэн байна. Дараагийн зарлагаа оруулахаасаа өмнө хэрэгтэй эсэхийг нь нэг шалгаарай.`;
+      }
+
+      if(top){
+        const pct = summary.expense ? Math.round(top[1]/summary.expense*100) : 0;
+        if(summary.balance > 0){
+          const gentle = Math.round(summary.balance * 0.10 / 1000) * 1000;
+          return `<b>💡 Insight:</b> Хамгийн их зардал “${esc(top[0])}” (${pct}%). Одоогийн үлдэгдлээс ойролцоогоор ${moneyFmt(Math.max(0,gentle))}-ийг хадгаламждаа нэмж болох эсэхээ бодож үзээрэй.`;
+        }
+        return `<b>💡 Insight:</b> Хамгийн их зардал “${esc(top[0])}” ангилалд байна (${pct}%).`;
+      }
+
+      return '<b>💡 Tip:</b> Зарлагаа тогтмол тэмдэглэх нь хаанаас хэмнэж болохоо харахад хамгийн хэрэгтэй.';
+    }
+
+    function renderMoney(){
+      const s = moneySummary();
+
+      $('#moneyMonth').value = selectedMoneyMonth;
+      $('#moneyTypeFilter').value = moneyTypeFilter;
+
+      $('#moneyIncome').textContent = moneyFmt(s.income);
+      $('#moneyExpense').textContent = moneyFmt(s.expense);
+      $('#moneyBalance').textContent = moneyFmt(s.balance);
+      $('#moneyBalance').style.color = s.balance < 0 ? 'var(--red)' : '';
+
+      const budget = Number(state.money.monthlyBudget)||0;
+      const budgetPct = budget ? Math.min(100,Math.round(s.expense/budget*100)) : 0;
+      $('#budgetPercent').textContent = budget ? Math.round(s.expense/budget*100)+'%' : '0%';
+      $('#budgetUsedText').textContent = `${moneyFmt(s.expense)} / ${moneyFmt(budget)}`;
+      $('#budgetRemaining').textContent = budget
+        ? (s.expense <= budget ? `${moneyFmt(budget-s.expense)} үлдсэн` : `${moneyFmt(s.expense-budget)} хэтэрсэн`)
+        : 'Төсөв тохируулаагүй';
+      $('#budgetBarFill').style.width = budgetPct+'%';
+      $('#budgetBar').classList.toggle('danger',budget>0 && s.expense>budget);
+
+      const goal = Number(state.money.savingsGoal)||0;
+      const saved = Number(state.money.savedAmount)||0;
+      const savingsPct = goal ? Math.min(100,Math.round(saved/goal*100)) : 0;
+      $('#savingsPercent').textContent = goal ? Math.round(saved/goal*100)+'%' : '0%';
+      $('#savingsText').textContent = `${moneyFmt(saved)} / ${moneyFmt(goal)}`;
+      $('#savingsBarFill').style.width = savingsPct+'%';
+
+      $('#moneyBudget').value = budget || '';
+      $('#moneySavingsGoal').value = goal || '';
+      $('#moneySaved').value = saved || '';
+      $('#moneyInsight').innerHTML = moneyInsightText(s);
+
+      const allCategories = [...new Set(state.money.transactions.map(t=>t.category).filter(Boolean))].sort();
+      $('#moneyCategoryFilter').innerHTML =
+        '<option value="all">Бүх ангилал</option>' +
+        allCategories.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+      if(allCategories.includes(moneyCategoryFilter)) $('#moneyCategoryFilter').value = moneyCategoryFilter;
+      else moneyCategoryFilter = 'all';
+
+      let list = s.tx.filter(t =>
+        (moneyTypeFilter==='all' || t.type===moneyTypeFilter) &&
+        (moneyCategoryFilter==='all' || t.category===moneyCategoryFilter)
+      );
+
+      $('#moneyCount').textContent = list.length + ' гүйлгээ';
+
+      $('#moneyList').innerHTML = list.length
+        ? list.map(t => `
+          <div class="transaction">
+            <div class="transaction-icon">${moneyCategoryIcon(t.type,t.category)}</div>
+            <div>
+              <h4>${esc(t.note || t.category)}</h4>
+              <p>${esc(t.date)} · <span class="category-chip">${esc(t.category)}</span></p>
+            </div>
+            <div class="transaction-amount ${t.type}">
+              ${t.type==='income'?'+':'-'}${moneyFmt(t.amount)}
+            </div>
+            <button class="mini" type="button" data-edit-money="${esc(t.id)}" aria-label="Гүйлгээ засах">✎</button>
+          </div>
+        `).join('')
+        : '<div class="empty"><b>Гүйлгээ алга</b>Орлого эсвэл зарлага нэмээд эхлээрэй.</div>';
+
+      $$('[data-edit-money]').forEach(b =>
+        b.onclick = () => showMoneyModal(state.money.transactions.find(t=>t.id===b.dataset.editMoney))
+      );
+
+      renderTools();
+    }
+
+    function showMoneyModal(t=null, presetType='expense'){
+      const type = t?.type || presetType;
+      $('#moneyModalTitle').textContent = t ? 'Гүйлгээ засах' : (type==='income'?'Орлого нэмэх':'Зарлага нэмэх');
+      $('#moneyTransactionId').value = t?.id || '';
+      $('#moneyTransactionType').value = type;
+      $('#moneyAmount').value = t?.amount || '';
+      $('#moneyDate').value = t?.date || today();
+      $('#moneyNote').value = t?.note || '';
+      updateMoneyCategorySelect(type,t?.category||'');
+      $('#deleteMoneyTransaction').hidden = !t;
+      openModal('moneyModal');
+    }
+
+    $$('[data-add-money]').forEach(b => b.onclick = () => showMoneyModal(null,b.dataset.addMoney));
+
+    $('#moneyTransactionType').onchange = e => updateMoneyCategorySelect(e.target.value);
+
+    $('#moneyForm').onsubmit = e => {
+      e.preventDefault();
+
+      const id = $('#moneyTransactionId').value;
+      const old = state.money.transactions.find(t=>t.id===id);
+      const amount = Number($('#moneyAmount').value);
+
+      if(!Number.isFinite(amount) || amount <= 0){
+        toast('Дүнгээ зөв оруулна уу');
+        return;
+      }
+
+      const item = {
+        id:id || uid('money'),
+        type:$('#moneyTransactionType').value,
+        amount,
+        category:$('#moneyCategory').value,
+        date:$('#moneyDate').value,
+        note:$('#moneyNote').value.trim(),
+        createdAt:old?.createdAt || Date.now(),
+        updatedAt:Date.now()
+      };
+
+      if(id) state.money.transactions = state.money.transactions.map(t=>t.id===id?item:t);
+      else state.money.transactions.push(item);
+
+      save();
+      selectedMoneyMonth = item.date.slice(0,7);
+      closeModal('moneyModal');
+      renderMoney();
+      toast(id?'Гүйлгээ шинэчлэгдлээ':'Гүйлгээ нэмэгдлээ');
+    };
+
+    $('#deleteMoneyTransaction').onclick = () => {
+      const id = $('#moneyTransactionId').value;
+      if(id && confirm('Энэ гүйлгээг устгах уу?')){
+        state.money.transactions = state.money.transactions.filter(t=>t.id!==id);
+        save();
+        closeModal('moneyModal');
+        renderMoney();
+        toast('Гүйлгээ устгагдлаа');
+      }
+    };
+
+    $('#moneyMonth').onchange = e => {
+      selectedMoneyMonth = e.target.value || today().slice(0,7);
+      renderMoney();
+    };
+
+    $('#moneyTypeFilter').onchange = e => {
+      moneyTypeFilter = e.target.value;
+      renderMoney();
+    };
+
+    $('#moneyCategoryFilter').onchange = e => {
+      moneyCategoryFilter = e.target.value;
+      renderMoney();
+    };
+
+    $('#saveMoneySettings').onclick = () => {
+      state.money.monthlyBudget = Math.max(0,Number($('#moneyBudget').value)||0);
+      state.money.savingsGoal = Math.max(0,Number($('#moneySavingsGoal').value)||0);
+      state.money.savedAmount = Math.max(0,Number($('#moneySaved').value)||0);
+      save();
+      renderMoney();
+      toast('Money тохиргоо хадгалагдлаа');
+    };
+
+    function renderTools(){
+      const activeGoals = state.goals.filter(g=>!g.completed).length;
+      const entries = Object.values(state.journal||{}).filter(e=>e?.title || e?.body?.trim()).length;
+      const ms = moneySummary(today().slice(0,7));
+
+      if($('#toolGoalsStat')) $('#toolGoalsStat').textContent = activeGoals + ' идэвхтэй';
+      if($('#toolMoneyStat')) $('#toolMoneyStat').textContent = moneyFmt(ms.expense) + ' зарлага';
+      if($('#toolJournalStat')) $('#toolJournalStat').textContent = entries + ' бичлэг';
+      if($('#toolAiStat')) $('#toolAiStat').textContent = navigator.onLine ? 'Online' : 'Offline';
+    }
+
+    $$('[data-open-tool]').forEach(b => b.onclick = () => switchPage(b.dataset.openTool));
+    $$('[data-back-tools]').forEach(b => b.onclick = () => switchPage('tools'));
+
     function aiContext(){
       const t = progress(today());
       const active = state.goals
@@ -2354,7 +2863,19 @@
             done:!!x.doneDates?.[today()]
           }))
         },
-        activeGoals:active
+        activeGoals:active,
+        money:(() => {
+          const m = moneySummary(today().slice(0,7));
+          return {
+            month:today().slice(0,7),
+            income:m.income,
+            expense:m.expense,
+            balance:m.balance,
+            monthlyBudget:Number(state.money.monthlyBudget)||0,
+            savingsGoal:Number(state.money.savingsGoal)||0,
+            savedAmount:Number(state.money.savedAmount)||0
+          };
+        })()
       };
     }
 
@@ -2512,13 +3033,18 @@
     function switchPage(name){
       saveJournal();
 
+      const toolPages = ['goals','money','journal','ai'];
+      const navPage = toolPages.includes(name) ? 'tools' : name;
+
       $$('.page').forEach(p => p.classList.toggle('active',p.id===`page-${name}`));
-      $$('.nav button').forEach(b => b.classList.toggle('active',b.dataset.page===name));
+      $$('.nav button').forEach(b => b.classList.toggle('active',b.dataset.page===navPage));
 
       history.replaceState(null,'','#'+name);
 
       if(name==='journal') loadJournal(selectedJournal);
       if(name==='goals') renderGoals();
+      if(name==='money') renderMoney();
+      if(name==='tools') renderTools();
 
       window.scrollTo({top:0,behavior:'smooth'});
     }
@@ -2575,11 +3101,13 @@
       renderGoals();
       loadJournal(today());
       renderChat();
+      renderMoney();
+      renderTools();
 
       await initializeFirebaseSession();
 
       const hash = location.hash.slice(1);
-      if(['today','planner','goals','journal','ai'].includes(hash)){
+      if(['today','planner','tools','goals','money','journal','ai'].includes(hash)){
         switchPage(hash);
       }
     }
