@@ -1042,6 +1042,7 @@
         email:'',
         bio:'',
         avatar:'',
+        avatarSource:'',
         authMode:'device',
         updatedAt:Date.now()
       };
@@ -1051,6 +1052,15 @@
       ...defaultProfile(),
       ...(readJSON(PROFILE_KEY) || {})
     };
+
+    // Old versions didn't store avatarSource.
+    // Existing uploaded data/image avatars are treated as custom;
+    // remote Google URLs will be refreshed on Google login.
+    if(!profile.avatarSource && profile.avatar){
+      profile.avatarSource = profile.avatar.startsWith('data:image/')
+        ? 'custom'
+        : '';
+    }
 
     let session = {
       active:false,
@@ -1067,9 +1077,44 @@
     saveProfile();
     saveSession();
 
-    function avatarSrc(){
-      return profile.avatar || 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAEf0lEQVR42u3bMU7dQBQFUBhckRRkB0SiZidsAqXIklJEbIKdUCOxBBpEh5SCBikC/M3MeN6bc8sk+rGfj++M8ef429n5kcjWFCMQgAQgAUgAEgFIABKABCARgAQgAUgAEgFIABKABCARgAQgAUgAEoBENmQJetzXV/f5LsbN7UW4Yz6O8nthKcUk8DQ6oAndxJI0KCBuokgaDhA6sRgNBAidiIyGAIROXEaFntDZfXqFHoZCLmHo5FjOCj2qKBggejLNttDDUBhA9OSbc6GHoQCA6MlqqNDD0NCA6MltyFdaZWBA6id9CRV6GPpKWr0L66/n8vQk1kW9e37p/D+2eFm2hL6xwqF57+D7Yxq6gTrUT2g6O3ZS9RJaQt+4yfJ6arHaqH4DtaufxHR6tlHdEiqx7s55EuV8KwNqVD+z6Wl61nWv0eJGtCtKu4RNrifEHGoCqtuN9LSbRsUr5WWqZASkfqLMpBqgiq1IT4fJ1LpexX2mh+yBGubXHzOIA0j9hJuSBvq8fpRQc0BVdmTqp/Osqlw1DbRq96OERgekfoJOTAMJQF2e3q1iAElSQKNtgN4rm9FKaIS5aSABSAAaf/2ylQZIANq1fpQQQALQrvWjhAASgASguOuXVQwgAWjX+lFCAAlAAlDc9csqBpAAtGv9KCGA5KtZpj3zj5vj+4+f///h0+PDBx/19zdA1qx36Lz9q48ZzSZpQWelnrf/5j1DExbSws1BelYamqeQFnQO1bPe0AyFtEzuZpueQw0lLqRlcjp7HWQaRgs32+pnQwmlLKRlZjoKaVJA+d4exC2kBR2FNBGg18kmZqSBuk45jSR7IIU0HZ08j/FfLKSnx4fNT/LbnuGP/BxIIU1bOZkBbS6kbSV0UP14F5a8kA41tF6Pt/GzFNJ6Q2v0+D7QjIW0xtCnenwjcepCevVx0HeiJ3QzL6CVhWSDvDJ+rUcAqrGi7fgJAAlASkj9ACQACUDTrGLWL4AEoJ1KSP0AJAAJQBFXMesXQALQTiWkfgASgHYqIfUDkAAkAL3N3fNLiFVstPVrhLlpIAGoSwnZPgMkeQGNtg0aP4NMTAOtWsWsX20B3dxeKKFw9VPlqmmgz0tI/YQBpITCTUkDHfw8L0MDUkKx5lMNUJUdGUPdJlPrehX3me6xB5IUgCquYkqo6TQqXqkyz9ToaZElxOwuT0/QmeIxvu4qNnkVNTrruteouBed71dy/O3svPqHXl/dtzvi9MtZUzrVl4gl6HxTMorYsk0aqHUJ5WujPnRa7FCXNHMPhynHrq5VA3UrIdn3AbmEO2IZ6lqUoMctg1wFL1NlbEBKKHH9dGoghrLq6beEMZRST9c9EEP59PTeRDOUb84l8bnRkxAQQ8lmWyY5T3oapeG7sDXxviz6DVmmPXN6MgBiKPr0dl7CLGfRb7yBAGEUsbOHA4RRrOV+UEAkRdkmjg5oZkkhHi/CAJrBU8QH0qiAZJD4SqsAJAAJQAKQCEACkAAkAIkAJAAJQAKQCEACkAAkAIkAJAAJQAKQTJt/c8S9iPFTHGQAAAAASUVORK5CYII=';
+    function initialAvatarDataUrl(name){
+      const clean = String(name || '').trim();
+      const letter = (clean[0] || '?').toLocaleUpperCase('mn-MN');
+
+      const safeLetter = letter
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;')
+        .replace(/'/g,'&#39;');
+
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 320 320">
+          <defs>
+            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#6d5dfc"/>
+              <stop offset="100%" stop-color="#9c68ff"/>
+            </linearGradient>
+          </defs>
+          <rect width="320" height="320" rx="88" fill="url(#g)"/>
+          <text x="160" y="183"
+                text-anchor="middle"
+                dominant-baseline="middle"
+                font-family="Inter,Arial,sans-serif"
+                font-size="150"
+                font-weight="800"
+                fill="white">${safeLetter}</text>
+        </svg>
+      `;
+
+      return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
     }
+
+    function avatarSrc(){
+      return profile.avatar || initialAvatarDataUrl(profile.name || 'My Profile');
+    }
+
+
 
     function renderProfile(){
       const name = profile.name?.trim() || 'My Profile';
@@ -1229,9 +1274,18 @@
 
       profile.email = user.email || profile.email || '';
 
-      // Google photo-г зөвхөн хэрэглэгч custom avatar сонгоогүй үед авна.
-      if(user.photoURL && !profile.avatar){
-        profile.avatar = user.photoURL;
+      // Avatar priority:
+      // 1) хэрэглэгчийн өөрөө upload хийсэн зураг
+      // 2) Google profile зураг
+      // 3) нэрний эхний үсэг
+      if(profile.avatarSource !== 'custom'){
+        if(user.photoURL){
+          profile.avatar = user.photoURL;
+          profile.avatarSource = 'google';
+        }else{
+          profile.avatar = '';
+          profile.avatarSource = '';
+        }
       }
 
       profile.authMode = 'cloud';
@@ -1563,6 +1617,7 @@
         });
 
         profile.avatar = dataUrl;
+        profile.avatarSource = 'custom';
         profile.updatedAt = Date.now();
         saveProfile();
         renderProfile();
