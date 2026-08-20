@@ -1,1756 +1,726 @@
 <!DOCTYPE html>
 <html lang="mn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#6366f1">
-
-<title>My Life Tracker</title>
-
-<style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-:root {
-  --bg: #f5f7fb;
-  --card: #ffffff;
-  --text: #111827;
-  --muted: #6b7280;
-  --border: #e5e7eb;
-  --primary: #6366f1;
-  --primary2: #8b5cf6;
-  --green: #22c55e;
-  --red: #ef4444;
-}
-
-body.dark {
-  --bg: #0f172a;
-  --card: #1e293b;
-  --text: #f8fafc;
-  --muted: #94a3b8;
-  --border: #334155;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  padding-bottom: 90px;
-}
-
-button,
-input,
-textarea {
-  font-family: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-.app {
-  width: 100%;
-  max-width: 560px;
-  margin: auto;
-  padding: 18px 15px 35px;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 18px;
-}
-
-.logo {
-  font-size: 23px;
-  font-weight: 850;
-}
-
-.subtitle {
-  color: var(--muted);
-  font-size: 12px;
-  margin-top: 3px;
-}
-
-.icon-btn {
-  width: 42px;
-  height: 42px;
-  border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--text);
-  border-radius: 13px;
-  font-size: 18px;
-}
-
-.date-card {
-  background: linear-gradient(135deg, var(--primary), var(--primary2));
-  color: white;
-  border-radius: 22px;
-  padding: 17px;
-  margin-bottom: 13px;
-  box-shadow: 0 10px 30px rgba(99,102,241,.22);
-}
-
-.date-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.date-title {
-  text-align: center;
-  flex: 1;
-  font-weight: 750;
-  font-size: 14px;
-}
-
-.date-btn {
-  width: 38px;
-  height: 38px;
-  border: none;
-  border-radius: 12px;
-  background: rgba(255,255,255,.18);
-  color: white;
-  font-size: 22px;
-}
-
-.today-btn {
-  margin-top: 11px;
-  width: 100%;
-  border: none;
-  border-radius: 11px;
-  padding: 9px;
-  background: rgba(255,255,255,.15);
-  color: white;
-}
-
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 15px;
-  margin-bottom: 13px;
-}
-
-.progress-top {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 9px;
-}
-
-.progress-title {
-  font-weight: 750;
-  font-size: 14px;
-}
-
-.progress-percent {
-  color: var(--primary);
-  font-weight: 850;
-}
-
-.progress-bg {
-  height: 11px;
-  background: var(--border);
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, var(--primary), var(--primary2));
-  border-radius: 20px;
-  transition: .35s;
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 8px;
-  margin-bottom: 22px;
-}
-
-.stat {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 15px;
-  padding: 12px 4px;
-  text-align: center;
-}
-
-.stat-number {
-  font-size: 19px;
-  font-weight: 850;
-}
-
-.stat-label {
-  color: var(--muted);
-  font-size: 10px;
-  margin-top: 3px;
-}
-
-.section-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 21px 2px 10px;
-}
-
-.section-title h2 {
-  font-size: 17px;
-}
-
-.section-title span {
-  color: var(--muted);
-  font-size: 11px;
-}
-
-.item {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 13px;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  transition: .15s;
-}
-
-.item:active {
-  transform: scale(.985);
-}
-
-.item.done {
-  border-color: var(--green);
-  background: rgba(34,197,94,.08);
-}
-
-.item-icon {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg);
-  border-radius: 12px;
-  font-size: 20px;
-}
-
-.item-content {
-  flex: 1;
-}
-
-.item-name {
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.item-desc {
-  color: var(--muted);
-  font-size: 11px;
-  margin-top: 3px;
-}
-
-.check {
-  width: 25px;
-  height: 25px;
-  border: 2px solid var(--border);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 13px;
-}
-
-.done .check {
-  background: var(--green);
-  border-color: var(--green);
-}
-
-.goal {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 14px;
-  margin-bottom: 8px;
-}
-
-.goal.done {
-  border-color: var(--green);
-  background: rgba(34,197,94,.06);
-}
-
-.goal-top {
-  display: flex;
-  gap: 11px;
-  align-items: flex-start;
-}
-
-.goal-number {
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  background: rgba(99,102,241,.12);
-  color: var(--primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 12px;
-  flex-shrink: 0;
-}
-
-.goal.done .goal-number {
-  background: var(--green);
-  color: white;
-}
-
-.goal-content {
-  flex: 1;
-}
-
-.goal-title {
-  font-weight: 700;
-  font-size: 13px;
-}
-
-.goal-desc {
-  color: var(--muted);
-  font-size: 11px;
-  margin-top: 4px;
-  line-height: 1.4;
-}
-
-.input,
-textarea {
-  width: 100%;
-  padding: 11px;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--text);
-  border-radius: 11px;
-  outline: none;
-  font-size: 13px;
-}
-
-textarea {
-  min-height: 115px;
-  resize: vertical;
-}
-
-.row {
-  display: flex;
-  gap: 8px;
-}
-
-.row > * {
-  flex: 1;
-}
-
-.small-btn {
-  border: none;
-  background: var(--primary);
-  color: white;
-  border-radius: 10px;
-  padding: 10px 13px;
-  font-weight: 700;
-}
-
-.secondary-btn {
-  border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--text);
-  border-radius: 10px;
-  padding: 10px 13px;
-}
-
-.money-total {
-  margin-top: 10px;
-  font-size: 13px;
-  color: var(--muted);
-}
-
-.money-total strong {
-  color: var(--text);
-  font-size: 17px;
-}
-
-.water {
-  display: grid;
-  grid-template-columns: repeat(8,1fr);
-  gap: 5px;
-  margin-top: 10px;
-}
-
-.water-btn {
-  height: 39px;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  border-radius: 9px;
-  font-size: 17px;
-}
-
-.water-btn.active {
-  background: #dbeafe;
-  border-color: #60a5fa;
-}
-
-.task-list {
-  margin-top: 10px;
-}
-
-.task {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 9px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.task:last-child {
-  border-bottom: none;
-}
-
-.task.done span {
-  text-decoration: line-through;
-  color: var(--muted);
-}
-
-.task input {
-  accent-color: var(--primary);
-}
-
-.delete-task {
-  margin-left: auto;
-  border: none;
-  background: none;
-  color: var(--muted);
-}
-
-.ai-box {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 15px;
-}
-
-.ai-title {
-  font-weight: 850;
-  margin-bottom: 4px;
-}
-
-.ai-sub {
-  color: var(--muted);
-  font-size: 11px;
-  margin-bottom: 12px;
-}
-
-.chat {
-  margin-top: 10px;
-  max-height: 330px;
-  overflow-y: auto;
-}
-
-.message {
-  padding: 10px;
-  border-radius: 11px;
-  margin-bottom: 7px;
-  font-size: 12px;
-  white-space: pre-wrap;
-  line-height: 1.55;
-}
-
-.user-message {
-  background: rgba(99,102,241,.12);
-}
-
-.ai-message {
-  background: var(--bg);
-}
-
-.ai-row {
-  display: flex;
-  gap: 7px;
-  margin-top: 8px;
-}
-
-.ai-row .input {
-  flex: 1;
-}
-
-.ai-btn {
-  width: 48px;
-  border: none;
-  background: var(--primary);
-  color: white;
-  border-radius: 11px;
-  font-size: 20px;
-}
-
-.ai-btn:disabled {
-  opacity: .5;
-}
-
-.bottom-nav {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 0;
-  width: 100%;
-  max-width: 560px;
-  padding: 9px 10px calc(9px + env(safe-area-inset-bottom));
-  background: var(--card);
-  border-top: 1px solid var(--border);
-  display: flex;
-  justify-content: space-around;
-  z-index: 20;
-}
-
-.nav-btn {
-  border: none;
-  background: none;
-  color: var(--muted);
-  font-size: 9px;
-}
-
-.nav-btn span {
-  display: block;
-  font-size: 19px;
-  margin-bottom: 2px;
-}
-
-.toast {
-  position: fixed;
-  left: 50%;
-  bottom: 75px;
-  transform: translateX(-50%) translateY(20px);
-  background: #111827;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 10px;
-  font-size: 12px;
-  opacity: 0;
-  pointer-events: none;
-  transition: .25s;
-  z-index: 50;
-}
-
-.toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Life Tracker" />
+  <link rel="manifest" href="/manifest.json" />
+  <title>My Life Tracker</title>
+
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg:#f5f7fb; --card:#fff; --text:#111827; --muted:#6b7280; --border:#e5e7eb;
+      --primary:#6366f1; --primary2:#8b5cf6; --green:#22c55e; --red:#ef4444;
+      --shadow:0 10px 28px rgba(15,23,42,.08);
+    }
+    body.dark {
+      --bg:#0f172a; --card:#111827; --text:#f8fafc; --muted:#94a3b8; --border:#243044;
+      --shadow:0 10px 28px rgba(0,0,0,.25);
+    }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--text); }
+    body {
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+      min-height:100vh; padding-bottom:86px;
+    }
+    button,input,textarea,select { font:inherit; }
+    button { cursor:pointer; }
+    .app { max-width:560px; margin:0 auto; padding:18px 14px 28px; }
+    .topbar { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px; }
+    .brand h1 { margin:0; font-size:23px; line-height:1.1; }
+    .brand p { margin:5px 0 0; color:var(--muted); font-size:12px; }
+    .icon-btn {
+      width:42px; height:42px; border-radius:13px; border:1px solid var(--border);
+      background:var(--card); color:var(--text);
+    }
+
+    .hero {
+      background:linear-gradient(135deg,var(--primary),var(--primary2)); color:white;
+      border-radius:22px; padding:17px; box-shadow:0 14px 35px rgba(99,102,241,.25); margin-bottom:13px;
+    }
+    .hero-date { display:flex; align-items:center; gap:10px; }
+    .hero-date button {
+      width:38px; height:38px; border:0; border-radius:12px; background:rgba(255,255,255,.16); color:white; font-size:21px;
+    }
+    .date-title { flex:1; text-align:center; font-weight:800; font-size:14px; }
+    .today-btn { width:100%; margin-top:10px; border:0; border-radius:11px; padding:9px; background:rgba(255,255,255,.14); color:white; }
+
+    .card {
+      background:var(--card); border:1px solid var(--border); border-radius:18px;
+      padding:14px; box-shadow:var(--shadow); margin-bottom:12px;
+    }
+    .progress-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:9px; }
+    .progress-head strong { font-size:14px; }
+    .progress-percent { color:var(--primary); font-weight:900; }
+    .progress-bg { height:11px; border-radius:999px; background:var(--border); overflow:hidden; }
+    .progress-bar { height:100%; width:0%; background:linear-gradient(90deg,var(--primary),var(--primary2)); transition:.3s; }
+    .mini-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:12px; }
+    .stat { text-align:center; background:var(--bg); border-radius:12px; padding:10px 4px; }
+    .stat b { display:block; font-size:18px; }
+    .stat span { color:var(--muted); font-size:10px; }
+
+    .view { display:none; }
+    .view.active { display:block; }
+
+    .section-title {
+      display:flex; align-items:center; justify-content:space-between; margin:20px 2px 9px;
+    }
+    .section-title h2 { margin:0; font-size:16px; }
+    .section-title small { color:var(--muted); }
+
+    .task {
+      display:flex; align-items:center; gap:10px; padding:12px;
+      background:var(--card); border:1px solid var(--border); border-radius:15px; margin-bottom:8px;
+    }
+    .task.done { opacity:.68; }
+    .task.done .task-name { text-decoration:line-through; }
+    .task-check {
+      width:28px; height:28px; border-radius:50%; border:2px solid var(--border);
+      display:flex; align-items:center; justify-content:center; flex-shrink:0; color:white;
+    }
+    .task.done .task-check { background:var(--green); border-color:var(--green); }
+    .task-main { flex:1; min-width:0; }
+    .task-top { display:flex; align-items:center; gap:7px; }
+    .task-time { font-size:12px; color:var(--primary); font-weight:800; }
+    .task-name { font-weight:750; font-size:14px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .task-meta { margin-top:3px; color:var(--muted); font-size:10px; display:flex; gap:7px; flex-wrap:wrap; }
+    .task-actions { display:flex; gap:4px; }
+    .task-actions button { border:0; background:transparent; color:var(--muted); font-size:16px; padding:5px; }
+
+    .empty {
+      border:1px dashed var(--border); color:var(--muted); border-radius:15px; padding:18px; text-align:center; font-size:12px;
+    }
+    .fab {
+      position:fixed; right:max(18px,calc((100vw - 560px)/2 + 18px)); bottom:86px;
+      width:56px; height:56px; border:0; border-radius:18px; color:white;
+      background:linear-gradient(135deg,var(--primary),var(--primary2)); font-size:28px;
+      box-shadow:0 12px 28px rgba(99,102,241,.32); z-index:25;
+    }
+
+    .planner-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
+    .day-chip {
+      border:1px solid var(--border); background:var(--card); color:var(--text);
+      border-radius:13px; padding:9px 2px; text-align:center;
+    }
+    .day-chip.active { border-color:var(--primary); background:rgba(99,102,241,.10); }
+    .day-chip b { display:block; font-size:13px; }
+    .day-chip span { color:var(--muted); font-size:9px; }
+
+    .goal {
+      background:var(--card); border:1px solid var(--border); border-radius:15px;
+      padding:13px; margin-bottom:8px; display:flex; gap:11px; align-items:flex-start;
+    }
+    .goal.done { border-color:var(--green); }
+    .goal-num {
+      width:34px; height:34px; border-radius:10px; background:rgba(99,102,241,.12);
+      color:var(--primary); display:flex; align-items:center; justify-content:center; font-weight:900; flex-shrink:0;
+    }
+    .goal.done .goal-num { background:var(--green); color:white; }
+    .goal-main { flex:1; }
+    .goal-title { font-weight:800; font-size:13px; }
+    .goal-desc { color:var(--muted); font-size:11px; line-height:1.45; margin-top:3px; }
+
+    textarea {
+      width:100%; min-height:180px; resize:vertical; border:1px solid var(--border);
+      background:var(--card); color:var(--text); border-radius:15px; padding:13px; outline:none;
+    }
+
+    .chat { max-height:420px; overflow:auto; margin-bottom:9px; }
+    .msg { padding:10px 11px; border-radius:13px; margin-bottom:7px; font-size:12px; line-height:1.5; white-space:pre-wrap; }
+    .msg.user { background:rgba(99,102,241,.12); }
+    .msg.ai { background:var(--card); border:1px solid var(--border); }
+    .ai-row { display:flex; gap:7px; }
+    .ai-row input {
+      flex:1; border:1px solid var(--border); background:var(--card); color:var(--text);
+      border-radius:13px; padding:12px; outline:none;
+    }
+    .ai-row button { width:48px; border:0; border-radius:13px; background:var(--primary); color:white; font-size:20px; }
+
+    .bottom-nav {
+      position:fixed; left:50%; transform:translateX(-50%); bottom:0; width:100%; max-width:560px;
+      background:var(--card); border-top:1px solid var(--border); padding:8px 8px calc(8px + env(safe-area-inset-bottom));
+      display:grid; grid-template-columns:repeat(5,1fr); z-index:20;
+    }
+    .nav-btn { border:0; background:transparent; color:var(--muted); font-size:9px; padding:5px 2px; }
+    .nav-btn span { display:block; font-size:20px; margin-bottom:2px; }
+    .nav-btn.active { color:var(--primary); font-weight:800; }
+
+    .modal-backdrop {
+      position:fixed; inset:0; background:rgba(15,23,42,.48); display:none; align-items:flex-end; justify-content:center;
+      z-index:50; padding:0;
+    }
+    .modal-backdrop.show { display:flex; }
+    .modal {
+      width:100%; max-width:560px; background:var(--card); border-radius:24px 24px 0 0;
+      padding:18px 15px calc(18px + env(safe-area-inset-bottom)); max-height:88vh; overflow:auto;
+    }
+    .modal-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+    .modal-head h3 { margin:0; }
+    .close-btn { border:0; background:var(--bg); color:var(--text); width:34px; height:34px; border-radius:10px; }
+    .field { margin-bottom:11px; }
+    .field label { display:block; color:var(--muted); font-size:11px; margin-bottom:5px; }
+    .field input,.field select {
+      width:100%; border:1px solid var(--border); background:var(--bg); color:var(--text);
+      border-radius:12px; padding:11px; outline:none;
+    }
+    .modal-actions { display:flex; gap:8px; margin-top:14px; }
+    .primary-btn,.danger-btn,.ghost-btn { flex:1; border:0; border-radius:12px; padding:11px; font-weight:800; }
+    .primary-btn { background:var(--primary); color:white; }
+    .danger-btn { background:rgba(239,68,68,.12); color:var(--red); }
+    .ghost-btn { background:var(--bg); color:var(--text); }
+
+    .toast {
+      position:fixed; left:50%; bottom:84px; transform:translateX(-50%) translateY(12px);
+      background:#111827; color:white; border-radius:11px; padding:10px 14px; font-size:12px;
+      opacity:0; pointer-events:none; transition:.25s; z-index:80;
+    }
+    .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+  </style>
 </head>
 
 <body>
-
 <div class="app">
 
-<header class="header">
-  <div>
-    <div class="logo">🚀 My Life Tracker</div>
-    <div class="subtitle">Өдөр бүр 1% илүү сайн</div>
+  <header class="topbar">
+    <div class="brand">
+      <h1>🚀 My Life Tracker</h1>
+      <p>Өдөр бүр 1% илүү сайн</p>
+    </div>
+    <button class="icon-btn" onclick="toggleDark()">🌙</button>
+  </header>
+
+  <section id="todayView" class="view active">
+    <div class="hero">
+      <div class="hero-date">
+        <button onclick="changeDate(-1)">‹</button>
+        <div id="dateDisplay" class="date-title"></div>
+        <button onclick="changeDate(1)">›</button>
+      </div>
+      <button class="today-btn" onclick="goToday()">📅 Өнөөдөр рүү буцах</button>
+    </div>
+
+    <div class="card">
+      <div class="progress-head">
+        <strong>Өдрийн ахиц</strong>
+        <span id="progressPercent" class="progress-percent">0%</span>
+      </div>
+      <div class="progress-bg"><div id="progressBar" class="progress-bar"></div></div>
+
+      <div class="mini-stats">
+        <div class="stat"><b id="doneTasks">0</b><span>Хийсэн</span></div>
+        <div class="stat"><b id="totalTasks">0</b><span>Нийт task</span></div>
+        <div class="stat"><b id="streak">0🔥</b><span>Streak</span></div>
+      </div>
+    </div>
+
+    <div class="section-title"><h2>🌅 Өглөө</h2><small id="morningCount"></small></div>
+    <div id="morningTasks"></div>
+
+    <div class="section-title"><h2>☀️ Өдөр</h2><small id="dayCount"></small></div>
+    <div id="dayTasks"></div>
+
+    <div class="section-title"><h2>🌙 Орой</h2><small id="eveningCount"></small></div>
+    <div id="eveningTasks"></div>
+  </section>
+
+  <section id="plannerView" class="view">
+    <div class="section-title"><h2>📅 Planner</h2><small>7 хоног</small></div>
+    <div class="card">
+      <div id="weekGrid" class="planner-grid"></div>
+    </div>
+
+    <div class="card">
+      <div class="progress-head">
+        <strong id="plannerDateTitle">Сонгосон өдөр</strong>
+        <span id="plannerProgress" class="progress-percent">0%</span>
+      </div>
+      <div class="progress-bg"><div id="plannerProgressBar" class="progress-bar"></div></div>
+    </div>
+
+    <div id="plannerTasks"></div>
+  </section>
+
+  <section id="goalsView" class="view">
+    <div class="section-title"><h2>🎯 Миний 13 зорилго</h2><small id="goalCount">0/13</small></div>
+    <div id="goalsList"></div>
+  </section>
+
+  <section id="journalView" class="view">
+    <div class="section-title"><h2>📝 Өдрийн тэмдэглэл</h2><small id="journalDate"></small></div>
+    <textarea id="journal" placeholder="Өнөөдөр юу болсон бэ? Юу сурсан бэ? Маргааш юуг илүү сайн хийх вэ?" oninput="saveJournal()"></textarea>
+  </section>
+
+  <section id="aiView" class="view">
+    <div class="section-title"><h2>🤖 AI Coach</h2><small>My Life Tracker</small></div>
+    <div class="card">
+      <div id="chat" class="chat"></div>
+      <div class="ai-row">
+        <input id="aiInput" placeholder="Жишээ: Өнөөдөр юу хийх вэ?" onkeydown="if(event.key==='Enter') askAI()" />
+        <button id="aiBtn" onclick="askAI()">→</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<button class="fab" id="fab" onclick="openTaskModal()">+</button>
+
+<nav class="bottom-nav">
+  <button class="nav-btn active" data-view="today" onclick="switchView('today',this)"><span>🏠</span>Өнөөдөр</button>
+  <button class="nav-btn" data-view="planner" onclick="switchView('planner',this)"><span>📅</span>Planner</button>
+  <button class="nav-btn" data-view="goals" onclick="switchView('goals',this)"><span>🎯</span>Зорилго</button>
+  <button class="nav-btn" data-view="journal" onclick="switchView('journal',this)"><span>📝</span>Тэмдэглэл</button>
+  <button class="nav-btn" data-view="ai" onclick="switchView('ai',this)"><span>🤖</span>AI</button>
+</nav>
+
+<div id="taskModal" class="modal-backdrop" onclick="if(event.target===this) closeTaskModal()">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modalTitle">➕ Task нэмэх</h3>
+      <button class="close-btn" onclick="closeTaskModal()">✕</button>
+    </div>
+
+    <div class="field">
+      <label>Task нэр</label>
+      <input id="taskName" placeholder="Жишээ: Python 30 минут" />
+    </div>
+
+    <div class="field">
+      <label>Цаг</label>
+      <input id="taskTime" type="time" />
+    </div>
+
+    <div class="field">
+      <label>Үе</label>
+      <select id="taskPeriod">
+        <option value="morning">🌅 Өглөө</option>
+        <option value="day">☀️ Өдөр</option>
+        <option value="evening">🌙 Орой</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Давталт</label>
+      <select id="taskRepeat">
+        <option value="once">Нэг удаа</option>
+        <option value="daily">🔁 Өдөр бүр</option>
+      </select>
+    </div>
+
+    <div class="modal-actions">
+      <button id="deleteTaskBtn" class="danger-btn" onclick="deleteEditingTask()" style="display:none">Устгах</button>
+      <button class="primary-btn" onclick="saveTask()">Хадгалах</button>
+    </div>
   </div>
-
-  <button class="icon-btn" onclick="toggleDark()">🌙</button>
-</header>
-
-<div class="date-card">
-  <div class="date-row">
-    <button class="date-btn" onclick="changeDate(-1)">‹</button>
-    <div id="date-display" class="date-title"></div>
-    <button class="date-btn" onclick="changeDate(1)">›</button>
-  </div>
-
-  <button class="today-btn" onclick="goToday()">
-    📅 Өнөөдөр
-  </button>
-</div>
-
-<div class="card">
-
-  <div class="progress-top">
-    <span class="progress-title">Өнөөдрийн ахиц</span>
-    <span id="progress-percent" class="progress-percent">0%</span>
-  </div>
-
-  <div class="progress-bg">
-    <div id="progress-bar" class="progress-bar"></div>
-  </div>
-
-</div>
-
-<div class="stats">
-
-  <div class="stat">
-    <div id="done-count" class="stat-number">0</div>
-    <div class="stat-label">Биелүүлсэн</div>
-  </div>
-
-  <div class="stat">
-    <div id="streak-count" class="stat-number">0🔥</div>
-    <div class="stat-label">Streak</div>
-  </div>
-
-  <div class="stat">
-    <div id="goal-count" class="stat-number">0/13</div>
-    <div class="stat-label">Зорилго</div>
-  </div>
-
-</div>
-
-<div class="section-title">
-  <h2>☀️ Өдөр тутмын зуршил</h2>
-  <span>8 зүйл</span>
-</div>
-
-<div id="habits-container"></div>
-
-<div class="section-title">
-  <h2>🎯 13 том зорилго</h2>
-  <span>2026–2027</span>
-</div>
-
-<div id="goals-container"></div>
-
-<div class="section-title">
-  <h2>💧 Ус</h2>
-  <span>Өнөөдөр</span>
-</div>
-
-<div class="card">
-  <div id="water-count">0 стакан</div>
-
-  <div class="water" id="water-container"></div>
-</div>
-
-<div class="section-title">
-  <h2>⏰ Өнөөдрийн хийх зүйл</h2>
-</div>
-
-<div class="card">
-
-  <div class="row">
-    <input
-      id="task-input"
-      class="input"
-      placeholder="Жишээ: Математик 30 минут"
-    >
-
-    <button
-      class="small-btn"
-      onclick="addTask()"
-    >
-      Нэмэх
-    </button>
-  </div>
-
-  <div id="task-list" class="task-list"></div>
-
-</div>
-
-<div class="section-title">
-  <h2>💰 Өдрийн зарлага</h2>
-</div>
-
-<div class="card">
-
-  <div class="row">
-    <input
-      id="expense-input"
-      class="input"
-      type="number"
-      min="0"
-      placeholder="Дүн ₮"
-    >
-
-    <button
-      class="small-btn"
-      onclick="addExpense()"
-    >
-      Нэмэх
-    </button>
-  </div>
-
-  <div class="money-total">
-    Өнөөдрийн нийт:
-    <strong id="expense-total">0₮</strong>
-  </div>
-
-</div>
-
-<div class="section-title">
-  <h2>📝 Өдрийн тэмдэглэл</h2>
-</div>
-
-<div class="card">
-
-<textarea
-  id="daily-note"
-  placeholder="Өнөөдөр юу хийв?
-Юу сурсан бэ?
-Маргааш юу хийх вэ?"
-  oninput="saveNote()"
-></textarea>
-
-</div>
-
-<div class="section-title">
-  <h2>🤖 AI Coach</h2>
-</div>
-
-<div class="ai-box">
-
-  <div class="ai-title">
-    Миний хувийн AI туслах
-  </div>
-
-  <div class="ai-sub">
-    AI чиний өнөөдрийн зуршил, зорилго, хийх зүйл, тэмдэглэл зэргийг харгалзан зөвлөгөө өгнө.
-  </div>
-
-  <div id="chat" class="chat"></div>
-
-  <div class="ai-row">
-
-    <input
-      id="ai-query"
-      class="input"
-      placeholder="Жишээ: Өнөөдөр юу хийх вэ?"
-      onkeydown="if(event.key==='Enter') askAI()"
-    >
-
-    <button
-      id="ai-btn"
-      class="ai-btn"
-      onclick="askAI()"
-    >
-      →
-    </button>
-
-  </div>
-
-</div>
-
-</div>
-
-<div class="bottom-nav">
-
-<button class="nav-btn" onclick="scrollTopPage()">
-  <span>🏠</span>
-  Нүүр
-</button>
-
-<button class="nav-btn" onclick="scrollToSection('habits-container')">
-  <span>✅</span>
-  Зуршил
-</button>
-
-<button class="nav-btn" onclick="scrollToSection('goals-container')">
-  <span>🎯</span>
-  Зорилго
-</button>
-
-<button class="nav-btn" onclick="scrollToSection('daily-note')">
-  <span>📝</span>
-  Тэмдэглэл
-</button>
-
-<button class="nav-btn" onclick="scrollToSection('chat')">
-  <span>🤖</span>
-  AI
-</button>
-
 </div>
 
 <div id="toast" class="toast"></div>
 
 <script>
+const STORAGE_KEY = "mlt_v3";
+const GOALS_KEY = "mlt_goals_v1";
 
-const habits = [
-
-  {
-    id:"h1",
-    icon:"⏰",
-    name:"Эрт босох",
-    desc:"Өглөөг тайван эхлүүлэх"
-  },
-
-  {
-    id:"h2",
-    icon:"💧",
-    name:"Ус уух",
-    desc:"Өдрийн турш тогтмол ус уух"
-  },
-
-  {
-    id:"h3",
-    icon:"🧹",
-    name:"Өрөөгөө цэгцлэх",
-    desc:"Орчноо цэвэр байлгах"
-  },
-
-  {
-    id:"h4",
-    icon:"🪥",
-    name:"Шүдээ угаах",
-    desc:"Өглөө + орой"
-  },
-
-  {
-    id:"h5",
-    icon:"🏃",
-    name:"Хөдөлгөөн хийх",
-    desc:"Алхах, гүйх эсвэл дасгал"
-  },
-
-  {
-    id:"h6",
-    icon:"🥗",
-    name:"Тэнцвэртэй хооллох",
-    desc:"Өдрийн хоолоо алгасахгүй"
-  },
-
-  {
-    id:"h7",
-    icon:"📚",
-    name:"Хичээл давтах",
-    desc:"Өдөр бүр сурах"
-  },
-
-  {
-    id:"h8",
-    icon:"🚫",
-    name:"Vape хэрэглэхгүй",
-    desc:"Өөртөө эрүүл сонголт хийх"
-  }
-
+const goalsData = [
+  ["Сургууль & дүн","Хичээлдээ анхаарч, сайхан дурсамж бүтээх."],
+  ["Англи & Орос хэл","Англи хэлээ ахиулж, Орос хэл сурч эхлэх."],
+  ["Ирээдүйн мэргэжил","Өөрийн сонирхол, чадвараа судлах."],
+  ["Код & AI","Python сурч, өөрийн жижиг төслүүд хийх."],
+  ["Мөнгөө зөв зарцуулах","Дэмий зардлаа багасгаж, хуримтлал бий болгох."],
+  ["Биеэ хөгжүүлэх","Тогтмол хөдөлгөөн, амралтын зөв дадал бий болгох."],
+  ["Өөрийн хүчтэй тал","Юунд сайн, юу сонирхдог гэдгээ олох."],
+  ["Эелдэг харилцаа","Хүмүүстэй хүндэтгэлтэй харилцах."],
+  ["Сэтгэл хөдлөлөө удирдах","Уур бухимдлаа зөв зохицуулж сурах."],
+  ["Vape-ээс гарах","Никотингүй өдрүүдээ нэмэгдүүлэх."],
+  ["Эрүүл амьдрал","Нойр, хооллолт, хөдөлгөөний зөв дадал."],
+  ["Арьс арчилгаа","Тогтмол, энгийн арьс арчилгааны дадал."],
+  ["Өөрийн зохиол","Өдөр бүр бага багаар бичиж бүтээл гаргах."]
 ];
 
-const goals = [
+let state = loadJSON(STORAGE_KEY,{days:{},templates:[]});
+let goalState = loadJSON(GOALS_KEY,{});
+let selectedDate = new Date();
+let editingTaskId = null;
+let currentView = "today";
 
-["g1","1","Сургууль & Дүн","Хичээлдээ анхаарч, сайхан дурсамж бүтээх."],
-
-["g2","2","Англи & Орос хэл","Англи хэлээ ахиулж, Орос хэл сурч эхлэх."],
-
-["g3","3","Ирээдүйн мэргэжил","Өөрийн сонирхол, чадвараа судлах."],
-
-["g4","4","Код & AI","Python сурч, өөрийн жижиг төслүүд хийх."],
-
-["g5","5","Мөнгөө зөв зарцуулах","Дэмий зардлаа багасгаж, хуримтлал бий болгох."],
-
-["g6","6","Биеэ хөгжүүлэх","Тогтмол хөдөлгөөн, амралтын зөв дадал бий болгох."],
-
-["g7","7","Өөрийн хүчтэй тал","Юунд сайн, юу сонирхдог гэдгээ олох."],
-
-["g8","8","Эелдэг харилцаа","Хүмүүстэй хүндэтгэлтэй харилцах."],
-
-["g9","9","Сэтгэл хөдлөлөө удирдах","Уур бухимдлаа зөв зохицуулж сурах."],
-
-["g10","10","Vape-ээс гарах","Vape хэрэглэхгүй байх зорилго."],
-
-["g11","11","Эрүүл амьдрал","Нойр, хооллолт, хөдөлгөөний зөв дадал."],
-
-["g12","12","Арьс арчилгаа","Арьсаа зөв арчлах тогтмол routine."],
-
-["g13","13","Өөрийн зохиол","Өдөр бүр бага багаар бичиж бүтээл гаргах."]
-
-];
-
-let db = {};
-
-try {
-  db =
-    JSON.parse(
-      localStorage.getItem("lifeTrackerDB")
-    ) || {};
-} catch {
-  db = {};
+function loadJSON(key,fallback){
+  try { return JSON.parse(localStorage.getItem(key)) || fallback; }
+  catch { return fallback; }
 }
-
-let currentDate = new Date();
-
+function persist(){
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+  localStorage.setItem(GOALS_KEY,JSON.stringify(goalState));
+}
 function dateKey(date){
-
-  const y =
-    date.getFullYear();
-
-  const m =
-    String(date.getMonth()+1)
-    .padStart(2,"0");
-
-  const d =
-    String(date.getDate())
-    .padStart(2,"0");
-
+  const y=date.getFullYear();
+  const m=String(date.getMonth()+1).padStart(2,"0");
+  const d=String(date.getDate()).padStart(2,"0");
   return `${y}-${m}-${d}`;
-
 }
-
 function getDay(key){
+  if(!state.days[key]) state.days[key]={tasks:[],journal:""};
+  if(!Array.isArray(state.days[key].tasks)) state.days[key].tasks=[];
+  if(typeof state.days[key].journal!=="string") state.days[key].journal="";
+  return state.days[key];
+}
+function clone(obj){ return JSON.parse(JSON.stringify(obj)); }
 
-  if(!db[key]){
+function ensureStarterTemplates(){
+  if(state.templates.length) return;
+  state.templates = [
+    {id:"tpl1",name:"Ороо хураах",time:"07:10",period:"morning",repeat:"daily"},
+    {id:"tpl2",name:"Өглөө шүдээ угаах",time:"07:15",period:"morning",repeat:"daily"},
+    {id:"tpl3",name:"Ус уух",time:"07:20",period:"morning",repeat:"daily"},
+    {id:"tpl4",name:"Хичээл давтах",time:"17:00",period:"day",repeat:"daily"},
+    {id:"tpl5",name:"Орой шүдээ угаах",time:"22:00",period:"evening",repeat:"daily"},
+    {id:"tpl6",name:"Өдрийн тэмдэглэл",time:"22:15",period:"evening",repeat:"daily"},
+    {id:"tpl7",name:"Унтахад бэлдэх",time:"22:45",period:"evening",repeat:"daily"}
+  ];
+  persist();
+}
 
-    db[key] = {
-      habits:{},
-      goals:{},
-      note:"",
-      water:0,
-      tasks:[],
-      expenses:[]
-    };
+function tasksForDate(key){
+  const day = getDay(key);
+  const recurring = state.templates.map(t=>({
+    ...clone(t),
+    id:`${t.id}_${key}`,
+    templateId:t.id,
+    recurring:true,
+    done:!!day.tasks.find(x=>x.templateId===t.id)?.done
+  }));
+  const once = day.tasks.filter(t=>!t.templateId);
+  return [...recurring,...once].sort((a,b)=>(a.time||"99:99").localeCompare(b.time||"99:99"));
+}
 
+function setTaskDone(task){
+  const key=dateKey(selectedDate);
+  const day=getDay(key);
+
+  if(task.recurring){
+    const existing=day.tasks.find(x=>x.templateId===task.templateId);
+    if(existing) existing.done=!existing.done;
+    else day.tasks.push({id:crypto.randomUUID(),templateId:task.templateId,done:true});
+  } else {
+    const existing=day.tasks.find(x=>x.id===task.id);
+    if(existing) existing.done=!existing.done;
+  }
+  persist();
+  renderAll();
+}
+
+function taskCard(task){
+  const meta=[
+    task.repeat==="daily"||task.recurring ? "🔁 Өдөр бүр" : "Нэг удаа",
+    task.period==="morning"?"🌅 Өглөө":task.period==="day"?"☀️ Өдөр":"🌙 Орой"
+  ].join(" · ");
+
+  return `
+    <div class="task ${task.done?"done":""}">
+      <div class="task-check" onclick='toggleTaskFromId(${JSON.stringify(task.id)})'>${task.done?"✓":""}</div>
+      <div class="task-main">
+        <div class="task-top">
+          <span class="task-time">${escapeHTML(task.time||"--:--")}</span>
+          <span class="task-name">${escapeHTML(task.name)}</span>
+        </div>
+        <div class="task-meta">${meta}</div>
+      </div>
+      <div class="task-actions">
+        <button onclick='editTaskById(${JSON.stringify(task.id)})'>✏️</button>
+      </div>
+    </div>`;
+}
+
+function findRenderedTask(id){
+  return tasksForDate(dateKey(selectedDate)).find(t=>t.id===id);
+}
+function toggleTaskFromId(id){
+  const task=findRenderedTask(id);
+  if(task) setTaskDone(task);
+}
+function editTaskById(id){
+  const task=findRenderedTask(id);
+  if(!task) return;
+
+  editingTaskId=id;
+  document.getElementById("modalTitle").textContent="✏️ Task засах";
+  document.getElementById("taskName").value=task.name;
+  document.getElementById("taskTime").value=task.time||"";
+  document.getElementById("taskPeriod").value=task.period;
+  document.getElementById("taskRepeat").value=task.recurring||task.repeat==="daily"?"daily":"once";
+  document.getElementById("deleteTaskBtn").style.display="block";
+  document.getElementById("taskModal").classList.add("show");
+}
+
+function openTaskModal(){
+  editingTaskId=null;
+  document.getElementById("modalTitle").textContent="➕ Task нэмэх";
+  document.getElementById("taskName").value="";
+  document.getElementById("taskTime").value="";
+  document.getElementById("taskPeriod").value="morning";
+  document.getElementById("taskRepeat").value="once";
+  document.getElementById("deleteTaskBtn").style.display="none";
+  document.getElementById("taskModal").classList.add("show");
+}
+function closeTaskModal(){ document.getElementById("taskModal").classList.remove("show"); }
+
+function saveTask(){
+  const name=document.getElementById("taskName").value.trim();
+  const time=document.getElementById("taskTime").value;
+  const period=document.getElementById("taskPeriod").value;
+  const repeat=document.getElementById("taskRepeat").value;
+
+  if(!name){ toast("Task нэрээ бичээрэй"); return; }
+
+  const key=dateKey(selectedDate);
+  const day=getDay(key);
+
+  if(editingTaskId){
+    const old=findRenderedTask(editingTaskId);
+    if(!old) return;
+
+    if(old.recurring){
+      state.templates=state.templates.filter(t=>t.id!==old.templateId);
+      day.tasks=day.tasks.filter(x=>x.templateId!==old.templateId);
+    } else {
+      day.tasks=day.tasks.filter(x=>x.id!==old.id);
+    }
   }
 
-  if(!db[key].tasks)
-    db[key].tasks = [];
-
-  if(!db[key].expenses)
-    db[key].expenses = [];
-
-  if(typeof db[key].water !== "number")
-    db[key].water = 0;
-
-  return db[key];
-
-}
-
-function saveDB(){
-
-  localStorage.setItem(
-    "lifeTrackerDB",
-    JSON.stringify(db)
-  );
-
-}
-
-function render(){
-
-  const key =
-    dateKey(currentDate);
-
-  const day =
-    getDay(key);
-
-  document.getElementById(
-    "date-display"
-  ).textContent =
-    currentDate.toLocaleDateString(
-      "mn-MN",
-      {
-        weekday:"long",
-        year:"numeric",
-        month:"long",
-        day:"numeric"
-      }
-    );
-
-  const hc =
-    document.getElementById(
-      "habits-container"
-    );
-
-  hc.innerHTML = "";
-
-  habits.forEach(h=>{
-
-    const done =
-      !!day.habits[h.id];
-
-    const div =
-      document.createElement("div");
-
-    div.className =
-      "item" +
-      (done ? " done" : "");
-
-    div.onclick =
-      ()=>toggle("habits",h.id);
-
-    div.innerHTML = `
-
-      <div class="item-icon">
-        ${h.icon}
-      </div>
-
-      <div class="item-content">
-
-        <div class="item-name">
-          ${h.name}
-        </div>
-
-        <div class="item-desc">
-          ${h.desc}
-        </div>
-
-      </div>
-
-      <div class="check">
-        ${done ? "✓" : ""}
-      </div>
-
-    `;
-
-    hc.appendChild(div);
-
-  });
-
-  const gc =
-    document.getElementById(
-      "goals-container"
-    );
-
-  gc.innerHTML = "";
-
-  goals.forEach(g=>{
-
-    const [
-      id,
-      number,
-      title,
-      desc
-    ] = g;
-
-    const done =
-      !!day.goals[id];
-
-    const div =
-      document.createElement("div");
-
-    div.className =
-      "goal" +
-      (done ? " done" : "");
-
-    div.onclick =
-      ()=>toggle("goals",id);
-
-    div.innerHTML = `
-
-      <div class="goal-top">
-
-        <div class="goal-number">
-          ${number}
-        </div>
-
-        <div class="goal-content">
-
-          <div class="goal-title">
-            ${done ? "✓ " : ""}${title}
-          </div>
-
-          <div class="goal-desc">
-            ${desc}
-          </div>
-
-        </div>
-
-      </div>
-
-    `;
-
-    gc.appendChild(div);
-
-  });
-
-  document.getElementById(
-    "daily-note"
-  ).value =
-    day.note || "";
-
-  renderWater(day);
-  renderTasks(day);
-  renderExpenses(day);
-  updateProgress();
-  updateStreak();
-
-}
-
-function toggle(type,id){
-
-  const key =
-    dateKey(currentDate);
-
-  const day =
-    getDay(key);
-
-  day[type][id] =
-    !day[type][id];
-
-  saveDB();
-  render();
-
-  showToast(
-    day[type][id]
-      ? "✅ Амжилттай!"
-      : "↩️ Буцаалаа"
-  );
-
-}
-
-function updateProgress(){
-
-  const day =
-    getDay(dateKey(currentDate));
-
-  let done = 0;
-
-  habits.forEach(h=>{
-    if(day.habits[h.id])
-      done++;
-  });
-
-  goals.forEach(g=>{
-    if(day.goals[g[0]])
-      done++;
-  });
-
-  const total =
-    habits.length + goals.length;
-
-  const percent =
-    Math.round(
-      (done / total) * 100
-    );
-
-  document.getElementById(
-    "progress-bar"
-  ).style.width =
-    percent+"%";
-
-  document.getElementById(
-    "progress-percent"
-  ).textContent =
-    percent+"%";
-
-  document.getElementById(
-    "done-count"
-  ).textContent =
-    done;
-
-  let goalDone = 0;
-
-  goals.forEach(g=>{
-    if(day.goals[g[0]])
-      goalDone++;
-  });
-
-  document.getElementById(
-    "goal-count"
-  ).textContent =
-    goalDone + "/13";
-
-}
-
-function updateStreak(){
-
-  let streak = 0;
-
-  let d = new Date();
-
-  while(true){
-
-    const key =
-      dateKey(d);
-
-    if(!db[key])
-      break;
-
-    const day =
-      db[key];
-
-    let done = 0;
-
-    habits.forEach(h=>{
-      if(day.habits?.[h.id])
-        done++;
+  if(repeat==="daily"){
+    state.templates.push({
+      id:crypto.randomUUID(),
+      name,time,period,repeat:"daily"
     });
-
-    goals.forEach(g=>{
-      if(day.goals?.[g[0]])
-        done++;
+  } else {
+    day.tasks.push({
+      id:crypto.randomUUID(),
+      name,time,period,repeat:"once",done:false
     });
-
-    if(done === 0)
-      break;
-
-    streak++;
-
-    d.setDate(
-      d.getDate()-1
-    );
-
   }
 
-  document.getElementById(
-    "streak-count"
-  ).textContent =
-    streak + "🔥";
-
+  persist();
+  closeTaskModal();
+  renderAll();
+  toast("✅ Хадгаллаа");
 }
 
-function renderWater(day){
+function deleteEditingTask(){
+  if(!editingTaskId) return;
+  const key=dateKey(selectedDate);
+  const day=getDay(key);
+  const task=findRenderedTask(editingTaskId);
+  if(!task) return;
 
-  const container =
-    document.getElementById(
-      "water-container"
-    );
-
-  container.innerHTML = "";
-
-  for(let i=1;i<=8;i++){
-
-    const btn =
-      document.createElement("button");
-
-    btn.className =
-      "water-btn" +
-      (i <= day.water
-        ? " active"
-        : "");
-
-    btn.textContent = "💧";
-
-    btn.onclick = ()=>{
-      day.water =
-        i === day.water
-          ? i-1
-          : i;
-
-      saveDB();
-      render();
-    };
-
-    container.appendChild(btn);
-
+  if(task.recurring){
+    state.templates=state.templates.filter(t=>t.id!==task.templateId);
+    Object.values(state.days).forEach(d=>{
+      d.tasks=(d.tasks||[]).filter(x=>x.templateId!==task.templateId);
+    });
+  } else {
+    day.tasks=day.tasks.filter(x=>x.id!==task.id);
   }
-
-  document.getElementById(
-    "water-count"
-  ).textContent =
-    day.water + " стакан";
-
+  persist();
+  closeTaskModal();
+  renderAll();
+  toast("🗑️ Устгалаа");
 }
 
-function addTask(){
+function renderToday(){
+  const key=dateKey(selectedDate);
+  const tasks=tasksForDate(key);
+  const buckets={morning:[],day:[],evening:[]};
+  tasks.forEach(t=>buckets[t.period]?.push(t));
 
-  const input =
-    document.getElementById(
-      "task-input"
-    );
+  document.getElementById("dateDisplay").textContent=selectedDate.toLocaleDateString("mn-MN",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+  renderBucket("morningTasks",buckets.morning);
+  renderBucket("dayTasks",buckets.day);
+  renderBucket("eveningTasks",buckets.evening);
+  document.getElementById("morningCount").textContent=`${buckets.morning.filter(x=>x.done).length}/${buckets.morning.length}`;
+  document.getElementById("dayCount").textContent=`${buckets.day.filter(x=>x.done).length}/${buckets.day.length}`;
+  document.getElementById("eveningCount").textContent=`${buckets.evening.filter(x=>x.done).length}/${buckets.evening.length}`;
 
-  const text =
-    input.value.trim();
-
-  if(!text)
-    return;
-
-  const day =
-    getDay(dateKey(currentDate));
-
-  day.tasks.push({
-    id: Date.now(),
-    text,
-    done:false
-  });
-
-  input.value = "";
-
-  saveDB();
-  render();
-
-  showToast("✅ Task нэмэгдлээ");
-
+  const done=tasks.filter(t=>t.done).length;
+  const total=tasks.length;
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById("progressPercent").textContent=pct+"%";
+  document.getElementById("progressBar").style.width=pct+"%";
+  document.getElementById("doneTasks").textContent=done;
+  document.getElementById("totalTasks").textContent=total;
+  document.getElementById("streak").textContent=getStreak()+"🔥";
+}
+function renderBucket(id,list){
+  document.getElementById(id).innerHTML=list.length?list.map(taskCard).join(""):`<div class="empty">Энд task алга. + дарж нэмээрэй.</div>`;
 }
 
-function toggleTask(id){
+function renderPlanner(){
+  const week=[];
+  const base=new Date(selectedDate);
+  for(let i=-3;i<=3;i++){ const d=new Date(base); d.setDate(base.getDate()+i); week.push(d); }
 
-  const day =
-    getDay(dateKey(currentDate));
+  document.getElementById("weekGrid").innerHTML=week.map(d=>{
+    const active=dateKey(d)===dateKey(selectedDate);
+    return `<button class="day-chip ${active?"active":""}" onclick="selectDate('${dateKey(d)}')">
+      <span>${d.toLocaleDateString("mn-MN",{weekday:"short"})}</span>
+      <b>${d.getDate()}</b>
+    </button>`;
+  }).join("");
 
-  const task =
-    day.tasks.find(
-      t=>t.id===id
-    );
-
-  if(task)
-    task.done = !task.done;
-
-  saveDB();
-  render();
-
+  const tasks=tasksForDate(dateKey(selectedDate));
+  const done=tasks.filter(t=>t.done).length;
+  const pct=tasks.length?Math.round(done/tasks.length*100):0;
+  document.getElementById("plannerDateTitle").textContent=selectedDate.toLocaleDateString("mn-MN",{month:"long",day:"numeric"});
+  document.getElementById("plannerProgress").textContent=pct+"%";
+  document.getElementById("plannerProgressBar").style.width=pct+"%";
+  document.getElementById("plannerTasks").innerHTML=tasks.length?tasks.map(taskCard).join(""):`<div class="empty">Энэ өдөр task алга.</div>`;
 }
 
-function deleteTask(id){
-
-  const day =
-    getDay(dateKey(currentDate));
-
-  day.tasks =
-    day.tasks.filter(
-      t=>t.id!==id
-    );
-
-  saveDB();
-  render();
-
+function renderGoals(){
+  let done=0;
+  document.getElementById("goalsList").innerHTML=goalsData.map((g,i)=>{
+    const isDone=!!goalState[i];
+    if(isDone) done++;
+    return `<div class="goal ${isDone?"done":""}" onclick="toggleGoal(${i})">
+      <div class="goal-num">${isDone?"✓":i+1}</div>
+      <div class="goal-main">
+        <div class="goal-title">${escapeHTML(g[0])}</div>
+        <div class="goal-desc">${escapeHTML(g[1])}</div>
+      </div>
+    </div>`;
+  }).join("");
+  document.getElementById("goalCount").textContent=`${done}/13`;
+}
+function toggleGoal(i){
+  goalState[i]=!goalState[i];
+  persist();
+  renderGoals();
 }
 
-function renderTasks(day){
-
-  const container =
-    document.getElementById(
-      "task-list"
-    );
-
-  container.innerHTML = "";
-
-  if(day.tasks.length === 0){
-
-    container.innerHTML =
-      `<div style="color:var(--muted);font-size:12px;padding:8px 0">
-        Өнөөдрийн хийх зүйл алга.
-      </div>`;
-
-    return;
-  }
-
-  day.tasks.forEach(task=>{
-
-    const div =
-      document.createElement("div");
-
-    div.className =
-      "task" +
-      (task.done ? " done" : "");
-
-    div.innerHTML = `
-
-      <input
-        type="checkbox"
-        ${task.done ? "checked" : ""}
-        onchange="toggleTask(${task.id})"
-      >
-
-      <span>${escapeHTML(task.text)}</span>
-
-      <button
-        class="delete-task"
-        onclick="deleteTask(${task.id})"
-      >
-        ✕
-      </button>
-
-    `;
-
-    container.appendChild(div);
-
-  });
-
+function renderJournal(){
+  const key=dateKey(selectedDate);
+  const day=getDay(key);
+  document.getElementById("journalDate").textContent=selectedDate.toLocaleDateString("mn-MN",{month:"long",day:"numeric"});
+  document.getElementById("journal").value=day.journal||"";
 }
-
-function addExpense(){
-
-  const input =
-    document.getElementById(
-      "expense-input"
-    );
-
-  const amount =
-    Number(input.value);
-
-  if(!amount || amount <= 0)
-    return;
-
-  const day =
-    getDay(dateKey(currentDate));
-
-  day.expenses.push({
-    id:Date.now(),
-    amount
-  });
-
-  input.value = "";
-
-  saveDB();
-  render();
-
-  showToast("💰 Зарлага бүртгэгдлээ");
-
-}
-
-function deleteExpense(id){
-
-  const day =
-    getDay(dateKey(currentDate));
-
-  day.expenses =
-    day.expenses.filter(
-      e=>e.id!==id
-    );
-
-  saveDB();
-  render();
-
-}
-
-function renderExpenses(day){
-
-  const total =
-    day.expenses.reduce(
-      (sum,e)=>sum+e.amount,
-      0
-    );
-
-  document.getElementById(
-    "expense-total"
-  ).textContent =
-    total.toLocaleString("mn-MN")
-    + "₮";
-
+function saveJournal(){
+  getDay(dateKey(selectedDate)).journal=document.getElementById("journal").value;
+  persist();
 }
 
 function changeDate(days){
-
-  currentDate.setDate(
-    currentDate.getDate()+days
-  );
-
-  render();
-
+  selectedDate.setDate(selectedDate.getDate()+days);
+  renderAll();
 }
-
 function goToday(){
-
-  currentDate =
-    new Date();
-
-  render();
-
+  selectedDate=new Date();
+  renderAll();
+}
+function selectDate(key){
+  selectedDate=new Date(key+"T12:00:00");
+  renderAll();
 }
 
-function saveNote(){
+function getStreak(){
+  let streak=0;
+  let d=new Date();
+  while(true){
+    const key=dateKey(d);
+    const tasks=tasksForDate(key);
+    if(!tasks.length || tasks.every(t=>!t.done)) break;
+    streak++;
+    d.setDate(d.getDate()-1);
+  }
+  return streak;
+}
 
-  const key =
-    dateKey(currentDate);
+function switchView(view,btn){
+  currentView=view;
+  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+  document.getElementById(view+"View").classList.add("active");
+  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  document.getElementById("fab").style.display=(view==="today"||view==="planner")?"block":"none";
+  if(view==="journal") renderJournal();
+  if(view==="goals") renderGoals();
+  if(view==="planner") renderPlanner();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
 
-  getDay(key).note =
-    document.getElementById(
-      "daily-note"
-    ).value;
+async function askAI(){
+  const input=document.getElementById("aiInput");
+  const chat=document.getElementById("chat");
+  const btn=document.getElementById("aiBtn");
+  const message=input.value.trim();
+  if(!message) return;
 
-  saveDB();
+  chat.innerHTML+=`<div class="msg user">🧑 ${escapeHTML(message)}</div>`;
+  input.value="";
+  btn.disabled=true;
+  const loadingId="loading_"+Date.now();
+  chat.innerHTML+=`<div id="${loadingId}" class="msg ai">🤖 Бодож байна...</div>`;
+  chat.scrollTop=chat.scrollHeight;
 
+  const tasks=tasksForDate(dateKey(selectedDate));
+  const tracker={
+    date:dateKey(selectedDate),
+    tasks:tasks.map(t=>({name:t.name,time:t.time,period:t.period,done:t.done,repeat:t.recurring||t.repeat==="daily"?"daily":"once"})),
+    journal:getDay(dateKey(selectedDate)).journal||"",
+    goals:goalsData.map((g,i)=>({title:g[0],done:!!goalState[i]})),
+    streak:getStreak()
+  };
+
+  try{
+    const res=await fetch("/api/chat",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({message,tracker})
+    });
+    const data=await res.json();
+    document.getElementById(loadingId)?.remove();
+    if(!res.ok) throw new Error(data.error||"AI серверийн алдаа");
+    chat.innerHTML+=`<div class="msg ai">🤖 ${escapeHTML(data.reply||"Хариу ирсэнгүй.")}</div>`;
+  }catch(e){
+    document.getElementById(loadingId)?.remove();
+    chat.innerHTML+=`<div class="msg ai">⚠️ ${escapeHTML(e.message)}</div>`;
+  }finally{
+    btn.disabled=false;
+    chat.scrollTop=chat.scrollHeight;
+  }
 }
 
 function toggleDark(){
+  document.body.classList.toggle("dark");
+  localStorage.setItem("mlt_dark",document.body.classList.contains("dark"));
+}
+if(localStorage.getItem("mlt_dark")==="true") document.body.classList.add("dark");
 
-  document.body.classList.toggle(
-    "dark"
-  );
-
-  localStorage.setItem(
-    "darkMode",
-    document.body.classList.contains(
-      "dark"
-    )
-  );
-
+function toast(text){
+  const el=document.getElementById("toast");
+  el.textContent=text;
+  el.classList.add("show");
+  clearTimeout(window.__toast);
+  window.__toast=setTimeout(()=>el.classList.remove("show"),1500);
+}
+function escapeHTML(v){
+  const d=document.createElement("div");
+  d.textContent=String(v??"");
+  return d.innerHTML;
 }
 
-if(
-  localStorage.getItem("darkMode")
-  === "true"
-){
-
-  document.body.classList.add(
-    "dark"
-  );
-
+function renderAll(){
+  renderToday();
+  renderPlanner();
+  renderGoals();
+  renderJournal();
+  persist();
 }
 
-function showToast(text){
+ensureStarterTemplates();
+renderAll();
 
-  const toast =
-    document.getElementById(
-      "toast"
-    );
-
-  toast.textContent = text;
-
-  toast.classList.add("show");
-
-  setTimeout(()=>{
-    toast.classList.remove("show");
-  },1500);
-
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));
 }
-
-function scrollToSection(id){
-
-  const el =
-    document.getElementById(id);
-
-  if(el){
-
-    el.scrollIntoView({
-      behavior:"smooth"
-    });
-
-  }
-
-}
-
-function scrollTopPage(){
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-/* =========================
-   AI COACH
-========================= */
-
-async function askAI(){
-
-  const input =
-    document.getElementById(
-      "ai-query"
-    );
-
-  const chat =
-    document.getElementById(
-      "chat"
-    );
-
-  const button =
-    document.getElementById(
-      "ai-btn"
-    );
-
-  const query =
-    input.value.trim();
-
-  if(!query)
-    return;
-
-  const day =
-    getDay(dateKey(currentDate));
-
-  const habitStatus = {};
-
-  habits.forEach(h=>{
-    habitStatus[h.name] =
-      !!day.habits[h.id];
-  });
-
-  const goalStatus = {};
-
-  goals.forEach(g=>{
-    goalStatus[g[2]] =
-      !!day.goals[g[0]];
-  });
-
-  const tracker = {
-
-    date:dateKey(currentDate),
-
-    habits:habitStatus,
-
-    goals:goalStatus,
-
-    water:day.water,
-
-    tasks:day.tasks,
-
-    expenses:day.expenses,
-
-    note:day.note || "",
-
-    streak:getCurrentStreak()
-
-  };
-
-  chat.innerHTML += `
-
-    <div class="message user-message">
-      🧑 ${escapeHTML(query)}
-    </div>
-
-  `;
-
-  input.value = "";
-  button.disabled = true;
-
-  chat.innerHTML += `
-
-    <div
-      id="ai-loading"
-      class="message ai-message"
-    >
-      🤖 Бодож байна...
-    </div>
-
-  `;
-
-  chat.scrollTop =
-    chat.scrollHeight;
-
-  try{
-
-    const response =
-      await fetch(
-        "/api/chat",
-        {
-          method:"POST",
-
-          headers:{
-            "Content-Type":
-              "application/json"
-          },
-
-          body:JSON.stringify({
-            message:query,
-            tracker
-          })
-        }
-      );
-
-    const data =
-      await response.json();
-
-    const loading =
-      document.getElementById(
-        "ai-loading"
-      );
-
-    if(loading)
-      loading.remove();
-
-    if(!response.ok){
-
-      throw new Error(
-        data.error ||
-        "AI серверийн алдаа"
-      );
-
-    }
-
-    chat.innerHTML += `
-
-      <div class="message ai-message">
-        🤖 ${escapeHTML(
-          data.reply || "AI хариу өгсөнгүй."
-        )}
-      </div>
-
-    `;
-
-  }
-
-  catch(error){
-
-    const loading =
-      document.getElementById(
-        "ai-loading"
-      );
-
-    if(loading)
-      loading.remove();
-
-    chat.innerHTML += `
-
-      <div class="message ai-message">
-        ⚠️ ${escapeHTML(
-          error.message
-        )}
-      </div>
-
-    `;
-
-  }
-
-  finally{
-
-    button.disabled = false;
-
-    chat.scrollTop =
-      chat.scrollHeight;
-
-  }
-
-}
-
-function getCurrentStreak(){
-
-  let streak = 0;
-
-  let d = new Date();
-
-  while(true){
-
-    const key =
-      dateKey(d);
-
-    if(!db[key])
-      break;
-
-    const day =
-      db[key];
-
-    let done = 0;
-
-    habits.forEach(h=>{
-      if(day.habits?.[h.id])
-        done++;
-    });
-
-    goals.forEach(g=>{
-      if(day.goals?.[g[0]])
-        done++;
-    });
-
-    if(done === 0)
-      break;
-
-    streak++;
-
-    d.setDate(
-      d.getDate()-1
-    );
-
-  }
-
-  return streak;
-
-}
-
-function escapeHTML(str){
-
-  const div =
-    document.createElement(
-      "div"
-    );
-
-  div.textContent =
-    String(str ?? "");
-
-  return div.innerHTML;
-
-}
-
-render();
-
 </script>
-
 </body>
 </html>
