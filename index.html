@@ -14,7 +14,7 @@
     * { box-sizing: border-box; }
     :root {
       --bg:#f5f7fb; --card:#fff; --text:#111827; --muted:#6b7280; --border:#e5e7eb;
-      --primary:#6366f1; --primary2:#8b5cf6; --green:#22c55e; --red:#ef4444;
+      --primary:#6366f1; --primary2:#8b5cf6; --green:#22c55e; --red:#ef4444; --amber:#f59e0b;
       --shadow:0 10px 28px rgba(15,23,42,.08);
     }
     body.dark {
@@ -64,9 +64,8 @@
 
     .view { display:none; }
     .view.active { display:block; }
-
     .section-title {
-      display:flex; align-items:center; justify-content:space-between; margin:20px 2px 9px;
+      display:flex; align-items:center; justify-content:space-between; margin:20px 2px 9px; gap:10px;
     }
     .section-title h2 { margin:0; font-size:16px; }
     .section-title small { color:var(--muted); }
@@ -109,19 +108,48 @@
     .day-chip b { display:block; font-size:13px; }
     .day-chip span { color:var(--muted); font-size:9px; }
 
-    .goal {
-      background:var(--card); border:1px solid var(--border); border-radius:15px;
-      padding:13px; margin-bottom:8px; display:flex; gap:11px; align-items:flex-start;
+    /* SMART GOALS */
+    .goal-toolbar { display:flex; gap:7px; overflow-x:auto; padding-bottom:4px; }
+    .goal-filter {
+      white-space:nowrap; border:1px solid var(--border); background:var(--card); color:var(--muted);
+      border-radius:999px; padding:8px 11px; font-size:11px;
     }
-    .goal.done { border-color:var(--green); }
-    .goal-num {
-      width:34px; height:34px; border-radius:10px; background:rgba(99,102,241,.12);
-      color:var(--primary); display:flex; align-items:center; justify-content:center; font-weight:900; flex-shrink:0;
+    .goal-filter.active { background:var(--primary); border-color:var(--primary); color:white; }
+    .goal-card {
+      background:var(--card); border:1px solid var(--border); border-radius:18px; padding:14px;
+      margin-bottom:10px; box-shadow:var(--shadow);
     }
-    .goal.done .goal-num { background:var(--green); color:white; }
-    .goal-main { flex:1; }
-    .goal-title { font-weight:800; font-size:13px; }
-    .goal-desc { color:var(--muted); font-size:11px; line-height:1.45; margin-top:3px; }
+    .goal-card.completed { border-color:var(--green); }
+    .goal-card.overdue { border-color:var(--amber); }
+    .goal-head { display:flex; gap:10px; align-items:flex-start; }
+    .goal-icon {
+      width:40px; height:40px; border-radius:12px; background:rgba(99,102,241,.12); display:flex;
+      align-items:center; justify-content:center; font-size:19px; flex-shrink:0;
+    }
+    .goal-head-main { flex:1; min-width:0; }
+    .goal-name { font-weight:850; font-size:14px; }
+    .goal-sub { color:var(--muted); font-size:10px; margin-top:4px; line-height:1.4; }
+    .goal-menu { border:0; background:transparent; color:var(--muted); font-size:18px; }
+    .goal-progress-row { display:flex; align-items:center; gap:10px; margin-top:12px; }
+    .goal-progress-row .progress-bg { flex:1; height:9px; }
+    .goal-progress-row strong { color:var(--primary); font-size:11px; min-width:34px; text-align:right; }
+    .goal-steps { margin-top:11px; }
+    .goal-step {
+      display:flex; align-items:flex-start; gap:8px; padding:8px 0; border-top:1px solid var(--border); font-size:12px;
+    }
+    .goal-step:first-child { border-top:0; }
+    .goal-step input { margin-top:2px; accent-color:var(--primary); }
+    .goal-step span { flex:1; }
+    .goal-badges { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+    .badge { border-radius:999px; padding:5px 8px; background:var(--bg); color:var(--muted); font-size:9px; }
+    .badge.warn { background:rgba(245,158,11,.12); color:#b45309; }
+    .badge.good { background:rgba(34,197,94,.12); color:#15803d; }
+    .goal-actions { display:flex; gap:7px; margin-top:11px; }
+    .goal-actions button {
+      flex:1; border:1px solid var(--border); background:var(--bg); color:var(--text); border-radius:10px;
+      padding:8px; font-size:10px; font-weight:700;
+    }
+    .goal-actions .primary { background:var(--primary); color:white; border-color:var(--primary); }
 
     textarea {
       width:100%; min-height:180px; resize:vertical; border:1px solid var(--border);
@@ -155,22 +183,37 @@
     .modal-backdrop.show { display:flex; }
     .modal {
       width:100%; max-width:560px; background:var(--card); border-radius:24px 24px 0 0;
-      padding:18px 15px calc(18px + env(safe-area-inset-bottom)); max-height:88vh; overflow:auto;
+      padding:18px 15px calc(18px + env(safe-area-inset-bottom)); max-height:90vh; overflow:auto;
     }
     .modal-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
     .modal-head h3 { margin:0; }
     .close-btn { border:0; background:var(--bg); color:var(--text); width:34px; height:34px; border-radius:10px; }
     .field { margin-bottom:11px; }
     .field label { display:block; color:var(--muted); font-size:11px; margin-bottom:5px; }
-    .field input,.field select {
+    .field input,.field select,.field textarea {
       width:100%; border:1px solid var(--border); background:var(--bg); color:var(--text);
       border-radius:12px; padding:11px; outline:none;
     }
+    .field textarea { min-height:110px; }
+    .hint { color:var(--muted); font-size:9px; margin-top:4px; line-height:1.4; }
     .modal-actions { display:flex; gap:8px; margin-top:14px; }
     .primary-btn,.danger-btn,.ghost-btn { flex:1; border:0; border-radius:12px; padding:11px; font-weight:800; }
     .primary-btn { background:var(--primary); color:white; }
     .danger-btn { background:rgba(239,68,68,.12); color:var(--red); }
     .ghost-btn { background:var(--bg); color:var(--text); }
+    .ai-step-btn {
+      width:100%; border:1px solid var(--border); background:rgba(99,102,241,.08); color:var(--primary);
+      border-radius:12px; padding:10px; font-weight:800; margin-top:4px;
+    }
+
+    .review-box {
+      background:rgba(245,158,11,.10); border:1px solid rgba(245,158,11,.35); border-radius:16px; padding:13px;
+      margin-bottom:12px;
+    }
+    .review-box strong { display:block; margin-bottom:4px; }
+    .review-box p { margin:0 0 10px; color:var(--muted); font-size:11px; line-height:1.4; }
+    .review-actions { display:flex; gap:7px; }
+    .review-actions button { flex:1; border:0; border-radius:10px; padding:9px; font-size:10px; font-weight:800; }
 
     .toast {
       position:fixed; left:50%; bottom:84px; transform:translateX(-50%) translateY(12px);
@@ -228,9 +271,7 @@
 
   <section id="plannerView" class="view">
     <div class="section-title"><h2>📅 Planner</h2><small>7 хоног</small></div>
-    <div class="card">
-      <div id="weekGrid" class="planner-grid"></div>
-    </div>
+    <div class="card"><div id="weekGrid" class="planner-grid"></div></div>
 
     <div class="card">
       <div class="progress-head">
@@ -244,7 +285,22 @@
   </section>
 
   <section id="goalsView" class="view">
-    <div class="section-title"><h2>🎯 Миний 13 зорилго</h2><small id="goalCount">0/13</small></div>
+    <div class="section-title">
+      <h2>🎯 Smart Goals</h2>
+      <small id="goalCount">0 active</small>
+    </div>
+
+    <div id="goalReviewArea"></div>
+
+    <div class="goal-toolbar">
+      <button class="goal-filter active" data-filter="all" onclick="setGoalFilter('all',this)">Бүгд</button>
+      <button class="goal-filter" data-filter="week" onclick="setGoalFilter('week',this)">7 хоног</button>
+      <button class="goal-filter" data-filter="month" onclick="setGoalFilter('month',this)">Сар</button>
+      <button class="goal-filter" data-filter="year" onclick="setGoalFilter('year',this)">Жил</button>
+      <button class="goal-filter" data-filter="completed" onclick="setGoalFilter('completed',this)">Дууссан</button>
+    </div>
+
+    <div style="height:10px"></div>
     <div id="goalsList"></div>
   </section>
 
@@ -265,7 +321,7 @@
   </section>
 </div>
 
-<button class="fab" id="fab" onclick="openTaskModal()">+</button>
+<button class="fab" id="fab" onclick="fabAction()">+</button>
 
 <nav class="bottom-nav">
   <button class="nav-btn active" data-view="today" onclick="switchView('today',this)"><span>🏠</span>Өнөөдөр</button>
@@ -275,23 +331,15 @@
   <button class="nav-btn" data-view="ai" onclick="switchView('ai',this)"><span>🤖</span>AI</button>
 </nav>
 
+<!-- TASK MODAL -->
 <div id="taskModal" class="modal-backdrop" onclick="if(event.target===this) closeTaskModal()">
   <div class="modal">
     <div class="modal-head">
-      <h3 id="modalTitle">➕ Task нэмэх</h3>
+      <h3 id="taskModalTitle">➕ Task нэмэх</h3>
       <button class="close-btn" onclick="closeTaskModal()">✕</button>
     </div>
-
-    <div class="field">
-      <label>Task нэр</label>
-      <input id="taskName" placeholder="Жишээ: Python 30 минут" />
-    </div>
-
-    <div class="field">
-      <label>Цаг</label>
-      <input id="taskTime" type="time" />
-    </div>
-
+    <div class="field"><label>Task нэр</label><input id="taskName" placeholder="Жишээ: Python 30 минут" /></div>
+    <div class="field"><label>Цаг</label><input id="taskTime" type="time" /></div>
     <div class="field">
       <label>Үе</label>
       <select id="taskPeriod">
@@ -300,7 +348,6 @@
         <option value="evening">🌙 Орой</option>
       </select>
     </div>
-
     <div class="field">
       <label>Давталт</label>
       <select id="taskRepeat">
@@ -308,7 +355,6 @@
         <option value="daily">🔁 Өдөр бүр</option>
       </select>
     </div>
-
     <div class="modal-actions">
       <button id="deleteTaskBtn" class="danger-btn" onclick="deleteEditingTask()" style="display:none">Устгах</button>
       <button class="primary-btn" onclick="saveTask()">Хадгалах</button>
@@ -316,42 +362,85 @@
   </div>
 </div>
 
+<!-- GOAL MODAL -->
+<div id="goalModal" class="modal-backdrop" onclick="if(event.target===this) closeGoalModal()">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="goalModalTitle">🎯 Шинэ зорилго</h3>
+      <button class="close-btn" onclick="closeGoalModal()">✕</button>
+    </div>
+
+    <div class="field">
+      <label>Зорилгын нэр</label>
+      <input id="goalName" placeholder="Жишээ: 1 сарын дотор Python-ийн суурь сурах" />
+    </div>
+
+    <div class="field">
+      <label>Хугацаа</label>
+      <select id="goalDuration" onchange="updateGoalEndDate()">
+        <option value="7">7 хоног</option>
+        <option value="30">1 сар</option>
+        <option value="90">3 сар</option>
+        <option value="365">1 жил</option>
+        <option value="custom">Өөрийн огноо</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Эхлэх өдөр</label>
+      <input id="goalStart" type="date" onchange="updateGoalEndDate()" />
+    </div>
+
+    <div class="field">
+      <label>Дуусах өдөр</label>
+      <input id="goalEnd" type="date" />
+    </div>
+
+    <div class="field">
+      <label>Зорилгод хүрэх алхмууд</label>
+      <textarea id="goalSteps" placeholder="Алхам бүрийг шинэ мөрөнд бич:
+Python суулгах
+Variables сурах
+if/else сурах
+Жижиг project хийх"></textarea>
+      <div class="hint">Алхам бүрийг шинэ мөрөөр тусгаарлана. Хадгалсны дараа checkbox болно.</div>
+    </div>
+
+    <button class="ai-step-btn" id="goalAiBtn" onclick="generateGoalSteps()">🤖 AI-аар алхам санал болгох</button>
+
+    <div class="modal-actions">
+      <button id="deleteGoalBtn" class="danger-btn" onclick="deleteEditingGoal()" style="display:none">Устгах</button>
+      <button class="primary-btn" onclick="saveGoal()">Хадгалах</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast" class="toast"></div>
 
 <script>
-const STORAGE_KEY = "mlt_v3";
-const GOALS_KEY = "mlt_goals_v1";
+const STORAGE_KEY = "mlt_v4";
+const LEGACY_KEY = "mlt_v3";
 
-const goalsData = [
-  ["Сургууль & дүн","Хичээлдээ анхаарч, сайхан дурсамж бүтээх."],
-  ["Англи & Орос хэл","Англи хэлээ ахиулж, Орос хэл сурч эхлэх."],
-  ["Ирээдүйн мэргэжил","Өөрийн сонирхол, чадвараа судлах."],
-  ["Код & AI","Python сурч, өөрийн жижиг төслүүд хийх."],
-  ["Мөнгөө зөв зарцуулах","Дэмий зардлаа багасгаж, хуримтлал бий болгох."],
-  ["Биеэ хөгжүүлэх","Тогтмол хөдөлгөөн, амралтын зөв дадал бий болгох."],
-  ["Өөрийн хүчтэй тал","Юунд сайн, юу сонирхдог гэдгээ олох."],
-  ["Эелдэг харилцаа","Хүмүүстэй хүндэтгэлтэй харилцах."],
-  ["Сэтгэл хөдлөлөө удирдах","Уур бухимдлаа зөв зохицуулж сурах."],
-  ["Vape-ээс гарах","Никотингүй өдрүүдээ нэмэгдүүлэх."],
-  ["Эрүүл амьдрал","Нойр, хооллолт, хөдөлгөөний зөв дадал."],
-  ["Арьс арчилгаа","Тогтмол, энгийн арьс арчилгааны дадал."],
-  ["Өөрийн зохиол","Өдөр бүр бага багаар бичиж бүтээл гаргах."]
-];
+let state = loadJSON(STORAGE_KEY,null);
+if(!state){
+  const old = loadJSON(LEGACY_KEY,{days:{},templates:[]});
+  state = {days:old.days||{}, templates:old.templates||[], goals:[]};
+}
+if(!Array.isArray(state.goals)) state.goals=[];
 
-let state = loadJSON(STORAGE_KEY,{days:{},templates:[]});
-let goalState = loadJSON(GOALS_KEY,{});
 let selectedDate = new Date();
 let editingTaskId = null;
+let editingGoalId = null;
 let currentView = "today";
+let goalFilter = "all";
 
 function loadJSON(key,fallback){
-  try { return JSON.parse(localStorage.getItem(key)) || fallback; }
-  catch { return fallback; }
+  try {
+    const v = localStorage.getItem(key);
+    return v ? JSON.parse(v) : fallback;
+  } catch { return fallback; }
 }
-function persist(){
-  localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
-  localStorage.setItem(GOALS_KEY,JSON.stringify(goalState));
-}
+function persist(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(state)); }
 function dateKey(date){
   const y=date.getFullYear();
   const m=String(date.getMonth()+1).padStart(2,"0");
@@ -365,6 +454,7 @@ function getDay(key){
   return state.days[key];
 }
 function clone(obj){ return JSON.parse(JSON.stringify(obj)); }
+function todayKey(){ return dateKey(new Date()); }
 
 function ensureStarterTemplates(){
   if(state.templates.length) return;
@@ -396,7 +486,6 @@ function tasksForDate(key){
 function setTaskDone(task){
   const key=dateKey(selectedDate);
   const day=getDay(key);
-
   if(task.recurring){
     const existing=day.tasks.find(x=>x.templateId===task.templateId);
     if(existing) existing.done=!existing.done;
@@ -405,8 +494,7 @@ function setTaskDone(task){
     const existing=day.tasks.find(x=>x.id===task.id);
     if(existing) existing.done=!existing.done;
   }
-  persist();
-  renderAll();
+  persist(); renderAll();
 }
 
 function taskCard(task){
@@ -415,35 +503,21 @@ function taskCard(task){
     task.period==="morning"?"🌅 Өглөө":task.period==="day"?"☀️ Өдөр":"🌙 Орой"
   ].join(" · ");
 
-  return `
-    <div class="task ${task.done?"done":""}">
-      <div class="task-check" onclick='toggleTaskFromId(${JSON.stringify(task.id)})'>${task.done?"✓":""}</div>
-      <div class="task-main">
-        <div class="task-top">
-          <span class="task-time">${escapeHTML(task.time||"--:--")}</span>
-          <span class="task-name">${escapeHTML(task.name)}</span>
-        </div>
-        <div class="task-meta">${meta}</div>
-      </div>
-      <div class="task-actions">
-        <button onclick='editTaskById(${JSON.stringify(task.id)})'>✏️</button>
-      </div>
-    </div>`;
+  return `<div class="task ${task.done?"done":""}">
+    <div class="task-check" onclick='toggleTaskFromId(${JSON.stringify(task.id)})'>${task.done?"✓":""}</div>
+    <div class="task-main">
+      <div class="task-top"><span class="task-time">${escapeHTML(task.time||"--:--")}</span><span class="task-name">${escapeHTML(task.name)}</span></div>
+      <div class="task-meta">${meta}</div>
+    </div>
+    <div class="task-actions"><button onclick='editTaskById(${JSON.stringify(task.id)})'>✏️</button></div>
+  </div>`;
 }
-
-function findRenderedTask(id){
-  return tasksForDate(dateKey(selectedDate)).find(t=>t.id===id);
-}
-function toggleTaskFromId(id){
-  const task=findRenderedTask(id);
-  if(task) setTaskDone(task);
-}
+function findRenderedTask(id){ return tasksForDate(dateKey(selectedDate)).find(t=>t.id===id); }
+function toggleTaskFromId(id){ const task=findRenderedTask(id); if(task) setTaskDone(task); }
 function editTaskById(id){
-  const task=findRenderedTask(id);
-  if(!task) return;
-
+  const task=findRenderedTask(id); if(!task) return;
   editingTaskId=id;
-  document.getElementById("modalTitle").textContent="✏️ Task засах";
+  document.getElementById("taskModalTitle").textContent="✏️ Task засах";
   document.getElementById("taskName").value=task.name;
   document.getElementById("taskTime").value=task.time||"";
   document.getElementById("taskPeriod").value=task.period;
@@ -451,10 +525,9 @@ function editTaskById(id){
   document.getElementById("deleteTaskBtn").style.display="block";
   document.getElementById("taskModal").classList.add("show");
 }
-
 function openTaskModal(){
   editingTaskId=null;
-  document.getElementById("modalTitle").textContent="➕ Task нэмэх";
+  document.getElementById("taskModalTitle").textContent="➕ Task нэмэх";
   document.getElementById("taskName").value="";
   document.getElementById("taskTime").value="";
   document.getElementById("taskPeriod").value="morning";
@@ -463,75 +536,43 @@ function openTaskModal(){
   document.getElementById("taskModal").classList.add("show");
 }
 function closeTaskModal(){ document.getElementById("taskModal").classList.remove("show"); }
-
 function saveTask(){
   const name=document.getElementById("taskName").value.trim();
   const time=document.getElementById("taskTime").value;
   const period=document.getElementById("taskPeriod").value;
   const repeat=document.getElementById("taskRepeat").value;
-
   if(!name){ toast("Task нэрээ бичээрэй"); return; }
 
-  const key=dateKey(selectedDate);
-  const day=getDay(key);
-
+  const key=dateKey(selectedDate), day=getDay(key);
   if(editingTaskId){
     const old=findRenderedTask(editingTaskId);
-    if(!old) return;
-
-    if(old.recurring){
-      state.templates=state.templates.filter(t=>t.id!==old.templateId);
-      day.tasks=day.tasks.filter(x=>x.templateId!==old.templateId);
-    } else {
-      day.tasks=day.tasks.filter(x=>x.id!==old.id);
+    if(old){
+      if(old.recurring){
+        state.templates=state.templates.filter(t=>t.id!==old.templateId);
+        day.tasks=day.tasks.filter(x=>x.templateId!==old.templateId);
+      } else day.tasks=day.tasks.filter(x=>x.id!==old.id);
     }
   }
+  if(repeat==="daily") state.templates.push({id:crypto.randomUUID(),name,time,period,repeat:"daily"});
+  else day.tasks.push({id:crypto.randomUUID(),name,time,period,repeat:"once",done:false});
 
-  if(repeat==="daily"){
-    state.templates.push({
-      id:crypto.randomUUID(),
-      name,time,period,repeat:"daily"
-    });
-  } else {
-    day.tasks.push({
-      id:crypto.randomUUID(),
-      name,time,period,repeat:"once",done:false
-    });
-  }
-
-  persist();
-  closeTaskModal();
-  renderAll();
-  toast("✅ Хадгаллаа");
+  persist(); closeTaskModal(); renderAll(); toast("✅ Хадгаллаа");
 }
-
 function deleteEditingTask(){
   if(!editingTaskId) return;
-  const key=dateKey(selectedDate);
-  const day=getDay(key);
-  const task=findRenderedTask(editingTaskId);
+  const key=dateKey(selectedDate), day=getDay(key), task=findRenderedTask(editingTaskId);
   if(!task) return;
-
   if(task.recurring){
     state.templates=state.templates.filter(t=>t.id!==task.templateId);
-    Object.values(state.days).forEach(d=>{
-      d.tasks=(d.tasks||[]).filter(x=>x.templateId!==task.templateId);
-    });
-  } else {
-    day.tasks=day.tasks.filter(x=>x.id!==task.id);
-  }
-  persist();
-  closeTaskModal();
-  renderAll();
-  toast("🗑️ Устгалаа");
+    Object.values(state.days).forEach(d=>{ d.tasks=(d.tasks||[]).filter(x=>x.templateId!==task.templateId); });
+  } else day.tasks=day.tasks.filter(x=>x.id!==task.id);
+  persist(); closeTaskModal(); renderAll(); toast("🗑️ Устгалаа");
 }
 
 function renderToday(){
-  const key=dateKey(selectedDate);
-  const tasks=tasksForDate(key);
+  const key=dateKey(selectedDate), tasks=tasksForDate(key);
   const buckets={morning:[],day:[],evening:[]};
   tasks.forEach(t=>buckets[t.period]?.push(t));
-
   document.getElementById("dateDisplay").textContent=selectedDate.toLocaleDateString("mn-MN",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
   renderBucket("morningTasks",buckets.morning);
   renderBucket("dayTasks",buckets.day);
@@ -539,10 +580,7 @@ function renderToday(){
   document.getElementById("morningCount").textContent=`${buckets.morning.filter(x=>x.done).length}/${buckets.morning.length}`;
   document.getElementById("dayCount").textContent=`${buckets.day.filter(x=>x.done).length}/${buckets.day.length}`;
   document.getElementById("eveningCount").textContent=`${buckets.evening.filter(x=>x.done).length}/${buckets.evening.length}`;
-
-  const done=tasks.filter(t=>t.done).length;
-  const total=tasks.length;
-  const pct=total?Math.round(done/total*100):0;
+  const done=tasks.filter(t=>t.done).length, total=tasks.length, pct=total?Math.round(done/total*100):0;
   document.getElementById("progressPercent").textContent=pct+"%";
   document.getElementById("progressBar").style.width=pct+"%";
   document.getElementById("doneTasks").textContent=done;
@@ -552,53 +590,268 @@ function renderToday(){
 function renderBucket(id,list){
   document.getElementById(id).innerHTML=list.length?list.map(taskCard).join(""):`<div class="empty">Энд task алга. + дарж нэмээрэй.</div>`;
 }
-
 function renderPlanner(){
-  const week=[];
-  const base=new Date(selectedDate);
+  const week=[], base=new Date(selectedDate);
   for(let i=-3;i<=3;i++){ const d=new Date(base); d.setDate(base.getDate()+i); week.push(d); }
-
   document.getElementById("weekGrid").innerHTML=week.map(d=>{
     const active=dateKey(d)===dateKey(selectedDate);
-    return `<button class="day-chip ${active?"active":""}" onclick="selectDate('${dateKey(d)}')">
-      <span>${d.toLocaleDateString("mn-MN",{weekday:"short"})}</span>
-      <b>${d.getDate()}</b>
-    </button>`;
+    return `<button class="day-chip ${active?"active":""}" onclick="selectDate('${dateKey(d)}')"><span>${d.toLocaleDateString("mn-MN",{weekday:"short"})}</span><b>${d.getDate()}</b></button>`;
   }).join("");
-
-  const tasks=tasksForDate(dateKey(selectedDate));
-  const done=tasks.filter(t=>t.done).length;
-  const pct=tasks.length?Math.round(done/tasks.length*100):0;
+  const tasks=tasksForDate(dateKey(selectedDate)), done=tasks.filter(t=>t.done).length, pct=tasks.length?Math.round(done/tasks.length*100):0;
   document.getElementById("plannerDateTitle").textContent=selectedDate.toLocaleDateString("mn-MN",{month:"long",day:"numeric"});
   document.getElementById("plannerProgress").textContent=pct+"%";
   document.getElementById("plannerProgressBar").style.width=pct+"%";
   document.getElementById("plannerTasks").innerHTML=tasks.length?tasks.map(taskCard).join(""):`<div class="empty">Энэ өдөр task алга.</div>`;
 }
 
+/* SMART GOALS */
+function openGoalModal(goalId=null){
+  editingGoalId=goalId;
+  const today=todayKey();
+  document.getElementById("goalModalTitle").textContent=goalId?"✏️ Зорилго засах":"🎯 Шинэ зорилго";
+  document.getElementById("deleteGoalBtn").style.display=goalId?"block":"none";
+
+  if(goalId){
+    const g=state.goals.find(x=>x.id===goalId);
+    if(!g) return;
+    document.getElementById("goalName").value=g.name;
+    document.getElementById("goalDuration").value=g.durationPreset||"custom";
+    document.getElementById("goalStart").value=g.startDate;
+    document.getElementById("goalEnd").value=g.endDate;
+    document.getElementById("goalSteps").value=(g.steps||[]).map(s=>s.text).join("\n");
+  } else {
+    document.getElementById("goalName").value="";
+    document.getElementById("goalDuration").value="30";
+    document.getElementById("goalStart").value=today;
+    document.getElementById("goalSteps").value="";
+    updateGoalEndDate();
+  }
+  document.getElementById("goalModal").classList.add("show");
+}
+function closeGoalModal(){ document.getElementById("goalModal").classList.remove("show"); }
+
+function updateGoalEndDate(){
+  const preset=document.getElementById("goalDuration").value;
+  const start=document.getElementById("goalStart").value||todayKey();
+  const endInput=document.getElementById("goalEnd");
+  if(preset==="custom"){ endInput.disabled=false; return; }
+  const d=new Date(start+"T12:00:00");
+  d.setDate(d.getDate()+Number(preset));
+  endInput.value=dateKey(d);
+  endInput.disabled=true;
+}
+
+function saveGoal(){
+  const name=document.getElementById("goalName").value.trim();
+  const durationPreset=document.getElementById("goalDuration").value;
+  const startDate=document.getElementById("goalStart").value;
+  const endDate=document.getElementById("goalEnd").value;
+  const stepLines=document.getElementById("goalSteps").value.split("\n").map(x=>x.trim()).filter(Boolean);
+
+  if(!name){ toast("Зорилгын нэрээ бичээрэй"); return; }
+  if(!startDate||!endDate){ toast("Огноогоо сонгоорой"); return; }
+
+  if(editingGoalId){
+    const g=state.goals.find(x=>x.id===editingGoalId);
+    if(!g) return;
+    const oldDone=new Map((g.steps||[]).map(s=>[s.text,s.done]));
+    g.name=name; g.durationPreset=durationPreset; g.startDate=startDate; g.endDate=endDate;
+    g.steps=stepLines.map(text=>({id:crypto.randomUUID(),text,done:oldDone.get(text)||false}));
+    g.reviewed=false;
+  } else {
+    state.goals.push({
+      id:crypto.randomUUID(),
+      name,
+      durationPreset,
+      startDate,
+      endDate,
+      steps:stepLines.map(text=>({id:crypto.randomUUID(),text,done:false})),
+      completed:false,
+      reviewed:false,
+      createdAt:new Date().toISOString()
+    });
+  }
+
+  persist(); closeGoalModal(); renderGoals(); toast("🎯 Зорилго хадгалагдлаа");
+}
+
+function deleteEditingGoal(){
+  if(!editingGoalId) return;
+  state.goals=state.goals.filter(g=>g.id!==editingGoalId);
+  persist(); closeGoalModal(); renderGoals(); toast("🗑️ Зорилго устлаа");
+}
+
+function toggleGoalStep(goalId,stepId){
+  const g=state.goals.find(x=>x.id===goalId); if(!g) return;
+  const s=g.steps.find(x=>x.id===stepId); if(!s) return;
+  s.done=!s.done;
+  if(g.steps.length && g.steps.every(x=>x.done)) g.completed=true;
+  else if(g.completed && !g.steps.every(x=>x.done)) g.completed=false;
+  persist(); renderGoals();
+}
+
+function goalProgress(g){
+  if(!g.steps?.length) return g.completed?100:0;
+  return Math.round(g.steps.filter(s=>s.done).length/g.steps.length*100);
+}
+function daysRemaining(g){
+  const today=new Date(todayKey()+"T12:00:00");
+  const end=new Date(g.endDate+"T12:00:00");
+  return Math.ceil((end-today)/(1000*60*60*24));
+}
+function durationGroup(g){
+  const start=new Date(g.startDate+"T12:00:00");
+  const end=new Date(g.endDate+"T12:00:00");
+  const days=Math.round((end-start)/(1000*60*60*24));
+  if(days<=8) return "week";
+  if(days<=100) return "month";
+  return "year";
+}
+function setGoalFilter(filter,btn){
+  goalFilter=filter;
+  document.querySelectorAll(".goal-filter").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  renderGoals();
+}
+function markGoalCompleted(goalId){
+  const g=state.goals.find(x=>x.id===goalId); if(!g) return;
+  g.completed=true; g.reviewed=true;
+  (g.steps||[]).forEach(s=>s.done=true);
+  persist(); renderGoals(); toast("✅ Зорилго биелсэн!");
+}
+function extendGoal(goalId,days=7){
+  const g=state.goals.find(x=>x.id===goalId); if(!g) return;
+  const d=new Date(g.endDate+"T12:00:00");
+  d.setDate(d.getDate()+days);
+  g.endDate=dateKey(d); g.reviewed=false; g.completed=false;
+  persist(); renderGoals(); toast(`🔁 ${days} хоногоор сунгалаа`);
+}
+function reviewNotCompleted(goalId){
+  const g=state.goals.find(x=>x.id===goalId); if(!g) return;
+  g.reviewed=true;
+  persist(); renderGoals();
+}
+
+function renderGoalReviewArea(){
+  const overdue=state.goals.filter(g=>!g.completed && daysRemaining(g)<0 && !g.reviewed);
+  const area=document.getElementById("goalReviewArea");
+  if(!overdue.length){ area.innerHTML=""; return; }
+  const g=overdue[0];
+  area.innerHTML=`<div class="review-box">
+    <strong>⏰ "${escapeHTML(g.name)}" зорилгын хугацаа дууслаа</strong>
+    <p>Биелүүлсэн үү, эсвэл хугацаагаа сунгах уу?</p>
+    <div class="review-actions">
+      <button style="background:var(--green);color:white" onclick="markGoalCompleted('${g.id}')">✅ Биелүүлсэн</button>
+      <button style="background:var(--primary);color:white" onclick="extendGoal('${g.id}',7)">🔁 +7 хоног</button>
+      <button style="background:var(--bg);color:var(--text)" onclick="reviewNotCompleted('${g.id}')">Дараа</button>
+    </div>
+  </div>`;
+}
+
 function renderGoals(){
-  let done=0;
-  document.getElementById("goalsList").innerHTML=goalsData.map((g,i)=>{
-    const isDone=!!goalState[i];
-    if(isDone) done++;
-    return `<div class="goal ${isDone?"done":""}" onclick="toggleGoal(${i})">
-      <div class="goal-num">${isDone?"✓":i+1}</div>
-      <div class="goal-main">
-        <div class="goal-title">${escapeHTML(g[0])}</div>
-        <div class="goal-desc">${escapeHTML(g[1])}</div>
+  renderGoalReviewArea();
+  let list=state.goals.slice().sort((a,b)=>a.endDate.localeCompare(b.endDate));
+
+  list=list.filter(g=>{
+    if(goalFilter==="all") return !g.completed;
+    if(goalFilter==="completed") return g.completed;
+    return !g.completed && durationGroup(g)===goalFilter;
+  });
+
+  const activeCount=state.goals.filter(g=>!g.completed).length;
+  document.getElementById("goalCount").textContent=`${activeCount} active`;
+
+  const container=document.getElementById("goalsList");
+  if(!list.length){
+    container.innerHTML=`<div class="empty">Зорилго алга. + товч дарж шинэ зорилго нэмээрэй.</div>`;
+    return;
+  }
+
+  container.innerHTML=list.map(g=>{
+    const pct=goalProgress(g);
+    const remain=daysRemaining(g);
+    const overdue=remain<0&&!g.completed;
+    const cls=`goal-card ${g.completed?"completed":""} ${overdue?"overdue":""}`;
+    const timeText=g.completed?"✅ Дууссан":overdue?`⏰ ${Math.abs(remain)} хоног хэтэрсэн`:`⏳ ${remain} хоног үлдсэн`;
+    const steps=(g.steps||[]).map(s=>`
+      <label class="goal-step">
+        <input type="checkbox" ${s.done?"checked":""} onchange="toggleGoalStep('${g.id}','${s.id}')">
+        <span>${escapeHTML(s.text)}</span>
+      </label>`).join("");
+
+    return `<div class="${cls}">
+      <div class="goal-head">
+        <div class="goal-icon">🎯</div>
+        <div class="goal-head-main">
+          <div class="goal-name">${escapeHTML(g.name)}</div>
+          <div class="goal-sub">${formatDateShort(g.startDate)} → ${formatDateShort(g.endDate)}</div>
+        </div>
+        <button class="goal-menu" onclick="openGoalModal('${g.id}')">✏️</button>
+      </div>
+
+      <div class="goal-progress-row">
+        <div class="progress-bg"><div class="progress-bar" style="width:${pct}%"></div></div>
+        <strong>${pct}%</strong>
+      </div>
+
+      <div class="goal-badges">
+        <span class="badge ${overdue?"warn":g.completed?"good":""}">${timeText}</span>
+        <span class="badge">🪜 ${(g.steps||[]).filter(s=>s.done).length}/${(g.steps||[]).length} алхам</span>
+      </div>
+
+      <div class="goal-steps">${steps || `<div class="empty" style="margin-top:10px;padding:11px">Алхам нэмээгүй байна.</div>`}</div>
+
+      <div class="goal-actions">
+        <button onclick="openGoalModal('${g.id}')">✏️ Засах</button>
+        ${!g.completed?`<button class="primary" onclick="markGoalCompleted('${g.id}')">✅ Биелсэн</button>`:""}
       </div>
     </div>`;
   }).join("");
-  document.getElementById("goalCount").textContent=`${done}/13`;
-}
-function toggleGoal(i){
-  goalState[i]=!goalState[i];
-  persist();
-  renderGoals();
 }
 
+async function generateGoalSteps(){
+  const name=document.getElementById("goalName").value.trim();
+  const start=document.getElementById("goalStart").value;
+  const end=document.getElementById("goalEnd").value;
+  const btn=document.getElementById("goalAiBtn");
+  if(!name){ toast("Эхлээд зорилгын нэрээ бичээрэй"); return; }
+
+  btn.disabled=true;
+  btn.textContent="🤖 Алхам гаргаж байна...";
+
+  try{
+    const prompt=`"${name}" гэсэн зорилгод ${start||"өнөөдрөөс"} ${end||"сонгосон хугацаанд"} хүрэхэд хэрэгтэй 5-8 маш тодорхой алхам гарга. Зөвхөн алхам бүрийг шинэ мөрөөр бич. Дугаар, тайлбар, гарчиг бүү нэм. Монгол хэлээр бич.`;
+    const res=await fetch("/api/chat",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({message:prompt,tracker:{}})
+    });
+    const data=await res.json();
+    if(!res.ok) throw new Error(data.error||"AI алдаа");
+    const cleaned=(data.reply||"")
+      .split("\n")
+      .map(x=>x.replace(/^\s*[-*•\d.)]+\s*/,"").trim())
+      .filter(Boolean)
+      .slice(0,8)
+      .join("\n");
+    document.getElementById("goalSteps").value=cleaned;
+    toast("🤖 AI алхмууд бэлэн");
+  }catch(e){
+    toast("⚠️ AI алхам гаргаж чадсангүй");
+  }finally{
+    btn.disabled=false;
+    btn.textContent="🤖 AI-аар алхам санал болгох";
+  }
+}
+
+function formatDateShort(key){
+  const d=new Date(key+"T12:00:00");
+  return d.toLocaleDateString("mn-MN",{month:"short",day:"numeric"});
+}
+
+/* JOURNAL */
 function renderJournal(){
-  const key=dateKey(selectedDate);
-  const day=getDay(key);
+  const key=dateKey(selectedDate), day=getDay(key);
   document.getElementById("journalDate").textContent=selectedDate.toLocaleDateString("mn-MN",{month:"long",day:"numeric"});
   document.getElementById("journal").value=day.journal||"";
 }
@@ -607,55 +860,42 @@ function saveJournal(){
   persist();
 }
 
-function changeDate(days){
-  selectedDate.setDate(selectedDate.getDate()+days);
-  renderAll();
-}
-function goToday(){
-  selectedDate=new Date();
-  renderAll();
-}
-function selectDate(key){
-  selectedDate=new Date(key+"T12:00:00");
-  renderAll();
-}
-
+function changeDate(days){ selectedDate.setDate(selectedDate.getDate()+days); renderAll(); }
+function goToday(){ selectedDate=new Date(); renderAll(); }
+function selectDate(key){ selectedDate=new Date(key+"T12:00:00"); renderAll(); }
 function getStreak(){
-  let streak=0;
-  let d=new Date();
+  let streak=0, d=new Date();
   while(true){
-    const key=dateKey(d);
-    const tasks=tasksForDate(key);
+    const key=dateKey(d), tasks=tasksForDate(key);
     if(!tasks.length || tasks.every(t=>!t.done)) break;
-    streak++;
-    d.setDate(d.getDate()-1);
+    streak++; d.setDate(d.getDate()-1);
   }
   return streak;
 }
-
+function fabAction(){
+  if(currentView==="goals") openGoalModal();
+  else openTaskModal();
+}
 function switchView(view,btn){
   currentView=view;
   document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
   document.getElementById(view+"View").classList.add("active");
   document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
   btn.classList.add("active");
-  document.getElementById("fab").style.display=(view==="today"||view==="planner")?"block":"none";
+  document.getElementById("fab").style.display=(view==="today"||view==="planner"||view==="goals")?"block":"none";
   if(view==="journal") renderJournal();
   if(view==="goals") renderGoals();
   if(view==="planner") renderPlanner();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
+/* AI */
 async function askAI(){
-  const input=document.getElementById("aiInput");
-  const chat=document.getElementById("chat");
-  const btn=document.getElementById("aiBtn");
-  const message=input.value.trim();
-  if(!message) return;
+  const input=document.getElementById("aiInput"), chat=document.getElementById("chat"), btn=document.getElementById("aiBtn");
+  const message=input.value.trim(); if(!message) return;
 
   chat.innerHTML+=`<div class="msg user">🧑 ${escapeHTML(message)}</div>`;
-  input.value="";
-  btn.disabled=true;
+  input.value=""; btn.disabled=true;
   const loadingId="loading_"+Date.now();
   chat.innerHTML+=`<div id="${loadingId}" class="msg ai">🤖 Бодож байна...</div>`;
   chat.scrollTop=chat.scrollHeight;
@@ -665,16 +905,12 @@ async function askAI(){
     date:dateKey(selectedDate),
     tasks:tasks.map(t=>({name:t.name,time:t.time,period:t.period,done:t.done,repeat:t.recurring||t.repeat==="daily"?"daily":"once"})),
     journal:getDay(dateKey(selectedDate)).journal||"",
-    goals:goalsData.map((g,i)=>({title:g[0],done:!!goalState[i]})),
+    goals:state.goals.map(g=>({name:g.name,startDate:g.startDate,endDate:g.endDate,progress:goalProgress(g),completed:g.completed,steps:g.steps})),
     streak:getStreak()
   };
 
   try{
-    const res=await fetch("/api/chat",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({message,tracker})
-    });
+    const res=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message,tracker})});
     const data=await res.json();
     document.getElementById(loadingId)?.remove();
     if(!res.ok) throw new Error(data.error||"AI серверийн алдаа");
@@ -683,8 +919,7 @@ async function askAI(){
     document.getElementById(loadingId)?.remove();
     chat.innerHTML+=`<div class="msg ai">⚠️ ${escapeHTML(e.message)}</div>`;
   }finally{
-    btn.disabled=false;
-    chat.scrollTop=chat.scrollHeight;
+    btn.disabled=false; chat.scrollTop=chat.scrollHeight;
   }
 }
 
@@ -696,8 +931,7 @@ if(localStorage.getItem("mlt_dark")==="true") document.body.classList.add("dark"
 
 function toast(text){
   const el=document.getElementById("toast");
-  el.textContent=text;
-  el.classList.add("show");
+  el.textContent=text; el.classList.add("show");
   clearTimeout(window.__toast);
   window.__toast=setTimeout(()=>el.classList.remove("show"),1500);
 }
@@ -706,13 +940,8 @@ function escapeHTML(v){
   d.textContent=String(v??"");
   return d.innerHTML;
 }
-
 function renderAll(){
-  renderToday();
-  renderPlanner();
-  renderGoals();
-  renderJournal();
-  persist();
+  renderToday(); renderPlanner(); renderGoals(); renderJournal(); persist();
 }
 
 ensureStarterTemplates();
