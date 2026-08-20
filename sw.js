@@ -1,4 +1,4 @@
-const CACHE = "mlt-cache-v2";
+const CACHE = "mlt-cache-v4";
 const ASSETS = ["/", "/index.html", "/manifest.json"];
 
 self.addEventListener("install", event => {
@@ -13,8 +13,8 @@ self.addEventListener("activate", event => {
     caches.keys().then(keys =>
       Promise.all(
         keys
-          .filter(k => k !== CACHE)
-          .map(k => caches.delete(k))
+          .filter(key => key !== CACHE)
+          .map(key => caches.delete(key))
       )
     )
   );
