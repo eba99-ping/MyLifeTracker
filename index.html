@@ -467,6 +467,27 @@
     html[data-theme="dark"] .money-toolbar input,
     html[data-theme="dark"] .money-toolbar select{background:#101829;border-color:#303a55;color:#f7f8fb}
 
+
+    .reminder-card{
+      margin-top:16px;
+      padding:18px;
+      border:1px solid var(--line);
+      border-radius:22px;
+      background:var(--surface);
+      box-shadow:var(--shadow);
+    }
+    .reminder-item{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:12px;
+      margin-top:8px;
+      border-radius:15px;
+      background:var(--surface-2);
+    }
+    .reminder-time{font-weight:900;color:var(--brand)}
+
     @media(max-width:760px){
       .tools-grid{grid-template-columns:1fr}
       .tool-card{min-height:135px}
@@ -585,6 +606,14 @@
     </header>
 
     <section class="page active" id="page-today" aria-labelledby="todayTitle">
+      <div class="reminder-card">
+        <div class="section-head">
+          <h3>🔔 Next Reminder</h3>
+          <button class="btn secondary small" id="requestNotify">Enable</button>
+        </div>
+        <div id="nextReminder">Сануулга алга</div>
+      </div>
+
       <div class="hero">
         <div><h2 id="todayTitle">Өнөөдөр</h2><p id="todaySubtitle"></p></div>
         <button class="btn primary" data-add-task>＋ Task нэмэх</button>
@@ -803,7 +832,7 @@
         <h3 id="taskModalTitle">Task нэмэх</h3>
         <button class="icon-btn" data-close="taskModal" aria-label="Хаах">×</button>
       </div>
-      <form id="taskForm">
+      <form id="taskForm"><div class="field"><label>⏰ Reminder цаг</label><input id="taskReminderTime" type="time"></div>
         <input type="hidden" id="taskId">
         <div class="field"><label for="taskName">Task-ийн нэр</label><input id="taskName" maxlength="100" required placeholder="Жишээ: 30 минут ном унших"></div>
         <div class="row">
@@ -2789,6 +2818,7 @@
       selectedMoneyMonth = item.date.slice(0,7);
       closeModal('moneyModal');
       renderMoney();
+      renderReminder();
       toast(id?'Гүйлгээ шинэчлэгдлээ':'Гүйлгээ нэмэгдлээ');
     };
 
@@ -3072,6 +3102,55 @@
     $('#themeToggle').addEventListener('click',() => {
       applyTheme(currentTheme() === 'dark' ? 'light' : 'dark');
     });
+
+
+    const REMINDER_KEY = 'myLifeTracker.reminders.v1';
+    let reminders = JSON.parse(localStorage.getItem(REMINDER_KEY) || '[]');
+
+    async function requestNotifications(){
+      if(!('Notification' in window)){
+        toast('Энэ төхөөрөмж notification дэмжихгүй байна');
+        return;
+      }
+      const result = await Notification.requestPermission();
+      toast(result === 'granted' ? 'Notification асаалттай' : 'Notification зөвшөөрөгдсөнгүй');
+    }
+
+    function saveReminders(){
+      localStorage.setItem(REMINDER_KEY, JSON.stringify(reminders));
+    }
+
+    function renderReminder(){
+      const box = $('#nextReminder');
+      if(!box) return;
+
+      const now = new Date();
+      const upcoming = reminders
+        .map(r => ({...r,date:new Date(r.date)}))
+        .filter(r => r.date > now)
+        .sort((a,b)=>a.date-b.date)[0];
+
+      box.innerHTML = upcoming
+        ? `<div class="reminder-item"><span>${esc(upcoming.title)}</span><span class="reminder-time">${upcoming.date.toLocaleString()}</span></div>`
+        : 'Сануулга алга';
+    }
+
+    function checkReminders(){
+      const now = new Date();
+      reminders.forEach(r=>{
+        if(!r.done && Math.abs(new Date(r.date)-now)<60000){
+          r.done = true;
+          if(Notification.permission==='granted'){
+            new Notification('My Life Tracker 🔔',{body:r.title});
+          }
+        }
+      });
+      saveReminders();
+      renderReminder();
+    }
+
+    $('#requestNotify')?.addEventListener('click',requestNotifications);
+    setInterval(checkReminders,60000);
 
     function network(){
       const online = navigator.onLine;
