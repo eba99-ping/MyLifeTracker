@@ -1,25 +1,43 @@
 {
+  "id": "/",
   "name": "My Life Tracker",
   "short_name": "Life Tracker",
-  "id": "/",
+  "description": "Өдөр бүр 1% илүү сайн — Planner, Goals, Journal, AI Coach.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#0b1020",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#080d1b",
   "theme_color": "#101828",
-  "description": "Premium daily planner, Smart Goals, Journal and AI Coach by Elbegabyar.",
+  "lang": "mn",
+  "categories": ["productivity", "lifestyle", "utilities"],
   "icons": [
     {
-      "src": "/icon-192.png",
+      "src": "/app-icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icon-512.png",
+      "src": "/app-icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Өнөөдрийн Planner",
+      "short_name": "Planner",
+      "url": "/#today",
+      "icons": [{"src": "/app-icon-192.png", "sizes": "192x192"}]
+    },
+    {
+      "name": "Journal бичих",
+      "short_name": "Journal",
+      "url": "/#journal",
+      "icons": [{"src": "/app-icon-192.png", "sizes": "192x192"}]
     }
   ]
 }
