@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 
-const required = ['index.html','manifest.json','sw.js','vercel.json','favicon.svg','icon-192.png','icon-512.png','icon-maskable-512.png','apple-touch-icon.png','privacy.html','terms.html','about.html','contact.html','404.html'];
+const required = ['index.html','manifest.json','sw.js','vercel.json','favicon.svg','icon-192.png','icon-512.png','icon-maskable-512.png','apple-touch-icon.png','privacy.html','terms.html','about.html','contact.html','404.html','api/chat.js'];
 const missing = required.filter(file => !fs.existsSync(file));
 if(missing.length) throw new Error(`Missing production files: ${missing.join(', ')}`);
 
