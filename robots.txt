@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://my-life-tracker-mongolia.vercel.app/sitemap.xml

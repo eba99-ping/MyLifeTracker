@@ -1,5 +1,5 @@
-const CACHE_NAME = 'my-life-tracker-v5-final-20260820';
-const APP_SHELL = ['/', '/index.html', '/manifest.json', '/app-icon-192.png', '/app-icon-512.png', '/apple-touch-icon.png'];
+const CACHE_NAME = 'my-life-tracker-v5-seo-20260823';
+const APP_SHELL = ['/', '/index.html', '/manifest.json', '/app-icon-192.png', '/app-icon-512.png', '/apple-touch-icon.png', '/robots.txt', '/sitemap.xml'];
 
 self.addEventListener('install', event => {
   event.waitUntil(
