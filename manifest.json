@@ -2,42 +2,25 @@
   "id": "/",
   "name": "My Life Tracker",
   "short_name": "Life Tracker",
-  "description": "Өдөр бүр 1% илүү сайн — Planner, Goals, Journal, AI Coach.",
-  "start_url": "/",
+  "description": "Planner, Smart Goals, private journal, AI Coach, tools and money tracking in one personal productivity app.",
+  "lang": "mn",
+  "dir": "ltr",
+  "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
   "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
-  "orientation": "portrait-primary",
-  "background_color": "#080d1b",
-  "theme_color": "#101828",
-  "lang": "mn",
+  "orientation": "any",
+  "background_color": "#f5f7fb",
+  "theme_color": "#6d5dfc",
   "categories": ["productivity", "lifestyle", "utilities"],
   "icons": [
-    {
-      "src": "/app-icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/app-icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    {"src":"/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any"},
+    {"src":"/icon-maskable-512.png","sizes":"512x512","type":"image/png","purpose":"maskable"}
   ],
   "shortcuts": [
-    {
-      "name": "Өнөөдрийн Planner",
-      "short_name": "Planner",
-      "url": "/#today",
-      "icons": [{"src": "/app-icon-192.png", "sizes": "192x192"}]
-    },
-    {
-      "name": "Journal бичих",
-      "short_name": "Journal",
-      "url": "/#journal",
-      "icons": [{"src": "/app-icon-192.png", "sizes": "192x192"}]
-    }
+    {"name":"Өнөөдөр","short_name":"Today","url":"/#today","icons":[{"src":"/icon-192.png","sizes":"192x192"}]},
+    {"name":"Planner","short_name":"Planner","url":"/#planner","icons":[{"src":"/icon-192.png","sizes":"192x192"}]},
+    {"name":"Journal","short_name":"Journal","url":"/#journal","icons":[{"src":"/icon-192.png","sizes":"192x192"}]}
   ]
 }

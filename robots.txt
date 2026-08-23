@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://my-life-tracker-mongolia.vercel.app/sitemap.xml
+Sitemap: https://my-life-tracker-seven.vercel.app/sitemap.xml
