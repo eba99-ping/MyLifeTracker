@@ -1,4 +1,4 @@
-const CACHE = 'my-life-tracker-v1.1.0';
+const CACHE = 'my-life-tracker-v1.2.0';
 const APP_SHELL = ['/', '/index.html', '/manifest.json', '/favicon.svg', '/icon-192.png', '/icon-512.png', '/apple-touch-icon.png'];
 
 self.addEventListener('install',event => {

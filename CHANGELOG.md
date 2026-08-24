@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.2.0 — Cloud Sync + Daily Quests
+
+- Added three deterministic Daily Quests with visible progress and one-time XP claim rewards.
+- Added quest rotations for tasks, goal steps, journals, tomorrow planning and goal completion.
+- Added migration-safe quest persistence in `myLifeTracker.quests.v1` and Backup & Restore support.
+- Added account-scoped Firestore sync for Tracker, Profile, Money, Journal, AI Pet and Daily Quests.
+- Added conflict-aware merges, deletion tombstones, debounced saves, manual Sync Now and offline retry.
+- Added merge-safe pet XP award ledgers so rewards from different devices are not lost or duplicated.
+- Added private-by-default Firestore rules and Firebase deployment metadata.
+- Preserved Device Mode, all existing local keys, Firebase Auth, PWA and the existing AI backend.
+
 ## v1.1.0 — AI Pet
 
 - Added a dashboard AI Pet that opens the existing AI Coach when clicked.

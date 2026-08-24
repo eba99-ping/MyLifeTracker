@@ -1,6 +1,6 @@
-# My Life Tracker v1.1 — AI Pet
+# My Life Tracker v1.2 — Cloud Sync + Daily Quests
 
-Production-ready PWA with Firebase Authentication, profile, planner, Smart Goals, Journal, AI Coach, AI Pet, Tools Hub, Money tracker, light/dark theme and local-data migrations.
+Production-ready PWA with Firebase Authentication, account-scoped Firestore sync, Daily Quests, profile, planner, Smart Goals, Journal, AI Coach, AI Pet, Tools Hub, Money tracker, light/dark theme and migration-safe local data.
 
 ## Local preview
 
@@ -26,7 +26,8 @@ The canonical production URL is `https://my-life-tracker-seven.vercel.app/`. If 
 - [ ] In Firebase Authentication → Settings → Authorized domains, add the final domain and the required Vercel domain. Do not add random preview domains.
 - [ ] In Google Cloud/Firebase OAuth settings, verify authorized redirect URIs and support email.
 - [ ] Enable only authentication providers that are actually configured. The UI currently labels Apple as unavailable until Apple Developer/Firebase setup is complete.
-- [ ] Review Firestore/Storage Security Rules before enabling cloud data. Never use open test-mode rules in production.
+- [ ] Enable Cloud Firestore in the existing `my-life-tracker-6c19b` Firebase project using a production region selected for the app's audience.
+- [ ] Deploy the included private-by-default rules with `firebase deploy --only firestore:rules --project my-life-tracker-6c19b`. Never use test mode.
 - [ ] Set Firebase App Check when cloud data/API endpoints are introduced.
 - [ ] Add a real support email or contact form to `contact.html`.
 - [ ] Review Privacy Policy and Terms with appropriate legal advice for the launch region and audience.
@@ -37,13 +38,15 @@ The canonical production URL is `https://my-life-tracker-seven.vercel.app/`. If 
 - [ ] Test light/dark themes, 320 px mobile width, tablet and desktop.
 - [ ] Run Lighthouse for Accessibility, Best Practices, SEO and PWA checks.
 - [ ] Confirm `/manifest.json`, `/sw.js`, icons, `/privacy`, `/terms`, `/about`, `/contact`, `/robots.txt` and `/sitemap.xml` return 200.
-- [ ] Create a tagged release such as `v1.1.0` after production smoke testing.
+- [ ] Create a tagged release such as `v1.2.0` after production smoke testing.
 
 ## Firebase configuration safety
 
 The Firebase Web configuration in `index.html` is a public project identifier, not an admin secret. Production safety depends on Firebase Authentication, Authorized Domains, Security Rules, quotas and App Check. Never place service-account credentials or private keys in browser code.
 
 The app accepts an optional `window.__FIREBASE_CONFIG__` object loaded before the main script if a future deployment needs a different Firebase project. Keep the current fallback until migration is deliberately planned; changing projects silently would disconnect existing cloud accounts/data.
+
+Cloud data is stored only at `users/{uid}/data/tracker`. The included `firestore.rules` denies all other reads and writes, and only permits an authenticated user to access their own document. Device Mode continues to work fully offline without Firestore.
 
 ## Release and rollback
 

@@ -1,4 +1,22 @@
-# My Life Tracker v1.1 test checklist
+# My Life Tracker v1.2 test checklist
+
+## Cloud Sync
+
+- [ ] Enable Firestore and deploy `firestore.rules`; confirm test-mode public access is not enabled.
+- [ ] Sign in on device A, press Sync now and confirm the status becomes Synced.
+- [ ] Sign in with the same account on device B and confirm Planner, Goals, Journal, Money, Pet and Quests appear.
+- [ ] Make different changes on both devices and confirm the merge keeps both records and XP awards.
+- [ ] Delete a task, goal, journal entry and transaction; confirm deleted items do not return after sync.
+- [ ] Go offline, make a change, reconnect and confirm the pending change syncs automatically.
+- [ ] Confirm another Firebase user cannot read or write the first user's document.
+
+## Daily Quests
+
+- [ ] Confirm exactly three quests are generated for the local calendar day.
+- [ ] Complete a task and a goal step; confirm their quest progress becomes claimable.
+- [ ] Complete the rotating third quest and claim all three rewards.
+- [ ] Confirm a reward cannot be claimed twice after unchecking, re-checking or reloading.
+- [ ] Confirm quest state and XP persist after reload, Backup & Restore and cloud sync.
 
 ## Data and regression
 

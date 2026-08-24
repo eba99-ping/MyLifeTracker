@@ -1,8 +1,8 @@
 {
   "name": "my-life-tracker",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
-  "description": "My Life Tracker production PWA with AI Pet",
+  "description": "My Life Tracker production PWA with AI Pet, Cloud Sync and Daily Quests",
   "type": "module",
   "scripts": {
     "check": "node scripts/check.mjs"

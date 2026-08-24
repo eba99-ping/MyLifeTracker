@@ -547,10 +547,30 @@
     html[data-theme="dark"] .pet-profile{background:rgba(17,24,42,.72);border-color:#303a55}html[data-theme="dark"] .pet-speech{background:rgba(27,35,55,.9);border-color:#39445e;color:#c2c9d6}html[data-theme="dark"] .pet-speech b{color:#fff}
     html[data-theme="dark"] .pet-stat,html[data-theme="dark"] .pet-accessory-btn{background:rgba(24,33,54,.86);border-color:#35405c}html[data-theme="dark"] .pet-accessory-btn.active{background:#252e47}
 
+    /* ===== Daily Quests ===== */
+    .quest-card{padding:20px;margin:0 0 20px}
+    .quest-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:14px}
+    .quest-head h3{margin:0 0 4px;font-size:18px}.quest-head p{margin:0;color:var(--muted);font-size:12px}
+    .quest-summary{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;background:var(--brand-soft);color:var(--brand);font-size:11px;font-weight:900;white-space:nowrap}
+    .quest-list{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .quest-item{display:grid;grid-template-columns:auto 1fr;gap:10px;padding:13px;border:1px solid var(--line);border-radius:16px;background:var(--surface-2)}
+    .quest-item.ready{border-color:#b9acef;background:linear-gradient(135deg,var(--brand-soft),var(--surface))}.quest-item.claimed{opacity:.72}
+    .quest-icon{width:38px;height:38px;border-radius:12px;background:var(--surface);display:grid;place-items:center;font-size:20px;box-shadow:0 5px 14px rgba(31,35,64,.06)}
+    .quest-copy{min-width:0}.quest-copy strong{display:block;font-size:13px;line-height:1.3}.quest-copy small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+    .quest-progress{height:6px;background:rgba(109,93,252,.12);border-radius:999px;overflow:hidden;margin:9px 0 7px}.quest-progress i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--brand),#a15dfc)}
+    .quest-foot{display:flex;align-items:center;justify-content:space-between;gap:7px;font-size:10px;color:var(--muted)}
+    .quest-claim{border:0;border-radius:9px;padding:6px 8px;background:var(--brand);color:#fff;font-size:10px;font-weight:900}.quest-claim:disabled{background:transparent;color:var(--muted);padding-right:0}
+    .cloud-sync-state{display:flex;align-items:center;gap:8px;margin:10px 0 12px;padding:10px 11px;border:1px solid var(--line);border-radius:13px;background:var(--surface);font-size:11px;color:var(--muted)}
+    .cloud-sync-dot{width:9px;height:9px;border-radius:50%;background:#98a2b3;box-shadow:0 0 0 4px rgba(152,162,179,.12)}
+    .cloud-sync-state[data-state="synced"] .cloud-sync-dot{background:var(--green);box-shadow:0 0 0 4px rgba(22,163,106,.12)}
+    .cloud-sync-state[data-state="syncing"] .cloud-sync-dot{background:#f59e0b;box-shadow:0 0 0 4px rgba(245,158,11,.12);animation:sync-pulse 1.2s ease-in-out infinite}
+    .cloud-sync-state[data-state="error"] .cloud-sync-dot{background:var(--red);box-shadow:0 0 0 4px rgba(225,74,83,.12)}
+
     @keyframes pet-float{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-9px) rotate(1deg)}}
     @keyframes pet-ready{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-6px) rotate(2deg) scale(1.025)}}
     @keyframes pet-shadow{0%,100%{transform:scaleX(1);opacity:.8}50%{transform:scaleX(.83);opacity:.55}}
     @keyframes pet-blink{0%,45%,49%,100%{transform:scaleY(1)}47%{transform:scaleY(.12)}}
+    @keyframes sync-pulse{50%{opacity:.45}}
 
     @media(max-width:760px){
       .tools-grid{grid-template-columns:1fr}
@@ -563,6 +583,7 @@
       .transaction .mini{grid-column:3}
       .nav{width:min(390px,calc(100% - 22px))}
       .pet-card{grid-template-columns:1fr}.pet-home{min-height:235px;padding:17px;grid-template-columns:145px 1fr;gap:8px}.pet-stage{min-height:180px}.pet-svg{width:150px}.pet-accessory{font-size:33px}.pet-speech{margin-top:20px;padding:12px;font-size:11px}.pet-speech b{font-size:13px}.pet-profile{padding:16px;border-left:0;border-top:1px solid rgba(109,93,252,.12)}
+      .quest-list{grid-template-columns:1fr}.quest-card{padding:16px}.quest-item{align-items:center}
     }
 
     @media(max-width:760px){
@@ -622,7 +643,7 @@
           </div>
         </div>
 
-        <div class="auth-credit">My Life Tracker v1.1 · AI Pet · Made by Elbegbayar · 2026</div>
+        <div class="auth-credit">My Life Tracker v1.2 · Cloud Sync + Daily Quests · Made by Elbegbayar · 2026</div>
       </div>
 
       <div class="auth-card">
@@ -650,7 +671,7 @@
 
         <button class="device-btn" type="button" id="deviceModeBtn">📱 Continue on this device</button>
         <button class="device-btn" type="button" id="howToStartBtn" style="margin-top:8px;background:#fff">? How to start</button>
-        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v1.1.0</div>
+        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v1.2.0</div>
       </div>
     </div>
   </section>
@@ -727,6 +748,13 @@
             <div class="pet-accessories" id="petAccessories" aria-label="Pet accessories"></div>
           </div>
         </aside>
+      </section>
+      <section class="card quest-card" aria-labelledby="dailyQuestTitle">
+        <div class="quest-head">
+          <div><h3 id="dailyQuestTitle">✨ Daily Quests</h3><p>Өдөр бүр 3 жижиг ялалт байгуулж pet XP аваарай.</p></div>
+          <div class="quest-summary" id="questSummary">0/3 claimed</div>
+        </div>
+        <div class="quest-list" id="dailyQuestList"></div>
       </section>
       <div id="todayDeadlineNotices"></div>
       <div class="card card-pad progress-card">
@@ -928,7 +956,7 @@
       </div>
     </section>
     <footer class="site-footer">
-      <span>© 2026 My Life Tracker · Made by Elbegbayar · v1.1.0 AI Pet</span>
+      <span>© 2026 My Life Tracker · Made by Elbegbayar · v1.2.0 Cloud Quests</span>
       <nav aria-label="Legal and company links"><a href="/about.html">About</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></nav>
     </footer>
   </main>
@@ -1162,10 +1190,12 @@
       <div class="profile-section">
         <h4>☁ Cloud account</h4>
         <p id="cloudAccountStatus">Device Mode — Cloud sync хараахан холбогдоогүй.</p>
+        <div class="cloud-sync-state" id="cloudSyncState" data-state="local" role="status" aria-live="polite"><span class="cloud-sync-dot" aria-hidden="true"></span><span id="cloudSyncLabel">Local data хамгаалагдсан</span></div>
         <div class="profile-actions">
           <button class="btn secondary small" type="button" data-provider="google">G Google account</button>
           <button class="btn secondary small" type="button" data-provider="apple" disabled>Apple · Soon</button>
         </div>
+        <button class="btn secondary small" type="button" id="syncNowBtn" style="width:100%;margin-top:9px" disabled>↻ Sync now</button>
       </div>
 
       <div class="profile-section">
@@ -1187,7 +1217,7 @@
       <div class="pet-modal-preview"><span>🐰</span><div><b>Таны өдөр тутмын хамтрагч</b><small>Task, goal дуусгаад XP цуглуулж шинэ style нээгээрэй.</small></div></div>
       <form id="petForm">
         <div class="field"><label for="petNameInput">Pet-ийн нэр</label><input id="petNameInput" maxlength="20" required placeholder="Жишээ: Nomi" autocomplete="off"></div>
-        <div class="profile-section"><h4>XP авах арга</h4><p style="margin-bottom:0">Task +10 XP · Goal step +20 XP · Goal complete +100 XP · Өдрийн streak bonus</p></div>
+        <div class="profile-section"><h4>XP авах арга</h4><p style="margin-bottom:0">Task +10 XP · Goal step +20 XP · Goal complete +100 XP · Daily Quest reward · Өдрийн streak bonus</p></div>
         <div class="modal-foot"><button class="btn secondary" type="button" data-close="petModal">Болих</button><button class="btn primary" type="submit">Хадгалах</button></div>
       </form>
     </div>
@@ -1205,6 +1235,8 @@
     const HOW_TO_SEEN_KEY = 'myLifeTracker.howToStartSeen.v1';
     const THEME_KEY = 'myLifeTracker.theme.v1';
     const PET_KEY = 'myLifeTracker.pet.v1';
+    const QUEST_KEY = 'myLifeTracker.quests.v1';
+    const CLOUD_META_KEY = 'myLifeTracker.cloud.v1';
 
     const FIREBASE_VERSION = '12.17.1';
     // Firebase Web API keys identify the project; security is enforced by Firebase
@@ -1222,6 +1254,13 @@
 
     let firebaseBundlePromise = null;
     let firebaseCurrentUser = null;
+    let cloudMeta = null;
+    let cloudSyncTimer = null;
+    let cloudSyncReady = false;
+    let cloudSyncBusy = false;
+    let cloudApplying = false;
+    let cloudLastError = '';
+    let cloudSyncInitUid = '';
     const $ = (q, root=document) => root.querySelector(q);
     const $$ = (q, root=document) => [...root.querySelectorAll(q)];
     const uid = (p='id') => `${p}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,8)}`;
@@ -1256,6 +1295,7 @@
     function initialState(){
       return {
         version:5,
+        updatedAt:0,
         tasks:[],
         goals:[],
         journal:{},
@@ -1287,7 +1327,9 @@
           : (t.category==='Өглөө' ? 'morning' : t.category==='Орой' ? 'evening' : 'day'),
         time:t.time || '',
         repeat:(t.repeat==='daily' || t.recurring===true) ? 'daily' : 'once',
-        doneDates
+        doneDates,
+        createdAt:Number(t.createdAt)||Date.now(),
+        updatedAt:Number(t.updatedAt)||0
       };
     }
 
@@ -1303,12 +1345,15 @@
         deadline,
         completed:!!g.completed,
         reviewed:!!g.reviewed,
+        createdAt:Number(g.createdAt)||Date.now(),
+        updatedAt:Number(g.updatedAt)||0,
         steps:raw.map(s => typeof s === 'string'
-          ? {id:uid('step'),text:s,done:false}
+          ? {id:uid('step'),text:s,done:false,updatedAt:0}
           : {
               id:s.id || uid('step'),
               text:s.text || s.title || '',
-              done:!!(s.done || s.completed)
+              done:!!(s.done || s.completed),
+              updatedAt:Number(s.updatedAt)||0
             }
         )
       };
@@ -1497,6 +1542,11 @@
     }
 
     let state = migrate();
+    state.version = 5;
+    state.updatedAt = Math.max(0,Number(state.updatedAt)||0);
+    state.tasks = Array.isArray(state.tasks) ? state.tasks.map(normalizeTask) : [];
+    state.goals = Array.isArray(state.goals) ? state.goals.map(normalizeGoal) : [];
+    state.journal = state.journal && typeof state.journal === 'object' ? state.journal : {};
     state.money = {
       transactions:[],
       monthlyBudget:0,
@@ -1522,8 +1572,32 @@
     function defaultPetState(){
       return {
         version:1,name:'Nomi',xp:0,mood:'neutral',accessory:'none',
-        xpEvents:{},lastActiveAt:0,createdAt:Date.now()
+        xpEvents:{},xpAwards:{},legacyXp:0,lastActiveAt:0,createdAt:Date.now(),updatedAt:0
       };
+    }
+
+    function knownPetAward(eventKey){
+      if(eventKey.startsWith('task:')) return 10;
+      if(eventKey.startsWith('goal-step:')) return 20;
+      if(eventKey.startsWith('goal:')) return 100;
+      return 0;
+    }
+
+    function normalizePetAwards(pet){
+      pet.xpAwards = pet.xpAwards && typeof pet.xpAwards === 'object' ? pet.xpAwards : {};
+      let knownTotal = 0;
+      Object.keys(pet.xpEvents||{}).forEach(eventKey => {
+        if(!Number.isFinite(Number(pet.xpAwards[eventKey]))){
+          const known = knownPetAward(eventKey);
+          if(known) pet.xpAwards[eventKey] = known;
+        }
+        knownTotal += Math.max(0,Number(pet.xpAwards[eventKey])||0);
+      });
+      pet.legacyXp = Number.isFinite(Number(pet.legacyXp))
+        ? Math.max(0,Number(pet.legacyXp))
+        : Math.max(0,(Number(pet.xp)||0)-knownTotal);
+      pet.xp = pet.legacyXp + Object.values(pet.xpAwards).reduce((sum,value) => sum+Math.max(0,Number(value)||0),0);
+      return pet;
     }
 
     function seedPetFromTracker(){
@@ -1531,20 +1605,20 @@
       state.tasks.forEach(task => Object.entries(task.doneDates||{}).forEach(([date,done]) => {
         if(!done) return;
         pet.xpEvents[`task:${task.id}:${date}`] = Date.now();
-        pet.xp += 10;
+        pet.xpAwards[`task:${task.id}:${date}`] = 10;
       }));
       state.goals.forEach(goal => {
         goal.steps.forEach(step => {
           if(!step.done) return;
           pet.xpEvents[`goal-step:${goal.id}:${step.id}`] = Date.now();
-          pet.xp += 20;
+          pet.xpAwards[`goal-step:${goal.id}:${step.id}`] = 20;
         });
         if(goal.completed){
           pet.xpEvents[`goal:${goal.id}`] = Date.now();
-          pet.xp += 100;
+          pet.xpAwards[`goal:${goal.id}`] = 100;
         }
       });
-      return pet;
+      return normalizePetAwards(pet);
     }
 
     function migratePetState(){
@@ -1554,6 +1628,8 @@
       pet.name = String(pet.name || 'Nomi').trim().slice(0,20) || 'Nomi';
       pet.xp = Math.max(0,Number(pet.xp)||0);
       pet.xpEvents = pet.xpEvents && typeof pet.xpEvents === 'object' ? pet.xpEvents : {};
+      if(!Object.prototype.hasOwnProperty.call(raw,'legacyXp')) pet.legacyXp = Number.NaN;
+      normalizePetAwards(pet);
       if(!PET_MOODS[pet.mood]) pet.mood = 'neutral';
       if(!PET_ACCESSORIES.some(item => item.id===pet.accessory)) pet.accessory = 'none';
       return pet;
@@ -1561,11 +1637,148 @@
 
     let petState = migratePetState();
 
-    function savePet(){
+    function savePet({touch=true,cloud=true}={}){
       const entries = Object.entries(petState.xpEvents||{});
-      if(entries.length>700) petState.xpEvents = Object.fromEntries(entries.slice(-600));
+      if(entries.length>700){
+        const keep = new Set(entries.slice(-600).map(([key])=>key));
+        petState.legacyXp = Math.max(0,Number(petState.legacyXp)||0) + Object.entries(petState.xpAwards||{})
+          .filter(([key])=>!keep.has(key))
+          .reduce((sum,[,value])=>sum+Math.max(0,Number(value)||0),0);
+        petState.xpEvents = Object.fromEntries(entries.filter(([key])=>keep.has(key)));
+        petState.xpAwards = Object.fromEntries(Object.entries(petState.xpAwards||{}).filter(([key])=>keep.has(key)));
+      }
+      if(touch) petState.updatedAt = Date.now();
+      normalizePetAwards(petState);
       localStorage.setItem(PET_KEY,JSON.stringify(petState));
+      if(cloud) scheduleCloudSync();
     }
+
+    function defaultQuestState(){
+      return {version:1,days:{},updatedAt:0};
+    }
+
+    function migrateQuestState(){
+      const raw = readJSON(QUEST_KEY);
+      if(!raw || typeof raw !== 'object') return defaultQuestState();
+      return {
+        ...defaultQuestState(),
+        ...raw,
+        version:1,
+        days:raw.days && typeof raw.days === 'object' ? raw.days : {},
+        updatedAt:Math.max(0,Number(raw.updatedAt)||0)
+      };
+    }
+
+    let questState = migrateQuestState();
+
+    function dailyQuestTemplates(date){
+      const rotation = Math.abs(Math.floor(new Date(date+'T12:00:00').getTime()/86400000)) % 3;
+      const rotating = [
+        {id:'journal',kind:'journalWords',icon:'📝',title:'30 үгтэй journal бичих',target:30,reward:20},
+        {id:'tomorrow',kind:'planTomorrow',icon:'📅',title:'Маргаашийн task-аа төлөвлөх',target:1,reward:15},
+        {id:'goal-finish',kind:'goalComplete',icon:'🏆',title:'Нэг зорилгоо дуусгах',target:1,reward:40}
+      ][rotation];
+      return [
+        {id:'task',kind:'taskComplete',icon:'✅',title:'Өнөөдрийн task дуусгах',target:1,reward:15},
+        {id:'goal-step',kind:'goalStep',icon:'🎯',title:'Goal-ийн нэг алхам хийх',target:1,reward:25},
+        rotating
+      ];
+    }
+
+    function ensureDailyQuests(date=today()){
+      if(!questState.days[date] || typeof questState.days[date] !== 'object'){
+        questState.days[date] = {
+          date,
+          quests:dailyQuestTemplates(date),
+          activity:{goalStep:0,goalComplete:0},
+          claimed:{},
+          createdAt:Date.now(),
+          updatedAt:Date.now()
+        };
+        saveQuests();
+      }
+      const day = questState.days[date];
+      day.quests = Array.isArray(day.quests) && day.quests.length===3 ? day.quests : dailyQuestTemplates(date);
+      day.activity = day.activity && typeof day.activity==='object' ? day.activity : {goalStep:0,goalComplete:0};
+      day.claimed = day.claimed && typeof day.claimed==='object' ? day.claimed : {};
+      return day;
+    }
+
+    function saveQuests({touch=true,cloud=true}={}){
+      if(touch) questState.updatedAt = Date.now();
+      const dates = Object.keys(questState.days||{}).sort();
+      if(dates.length>120) dates.slice(0,-100).forEach(date => delete questState.days[date]);
+      localStorage.setItem(QUEST_KEY,JSON.stringify(questState));
+      if(cloud) scheduleCloudSync();
+    }
+
+    function dailyQuestProgress(quest,date=today()){
+      const day = ensureDailyQuests(date);
+      if(quest.kind==='taskComplete') return progress(date).done;
+      if(quest.kind==='goalStep') return Math.max(0,Number(day.activity.goalStep)||0);
+      if(quest.kind==='goalComplete') return Math.max(0,Number(day.activity.goalComplete)||0);
+      if(quest.kind==='journalWords') return words(state.journal?.[date]?.body || '');
+      if(quest.kind==='planTomorrow') return visibleTasks(addDays(date,1)).length;
+      return 0;
+    }
+
+    function recordQuestActivity(kind,amount=1){
+      const day = ensureDailyQuests();
+      day.activity[kind] = Math.max(0,Number(day.activity[kind])||0) + Math.max(0,Number(amount)||0);
+      day.updatedAt = Date.now();
+      saveQuests();
+      renderDailyQuests();
+    }
+
+    function claimDailyQuest(questId){
+      const date = today();
+      const day = ensureDailyQuests(date);
+      const quest = day.quests.find(item=>item.id===questId);
+      if(!quest || day.claimed[quest.id]) return;
+      const current = dailyQuestProgress(quest,date);
+      if(current<quest.target) return;
+      const earned = awardPetXP(`quest:${date}:${quest.id}`,quest.reward);
+      day.claimed[quest.id] = Date.now();
+      day.updatedAt = Date.now();
+      saveQuests();
+      renderDailyQuests();
+      renderPet();
+      toast(earned ? `Quest complete · ${petState.name} +${earned} XP 🎁` : 'Quest reward өмнө нь авсан байна');
+    }
+
+    function dailyQuestStatus(date=today()){
+      const day = ensureDailyQuests(date);
+      const claimed = day.quests.filter(quest=>day.claimed[quest.id]).length;
+      const ready = day.quests.filter(quest=>!day.claimed[quest.id] && dailyQuestProgress(quest,date)>=quest.target).length;
+      return {day,claimed,ready};
+    }
+
+    function renderDailyQuests(){
+      if(!$('#dailyQuestList')) return;
+      const date = today();
+      const {day,claimed} = dailyQuestStatus(date);
+      $('#questSummary').textContent = `${claimed}/3 claimed`;
+      $('#dailyQuestList').innerHTML = day.quests.map(quest => {
+        const current = dailyQuestProgress(quest,date);
+        const done = !!day.claimed[quest.id];
+        const ready = !done && current>=quest.target;
+        const shown = Math.min(current,quest.target);
+        const pct = Math.min(100,Math.round(shown/Math.max(1,quest.target)*100));
+        return `<article class="quest-item ${ready?'ready':''} ${done?'claimed':''}">
+          <div class="quest-icon" aria-hidden="true">${quest.icon}</div>
+          <div class="quest-copy"><strong>${esc(quest.title)}</strong><small>Reward · +${quest.reward} XP</small>
+            <div class="quest-progress" aria-label="${shown}/${quest.target}"><i style="width:${pct}%"></i></div>
+            <div class="quest-foot"><span>${shown}/${quest.target}</span>${done
+              ? '<button class="quest-claim" type="button" disabled>Claimed ✓</button>'
+              : `<button class="quest-claim" type="button" data-claim-quest="${esc(quest.id)}" ${ready?'':'disabled'}>${ready?'Claim':'In progress'}</button>`}
+            </div>
+          </div>
+        </article>`;
+      }).join('');
+      $$('[data-claim-quest]').forEach(button => button.onclick = () => claimDailyQuest(button.dataset.claimQuest));
+    }
+
+    saveQuests({touch:false,cloud:false});
 
     function petLevelInfo(){
       let level = 1;
@@ -1592,12 +1805,13 @@
 
     function awardPetXP(eventKey,amount){
       if(!eventKey || petState.xpEvents[eventKey]) return 0;
+      const reward = Math.max(0,Number(amount)||0);
       petState.xpEvents[eventKey] = Date.now();
-      petState.xp += Math.max(0,Number(amount)||0);
+      petState.xpAwards[eventKey] = reward;
       petState.lastActiveAt = Date.now();
       petState.mood = 'happy';
       savePet();
-      return Math.max(0,Number(amount)||0);
+      return reward;
     }
 
     function computedPetMood(){
@@ -1615,6 +1829,9 @@
       const overdue = state.goals.find(goal => !goal.completed && goal.deadline<today());
       const activeGoal = state.goals.find(goal => !goal.completed);
       if(mood==='sleepy') return 'Өнөөдрийн ахицаа хадгалаад сайхан амраарай. Маргааш дахин хамт эхэлнэ.';
+      const questStatus = dailyQuestStatus();
+      if(questStatus.ready) return `${questStatus.ready} Daily Quest reward бэлэн боллоо. XP-гээ claim хийгээрэй!`;
+      if(questStatus.claimed===3) return 'Өнөөдрийн бүх quest дууслаа! Маргааш шинэ 3 challenge нээгдэнэ.';
       if(p.total>0 && p.done===p.total) return `Өнөөдрийн ${p.total} task бүгд дууслаа! Чи үнэхээр гайхалтай байлаа.`;
       if(overdue) return `“${overdue.title}” зорилгоо өнөөдөр нэг жижиг алхмаар урагшлуулбал ямар вэ?`;
       if(pending) return `${pending.time ? pending.time+'-д ' : ''}“${pending.title}” хүлээж байна. Хамт эхлэх үү?`;
@@ -1629,7 +1846,7 @@
       const moodInfo = PET_MOODS[mood];
       const selected = PET_ACCESSORIES.find(item => item.id===petState.accessory && item.level<=level.level) || PET_ACCESSORIES[0];
       if(petState.mood!==mood || petState.accessory!==selected.id){
-        petState.mood = mood;petState.accessory = selected.id;savePet();
+        petState.mood = mood;petState.accessory = selected.id;savePet({touch:false,cloud:false});
       }
       $('#petStage').dataset.mood = mood;
       $('#petStage').setAttribute('aria-label',`${petState.name}, ${moodInfo.label}. AI Coach нээх`);
@@ -1657,7 +1874,7 @@
       });
     }
 
-    savePet();
+    savePet({touch:false,cloud:false});
 
     $('#petStage').addEventListener('click',() => {
       petState.lastActiveAt = Date.now();savePet();
@@ -1695,7 +1912,7 @@
         avatar:'',
         avatarSource:'',
         authMode:'device',
-        updatedAt:Date.now()
+        updatedAt:0
       };
     }
 
@@ -1719,14 +1936,64 @@
       ...(readJSON(SESSION_KEY) || {})
     };
 
+    function defaultCloudMeta(){
+      return {
+        version:1,
+        uid:'',
+        deviceId:uid('device'),
+        lastSyncedAt:0,
+        pending:false,
+        tombstones:{tasks:{},goals:{},journal:{},transactions:{}}
+      };
+    }
+
+    cloudMeta = {...defaultCloudMeta(),...(readJSON(CLOUD_META_KEY)||{})};
+    cloudMeta.deviceId = String(cloudMeta.deviceId||uid('device'));
+    cloudMeta.tombstones = {
+      ...defaultCloudMeta().tombstones,
+      ...(cloudMeta.tombstones||{})
+    };
+    Object.keys(cloudMeta.tombstones).forEach(kind => {
+      if(!cloudMeta.tombstones[kind] || typeof cloudMeta.tombstones[kind]!=='object') cloudMeta.tombstones[kind] = {};
+    });
+
     let authTab = 'login';
 
-    function save(){ localStorage.setItem(KEY,JSON.stringify(state)); }
-    function saveProfile(){ localStorage.setItem(PROFILE_KEY,JSON.stringify(profile)); }
+    function persistCloudMeta(){ localStorage.setItem(CLOUD_META_KEY,JSON.stringify(cloudMeta)); }
+    function scheduleCloudSync(){
+      if(cloudApplying || !cloudSyncReady || !firebaseCurrentUser || session.mode!=='cloud') return;
+      cloudMeta.pending = true;
+      persistCloudMeta();
+      clearTimeout(cloudSyncTimer);
+      cloudSyncTimer = setTimeout(() => flushCloudSync(),900);
+      renderCloudSyncStatus();
+    }
+    function markCloudDeleted(kind,id){
+      if(!id || !cloudMeta.tombstones[kind]) return;
+      cloudMeta.tombstones[kind][id] = Date.now();
+      cloudMeta.pending = true;
+      persistCloudMeta();
+    }
+    function clearCloudDeleted(kind,id){
+      if(!id || !cloudMeta.tombstones[kind]) return;
+      delete cloudMeta.tombstones[kind][id];
+      persistCloudMeta();
+    }
+    function save({touch=true,cloud=true}={}){
+      if(touch) state.updatedAt = Date.now();
+      localStorage.setItem(KEY,JSON.stringify(state));
+      if(cloud) scheduleCloudSync();
+    }
+    function saveProfile({touch=true,cloud=true}={}){
+      if(touch) profile.updatedAt = Date.now();
+      localStorage.setItem(PROFILE_KEY,JSON.stringify(profile));
+      if(cloud) scheduleCloudSync();
+    }
     function saveSession(){ localStorage.setItem(SESSION_KEY,JSON.stringify(session)); }
-    save();
-    saveProfile();
+    save({touch:false,cloud:false});
+    saveProfile({touch:false,cloud:false});
     saveSession();
+    persistCloudMeta();
 
     function initialAvatarDataUrl(name){
       const clean = String(name || '').trim();
@@ -1765,6 +2032,35 @@
       return profile.avatar || initialAvatarDataUrl(profile.name || 'My Profile');
     }
 
+    function renderCloudSyncStatus(){
+      if(!$('#cloudSyncState')) return;
+      const cloud = session.mode==='cloud';
+      const stateEl = $('#cloudSyncState');
+      const button = $('#syncNowBtn');
+      button.disabled = !cloud || cloudSyncBusy || !firebaseCurrentUser;
+      if(!cloud){
+        stateEl.dataset.state = 'local';
+        $('#cloudSyncLabel').textContent = 'Local data энэ төхөөрөмж дээр хамгаалагдсан';
+        $('#cloudAccountStatus').textContent = 'Device Mode — account-д нэвтэрвэл Planner, Goals, Journal, Money, Pet болон Quests sync хийнэ.';
+        return;
+      }
+      $('#cloudAccountStatus').textContent = 'Firebase account холбогдсон · private account data cloud sync идэвхтэй.';
+      if(cloudSyncBusy){
+        stateEl.dataset.state = 'syncing';
+        $('#cloudSyncLabel').textContent = 'Cloud data sync хийж байна…';
+      }else if(cloudLastError){
+        stateEl.dataset.state = 'error';
+        $('#cloudSyncLabel').textContent = cloudLastError;
+      }else if(cloudMeta.lastSyncedAt){
+        stateEl.dataset.state = 'synced';
+        const time = new Intl.DateTimeFormat('mn-MN',{hour:'2-digit',minute:'2-digit'}).format(new Date(cloudMeta.lastSyncedAt));
+        $('#cloudSyncLabel').textContent = `Synced · ${time}${cloudMeta.pending?' · pending changes':''}`;
+      }else{
+        stateEl.dataset.state = 'syncing';
+        $('#cloudSyncLabel').textContent = 'Анхны cloud sync бэлдэж байна…';
+      }
+    }
+
 
 
     function renderProfile(){
@@ -1787,9 +2083,7 @@
         ? 'Account email-ээ Firebase account settings-ээс солино.'
         : '';
       $('#profileBio').value = profile.bio || '';
-      $('#cloudAccountStatus').textContent = session.mode === 'cloud'
-        ? 'Firebase account холбогдсон. Planner, Goals, Journal data одоогоор энэ төхөөрөмж дээр хадгалагдана.'
-        : 'Device Mode — data энэ төхөөрөмж дээр хадгалагдана.';
+      renderCloudSyncStatus();
     }
 
     function setAuthError(message=''){
@@ -1873,10 +2167,12 @@
       firebaseBundlePromise = (async () => {
         const appUrl = `https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}/firebase-app.js`;
         const authUrl = `https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}/firebase-auth.js`;
+        const firestoreUrl = `https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}/firebase-firestore.js`;
 
-        const [appMod, authMod] = await Promise.all([
+        const [appMod, authMod, firestoreMod] = await Promise.all([
           import(appUrl),
-          import(authUrl)
+          import(authUrl),
+          import(firestoreUrl)
         ]);
 
         const app = appMod.getApps().length
@@ -1884,10 +2180,12 @@
           : appMod.initializeApp(FIREBASE_CONFIG);
 
         const auth = authMod.getAuth(app);
+        const db = firestoreMod.getFirestore(app);
         authMod.useDeviceLanguage(auth);
 
         return {
           auth,
+          db,
           GoogleAuthProvider:authMod.GoogleAuthProvider,
           signInWithPopup:authMod.signInWithPopup,
           signInWithRedirect:authMod.signInWithRedirect,
@@ -1897,7 +2195,9 @@
           signOut:authMod.signOut,
           onAuthStateChanged:authMod.onAuthStateChanged,
           updateProfile:authMod.updateProfile,
-          sendEmailVerification:authMod.sendEmailVerification
+          sendEmailVerification:authMod.sendEmailVerification,
+          doc:firestoreMod.doc,
+          runTransaction:firestoreMod.runTransaction
         };
       })();
 
@@ -1911,10 +2211,269 @@
       return providerId || 'firebase';
     }
 
+    function cloneData(value){ return JSON.parse(JSON.stringify(value)); }
+    function recordUpdatedAt(record,fallback=0){
+      return Math.max(0,Number(record?.updatedAt)||Number(fallback)||0);
+    }
+    function mergeTombstones(local={},remote={}){
+      const merged = {tasks:{},goals:{},journal:{},transactions:{}};
+      Object.keys(merged).forEach(kind => {
+        const keys = new Set([...Object.keys(local?.[kind]||{}),...Object.keys(remote?.[kind]||{})]);
+        keys.forEach(id => merged[kind][id] = Math.max(Number(local?.[kind]?.[id])||0,Number(remote?.[kind]?.[id])||0));
+      });
+      return merged;
+    }
+    function mergeRecordArrays(localList=[],remoteList=[],kind,tombstones={},localStamp=0,remoteStamp=0,mergeSame=null){
+      const map = new Map();
+      const add = (item,sourceStamp) => {
+        if(!item?.id) return;
+        const current = map.get(item.id);
+        if(!current){ map.set(item.id,{item:cloneData(item),stamp:recordUpdatedAt(item,sourceStamp)});return; }
+        const nextStamp = recordUpdatedAt(item,sourceStamp);
+        const newer = nextStamp>=current.stamp ? cloneData(item) : current.item;
+        const older = nextStamp>=current.stamp ? current.item : cloneData(item);
+        map.set(item.id,{item:mergeSame ? mergeSame(newer,older) : newer,stamp:Math.max(current.stamp,nextStamp)});
+      };
+      localList.forEach(item=>add(item,localStamp));
+      remoteList.forEach(item=>add(item,remoteStamp));
+      return [...map.values()]
+        .filter(({item,stamp}) => (Number(tombstones?.[kind]?.[item.id])||0)<stamp)
+        .map(({item})=>item);
+    }
+    function mergeTaskRecord(newer,older){
+      return {...newer,doneDates:{...(older.doneDates||{}),...(newer.doneDates||{})}};
+    }
+    function mergeGoalRecord(newer,older){
+      const oldSteps = new Map((older.steps||[]).map(step=>[step.id,step]));
+      return {
+        ...newer,
+        steps:(newer.steps||[]).map(step => {
+          const old = oldSteps.get(step.id);
+          return old && recordUpdatedAt(old,0)>recordUpdatedAt(step,0) ? cloneData(old) : step;
+        })
+      };
+    }
+    function mergeJournal(local={},remote={},tombstones={},localStamp=0,remoteStamp=0){
+      const merged = {};
+      const dates = new Set([...Object.keys(local||{}),...Object.keys(remote||{})]);
+      dates.forEach(date => {
+        const a = local?.[date];
+        const b = remote?.[date];
+        const aStamp = recordUpdatedAt(a,localStamp);
+        const bStamp = recordUpdatedAt(b,remoteStamp);
+        const item = !b || (a && aStamp>=bStamp) ? a : b;
+        const stamp = Math.max(aStamp,bStamp);
+        if(item && (Number(tombstones?.journal?.[date])||0)<stamp) merged[date] = cloneData(item);
+      });
+      return merged;
+    }
+    function normalizePetRecord(raw={}){
+      const pet = {...defaultPetState(),...cloneData(raw)};
+      pet.xpEvents = pet.xpEvents && typeof pet.xpEvents==='object' ? pet.xpEvents : {};
+      if(!Object.prototype.hasOwnProperty.call(raw,'legacyXp')) pet.legacyXp = Number.NaN;
+      pet.name = String(pet.name||'Nomi').trim().slice(0,20)||'Nomi';
+      if(!PET_ACCESSORIES.some(item=>item.id===pet.accessory)) pet.accessory='none';
+      return normalizePetAwards(pet);
+    }
+    function mergePetRecords(local={},remote={},localStamp=0,remoteStamp=0){
+      const a = normalizePetRecord(local);
+      const b = normalizePetRecord(remote);
+      const aStamp = recordUpdatedAt(a,localStamp);
+      const bStamp = recordUpdatedAt(b,remoteStamp);
+      const preferred = aStamp>=bStamp ? a : b;
+      const events = {...(a.xpEvents||{})};
+      Object.entries(b.xpEvents||{}).forEach(([key,value]) => events[key]=Math.max(Number(events[key])||0,Number(value)||0));
+      const awards = {...(a.xpAwards||{}),...(b.xpAwards||{})};
+      return normalizePetRecord({
+        ...preferred,
+        xpEvents:events,
+        xpAwards:awards,
+        legacyXp:Math.max(Number(a.legacyXp)||0,Number(b.legacyXp)||0),
+        createdAt:Math.min(Number(a.createdAt)||Date.now(),Number(b.createdAt)||Date.now()),
+        updatedAt:Math.max(aStamp,bStamp)
+      });
+    }
+    function mergeQuestRecords(local={},remote={}){
+      const a = {...defaultQuestState(),...cloneData(local),days:{...(local.days||{})}};
+      const b = {...defaultQuestState(),...cloneData(remote),days:{...(remote.days||{})}};
+      const days = {};
+      new Set([...Object.keys(a.days),...Object.keys(b.days)]).forEach(date => {
+        const x = a.days[date];
+        const y = b.days[date];
+        if(!x){days[date]=cloneData(y);return;}
+        if(!y){days[date]=cloneData(x);return;}
+        const preferred = recordUpdatedAt(x,0)>=recordUpdatedAt(y,0) ? x : y;
+        days[date] = {
+          ...cloneData(preferred),
+          activity:{
+            goalStep:Math.max(Number(x.activity?.goalStep)||0,Number(y.activity?.goalStep)||0),
+            goalComplete:Math.max(Number(x.activity?.goalComplete)||0,Number(y.activity?.goalComplete)||0)
+          },
+          claimed:{...(x.claimed||{}),...(y.claimed||{})},
+          updatedAt:Math.max(recordUpdatedAt(x,0),recordUpdatedAt(y,0))
+        };
+      });
+      return {version:1,days,updatedAt:Math.max(Number(a.updatedAt)||0,Number(b.updatedAt)||0)};
+    }
+    function mergeCloudPayload(local,remote){
+      if(!remote || typeof remote!=='object') return local;
+      const localStamp = Math.max(0,Number(local.updatedAt)||0);
+      const remoteStamp = Math.max(0,Number(remote.updatedAt)||0);
+      const localStateStamp = Math.max(0,Number(local.timestamps?.state)||Number(local.state?.updatedAt)||0);
+      const remoteStateStamp = Math.max(0,Number(remote.timestamps?.state)||Number(remote.state?.updatedAt)||remoteStamp);
+      const localProfileStamp = Math.max(0,Number(local.timestamps?.profile)||Number(local.profile?.updatedAt)||0);
+      const remoteProfileStamp = Math.max(0,Number(remote.timestamps?.profile)||Number(remote.profile?.updatedAt)||remoteStamp);
+      const localPetStamp = Math.max(0,Number(local.timestamps?.pet)||Number(local.pet?.updatedAt)||0);
+      const remotePetStamp = Math.max(0,Number(remote.timestamps?.pet)||Number(remote.pet?.updatedAt)||remoteStamp);
+      const tombstones = mergeTombstones(local.tombstones,remote.tombstones);
+      const localState = {...initialState(),...(local.state||{})};
+      const remoteState = {...initialState(),...(remote.state||{})};
+      const newerState = localStateStamp>=remoteStateStamp ? localState : remoteState;
+      const mergedState = {
+        ...cloneData(newerState),
+        version:5,
+        updatedAt:Math.max(Number(localState.updatedAt)||0,Number(remoteState.updatedAt)||0),
+        tasks:mergeRecordArrays(localState.tasks,remoteState.tasks,'tasks',tombstones,localStateStamp,remoteStateStamp,mergeTaskRecord).map(normalizeTask),
+        goals:mergeRecordArrays(localState.goals,remoteState.goals,'goals',tombstones,localStateStamp,remoteStateStamp,mergeGoalRecord).map(normalizeGoal),
+        journal:mergeJournal(localState.journal,remoteState.journal,tombstones,localStateStamp,remoteStateStamp),
+        money:{
+          ...(localStateStamp>=remoteStateStamp ? remoteState.money : localState.money),
+          ...(localStateStamp>=remoteStateStamp ? localState.money : remoteState.money),
+          transactions:mergeRecordArrays(localState.money?.transactions,remoteState.money?.transactions,'transactions',tombstones,localStateStamp,remoteStateStamp)
+        }
+      };
+      const localProfile = {...defaultProfile(),...(local.profile||{})};
+      const remoteProfile = {...defaultProfile(),...(remote.profile||{})};
+      const mergedProfile = recordUpdatedAt(localProfile,localProfileStamp)>=recordUpdatedAt(remoteProfile,remoteProfileStamp) ? localProfile : remoteProfile;
+      const pet = mergePetRecords(local.pet,remote.pet,localPetStamp,remotePetStamp);
+      const quests = mergeQuestRecords(local.quests,remote.quests);
+      const updatedAt = Math.max(
+        Number(mergedState.updatedAt)||0,Number(mergedProfile.updatedAt)||0,
+        Number(pet.updatedAt)||0,Number(quests.updatedAt)||0,localStamp,remoteStamp
+      );
+      return {
+        schemaVersion:2,updatedAt,deviceId:cloudMeta.deviceId,state:mergedState,profile:mergedProfile,pet,quests,tombstones,
+        timestamps:{state:mergedState.updatedAt,profile:Number(mergedProfile.updatedAt)||0,pet:Number(pet.updatedAt)||0,quests:Number(quests.updatedAt)||0}
+      };
+    }
+    function buildCloudPayload(){
+      const cloudProfile = cloneData(profile);
+      if(String(cloudProfile.avatar||'').startsWith('data:image/')){
+        cloudProfile.avatar = '';
+        cloudProfile.avatarSource = '';
+      }
+      const updatedAt = Math.max(
+        Number(state.updatedAt)||0,Number(profile.updatedAt)||0,
+        Number(petState.updatedAt)||0,Number(questState.updatedAt)||0
+      );
+      return {
+        schemaVersion:2,
+        updatedAt,
+        deviceId:cloudMeta.deviceId,
+        state:cloneData({...state,chat:(state.chat||[]).slice(-40).map(message=>({...message,text:String(message.text||'').slice(0,6000)}))}),
+        profile:cloudProfile,
+        pet:cloneData(petState),
+        quests:cloneData(questState),
+        tombstones:cloneData(cloudMeta.tombstones),
+        timestamps:{state:Number(state.updatedAt)||0,profile:Number(profile.updatedAt)||0,pet:Number(petState.updatedAt)||0,quests:Number(questState.updatedAt)||0}
+      };
+    }
+    function applyCloudPayload(payload,user=firebaseCurrentUser){
+      if(!payload || typeof payload!=='object') return;
+      cloudApplying = true;
+      try{
+        const localCustomAvatar = profile.avatarSource==='custom' ? profile.avatar : '';
+        state = {...initialState(),...(payload.state||{}),version:5};
+        state.tasks = Array.isArray(state.tasks) ? state.tasks.map(normalizeTask) : [];
+        state.goals = Array.isArray(state.goals) ? state.goals.map(normalizeGoal) : [];
+        state.journal = state.journal && typeof state.journal==='object' ? state.journal : {};
+        state.money = {...initialState().money,...(state.money||{})};
+        state.money.transactions = Array.isArray(state.money.transactions) ? state.money.transactions : [];
+        petState = normalizePetRecord(payload.pet||petState);
+        questState = mergeQuestRecords(defaultQuestState(),payload.quests||questState);
+        profile = {...defaultProfile(),...(payload.profile||profile)};
+        if(localCustomAvatar){ profile.avatar=localCustomAvatar;profile.avatarSource='custom'; }
+        if(user){
+          profile.email = user.email || profile.email || '';
+          profile.authMode = 'cloud';
+          if(user.displayName) profile.name = user.displayName;
+          if(profile.avatarSource!=='custom' && user.photoURL){ profile.avatar=user.photoURL;profile.avatarSource='google'; }
+        }
+        cloudMeta.tombstones = mergeTombstones(cloudMeta.tombstones,payload.tombstones);
+        goalFilter = state.settings?.goalFilter || 'all';
+        save({touch:false,cloud:false});
+        saveProfile({touch:false,cloud:false});
+        savePet({touch:false,cloud:false});
+        saveQuests({touch:false,cloud:false});
+        persistCloudMeta();
+        renderProfile();renderTasks();renderGoals();loadJournal(selectedJournal);renderChat();renderMoney();renderTools();renderDailyQuests();
+      }finally{
+        cloudApplying = false;
+      }
+    }
+    function cloudErrorMessage(error){
+      const code = String(error?.code||'');
+      const message = String(error?.message||'').toLocaleLowerCase('en-US');
+      if(message.includes('firestore api') || message.includes('service_disabled')) return 'Cloud database-аа Firebase дээр идэвхжүүлнэ үү';
+      if(code.includes('permission-denied')) return 'Cloud permission хаалттай · Firebase Rules шалгана уу';
+      if(code.includes('failed-precondition')) return 'Cloud database setup шаардлагатай';
+      if(code.includes('unavailable')) return 'Cloud түр offline · local data хадгалагдсан';
+      if(code.includes('data-too-large')) return 'Cloud хэмжээ дүүрсэн · Backup татаж data-гаа цэгцлээрэй';
+      return 'Cloud sync амжилтгүй · local data хадгалагдсан';
+    }
+    async function flushCloudSync({manual=false}={}){
+      if(cloudSyncBusy || !firebaseCurrentUser || session.mode!=='cloud') return;
+      cloudSyncBusy = true;cloudLastError='';renderCloudSyncStatus();
+      try{
+        const fb = await initFirebaseAuth();
+        const user = firebaseCurrentUser;
+        const ref = fb.doc(fb.db,'users',user.uid,'data','tracker');
+        const local = buildCloudPayload();
+        if(new TextEncoder().encode(JSON.stringify(local)).length>850000){
+          const error = new Error('Cloud document is too large');
+          error.code = 'app/data-too-large';
+          throw error;
+        }
+        const merged = await fb.runTransaction(fb.db,async transaction => {
+          const snapshot = await transaction.get(ref);
+          const next = snapshot.exists() ? mergeCloudPayload(local,snapshot.data()) : local;
+          next.updatedAt = Math.max(Number(next.updatedAt)||0,Number(local.updatedAt)||0);
+          next.syncedAt = Date.now();
+          transaction.set(ref,next);
+          return next;
+        });
+        applyCloudPayload(merged,user);
+        cloudMeta.uid = user.uid;
+        cloudMeta.lastSyncedAt = Date.now();
+        cloudMeta.pending = false;
+        cloudSyncReady = true;
+        persistCloudMeta();
+        if(manual) toast('☁ Cloud sync дууслаа');
+      }catch(error){
+        console.warn('Cloud sync:',error);
+        cloudLastError = cloudErrorMessage(error);
+        cloudMeta.pending = true;
+        persistCloudMeta();
+        if(manual) toast(cloudLastError);
+      }finally{
+        cloudSyncBusy = false;
+        renderCloudSyncStatus();
+      }
+    }
+    async function initializeCloudSync(user){
+      if(!user || cloudSyncInitUid===user.uid && cloudSyncReady) return;
+      cloudSyncInitUid = user.uid;
+      cloudSyncReady = true;
+      cloudLastError = '';
+      renderCloudSyncStatus();
+      await flushCloudSync();
+    }
+
     function syncFirebaseUserToProfile(user){
       if(!user) return;
 
       firebaseCurrentUser = user;
+      const profileBeforeAuth = JSON.stringify(profile);
 
       const currentName = profile.name?.trim();
       if(user.displayName){
@@ -1940,7 +2499,7 @@
       }
 
       profile.authMode = 'cloud';
-      profile.updatedAt = Date.now();
+      if(JSON.stringify(profile)!==profileBeforeAuth) profile.updatedAt = Date.now();
 
       session.active = true;
       session.mode = 'cloud';
@@ -1948,7 +2507,7 @@
       session.firebaseUid = user.uid;
       session.signedInAt = session.signedInAt || Date.now();
 
-      saveProfile();
+      saveProfile({touch:false});
       saveSession();
       renderProfile();
     }
@@ -1984,9 +2543,14 @@
             if(user){
               syncFirebaseUserToProfile(user);
               hideAuthScreen();
+              initializeCloudSync(user);
             }else if(session.active && session.mode === 'device'){
+              cloudSyncReady = false;
+              cloudSyncInitUid = '';
               hideAuthScreen();
             }else{
+              cloudSyncReady = false;
+              cloudSyncInitUid = '';
               if(session.mode === 'cloud'){
                 session.active = false;
                 session.firebaseUid = '';
@@ -2086,6 +2650,7 @@
       if(b.disabled) return;
       cloudProviderAction(b.dataset.provider);
     }));
+    $('#syncNowBtn').addEventListener('click',() => flushCloudSync({manual:true}));
 
     $('#howToStartBtn').addEventListener('click',() => openModal('howToStartModal'));
 
@@ -2295,11 +2860,12 @@
     $('#backupData').addEventListener('click',() => {
       const backup = {
         app:'My Life Tracker',
-        version:5,
+        version:6,
         exportedAt:new Date().toISOString(),
         state,
         profile,
         pet:petState,
+        quests:questState,
         settings:state.settings || {}
       };
 
@@ -2335,9 +2901,12 @@
           profile = {...defaultProfile(),...data.profile};
         }
         if(data.pet && typeof data.pet === 'object'){
-          petState = {...defaultPetState(),...data.pet,version:1};
-          petState.xpEvents = petState.xpEvents && typeof petState.xpEvents==='object' ? petState.xpEvents : {};
+          petState = normalizePetRecord(data.pet);
           savePet();
+        }
+        if(data.quests && typeof data.quests === 'object'){
+          questState = mergeQuestRecords(defaultQuestState(),data.quests);
+          saveQuests();
         }
 
         goalFilter = state.settings.goalFilter || 'all';
@@ -2348,6 +2917,7 @@
         renderTasks();
         renderGoals();
         renderPet();
+        renderDailyQuests();
         loadJournal(selectedJournal);
         renderChat();
 
@@ -2373,11 +2943,16 @@
       }
 
       firebaseCurrentUser = null;
+      cloudSyncReady = false;
+      cloudSyncInitUid = '';
+      cloudSyncBusy = false;
+      cloudLastError = '';
       session.active = false;
       session.mode = 'device';
       session.provider = '';
       session.firebaseUid = '';
       saveSession();
+      renderProfile();
 
       closeModal('profileModal');
       showAuthScreen();
@@ -2472,6 +3047,7 @@
         t.doneDates = t.doneDates || {};
         const newlyCompleted = c.checked && !t.doneDates[c.dataset.date];
         t.doneDates[c.dataset.date] = c.checked;
+        t.updatedAt = Date.now();
         let earned = 0;
         if(newlyCompleted){
           earned += awardPetXP(`task:${t.id}:${c.dataset.date}`,10);
@@ -2517,6 +3093,7 @@
       $('#todayDeadlineNotices').innerHTML = due.length
         ? `<div class="notice"><b>🎯 ${due.length} зорилгын хугацаа дууссан.</b> Зорилго хэсэгт орж шалгаарай.</div>`
         : '';
+      renderDailyQuests();
       renderPet();
     }
 
@@ -2546,11 +3123,14 @@
         period:$('#taskPeriod').value,
         time:$('#taskTime').value,
         repeat:$('#taskRepeat').value,
-        doneDates:old?.doneDates || {}
+        doneDates:old?.doneDates || {},
+        createdAt:old?.createdAt || Date.now(),
+        updatedAt:Date.now()
       };
 
       if(id) state.tasks = state.tasks.map(t => t.id===id ? item : t);
       else state.tasks.push(item);
+      clearCloudDeleted('tasks',item.id);
 
       save();
       closeModal('taskModal');
@@ -2561,6 +3141,7 @@
     $('#deleteTask').addEventListener('click',() => {
       const id = $('#taskId').value;
       if(id && confirm('Энэ task-ийг бүр мөсөн устгах уу?')){
+        markCloudDeleted('tasks',id);
         state.tasks = state.tasks.filter(t => t.id!==id);
         save();
         closeModal('taskModal');
@@ -2661,7 +3242,10 @@
         if(!s) return;
         const newlyCompleted = c.checked && !s.done;
         s.done = c.checked;
+        s.updatedAt = Date.now();
+        g.updatedAt = Date.now();
         const earned = newlyCompleted ? awardPetXP(`goal-step:${g.id}:${s.id}`,20) : 0;
+        if(newlyCompleted) recordQuestActivity('goalStep');
         save();
         renderGoals();
         if(earned) toast(`${petState.name} +${earned} XP авлаа ✨`);
@@ -2672,7 +3256,9 @@
         if(g && confirm(`“${g.title}” зорилгыг биелүүлсэн гэж тэмдэглэх үү?`)){
           g.completed = true;
           g.reviewed = true;
+          g.updatedAt = Date.now();
           const earned = awardPetXP(`goal:${g.id}`,100);
+          recordQuestActivity('goalComplete');
           save();
           renderGoals();
           renderTasks();
@@ -2685,6 +3271,7 @@
         if(!g) return;
         g.deadline = addDays(g.deadline,7);
         g.reviewed = false;
+        g.updatedAt = Date.now();
         save();
         renderGoals();
         renderTasks();
@@ -2731,9 +3318,11 @@
         deadline:$('#goalDeadline').value,
         completed:old?.completed || false,
         reviewed:old?.reviewed || false,
+        createdAt:old?.createdAt || Date.now(),
+        updatedAt:Date.now(),
         steps:lines.map(text => {
           const prev = old?.steps.find(s => s.text===text);
-          return prev || {id:uid('step'),text,done:false};
+          return prev || {id:uid('step'),text,done:false,updatedAt:Date.now()};
         })
       };
 
@@ -2744,6 +3333,7 @@
 
       if(id) state.goals = state.goals.map(g => g.id===id ? item : g);
       else state.goals.push(item);
+      clearCloudDeleted('goals',item.id);
 
       save();
       closeModal('goalModal');
@@ -2755,6 +3345,7 @@
     $('#deleteGoal').onclick = () => {
       const id = $('#goalId').value;
       if(id && confirm('Энэ зорилго болон бүх алхмыг бүр мөсөн устгах уу?')){
+        markCloudDeleted('goals',id);
         state.goals = state.goals.filter(g => g.id!==id);
         save();
         closeModal('goalModal');
@@ -2794,7 +3385,9 @@
           createdAt:old?.createdAt || Date.now(),
           updatedAt:Date.now()
         };
+        clearCloudDeleted('journal',selectedJournal);
         save();
+        if(selectedJournal===today()) renderDailyQuests();
         $('#journalSaveState').textContent = 'Хадгалагдсан';
         renderArchive();
       } else if(old){
@@ -2950,6 +3543,7 @@
 
     $('#readerDelete').onclick = () => {
       if(readerDate && confirm(`${prettyDate(readerDate)}-ны тэмдэглэлийг бүр мөсөн устгах уу?`)){
+        markCloudDeleted('journal',readerDate);
         delete state.journal[readerDate];
         save();
         closeModal('readerModal');
@@ -3141,6 +3735,7 @@
 
       if(id) state.money.transactions = state.money.transactions.map(t=>t.id===id?item:t);
       else state.money.transactions.push(item);
+      clearCloudDeleted('transactions',item.id);
 
       save();
       selectedMoneyMonth = item.date.slice(0,7);
@@ -3153,6 +3748,7 @@
     $('#deleteMoneyTransaction').onclick = () => {
       const id = $('#moneyTransactionId').value;
       if(id && confirm('Энэ гүйлгээг устгах уу?')){
+        markCloudDeleted('transactions',id);
         state.money.transactions = state.money.transactions.filter(t=>t.id!==id);
         save();
         closeModal('moneyModal');
@@ -3213,6 +3809,10 @@
       return {
         date:today(),
         aiPet:{name:petState.name,level:petLevelInfo().level,xp:petState.xp,mood:computedPetMood(),streak:petStreak()},
+        dailyQuests:(() => {
+          const {day,claimed,ready} = dailyQuestStatus();
+          return {claimed,ready,items:day.quests.map(quest=>({title:quest.title,progress:dailyQuestProgress(quest),target:quest.target,claimed:!!day.claimed[quest.id]}))};
+        })(),
         todayTasks:{
           done:t.done,
           total:t.total,
@@ -3488,7 +4088,10 @@
       $('span',el).textContent = online ? 'Online' : 'Offline';
     }
 
-    window.addEventListener('online',network);
+    window.addEventListener('online',() => {
+      network();
+      if(cloudMeta.pending && firebaseCurrentUser && session.mode==='cloud') flushCloudSync();
+    });
     window.addEventListener('offline',network);
     window.addEventListener('beforeunload',saveJournal);
     document.addEventListener('visibilitychange',() => {
