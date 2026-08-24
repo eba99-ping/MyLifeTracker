@@ -515,6 +515,43 @@
     }
     .reminder-time{font-weight:900;color:var(--brand)}
 
+    /* ===== AI Pet ===== */
+    .pet-card{
+      display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);gap:0;
+      margin:0 0 20px;overflow:hidden;background:
+        radial-gradient(circle at 14% 20%,rgba(255,255,255,.9),transparent 17rem),
+        linear-gradient(135deg,#eeecff,#fff4ee 58%,#ebf9f4)
+    }
+    .pet-home{position:relative;min-height:270px;padding:24px;display:grid;grid-template-columns:minmax(150px,210px) 1fr;align-items:center;gap:18px;overflow:hidden}
+    .pet-home:before,.pet-home:after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+    .pet-home:before{width:180px;height:180px;left:-68px;bottom:-110px;background:rgba(109,93,252,.11)}
+    .pet-home:after{width:130px;height:130px;right:-48px;top:-55px;background:rgba(22,163,106,.10)}
+    .pet-stage{position:relative;z-index:1;border:0;background:transparent;min-height:210px;padding:8px;display:grid;place-items:center;isolation:isolate}
+    .pet-stage:after{content:"";position:absolute;z-index:-1;width:142px;height:28px;bottom:7px;border-radius:50%;background:rgba(31,24,82,.12);filter:blur(5px);animation:pet-shadow 3.2s ease-in-out infinite}
+    .pet-svg{width:min(190px,100%);height:auto;overflow:visible;filter:drop-shadow(0 14px 19px rgba(69,50,145,.16));animation:pet-float 3.2s ease-in-out infinite;transform-origin:50% 90%}
+    .pet-body-fill{fill:#8172ff}.pet-belly{fill:#efedff}.pet-ear-inner{fill:#ffb8c6}.pet-eye{fill:#1f2340;transform-box:fill-box;transform-origin:center;animation:pet-blink 5.5s infinite}.pet-cheek{fill:#ff96ad;opacity:.72}.pet-mouth{fill:none;stroke:#343654;stroke-width:5;stroke-linecap:round}
+    .pet-stage[data-mood="sleepy"] .pet-eye{transform:scaleY(.14);animation:none}.pet-stage[data-mood="sleepy"] .pet-svg{animation-duration:4.8s}
+    .pet-stage[data-mood="motivated"] .pet-svg{animation:pet-ready 1.9s ease-in-out infinite}
+    .pet-stage[data-mood="happy"] .pet-cheek{opacity:1}.pet-stage[data-mood="happy"] .pet-svg{animation-duration:2.25s}
+    .pet-accessory{position:absolute;z-index:3;top:2px;left:50%;transform:translateX(-50%);font-size:40px;filter:drop-shadow(0 5px 5px rgba(0,0,0,.14));pointer-events:none}
+    .pet-speech{position:relative;z-index:1;align-self:start;margin-top:26px;padding:15px 17px;border-radius:18px 18px 18px 5px;background:rgba(255,255,255,.86);border:1px solid rgba(255,255,255,.9);box-shadow:0 10px 30px rgba(47,39,100,.09);font-size:13px;color:#475467;line-height:1.55}
+    .pet-speech b{display:block;color:#101828;font-size:15px;margin-bottom:3px}.pet-speech span{display:block}.pet-speech small{display:block;margin-top:9px;color:#7468e8;font-weight:850}
+    .pet-profile{padding:22px;border-left:1px solid rgba(109,93,252,.12);background:rgba(255,255,255,.68);backdrop-filter:blur(12px)}
+    .pet-profile-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.pet-profile-head h3{margin:0;font-size:18px}.pet-mood-pill{margin-top:4px;color:var(--muted);font-size:11px;font-weight:750;text-transform:capitalize}
+    .pet-level-row{display:flex;align-items:end;justify-content:space-between;gap:10px;margin-top:17px}.pet-level-row strong{font-size:15px}.pet-level-row span{font-size:11px;color:var(--muted)}
+    .pet-xp-track{height:9px;margin:8px 0 15px;border-radius:999px;background:rgba(109,93,252,.12);overflow:hidden}.pet-xp-track i{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--brand),#a15dfc);transition:width .35s ease}
+    .pet-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pet-stat{padding:10px;border-radius:13px;background:rgba(255,255,255,.72);border:1px solid rgba(109,93,252,.1)}.pet-stat span{display:block;color:var(--muted);font-size:10px}.pet-stat strong{font-size:13px}
+    .pet-unlocks{margin-top:14px}.pet-unlocks-label{font-size:10px;text-transform:uppercase;letter-spacing:.11em;color:var(--muted);font-weight:900;margin-bottom:7px}.pet-accessories{display:flex;gap:7px;flex-wrap:wrap}.pet-accessory-btn{width:38px;height:38px;border:1px solid rgba(109,93,252,.13);border-radius:12px;background:rgba(255,255,255,.78);font-size:19px;display:grid;place-items:center;position:relative}.pet-accessory-btn.active{outline:2px solid var(--brand);background:#fff}.pet-accessory-btn:disabled{filter:grayscale(1);opacity:.42;cursor:not-allowed}.pet-accessory-btn small{position:absolute;right:-3px;bottom:-4px;font-size:8px;background:#343654;color:#fff;border-radius:6px;padding:1px 3px}
+    #petModal .modal{max-width:480px}.pet-modal-preview{display:flex;align-items:center;gap:13px;padding:14px;border-radius:16px;background:var(--brand-soft);margin-bottom:15px}.pet-modal-preview span{font-size:35px}.pet-modal-preview b{display:block}.pet-modal-preview small{color:var(--muted)}
+    html[data-theme="dark"] .pet-card{background:radial-gradient(circle at 15% 15%,rgba(129,114,255,.19),transparent 18rem),linear-gradient(135deg,#161c31,#211d3a 60%,#142a27)}
+    html[data-theme="dark"] .pet-profile{background:rgba(17,24,42,.72);border-color:#303a55}html[data-theme="dark"] .pet-speech{background:rgba(27,35,55,.9);border-color:#39445e;color:#c2c9d6}html[data-theme="dark"] .pet-speech b{color:#fff}
+    html[data-theme="dark"] .pet-stat,html[data-theme="dark"] .pet-accessory-btn{background:rgba(24,33,54,.86);border-color:#35405c}html[data-theme="dark"] .pet-accessory-btn.active{background:#252e47}
+
+    @keyframes pet-float{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-9px) rotate(1deg)}}
+    @keyframes pet-ready{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-6px) rotate(2deg) scale(1.025)}}
+    @keyframes pet-shadow{0%,100%{transform:scaleX(1);opacity:.8}50%{transform:scaleX(.83);opacity:.55}}
+    @keyframes pet-blink{0%,45%,49%,100%{transform:scaleY(1)}47%{transform:scaleY(.12)}}
+
     @media(max-width:760px){
       .tools-grid{grid-template-columns:1fr}
       .tool-card{min-height:135px}
@@ -525,6 +562,7 @@
       .transaction{grid-template-columns:auto 1fr auto}
       .transaction .mini{grid-column:3}
       .nav{width:min(390px,calc(100% - 22px))}
+      .pet-card{grid-template-columns:1fr}.pet-home{min-height:235px;padding:17px;grid-template-columns:145px 1fr;gap:8px}.pet-stage{min-height:180px}.pet-svg{width:150px}.pet-accessory{font-size:33px}.pet-speech{margin-top:20px;padding:12px;font-size:11px}.pet-speech b{font-size:13px}.pet-profile{padding:16px;border-left:0;border-top:1px solid rgba(109,93,252,.12)}
     }
 
     @media(max-width:760px){
@@ -555,6 +593,7 @@
       .row{grid-template-columns:1fr}.nav{height:72px}
       .nav button{font-size:10px}.nav button b{font-size:18px}
     }
+    @media(max-width:420px){.pet-home{grid-template-columns:125px 1fr;padding:14px}.pet-svg{width:132px}.pet-speech small{display:none}.pet-profile-head h3{font-size:16px}}
     @media(prefers-reduced-motion:reduce){
       *{scroll-behavior:auto!important;animation:none!important;transition:none!important}
     }
@@ -583,7 +622,7 @@
           </div>
         </div>
 
-        <div class="auth-credit">My Life Tracker v1.0 · Made by Elbegbayar · 2026</div>
+        <div class="auth-credit">My Life Tracker v1.1 · AI Pet · Made by Elbegbayar · 2026</div>
       </div>
 
       <div class="auth-card">
@@ -611,7 +650,7 @@
 
         <button class="device-btn" type="button" id="deviceModeBtn">📱 Continue on this device</button>
         <button class="device-btn" type="button" id="howToStartBtn" style="margin-top:8px;background:#fff">? How to start</button>
-        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v1.0.0</div>
+        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v1.1.0</div>
       </div>
     </div>
   </section>
@@ -646,6 +685,49 @@
         <div><h2 id="todayTitle">Өнөөдөр</h2><p id="todaySubtitle"></p></div>
         <button class="btn primary" data-add-task>＋ Task нэмэх</button>
       </div>
+
+      <section class="pet-card card" aria-labelledby="petProfileName">
+        <div class="pet-home">
+          <button class="pet-stage" id="petStage" type="button" data-mood="neutral" aria-label="AI Coach нээх">
+            <span class="pet-accessory" id="petAccessory" aria-hidden="true"></span>
+            <svg class="pet-svg" viewBox="0 0 200 205" role="img" aria-label="My Life Tracker AI Pet">
+              <ellipse class="pet-body-fill" cx="66" cy="48" rx="22" ry="48" transform="rotate(-17 66 48)"/>
+              <ellipse class="pet-body-fill" cx="134" cy="48" rx="22" ry="48" transform="rotate(17 134 48)"/>
+              <ellipse class="pet-ear-inner" cx="68" cy="49" rx="9" ry="30" transform="rotate(-17 68 49)"/>
+              <ellipse class="pet-ear-inner" cx="132" cy="49" rx="9" ry="30" transform="rotate(17 132 49)"/>
+              <ellipse class="pet-body-fill" cx="100" cy="124" rx="72" ry="70"/>
+              <ellipse class="pet-belly" cx="100" cy="148" rx="43" ry="37" opacity=".7"/>
+              <ellipse class="pet-eye" cx="75" cy="113" rx="7" ry="9"/>
+              <ellipse class="pet-eye" cx="125" cy="113" rx="7" ry="9"/>
+              <ellipse class="pet-cheek" cx="57" cy="132" rx="12" ry="7"/>
+              <ellipse class="pet-cheek" cx="143" cy="132" rx="12" ry="7"/>
+              <path class="pet-mouth" d="M88 133 Q100 145 112 133"/>
+              <circle fill="#fff" cx="72" cy="109" r="2.3"/><circle fill="#fff" cx="122" cy="109" r="2.3"/>
+            </svg>
+          </button>
+          <div class="pet-speech" aria-live="polite">
+            <b id="petGreeting">Сайн уу!</b>
+            <span id="petMessage">Өнөөдрийн нэг жижиг алхмаа хамт хийцгээе.</span>
+            <small>Намайг дарж AI Coach-той ярилцаарай →</small>
+          </div>
+        </div>
+        <aside class="pet-profile" aria-label="AI Pet profile">
+          <div class="pet-profile-head">
+            <div><h3 id="petProfileName">Nomi</h3><div class="pet-mood-pill" id="petMoodLabel">● Neutral</div></div>
+            <button class="mini" type="button" id="editPet" aria-label="Pet-ийн нэр солих">✎</button>
+          </div>
+          <div class="pet-level-row"><strong id="petLevelLabel">Level 1</strong><span id="petXpLabel">0 / 100 XP</span></div>
+          <div class="pet-xp-track" aria-label="Pet XP progress"><i id="petXpBar"></i></div>
+          <div class="pet-stats">
+            <div class="pet-stat"><span>Mood</span><strong id="petMoodStat">Neutral</strong></div>
+            <div class="pet-stat"><span>Streak bonus</span><strong id="petStreakStat">+0 XP</strong></div>
+          </div>
+          <div class="pet-unlocks">
+            <div class="pet-unlocks-label">Unlocked styles</div>
+            <div class="pet-accessories" id="petAccessories" aria-label="Pet accessories"></div>
+          </div>
+        </aside>
+      </section>
       <div id="todayDeadlineNotices"></div>
       <div class="card card-pad progress-card">
         <div class="progress-ring" id="todayRing"><strong id="todayPercent">0%</strong></div>
@@ -846,7 +928,7 @@
       </div>
     </section>
     <footer class="site-footer">
-      <span>© 2026 My Life Tracker · Made by Elbegbayar · v1.0.0</span>
+      <span>© 2026 My Life Tracker · Made by Elbegbayar · v1.1.0 AI Pet</span>
       <nav aria-label="Legal and company links"><a href="/about.html">About</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></nav>
     </footer>
   </main>
@@ -1096,6 +1178,21 @@
     </div>
   </div>
 
+  <div class="modal-wrap" id="petModal" role="dialog" aria-modal="true" aria-labelledby="petModalTitle">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="petModalTitle">AI Pet profile</h3>
+        <button class="icon-btn" data-close="petModal" aria-label="Хаах">×</button>
+      </div>
+      <div class="pet-modal-preview"><span>🐰</span><div><b>Таны өдөр тутмын хамтрагч</b><small>Task, goal дуусгаад XP цуглуулж шинэ style нээгээрэй.</small></div></div>
+      <form id="petForm">
+        <div class="field"><label for="petNameInput">Pet-ийн нэр</label><input id="petNameInput" maxlength="20" required placeholder="Жишээ: Nomi" autocomplete="off"></div>
+        <div class="profile-section"><h4>XP авах арга</h4><p style="margin-bottom:0">Task +10 XP · Goal step +20 XP · Goal complete +100 XP · Өдрийн streak bonus</p></div>
+        <div class="modal-foot"><button class="btn secondary" type="button" data-close="petModal">Болих</button><button class="btn primary" type="submit">Хадгалах</button></div>
+      </form>
+    </div>
+  </div>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
@@ -1107,6 +1204,7 @@
     const SESSION_KEY = 'myLifeTracker.session.v1';
     const HOW_TO_SEEN_KEY = 'myLifeTracker.howToStartSeen.v1';
     const THEME_KEY = 'myLifeTracker.theme.v1';
+    const PET_KEY = 'myLifeTracker.pet.v1';
 
     const FIREBASE_VERSION = '12.17.1';
     // Firebase Web API keys identify the project; security is enforced by Firebase
@@ -1407,6 +1505,176 @@
       ...(state.money || {})
     };
     if(!Array.isArray(state.money.transactions)) state.money.transactions = [];
+
+    const PET_LEVELS = [0,100,240,420,650,930,1260,1650,2100];
+    const PET_ACCESSORIES = [
+      {id:'none',icon:'',label:'Classic',level:1},
+      {id:'sprout',icon:'🌱',label:'Growth sprout',level:2},
+      {id:'star',icon:'⭐',label:'Focus star',level:3},
+      {id:'crown',icon:'👑',label:'Goal crown',level:5},
+      {id:'headphones',icon:'🎧',label:'Deep-focus headphones',level:7}
+    ];
+    const PET_MOODS = {
+      happy:{label:'Happy',dot:'🟢'},sleepy:{label:'Sleepy',dot:'🌙'},
+      motivated:{label:'Motivated',dot:'⚡'},neutral:{label:'Neutral',dot:'●'}
+    };
+
+    function defaultPetState(){
+      return {
+        version:1,name:'Nomi',xp:0,mood:'neutral',accessory:'none',
+        xpEvents:{},lastActiveAt:0,createdAt:Date.now()
+      };
+    }
+
+    function seedPetFromTracker(){
+      const pet = defaultPetState();
+      state.tasks.forEach(task => Object.entries(task.doneDates||{}).forEach(([date,done]) => {
+        if(!done) return;
+        pet.xpEvents[`task:${task.id}:${date}`] = Date.now();
+        pet.xp += 10;
+      }));
+      state.goals.forEach(goal => {
+        goal.steps.forEach(step => {
+          if(!step.done) return;
+          pet.xpEvents[`goal-step:${goal.id}:${step.id}`] = Date.now();
+          pet.xp += 20;
+        });
+        if(goal.completed){
+          pet.xpEvents[`goal:${goal.id}`] = Date.now();
+          pet.xp += 100;
+        }
+      });
+      return pet;
+    }
+
+    function migratePetState(){
+      const raw = readJSON(PET_KEY) || readJSON('myLifeTracker.pet') || null;
+      if(!raw || typeof raw !== 'object') return seedPetFromTracker();
+      const pet = {...defaultPetState(),...raw,version:1};
+      pet.name = String(pet.name || 'Nomi').trim().slice(0,20) || 'Nomi';
+      pet.xp = Math.max(0,Number(pet.xp)||0);
+      pet.xpEvents = pet.xpEvents && typeof pet.xpEvents === 'object' ? pet.xpEvents : {};
+      if(!PET_MOODS[pet.mood]) pet.mood = 'neutral';
+      if(!PET_ACCESSORIES.some(item => item.id===pet.accessory)) pet.accessory = 'none';
+      return pet;
+    }
+
+    let petState = migratePetState();
+
+    function savePet(){
+      const entries = Object.entries(petState.xpEvents||{});
+      if(entries.length>700) petState.xpEvents = Object.fromEntries(entries.slice(-600));
+      localStorage.setItem(PET_KEY,JSON.stringify(petState));
+    }
+
+    function petLevelInfo(){
+      let level = 1;
+      for(let i=1;i<PET_LEVELS.length;i++) if(petState.xp>=PET_LEVELS[i]) level=i+1;
+      const start = PET_LEVELS[level-1] ?? PET_LEVELS.at(-1);
+      const next = PET_LEVELS[level] ?? (start+550);
+      const current = Math.max(0,petState.xp-start);
+      const needed = Math.max(1,next-start);
+      return {level,start,next,current,needed,pct:Math.min(100,Math.round(current/needed*100))};
+    }
+
+    function petStreak(){
+      const activeDates = new Set();
+      state.tasks.forEach(task => Object.entries(task.doneDates||{}).forEach(([date,done]) => {
+        if(done) activeDates.add(date);
+      }));
+      let cursor = activeDates.has(today()) ? today() : addDays(today(),-1);
+      let streak = 0;
+      while(activeDates.has(cursor) && streak<3650){ streak++;cursor=addDays(cursor,-1); }
+      return streak;
+    }
+
+    function petStreakBonus(){ const streak=petStreak();return streak ? 5+Math.min(20,streak*3) : 0; }
+
+    function awardPetXP(eventKey,amount){
+      if(!eventKey || petState.xpEvents[eventKey]) return 0;
+      petState.xpEvents[eventKey] = Date.now();
+      petState.xp += Math.max(0,Number(amount)||0);
+      petState.lastActiveAt = Date.now();
+      petState.mood = 'happy';
+      savePet();
+      return Math.max(0,Number(amount)||0);
+    }
+
+    function computedPetMood(){
+      const hour = new Date().getHours();
+      if(hour>=22 || hour<6) return 'sleepy';
+      const p = progress(today());
+      if((p.total>0 && p.done===p.total) || Date.now()-Number(petState.lastActiveAt||0)<10*60*1000) return 'happy';
+      if(p.done>0 || state.goals.some(g=>!g.completed) || visibleTasks(today()).some(t=>!t.doneDates?.[today()])) return 'motivated';
+      return 'neutral';
+    }
+
+    function petContextMessage(mood){
+      const p = progress(today());
+      const pending = visibleTasks(today()).find(task => !task.doneDates?.[today()]);
+      const overdue = state.goals.find(goal => !goal.completed && goal.deadline<today());
+      const activeGoal = state.goals.find(goal => !goal.completed);
+      if(mood==='sleepy') return 'Өнөөдрийн ахицаа хадгалаад сайхан амраарай. Маргааш дахин хамт эхэлнэ.';
+      if(p.total>0 && p.done===p.total) return `Өнөөдрийн ${p.total} task бүгд дууслаа! Чи үнэхээр гайхалтай байлаа.`;
+      if(overdue) return `“${overdue.title}” зорилгоо өнөөдөр нэг жижиг алхмаар урагшлуулбал ямар вэ?`;
+      if(pending) return `${pending.time ? pending.time+'-д ' : ''}“${pending.title}” хүлээж байна. Хамт эхлэх үү?`;
+      if(activeGoal) return `“${activeGoal.title}” зорилгодоо өнөөдөр 10 минут зарцуулбал ахиц болно.`;
+      return 'Өнөөдрийн нэг жижиг алхмаа хамт хийцгээе. Би энд байна!';
+    }
+
+    function renderPet(){
+      if(!$('#petStage')) return;
+      const level = petLevelInfo();
+      const mood = computedPetMood();
+      const moodInfo = PET_MOODS[mood];
+      const selected = PET_ACCESSORIES.find(item => item.id===petState.accessory && item.level<=level.level) || PET_ACCESSORIES[0];
+      if(petState.mood!==mood || petState.accessory!==selected.id){
+        petState.mood = mood;petState.accessory = selected.id;savePet();
+      }
+      $('#petStage').dataset.mood = mood;
+      $('#petStage').setAttribute('aria-label',`${petState.name}, ${moodInfo.label}. AI Coach нээх`);
+      $('#petAccessory').textContent = selected.icon;
+      $('#petGreeting').textContent = `${petState.name}: ${moodInfo.label}`;
+      $('#petMessage').textContent = petContextMessage(mood);
+      $('#petProfileName').textContent = petState.name;
+      $('#petMoodLabel').textContent = `${moodInfo.dot} ${moodInfo.label}`;
+      $('#petMoodStat').textContent = moodInfo.label;
+      $('#petLevelLabel').textContent = `Level ${level.level}`;
+      $('#petXpLabel').textContent = `${level.current} / ${level.needed} XP`;
+      $('#petXpBar').style.width = `${level.pct}%`;
+      $('#petStreakStat').textContent = `+${petStreakBonus()} XP`;
+      $('#petAccessories').innerHTML = PET_ACCESSORIES.map(item => `
+        <button class="pet-accessory-btn ${item.id===selected.id?'active':''}" type="button"
+          data-pet-accessory="${item.id}" ${item.level>level.level?'disabled':''}
+          title="${esc(item.label)}${item.level>level.level?` · Level ${item.level}`:''}">
+          ${item.icon || '🐰'}${item.level>level.level?`<small>L${item.level}</small>`:''}
+        </button>`).join('');
+      $$('[data-pet-accessory]').forEach(button => button.onclick = () => {
+        const item = PET_ACCESSORIES.find(x=>x.id===button.dataset.petAccessory);
+        if(!item || item.level>petLevelInfo().level) return;
+        petState.accessory = item.id;savePet();renderPet();
+        toast(`${item.label} сонгогдлоо`);
+      });
+    }
+
+    savePet();
+
+    $('#petStage').addEventListener('click',() => {
+      petState.lastActiveAt = Date.now();savePet();
+      switchPage('ai');
+      setTimeout(() => $('#aiInput')?.focus(),180);
+    });
+    $('#editPet').addEventListener('click',() => {
+      $('#petNameInput').value = petState.name;
+      openModal('petModal');
+    });
+    $('#petForm').addEventListener('submit',event => {
+      event.preventDefault();
+      petState.name = $('#petNameInput').value.trim().slice(0,20) || 'Nomi';
+      petState.lastActiveAt = Date.now();
+      savePet();renderPet();closeModal('petModal');
+      toast(`${petState.name} тантай хамт өсөхөд бэлэн!`);
+    });
 
     let selectedPlanner = today();
     let selectedJournal = today();
@@ -2031,6 +2299,7 @@
         exportedAt:new Date().toISOString(),
         state,
         profile,
+        pet:petState,
         settings:state.settings || {}
       };
 
@@ -2065,6 +2334,11 @@
         if(data.profile && typeof data.profile === 'object'){
           profile = {...defaultProfile(),...data.profile};
         }
+        if(data.pet && typeof data.pet === 'object'){
+          petState = {...defaultPetState(),...data.pet,version:1};
+          petState.xpEvents = petState.xpEvents && typeof petState.xpEvents==='object' ? petState.xpEvents : {};
+          savePet();
+        }
 
         goalFilter = state.settings.goalFilter || 'all';
 
@@ -2073,6 +2347,7 @@
         renderProfile();
         renderTasks();
         renderGoals();
+        renderPet();
         loadJournal(selectedJournal);
         renderChat();
 
@@ -2195,9 +2470,16 @@
         const t = state.tasks.find(x => x.id===c.dataset.toggleTask);
         if(!t) return;
         t.doneDates = t.doneDates || {};
+        const newlyCompleted = c.checked && !t.doneDates[c.dataset.date];
         t.doneDates[c.dataset.date] = c.checked;
+        let earned = 0;
+        if(newlyCompleted){
+          earned += awardPetXP(`task:${t.id}:${c.dataset.date}`,10);
+          earned += awardPetXP(`streak:${c.dataset.date}`,petStreakBonus());
+        }
         save();
         renderTasks();
+        if(earned) toast(`${petState.name} +${earned} XP авлаа ✨`);
       }));
 
       $$('[data-edit-task]',root).forEach(b => b.addEventListener('click',() => {
@@ -2235,6 +2517,7 @@
       $('#todayDeadlineNotices').innerHTML = due.length
         ? `<div class="notice"><b>🎯 ${due.length} зорилгын хугацаа дууссан.</b> Зорилго хэсэгт орж шалгаарай.</div>`
         : '';
+      renderPet();
     }
 
     function showTaskModal(t=null){
@@ -2376,9 +2659,12 @@
         if(!g) return;
         const s = g.steps.find(x => x.id===c.dataset.step);
         if(!s) return;
+        const newlyCompleted = c.checked && !s.done;
         s.done = c.checked;
+        const earned = newlyCompleted ? awardPetXP(`goal-step:${g.id}:${s.id}`,20) : 0;
         save();
         renderGoals();
+        if(earned) toast(`${petState.name} +${earned} XP авлаа ✨`);
       });
 
       $$('[data-complete-goal]').forEach(b => b.onclick = () => {
@@ -2386,10 +2672,11 @@
         if(g && confirm(`“${g.title}” зорилгыг биелүүлсэн гэж тэмдэглэх үү?`)){
           g.completed = true;
           g.reviewed = true;
+          const earned = awardPetXP(`goal:${g.id}`,100);
           save();
           renderGoals();
           renderTasks();
-          toast('Баяр хүргэе! Зорилго биеллээ 🎉');
+          toast(`Баяр хүргэе! Зорилго биеллээ${earned?` · ${petState.name} +${earned} XP`:''} 🎉`);
         }
       });
 
@@ -2407,6 +2694,7 @@
       $$('[data-ai-goal]').forEach(b => b.onclick = () =>
         askGoalAdvice(state.goals.find(g => g.id===b.dataset.aiGoal))
       );
+      renderPet();
     }
 
     function showGoalModal(g=null){
@@ -2924,6 +3212,7 @@
 
       return {
         date:today(),
+        aiPet:{name:petState.name,level:petLevelInfo().level,xp:petState.xp,mood:computedPetMood(),streak:petStreak()},
         todayTasks:{
           done:t.done,
           total:t.total,
