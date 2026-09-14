@@ -1,4 +1,14 @@
-# My Life Tracker v1.2 test checklist
+# My Life Tracker v1.3 test checklist
+
+## Focus Mode
+
+- [ ] Open Tools → Focus Mode and confirm 15, 25 and 45-minute presets work.
+- [ ] Link a pending task, start, pause and resume; confirm the countdown survives refresh.
+- [ ] Finish after at least one minute and confirm the session appears in recent history.
+- [ ] Complete at least 15 minutes and confirm AI Pet XP is awarded exactly once.
+- [ ] Confirm today's minutes, session count, focus streak and seven-day chart update.
+- [ ] Confirm Focus sessions persist through Backup & Restore and Cloud Sync.
+- [ ] Confirm the running timer and dashboard work in light/dark themes and at 320 px width.
 
 ## Cloud Sync
 

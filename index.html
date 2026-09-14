@@ -566,6 +566,24 @@
     .cloud-sync-state[data-state="syncing"] .cloud-sync-dot{background:#f59e0b;box-shadow:0 0 0 4px rgba(245,158,11,.12);animation:sync-pulse 1.2s ease-in-out infinite}
     .cloud-sync-state[data-state="error"] .cloud-sync-dot{background:var(--red);box-shadow:0 0 0 4px rgba(225,74,83,.12)}
 
+    /* ===== Focus Mode ===== */
+    .focus-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:18px}.focus-layout,.focus-layout>*{min-width:0}
+    .focus-stage{padding:clamp(20px,4vw,38px);text-align:center;overflow:hidden;position:relative;background:radial-gradient(circle at 50% 22%,rgba(129,114,255,.15),transparent 18rem),var(--surface)}
+    .focus-stage:before{content:"";position:absolute;width:240px;height:240px;border-radius:50%;background:rgba(109,93,252,.06);left:50%;top:30px;transform:translateX(-50%);filter:blur(2px);pointer-events:none}
+    .focus-kicker{position:relative;color:var(--brand);font-size:11px;font-weight:950;letter-spacing:.14em;text-transform:uppercase}
+    .focus-ring{--focus-progress:0;position:relative;width:min(270px,76vw);aspect-ratio:1;margin:22px auto;display:grid;place-items:center;border-radius:50%;background:conic-gradient(var(--brand) calc(var(--focus-progress)*1%),rgba(109,93,252,.12) 0);box-shadow:0 22px 60px rgba(109,93,252,.14)}
+    .focus-ring:before{content:"";position:absolute;inset:12px;border-radius:inherit;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line)}
+    .focus-time{position:relative;font-size:clamp(48px,9vw,70px);font-variant-numeric:tabular-nums;font-weight:950;letter-spacing:-.07em;line-height:1}
+    .focus-status{position:relative;margin-top:8px;color:var(--muted);font-size:12px;font-weight:800}
+    .focus-task{position:relative;width:min(430px,100%);min-width:0;margin:0 auto 15px;text-align:left}.focus-task label{display:block;margin-bottom:6px;color:var(--muted);font-size:11px;font-weight:850}.focus-task select{width:100%;min-width:0;min-height:45px;border:1px solid var(--line);border-radius:13px;padding:10px 12px;background:var(--surface);color:var(--ink)}
+    .focus-presets{position:relative;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:16px}.focus-preset{border:1px solid var(--line);border-radius:999px;padding:7px 12px;background:var(--surface);color:var(--muted);font-size:12px;font-weight:850}.focus-preset.active{color:var(--brand);background:var(--brand-soft);border-color:#cfc8ff}.focus-preset:disabled{opacity:.5;cursor:not-allowed}
+    .focus-actions{position:relative;display:flex;justify-content:center;gap:9px;flex-wrap:wrap}.focus-actions .btn{min-width:132px}
+    .focus-side{display:flex;flex-direction:column;gap:18px}.focus-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.focus-stat{padding:13px 10px;border:1px solid var(--line);border-radius:15px;background:var(--surface-2);text-align:center}.focus-stat strong{display:block;font-size:20px}.focus-stat span{display:block;color:var(--muted);font-size:10px;margin-top:2px}
+    .focus-week{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;align-items:end;height:120px;margin-top:16px}.focus-day{height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px}.focus-bar{width:100%;min-height:5px;border-radius:7px 7px 3px 3px;background:linear-gradient(180deg,var(--brand-2),var(--brand));transition:height .3s ease}.focus-day span{font-size:9px;color:var(--muted)}
+    .focus-history{display:flex;flex-direction:column;gap:8px;margin-top:12px}.focus-session{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 11px;border-radius:13px;background:var(--surface-2);border:1px solid var(--line)}.focus-session b{display:block;font-size:12px}.focus-session small{color:var(--muted);font-size:10px}.focus-session strong{white-space:nowrap;color:var(--brand);font-size:12px}
+    .focus-empty{padding:18px 8px;text-align:center;color:var(--muted);font-size:12px}.focus-tip{margin-top:13px;padding:12px;border-radius:13px;background:var(--brand-soft);color:var(--muted);font-size:11px}.focus-tip b{color:var(--brand)}
+    html[data-theme="dark"] .focus-stage{background:radial-gradient(circle at 50% 22%,rgba(129,114,255,.18),transparent 18rem),var(--surface)}
+
     @keyframes pet-float{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-9px) rotate(1deg)}}
     @keyframes pet-ready{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-6px) rotate(2deg) scale(1.025)}}
     @keyframes pet-shadow{0%,100%{transform:scaleX(1);opacity:.8}50%{transform:scaleX(.83);opacity:.55}}
@@ -584,6 +602,7 @@
       .nav{width:min(390px,calc(100% - 22px))}
       .pet-card{grid-template-columns:1fr}.pet-home{min-height:235px;padding:17px;grid-template-columns:145px 1fr;gap:8px}.pet-stage{min-height:180px}.pet-svg{width:150px}.pet-accessory{font-size:33px}.pet-speech{margin-top:20px;padding:12px;font-size:11px}.pet-speech b{font-size:13px}.pet-profile{padding:16px;border-left:0;border-top:1px solid rgba(109,93,252,.12)}
       .quest-list{grid-template-columns:1fr}.quest-card{padding:16px}.quest-item{align-items:center}
+      .focus-layout{grid-template-columns:minmax(0,1fr)}.focus-stage{padding:24px 15px}.focus-side{gap:14px}
     }
 
     @media(max-width:760px){
@@ -614,7 +633,12 @@
       .row{grid-template-columns:1fr}.nav{height:72px}
       .nav button{font-size:10px}.nav button b{font-size:18px}
     }
-    @media(max-width:420px){.pet-home{grid-template-columns:125px 1fr;padding:14px}.pet-svg{width:132px}.pet-speech small{display:none}.pet-profile-head h3{font-size:16px}}
+    @media(max-width:420px){
+      .pet-home{grid-template-columns:125px 1fr;padding:14px}.pet-svg{width:132px}.pet-speech small{display:none}.pet-profile-head h3{font-size:16px}
+      .topbar{gap:8px}.brand{gap:7px}.brand h1{font-size:14px;max-width:76px}.app-logo{width:40px;height:40px;border-radius:13px}
+      #themeToggle{width:42px;padding:0}#themeLabel{display:none}.profile-chip{width:42px;padding:4px;justify-content:center}.profile-chip span{display:none}.profile-chip img{width:32px;height:32px}
+      .focus-stat-grid{gap:6px}.focus-stat{padding:11px 5px}.focus-stat strong{font-size:18px}
+    }
     @media(prefers-reduced-motion:reduce){
       *{scroll-behavior:auto!important;animation:none!important;transition:none!important}
     }
@@ -643,7 +667,7 @@
           </div>
         </div>
 
-        <div class="auth-credit">My Life Tracker v1.2 · Cloud Sync + Daily Quests · Built by Elbex Labs · 2026</div>
+        <div class="auth-credit">My Life Tracker v1.3 · Focus Mode · Built by Elbex Labs · 2026</div>
       </div>
 
       <div class="auth-card">
@@ -671,7 +695,7 @@
 
         <button class="device-btn" type="button" id="deviceModeBtn">📱 Continue on this device</button>
         <button class="device-btn" type="button" id="howToStartBtn" style="margin-top:8px;background:#fff">? How to start</button>
-        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v1.2.0</div>
+        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v1.3.0</div>
       </div>
     </div>
   </section>
@@ -824,6 +848,60 @@
           </div>
           <div class="tool-card-foot"><span class="tool-stat" id="toolAiStat">Online</span><span class="tool-arrow">›</span></div>
         </button>
+
+        <button class="tool-card" type="button" data-open-tool="focus">
+          <div>
+            <div class="tool-card-icon">⏱️</div>
+            <h3>Focus Mode</h3>
+            <p>Нэг task сонгоод анхаарлаа төвлөрүүлж, pet XP цуглуул.</p>
+          </div>
+          <div class="tool-card-foot"><span class="tool-stat" id="toolFocusStat">Өнөөдөр 0 мин</span><span class="tool-arrow">›</span></div>
+        </button>
+      </div>
+    </section>
+
+    <section class="page" id="page-focus" aria-labelledby="focusTitle">
+      <button class="tool-back" type="button" data-back-tools>← Tools</button>
+      <div class="hero">
+        <div><h2 id="focusTitle">Focus Mode</h2><p>Нэг зүйлээ сонго. Таймерыг эхлүүл. Бага багаар хүчтэй ахиарай.</p></div>
+      </div>
+      <div class="focus-layout">
+        <section class="card focus-stage" aria-label="Focus timer">
+          <div class="focus-kicker">Deep work session</div>
+          <div class="focus-ring" id="focusRing" aria-label="Focus timer progress">
+            <div><div class="focus-time" id="focusTime">25:00</div><div class="focus-status" id="focusStatus" aria-live="polite">Эхлэхэд бэлэн</div></div>
+          </div>
+          <div class="focus-task">
+            <label for="focusTaskSelect">Өнөөдрийн task</label>
+            <select id="focusTaskSelect"><option value="">Task-гүй focus хийх</option></select>
+          </div>
+          <div class="focus-presets" aria-label="Focus хугацаа">
+            <button class="focus-preset" type="button" data-focus-minutes="15">15 мин</button>
+            <button class="focus-preset active" type="button" data-focus-minutes="25">25 мин</button>
+            <button class="focus-preset" type="button" data-focus-minutes="45">45 мин</button>
+          </div>
+          <div class="focus-actions">
+            <button class="btn primary" type="button" id="focusStart">▶ Focus эхлүүлэх</button>
+            <button class="btn secondary" type="button" id="focusFinish" disabled>✓ Дуусгах</button>
+            <button class="btn ghost" type="button" id="focusCancel" disabled>Цуцлах</button>
+          </div>
+          <div class="focus-tip"><b>Pet reward:</b> 15+ минут төвлөрсөн session бүр XP өгнө. Нэг session-ийг давхар тооцохгүй.</div>
+        </section>
+        <aside class="focus-side">
+          <section class="card card-pad">
+            <div class="section-head"><h3>Өнөөдрийн focus</h3><span id="focusTodayLabel">0 session</span></div>
+            <div class="focus-stat-grid">
+              <div class="focus-stat"><strong id="focusTodayMinutes">0</strong><span>минут</span></div>
+              <div class="focus-stat"><strong id="focusTodaySessions">0</strong><span>session</span></div>
+              <div class="focus-stat"><strong id="focusStreak">0</strong><span>өдрийн streak</span></div>
+            </div>
+            <div class="focus-week" id="focusWeek" aria-label="Сүүлийн 7 өдрийн focus минут"></div>
+          </section>
+          <section class="card card-pad">
+            <div class="section-head"><h3>Сүүлийн session</h3><span id="focusTotalLabel">0 мин нийт</span></div>
+            <div class="focus-history" id="focusHistory"></div>
+          </section>
+        </aside>
       </div>
     </section>
 
@@ -956,7 +1034,7 @@
       </div>
     </section>
     <footer class="site-footer">
-      <span>© 2026 My Life Tracker · Built by Elbex Labs · v1.2.0</span>
+      <span>© 2026 My Life Tracker · Built by Elbex Labs · v1.3.0 Focus Mode</span>
       <nav aria-label="Legal and company links"><a href="/about.html">About</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></nav>
     </footer>
   </main>
@@ -1179,7 +1257,7 @@
 
       <div class="profile-section">
         <h4>💾 Backup & Restore</h4>
-        <p>Planner, goals, journal, profile болон settings-ээ JSON backup болгож хадгална.</p>
+        <p>Planner, goals, journal, focus, profile болон settings-ээ JSON backup болгож хадгална.</p>
         <div class="profile-actions">
           <button class="btn secondary small" type="button" id="backupData">⬇ Backup татах</button>
           <button class="btn secondary small" type="button" id="restoreData">⬆ Backup сэргээх</button>
@@ -1236,6 +1314,7 @@
     const THEME_KEY = 'myLifeTracker.theme.v1';
     const PET_KEY = 'myLifeTracker.pet.v1';
     const QUEST_KEY = 'myLifeTracker.quests.v1';
+    const FOCUS_KEY = 'myLifeTracker.focus.v1';
     const CLOUD_META_KEY = 'myLifeTracker.cloud.v1';
 
     const FIREBASE_VERSION = '12.17.1';
@@ -1712,6 +1791,188 @@
       if(cloud) scheduleCloudSync();
     }
 
+    function defaultFocusState(){
+      return {version:1,settings:{minutes:25},active:null,sessions:[],updatedAt:0};
+    }
+
+    function normalizeFocusState(raw={}){
+      raw = raw && typeof raw==='object' ? raw : {};
+      const base = defaultFocusState();
+      const minutes = [15,25,45].includes(Number(raw.settings?.minutes)) ? Number(raw.settings.minutes) : 25;
+      const sessions = Array.isArray(raw.sessions) ? raw.sessions
+        .filter(item=>item && item.id && Number(item.minutes)>0)
+        .map(item=>({
+          id:String(item.id),date:String(item.date||today()),taskId:String(item.taskId||''),
+          taskTitle:String(item.taskTitle||'Independent focus').slice(0,100),
+          minutes:Math.max(1,Math.round(Number(item.minutes)||1)),
+          reward:Math.max(0,Number(item.reward)||0),
+          completedAt:Math.max(0,Number(item.completedAt)||0),updatedAt:Math.max(0,Number(item.updatedAt)||Number(item.completedAt)||0)
+        }))
+        .sort((a,b)=>a.completedAt-b.completedAt).slice(-180) : [];
+      let active = null;
+      if(raw.active && raw.active.id && Number(raw.active.durationSec)>0){
+        active = {
+          id:String(raw.active.id),taskId:String(raw.active.taskId||''),taskTitle:String(raw.active.taskTitle||'Independent focus').slice(0,100),
+          durationSec:Math.max(60,Number(raw.active.durationSec)||1500),
+          remainingSec:Math.max(0,Number(raw.active.remainingSec)||0),
+          status:raw.active.status==='paused'?'paused':'running',
+          startedAt:Math.max(0,Number(raw.active.startedAt)||Date.now()),
+          endAt:Math.max(0,Number(raw.active.endAt)||0),updatedAt:Math.max(0,Number(raw.active.updatedAt)||0)
+        };
+      }
+      return {...base,version:1,settings:{minutes},active,sessions,updatedAt:Math.max(0,Number(raw.updatedAt)||0)};
+    }
+
+    let focusState = normalizeFocusState(readJSON(FOCUS_KEY)||{});
+    let focusTickTimer = null;
+
+    function saveFocus({touch=true,cloud=true}={}){
+      if(touch) focusState.updatedAt = Date.now();
+      focusState.sessions = focusState.sessions.slice(-180);
+      localStorage.setItem(FOCUS_KEY,JSON.stringify(focusState));
+      if(cloud) scheduleCloudSync();
+    }
+
+    function focusRemainingSeconds(){
+      const active = focusState.active;
+      if(!active) return Math.max(1,Number(focusState.settings.minutes)||25)*60;
+      if(active.status==='paused') return Math.max(0,Math.ceil(Number(active.remainingSec)||0));
+      return Math.max(0,Math.ceil((Number(active.endAt)-Date.now())/1000));
+    }
+
+    function focusClock(seconds){
+      const value = Math.max(0,Math.ceil(Number(seconds)||0));
+      return `${String(Math.floor(value/60)).padStart(2,'0')}:${String(value%60).padStart(2,'0')}`;
+    }
+
+    function focusDayStats(date=today()){
+      const sessions = focusState.sessions.filter(item=>item.date===date);
+      return {sessions,minutes:sessions.reduce((sum,item)=>sum+Math.max(0,Number(item.minutes)||0),0)};
+    }
+
+    function focusDayStreak(){
+      const activeDates = new Set(focusState.sessions.map(item=>item.date));
+      let cursor = activeDates.has(today()) ? today() : addDays(today(),-1);
+      let streak = 0;
+      while(activeDates.has(cursor) && streak<3650){streak++;cursor=addDays(cursor,-1);}
+      return streak;
+    }
+
+    function focusReward(minutes){
+      return minutes>=15 ? Math.min(30,5+Math.floor(minutes/5)*2) : 0;
+    }
+
+    function completeFocusSession(natural=false){
+      const active = focusState.active;
+      if(!active) return;
+      const remaining = natural ? 0 : focusRemainingSeconds();
+      const elapsedSeconds = Math.max(0,active.durationSec-remaining);
+      if(!natural && elapsedSeconds<60){toast('Эхлээд дор хаяж 1 минут focus хийгээрэй');return;}
+      const minutes = natural ? Math.round(active.durationSec/60) : Math.max(1,Math.round(elapsedSeconds/60));
+      const reward = focusReward(minutes);
+      const completedAt = Date.now();
+      focusState.sessions.push({
+        id:active.id,date:today(),taskId:active.taskId,taskTitle:active.taskTitle,
+        minutes,reward,completedAt,updatedAt:completedAt
+      });
+      focusState.active = null;
+      let earned = 0;
+      if(reward) earned = awardPetXP(`focus:${active.id}`,reward);
+      saveFocus();
+      renderFocus();renderTools();renderPet();
+      if(natural && 'Notification' in window && Notification.permission==='granted'){
+        new Notification('Focus session дууслаа ✨',{body:`${minutes} минут төвлөрлөө${earned?` · ${petState.name} +${earned} XP`:''}`});
+      }
+      toast(`${minutes} минутын focus хадгалагдлаа${earned?` · +${earned} XP`:''}`);
+    }
+
+    function startOrPauseFocus(){
+      const active = focusState.active;
+      if(!active){
+        const minutes = [15,25,45].includes(Number(focusState.settings.minutes)) ? Number(focusState.settings.minutes) : 25;
+        const select = $('#focusTaskSelect');
+        const task = state.tasks.find(item=>item.id===select?.value);
+        const startedAt = Date.now();
+        focusState.active = {
+          id:uid('focus'),taskId:task?.id||'',taskTitle:task?.title||'Independent focus',
+          durationSec:minutes*60,remainingSec:minutes*60,status:'running',
+          startedAt,endAt:startedAt+minutes*60000,updatedAt:startedAt
+        };
+        petState.lastActiveAt = Date.now();savePet();saveFocus();renderFocus();renderPet();
+        toast('Focus эхэллээ. Чи чадна! ⚡');
+        return;
+      }
+      if(active.status==='running'){
+        active.remainingSec = focusRemainingSeconds();active.status='paused';active.endAt=0;active.updatedAt=Date.now();
+        saveFocus();renderFocus();toast('Focus түр зогслоо');
+      }else{
+        active.status='running';active.endAt=Date.now()+Math.max(0,active.remainingSec)*1000;active.updatedAt=Date.now();
+        saveFocus();renderFocus();toast('Focus үргэлжилж байна ⚡');
+      }
+    }
+
+    function cancelFocus(){
+      if(!focusState.active || !confirm('Энэ focus session-ийг цуцлах уу? Ахиц хадгалагдахгүй.')) return;
+      focusState.active=null;saveFocus();renderFocus();renderPet();toast('Focus session цуцлагдлаа');
+    }
+
+    function renderFocusClock(){
+      if(!$('#focusTime')) return;
+      const active = focusState.active;
+      const total = active?.durationSec || Number(focusState.settings.minutes||25)*60;
+      const remaining = focusRemainingSeconds();
+      if(active?.status==='running' && remaining<=0){completeFocusSession(true);return;}
+      const pct = active ? Math.min(100,Math.max(0,(total-remaining)/Math.max(1,total)*100)) : 0;
+      $('#focusTime').textContent = focusClock(remaining);
+      $('#focusRing').style.setProperty('--focus-progress',pct);
+      $('#focusStatus').textContent = !active ? 'Эхлэхэд бэлэн' : active.status==='paused' ? 'Түр зогссон' : active.taskTitle;
+    }
+
+    function renderFocus(){
+      if(!$('#focusTime')) return;
+      const active = focusState.active;
+      const select = $('#focusTaskSelect');
+      const previous = active?.taskId || select.value;
+      const pending = visibleTasks(today()).filter(task=>!task.doneDates?.[today()]);
+      const activeOption = active?.taskId && !pending.some(task=>task.id===active.taskId)
+        ? `<option value="${esc(active.taskId)}">${esc(active.taskTitle)}</option>` : '';
+      select.innerHTML = '<option value="">Task-гүй focus хийх</option>'+activeOption+pending.map(task=>`<option value="${esc(task.id)}">${esc(task.title)}</option>`).join('');
+      select.value = pending.some(task=>task.id===previous) ? previous : '';
+      select.disabled = !!active;
+      $$('[data-focus-minutes]').forEach(button=>{
+        button.classList.toggle('active',Number(button.dataset.focusMinutes)===Number(focusState.settings.minutes));
+        button.disabled = !!active;
+      });
+      $('#focusStart').textContent = !active ? '▶ Focus эхлүүлэх' : active.status==='running' ? 'Ⅱ Түр зогсоох' : '▶ Үргэлжлүүлэх';
+      $('#focusFinish').disabled = !active;
+      $('#focusCancel').disabled = !active;
+      renderFocusClock();
+
+      const stats = focusDayStats();
+      $('#focusTodayMinutes').textContent = stats.minutes;
+      $('#focusTodaySessions').textContent = stats.sessions.length;
+      $('#focusStreak').textContent = focusDayStreak();
+      $('#focusTodayLabel').textContent = `${stats.sessions.length} session`;
+      const week = Array.from({length:7},(_,index)=>addDays(today(),index-6)).map(date=>({date,...focusDayStats(date)}));
+      const maxMinutes = Math.max(25,...week.map(day=>day.minutes));
+      $('#focusWeek').innerHTML = week.map(day=>`<div class="focus-day" title="${esc(prettyDate(day.date))} · ${day.minutes} мин"><div class="focus-bar" style="height:${Math.max(5,Math.round(day.minutes/maxMinutes*82))}px"></div><span>${new Intl.DateTimeFormat('mn-MN',{weekday:'short'}).format(new Date(day.date+'T12:00:00')).slice(0,2)}</span></div>`).join('');
+      const totalMinutes = focusState.sessions.reduce((sum,item)=>sum+Number(item.minutes||0),0);
+      $('#focusTotalLabel').textContent = `${totalMinutes} мин нийт`;
+      const history = [...focusState.sessions].sort((a,b)=>b.completedAt-a.completedAt).slice(0,6);
+      $('#focusHistory').innerHTML = history.length ? history.map(item=>`<div class="focus-session"><div><b>${esc(item.taskTitle)}</b><small>${esc(shortDate(item.date))}</small></div><strong>${item.minutes} мин${item.reward?` · +${item.reward} XP`:''}</strong></div>`).join('') : '<div class="focus-empty">Анхны focus session-ээ эхлүүлээрэй.</div>';
+    }
+
+    saveFocus({touch:false,cloud:false});
+    $$('[data-focus-minutes]').forEach(button=>button.onclick=()=>{
+      if(focusState.active) return;
+      focusState.settings.minutes=Number(button.dataset.focusMinutes)||25;
+      saveFocus();renderFocus();
+    });
+    $('#focusStart').onclick=startOrPauseFocus;
+    $('#focusFinish').onclick=()=>completeFocusSession(false);
+    $('#focusCancel').onclick=cancelFocus;
+    focusTickTimer=setInterval(()=>{if(focusState.active?.status==='running') renderFocusClock();},1000);
+
     function dailyQuestProgress(quest,date=today()){
       const day = ensureDailyQuests(date);
       if(quest.kind==='taskComplete') return progress(date).done;
@@ -1817,6 +2078,7 @@
     function computedPetMood(){
       const hour = new Date().getHours();
       if(hour>=22 || hour<6) return 'sleepy';
+      if(focusState.active?.status==='running') return 'motivated';
       const p = progress(today());
       if((p.total>0 && p.done===p.total) || Date.now()-Number(petState.lastActiveAt||0)<10*60*1000) return 'happy';
       if(p.done>0 || state.goals.some(g=>!g.completed) || visibleTasks(today()).some(t=>!t.doneDates?.[today()])) return 'motivated';
@@ -1824,6 +2086,7 @@
     }
 
     function petContextMessage(mood){
+      if(focusState.active?.status==='running') return `“${focusState.active.taskTitle}” дээр focus хийж байна. Би чамтай хамт байна — битгий бууж өг!`;
       const p = progress(today());
       const pending = visibleTasks(today()).find(task => !task.doneDates?.[today()]);
       const overdue = state.goals.find(goal => !goal.completed && goal.deadline<today());
@@ -2041,7 +2304,7 @@
       if(!cloud){
         stateEl.dataset.state = 'local';
         $('#cloudSyncLabel').textContent = 'Local data энэ төхөөрөмж дээр хамгаалагдсан';
-        $('#cloudAccountStatus').textContent = 'Device Mode — account-д нэвтэрвэл Planner, Goals, Journal, Money, Pet болон Quests sync хийнэ.';
+        $('#cloudAccountStatus').textContent = 'Device Mode — account-д нэвтэрвэл Planner, Goals, Journal, Money, Pet, Quests болон Focus sync хийнэ.';
         return;
       }
       $('#cloudAccountStatus').textContent = 'Firebase account холбогдсон · private account data cloud sync идэвхтэй.';
@@ -2315,6 +2578,18 @@
       });
       return {version:1,days,updatedAt:Math.max(Number(a.updatedAt)||0,Number(b.updatedAt)||0)};
     }
+    function mergeFocusRecords(local={},remote={},localStamp=0,remoteStamp=0){
+      const a = normalizeFocusState(cloneData(local));
+      const b = normalizeFocusState(cloneData(remote));
+      const aStamp = recordUpdatedAt(a,localStamp);
+      const bStamp = recordUpdatedAt(b,remoteStamp);
+      const preferred = aStamp>=bStamp ? a : b;
+      return normalizeFocusState({
+        ...cloneData(preferred),
+        sessions:mergeRecordArrays(a.sessions,b.sessions,'focusSessions',{},aStamp,bStamp),
+        updatedAt:Math.max(aStamp,bStamp)
+      });
+    }
     function mergeCloudPayload(local,remote){
       if(!remote || typeof remote!=='object') return local;
       const localStamp = Math.max(0,Number(local.updatedAt)||0);
@@ -2325,6 +2600,8 @@
       const remoteProfileStamp = Math.max(0,Number(remote.timestamps?.profile)||Number(remote.profile?.updatedAt)||remoteStamp);
       const localPetStamp = Math.max(0,Number(local.timestamps?.pet)||Number(local.pet?.updatedAt)||0);
       const remotePetStamp = Math.max(0,Number(remote.timestamps?.pet)||Number(remote.pet?.updatedAt)||remoteStamp);
+      const localFocusStamp = Math.max(0,Number(local.timestamps?.focus)||Number(local.focus?.updatedAt)||0);
+      const remoteFocusStamp = Math.max(0,Number(remote.timestamps?.focus)||Number(remote.focus?.updatedAt)||remoteStamp);
       const tombstones = mergeTombstones(local.tombstones,remote.tombstones);
       const localState = {...initialState(),...(local.state||{})};
       const remoteState = {...initialState(),...(remote.state||{})};
@@ -2347,13 +2624,14 @@
       const mergedProfile = recordUpdatedAt(localProfile,localProfileStamp)>=recordUpdatedAt(remoteProfile,remoteProfileStamp) ? localProfile : remoteProfile;
       const pet = mergePetRecords(local.pet,remote.pet,localPetStamp,remotePetStamp);
       const quests = mergeQuestRecords(local.quests,remote.quests);
+      const focus = mergeFocusRecords(local.focus,remote.focus,localFocusStamp,remoteFocusStamp);
       const updatedAt = Math.max(
         Number(mergedState.updatedAt)||0,Number(mergedProfile.updatedAt)||0,
-        Number(pet.updatedAt)||0,Number(quests.updatedAt)||0,localStamp,remoteStamp
+        Number(pet.updatedAt)||0,Number(quests.updatedAt)||0,Number(focus.updatedAt)||0,localStamp,remoteStamp
       );
       return {
-        schemaVersion:2,updatedAt,deviceId:cloudMeta.deviceId,state:mergedState,profile:mergedProfile,pet,quests,tombstones,
-        timestamps:{state:mergedState.updatedAt,profile:Number(mergedProfile.updatedAt)||0,pet:Number(pet.updatedAt)||0,quests:Number(quests.updatedAt)||0}
+        schemaVersion:3,updatedAt,deviceId:cloudMeta.deviceId,state:mergedState,profile:mergedProfile,pet,quests,focus,tombstones,
+        timestamps:{state:mergedState.updatedAt,profile:Number(mergedProfile.updatedAt)||0,pet:Number(pet.updatedAt)||0,quests:Number(quests.updatedAt)||0,focus:Number(focus.updatedAt)||0}
       };
     }
     function buildCloudPayload(){
@@ -2364,18 +2642,19 @@
       }
       const updatedAt = Math.max(
         Number(state.updatedAt)||0,Number(profile.updatedAt)||0,
-        Number(petState.updatedAt)||0,Number(questState.updatedAt)||0
+        Number(petState.updatedAt)||0,Number(questState.updatedAt)||0,Number(focusState.updatedAt)||0
       );
       return {
-        schemaVersion:2,
+        schemaVersion:3,
         updatedAt,
         deviceId:cloudMeta.deviceId,
         state:cloneData({...state,chat:(state.chat||[]).slice(-40).map(message=>({...message,text:String(message.text||'').slice(0,6000)}))}),
         profile:cloudProfile,
         pet:cloneData(petState),
         quests:cloneData(questState),
+        focus:cloneData(focusState),
         tombstones:cloneData(cloudMeta.tombstones),
-        timestamps:{state:Number(state.updatedAt)||0,profile:Number(profile.updatedAt)||0,pet:Number(petState.updatedAt)||0,quests:Number(questState.updatedAt)||0}
+        timestamps:{state:Number(state.updatedAt)||0,profile:Number(profile.updatedAt)||0,pet:Number(petState.updatedAt)||0,quests:Number(questState.updatedAt)||0,focus:Number(focusState.updatedAt)||0}
       };
     }
     function applyCloudPayload(payload,user=firebaseCurrentUser){
@@ -2391,6 +2670,7 @@
         state.money.transactions = Array.isArray(state.money.transactions) ? state.money.transactions : [];
         petState = normalizePetRecord(payload.pet||petState);
         questState = mergeQuestRecords(defaultQuestState(),payload.quests||questState);
+        focusState = normalizeFocusState(payload.focus||focusState);
         profile = {...defaultProfile(),...(payload.profile||profile)};
         if(localCustomAvatar){ profile.avatar=localCustomAvatar;profile.avatarSource='custom'; }
         if(user){
@@ -2405,8 +2685,9 @@
         saveProfile({touch:false,cloud:false});
         savePet({touch:false,cloud:false});
         saveQuests({touch:false,cloud:false});
+        saveFocus({touch:false,cloud:false});
         persistCloudMeta();
-        renderProfile();renderTasks();renderGoals();loadJournal(selectedJournal);renderChat();renderMoney();renderTools();renderDailyQuests();
+        renderProfile();renderTasks();renderGoals();loadJournal(selectedJournal);renderChat();renderMoney();renderTools();renderDailyQuests();renderFocus();
       }finally{
         cloudApplying = false;
       }
@@ -2860,12 +3141,13 @@
     $('#backupData').addEventListener('click',() => {
       const backup = {
         app:'My Life Tracker',
-        version:6,
+        version:7,
         exportedAt:new Date().toISOString(),
         state,
         profile,
         pet:petState,
         quests:questState,
+        focus:focusState,
         settings:state.settings || {}
       };
 
@@ -2908,6 +3190,10 @@
           questState = mergeQuestRecords(defaultQuestState(),data.quests);
           saveQuests();
         }
+        if(data.focus && typeof data.focus === 'object'){
+          focusState = normalizeFocusState(data.focus);
+          saveFocus();
+        }
 
         goalFilter = state.settings.goalFilter || 'all';
 
@@ -2918,6 +3204,7 @@
         renderGoals();
         renderPet();
         renderDailyQuests();
+        renderFocus();
         loadJournal(selectedJournal);
         renderChat();
 
@@ -3790,6 +4077,7 @@
       if($('#toolMoneyStat')) $('#toolMoneyStat').textContent = moneyFmt(ms.expense) + ' зарлага';
       if($('#toolJournalStat')) $('#toolJournalStat').textContent = entries + ' бичлэг';
       if($('#toolAiStat')) $('#toolAiStat').textContent = navigator.onLine ? 'Online' : 'Offline';
+      if($('#toolFocusStat')) $('#toolFocusStat').textContent = `Өнөөдөр ${focusDayStats().minutes} мин`;
     }
 
     $$('[data-open-tool]').forEach(b => b.onclick = () => switchPage(b.dataset.openTool));
@@ -3812,6 +4100,10 @@
         dailyQuests:(() => {
           const {day,claimed,ready} = dailyQuestStatus();
           return {claimed,ready,items:day.quests.map(quest=>({title:quest.title,progress:dailyQuestProgress(quest),target:quest.target,claimed:!!day.claimed[quest.id]}))};
+        })(),
+        focus:(() => {
+          const focus = focusDayStats();
+          return {todayMinutes:focus.minutes,todaySessions:focus.sessions.length,streak:focusDayStreak(),active:focusState.active?{task:focusState.active.taskTitle,status:focusState.active.status,remainingSeconds:focusRemainingSeconds()}:null};
         })(),
         todayTasks:{
           done:t.done,
@@ -3992,7 +4284,7 @@
     function switchPage(name){
       saveJournal();
 
-      const toolPages = ['goals','money','journal','ai'];
+      const toolPages = ['goals','money','journal','ai','focus'];
       const navPage = toolPages.includes(name) ? 'tools' : name;
 
       $$('.page').forEach(p => p.classList.toggle('active',p.id===`page-${name}`));
@@ -4003,6 +4295,7 @@
       if(name==='journal') loadJournal(selectedJournal);
       if(name==='goals') renderGoals();
       if(name==='money') renderMoney();
+      if(name==='focus') renderFocus();
       if(name==='tools') renderTools();
 
       window.scrollTo({top:0,behavior:'smooth'});
@@ -4144,11 +4437,12 @@
       renderChat();
       renderMoney();
       renderTools();
+      renderFocus();
 
       await initializeFirebaseSession();
 
       const hash = location.hash.slice(1);
-      if(['today','planner','tools','goals','money','journal','ai'].includes(hash)){
+      if(['today','planner','tools','goals','money','journal','ai','focus'].includes(hash)){
         switchPage(hash);
       }
     }

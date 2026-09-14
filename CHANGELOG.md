@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.3.0 — Focus Mode
+
+- Added a mobile-first 15/25/45-minute focus timer linked to today's tasks.
+- Added pause, resume, finish and cancel flows with refresh-safe active session recovery.
+- Added daily minutes, session count, focus streak, seven-day activity chart and recent history.
+- Added duplicate-safe AI Pet XP rewards for focus sessions of at least 15 minutes.
+- Added Focus data to Backup & Restore, AI Coach context and account-scoped Cloud Sync.
+- Added migration-safe persistence in `myLifeTracker.focus.v1` without changing existing storage keys.
+- Added a Focus Mode PWA shortcut and complete light/dark/reduced-motion support.
+- Preserved Firebase Auth, Planner, Goals, Journal, Money, Daily Quests, AI Pet and the existing AI backend.
+
 ## v1.2.0 — Cloud Sync + Daily Quests
 
 - Added three deterministic Daily Quests with visible progress and one-time XP claim rewards.

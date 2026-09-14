@@ -2,7 +2,7 @@
   "id": "/",
   "name": "My Life Tracker",
   "short_name": "Life Tracker",
-  "description": "Planner, Smart Goals, private journal, AI Coach, tools and money tracking in one personal productivity app.",
+  "description": "Planner, Focus Mode, Smart Goals, private journal, AI Coach, tools and money tracking in one personal productivity app.",
   "lang": "mn",
   "dir": "ltr",
   "start_url": "/?source=pwa",
@@ -21,6 +21,7 @@
   "shortcuts": [
     {"name":"Өнөөдөр","short_name":"Today","url":"/#today","icons":[{"src":"/icon-192.png","sizes":"192x192"}]},
     {"name":"Planner","short_name":"Planner","url":"/#planner","icons":[{"src":"/icon-192.png","sizes":"192x192"}]},
-    {"name":"Journal","short_name":"Journal","url":"/#journal","icons":[{"src":"/icon-192.png","sizes":"192x192"}]}
+    {"name":"Journal","short_name":"Journal","url":"/#journal","icons":[{"src":"/icon-192.png","sizes":"192x192"}]},
+    {"name":"Focus Mode","short_name":"Focus","url":"/#focus","icons":[{"src":"/icon-192.png","sizes":"192x192"}]}
   ]
 }
