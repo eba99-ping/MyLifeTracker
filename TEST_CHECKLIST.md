@@ -1,4 +1,15 @@
-# My Life Tracker v1.3 test checklist
+# My Life Tracker v1.4 test checklist
+
+## Life Insights
+
+- [ ] Confirm the dashboard shows a Life Score, four weekly metrics and a seven-day chart.
+- [ ] Complete/uncomplete tasks and finish a Focus session; confirm the dashboard updates immediately.
+- [ ] Add journal moods on multiple days and confirm weekly and monthly mood values update.
+- [ ] Create an overdue or behind-schedule goal and confirm its health badge and next step are correct.
+- [ ] Add High, Medium and Low priority tasks and confirm they sort before normal tasks.
+- [ ] Confirm AI Pet highlights a High-priority task or At-risk goal when relevant.
+- [ ] Confirm AI Coach requests still succeed and receive the expanded tracker context.
+- [ ] Confirm Life Insights is readable at 320 px in light, dark and reduced-motion modes.
 
 ## Focus Mode
 

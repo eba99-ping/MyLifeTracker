@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#6d5dfc">
-  <meta name="description" content="My Life Tracker — planner, Smart Goals, private journal, AI Coach, tools and money tracking in one personal productivity app.">
+  <meta name="description" content="My Life Tracker — planner, Focus Mode, Life Insights, Smart Goals, mood journal, AI Coach and money tracking in one personal productivity app.">
   <meta name="application-name" content="My Life Tracker">
   <meta name="author" content="Elbex Labs">
   <meta name="robots" content="index,follow,max-image-preview:large">
@@ -13,12 +13,12 @@
   <meta property="og:site_name" content="My Life Tracker">
   <meta property="og:url" content="https://my-life-tracker-seven.vercel.app/">
   <meta property="og:title" content="My Life Tracker — Build the life you want">
-  <meta property="og:description" content="Plan your days, build goals, journal privately and track your progress in one personal productivity app.">
+  <meta property="og:description" content="Plan your days, focus deeply, track your mood and understand your week with Life Insights.">
   <meta property="og:image" content="https://my-life-tracker-seven.vercel.app/social-preview.svg">
   <meta property="og:image:alt" content="My Life Tracker — Build the life you want">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="My Life Tracker">
-  <meta name="twitter:description" content="Your planner, goals, journal and progress — together.">
+  <meta name="twitter:description" content="Planner, goals, focus, mood and weekly Life Insights — together.">
   <meta name="twitter:image" content="https://my-life-tracker-seven.vercel.app/social-preview.svg">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -153,6 +153,7 @@
     .check:checked:after{content:"✓";color:#fff;font-weight:900;font-size:15px}
     .task-title{font-weight:750}
     .task-meta{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:12px;margin-top:2px}
+    .priority-pill{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:3px 7px;font-size:10px;font-weight:900}.priority-pill.high{color:#b42318;background:#fff0f0}.priority-pill.medium{color:#b54708;background:#fff6e6}.priority-pill.low{color:#067647;background:#ecfdf3}
     .pill{
       display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:4px 8px;
       background:var(--surface-2);color:var(--muted);font-size:11px;font-weight:750
@@ -184,6 +185,7 @@
     .step{display:flex;align-items:center;gap:8px;font-size:13px}
     .step input{width:18px;height:18px;accent-color:var(--brand)}
     .goal-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}
+    .goal-health{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:900}.goal-health.on-track{color:#067647;background:#ecfdf3}.goal-health.attention{color:#b54708;background:#fff6e6}.goal-health.risk{color:#b42318;background:#fff0f0}.goal-next{margin-top:11px;padding:10px 11px;border-radius:12px;background:var(--brand-soft);color:var(--muted);font-size:11px}.goal-next b{color:var(--brand)}
     .notice{padding:13px 15px;border:1px solid #fed7aa;background:#fff8ed;border-radius:14px;color:#9a5b08;margin-bottom:16px}
     .notice b{color:#713b00}
     .journal-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);gap:18px}
@@ -195,6 +197,7 @@
       padding:4px 0;margin-bottom:8px;color:var(--ink)
     }
     .journal-title::placeholder{color:#b2b7c1}
+    .mood-checkin{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 14px;padding:10px 12px;border:1px solid var(--line);border-radius:15px;background:var(--surface-2)}.mood-checkin>span{font-size:11px;color:var(--muted);font-weight:850}.mood-options{display:flex;gap:5px}.mood-btn{width:36px;height:36px;border:1px solid transparent;border-radius:11px;background:transparent;font-size:20px;display:grid;place-items:center}.mood-btn:hover{background:var(--surface)}.mood-btn.active{background:var(--surface);border-color:#cfc8ff;box-shadow:0 5px 14px rgba(109,93,252,.12)}.entry-mood{font-size:20px;margin-right:3px}
     .journal-body{
       display:block;width:100%;min-height:330px;border:0;resize:vertical;background:transparent;
       color:var(--ink);line-height:1.75;padding:4px 0
@@ -204,7 +207,7 @@
       display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);
       padding-top:14px;color:var(--muted);font-size:12px
     }
-    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:15px}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:15px}
     .stat{padding:12px;border-radius:14px;background:var(--surface-2);text-align:center}
     .stat strong{display:block;font-size:20px}
     .stat span{font-size:11px;color:var(--muted)}
@@ -404,6 +407,9 @@
     html[data-theme="dark"] .entry,html[data-theme="dark"] .task{background:#141b2d;border-color:#2b344b}
     html[data-theme="dark"] .notice{background:#332717;border-color:#684b1e;color:#ffd08a}
     html[data-theme="dark"] .notice b{color:#ffe2ae}
+    html[data-theme="dark"] .priority-pill.high,html[data-theme="dark"] .goal-health.risk{background:#3d2025;color:#ffb4b8}
+    html[data-theme="dark"] .priority-pill.medium,html[data-theme="dark"] .goal-health.attention{background:#3b2c18;color:#ffd08a}
+    html[data-theme="dark"] .priority-pill.low,html[data-theme="dark"] .goal-health.on-track{background:#17372d;color:#85e0bd}
     html[data-theme="dark"] .empty{border-color:#36405a}
     html[data-theme="dark"] .topbar .status,html[data-theme="dark"] .profile-chip{background:rgba(20,27,45,.9);border-color:#2b344b;color:var(--ink)}
     html[data-theme="dark"] .icon-btn,html[data-theme="dark"] .btn.secondary{background:var(--surface);border-color:var(--line);color:var(--ink)}
@@ -582,6 +588,7 @@
     .focus-week{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;align-items:end;height:120px;margin-top:16px}.focus-day{height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px}.focus-bar{width:100%;min-height:5px;border-radius:7px 7px 3px 3px;background:linear-gradient(180deg,var(--brand-2),var(--brand));transition:height .3s ease}.focus-day span{font-size:9px;color:var(--muted)}
     .focus-history{display:flex;flex-direction:column;gap:8px;margin-top:12px}.focus-session{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 11px;border-radius:13px;background:var(--surface-2);border:1px solid var(--line)}.focus-session b{display:block;font-size:12px}.focus-session small{color:var(--muted);font-size:10px}.focus-session strong{white-space:nowrap;color:var(--brand);font-size:12px}
     .focus-empty{padding:18px 8px;text-align:center;color:var(--muted);font-size:12px}.focus-tip{margin-top:13px;padding:12px;border-radius:13px;background:var(--brand-soft);color:var(--muted);font-size:11px}.focus-tip b{color:var(--brand)}
+    .insights-card{margin:0 0 20px;padding:20px;background:linear-gradient(145deg,var(--surface),var(--surface-2));overflow:hidden}.insights-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:15px}.insights-head h3{margin:0 0 4px;font-size:18px}.insights-head p{margin:0;color:var(--muted);font-size:12px}.life-score{display:grid;place-items:center;min-width:72px;height:72px;border-radius:22px;background:linear-gradient(135deg,var(--brand),#a15dfc);color:#fff;box-shadow:0 12px 30px rgba(109,93,252,.22)}.life-score strong{font-size:24px;line-height:1}.life-score span{font-size:9px;font-weight:850}.insight-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.insight-metric{padding:12px;border:1px solid var(--line);border-radius:15px;background:var(--surface)}.insight-metric span{display:block;color:var(--muted);font-size:10px}.insight-metric strong{display:block;margin-top:3px;font-size:17px}.insight-week{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;align-items:end;height:92px;margin:16px 0 8px}.insight-day{height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:5px}.insight-day-bars{width:100%;height:64px;display:flex;align-items:end;justify-content:center;gap:3px}.insight-task-bar,.insight-focus-bar{width:min(12px,40%);min-height:3px;border-radius:5px 5px 2px 2px}.insight-task-bar{background:var(--brand)}.insight-focus-bar{background:var(--green)}.insight-day span{font-size:9px;color:var(--muted)}.insight-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:11px}.insight-legend{display:flex;gap:12px}.insight-legend i{display:inline-block;width:8px;height:8px;border-radius:3px;margin-right:4px}.insight-advice{font-weight:800;color:var(--ink)}
     html[data-theme="dark"] .focus-stage{background:radial-gradient(circle at 50% 22%,rgba(129,114,255,.18),transparent 18rem),var(--surface)}
 
     @keyframes pet-float{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-9px) rotate(1deg)}}
@@ -603,6 +610,7 @@
       .pet-card{grid-template-columns:1fr}.pet-home{min-height:235px;padding:17px;grid-template-columns:145px 1fr;gap:8px}.pet-stage{min-height:180px}.pet-svg{width:150px}.pet-accessory{font-size:33px}.pet-speech{margin-top:20px;padding:12px;font-size:11px}.pet-speech b{font-size:13px}.pet-profile{padding:16px;border-left:0;border-top:1px solid rgba(109,93,252,.12)}
       .quest-list{grid-template-columns:1fr}.quest-card{padding:16px}.quest-item{align-items:center}
       .focus-layout{grid-template-columns:minmax(0,1fr)}.focus-stage{padding:24px 15px}.focus-side{gap:14px}
+      .insight-metrics{grid-template-columns:1fr 1fr}.insights-card{padding:16px}
     }
 
     @media(max-width:760px){
@@ -628,6 +636,7 @@
       .date-nav{width:100%}.date-nav input{flex:1;min-width:0}
       .journal-layout{display:flex;flex-direction:column}.archive{order:-1}
       .journal-body{min-height:250px}.ai-shell{min-height:calc(100vh - 180px)}
+      .stats{grid-template-columns:1fr 1fr}
       .bubble{max-width:88%}.modal-wrap{padding:0;align-items:flex-end}
       .modal{border-radius:24px 24px 0 0;padding-bottom:calc(22px + env(safe-area-inset-bottom))}
       .row{grid-template-columns:1fr}.nav{height:72px}
@@ -638,6 +647,8 @@
       .topbar{gap:8px}.brand{gap:7px}.brand h1{font-size:14px;max-width:76px}.app-logo{width:40px;height:40px;border-radius:13px}
       #themeToggle{width:42px;padding:0}#themeLabel{display:none}.profile-chip{width:42px;padding:4px;justify-content:center}.profile-chip span{display:none}.profile-chip img{width:32px;height:32px}
       .focus-stat-grid{gap:6px}.focus-stat{padding:11px 5px}.focus-stat strong{font-size:18px}
+      .editor-head{align-items:flex-start;flex-direction:column}.editor-head .save-state{align-self:flex-end}
+      .mood-checkin{align-items:flex-start;flex-direction:column}.mood-options{width:100%;justify-content:space-between}.mood-btn{width:40px}
     }
     @media(prefers-reduced-motion:reduce){
       *{scroll-behavior:auto!important;animation:none!important;transition:none!important}
@@ -667,7 +678,7 @@
           </div>
         </div>
 
-        <div class="auth-credit">My Life Tracker v1.3 · Focus Mode · Built by Elbex Labs · 2026</div>
+        <div class="auth-credit">My Life Tracker v1.4 · Life Insights · Built by Elbex Labs · 2026</div>
       </div>
 
       <div class="auth-card">
@@ -695,7 +706,7 @@
 
         <button class="device-btn" type="button" id="deviceModeBtn">📱 Continue on this device</button>
         <button class="device-btn" type="button" id="howToStartBtn" style="margin-top:8px;background:#fff">? How to start</button>
-        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v1.3.0</div>
+        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v1.4.0</div>
       </div>
     </div>
   </section>
@@ -779,6 +790,23 @@
           <div class="quest-summary" id="questSummary">0/3 claimed</div>
         </div>
         <div class="quest-list" id="dailyQuestList"></div>
+      </section>
+      <section class="card insights-card" aria-labelledby="weeklyInsightsTitle">
+        <div class="insights-head">
+          <div><h3 id="weeklyInsightsTitle">📊 Life Insights</h3><p>Сүүлийн 7 хоногийн нэгдсэн тойм</p></div>
+          <div class="life-score" aria-label="Life score"><strong id="lifeScore">0</strong><span>LIFE SCORE</span></div>
+        </div>
+        <div class="insight-metrics">
+          <div class="insight-metric"><span>✅ Tasks</span><strong id="insightTasks">0/0</strong></div>
+          <div class="insight-metric"><span>⚡ Focus</span><strong id="insightFocus">0м</strong></div>
+          <div class="insight-metric"><span>🎯 Goals</span><strong id="insightGoals">0</strong></div>
+          <div class="insight-metric"><span>💭 Mood</span><strong id="insightMood">—</strong></div>
+        </div>
+        <div class="insight-week" id="insightWeek" aria-label="7 хоногийн task болон focus график"></div>
+        <div class="insight-footer">
+          <div class="insight-legend"><span><i style="background:var(--brand)"></i>Task</span><span><i style="background:var(--green)"></i>Focus</span><span id="insightSpend">💰 0₮</span></div>
+          <span class="insight-advice" id="insightAdvice">Өнөөдрийн нэг жижиг алхмаа эхлүүлээрэй.</span>
+        </div>
       </section>
       <div id="todayDeadlineNotices"></div>
       <div class="card card-pad progress-card">
@@ -994,6 +1022,17 @@
             <span class="save-state" id="journalSaveState">Хадгалагдсан</span>
           </div>
 
+          <div class="mood-checkin" role="group" aria-label="Өнөөдрийн сэтгэл санаа">
+            <span>Өнөөдөр ямар байв?</span>
+            <div class="mood-options">
+              <button class="mood-btn" type="button" data-journal-mood="1" aria-label="Маш хэцүү" title="Маш хэцүү">😞</button>
+              <button class="mood-btn" type="button" data-journal-mood="2" aria-label="Хэцүү" title="Хэцүү">😕</button>
+              <button class="mood-btn" type="button" data-journal-mood="3" aria-label="Тайван" title="Тайван">😐</button>
+              <button class="mood-btn" type="button" data-journal-mood="4" aria-label="Сайхан" title="Сайхан">🙂</button>
+              <button class="mood-btn" type="button" data-journal-mood="5" aria-label="Гайхалтай" title="Гайхалтай">😄</button>
+            </div>
+          </div>
+
           <input class="journal-title" id="journalTitle" maxlength="120" placeholder="Өнөөдрийн гарчиг…" aria-label="Тэмдэглэлийн гарчиг">
           <textarea class="journal-body" id="journalBody" placeholder="Өнөөдөр юу болсон бэ? Юунд талархаж байна? Юу сурсан бэ?" aria-label="Тэмдэглэл"></textarea>
 
@@ -1009,6 +1048,7 @@
             <div class="stat"><strong id="statDays">0</strong><span>энэ сард</span></div>
             <div class="stat"><strong id="statWords">0</strong><span>нийт үг</span></div>
             <div class="stat"><strong id="statFavorites">0</strong><span>favorite</span></div>
+            <div class="stat"><strong id="statMood">—</strong><span>mood</span></div>
           </div>
           <div class="archive-tools">
             <input class="search" id="journalSearch" type="search" placeholder="🔎 Тэмдэглэл хайх…" aria-label="Тэмдэглэл хайх">
@@ -1034,7 +1074,7 @@
       </div>
     </section>
     <footer class="site-footer">
-      <span>© 2026 My Life Tracker · Built by Elbex Labs · v1.3.0 Focus Mode</span>
+      <span>© 2026 My Life Tracker · Built by Elbex Labs · v1.4.0 Life Insights</span>
       <nav aria-label="Legal and company links"><a href="/about.html">About</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></nav>
     </footer>
   </main>
@@ -1080,6 +1120,15 @@
               <option value="daily">Өдөр бүр</option>
             </select>
           </div>
+        </div>
+        <div class="field">
+          <label for="taskPriority">Priority</label>
+          <select id="taskPriority">
+            <option value="none">⚪ Энгийн</option>
+            <option value="high">🔴 High</option>
+            <option value="medium">🟠 Medium</option>
+            <option value="low">🟢 Low</option>
+          </select>
         </div>
         <div class="modal-foot">
           <button type="button" class="btn danger" id="deleteTask" hidden>Устгах</button>
@@ -1406,6 +1455,7 @@
           : (t.category==='Өглөө' ? 'morning' : t.category==='Орой' ? 'evening' : 'day'),
         time:t.time || '',
         repeat:(t.repeat==='daily' || t.recurring===true) ? 'daily' : 'once',
+        priority:['high','medium','low'].includes(t.priority) ? t.priority : 'none',
         doneDates,
         createdAt:Number(t.createdAt)||Date.now(),
         updatedAt:Number(t.updatedAt)||0
@@ -1879,7 +1929,7 @@
       let earned = 0;
       if(reward) earned = awardPetXP(`focus:${active.id}`,reward);
       saveFocus();
-      renderFocus();renderTools();renderPet();
+      renderFocus();renderTools();renderPet();renderLifeInsights();
       if(natural && 'Notification' in window && Notification.permission==='granted'){
         new Notification('Focus session дууслаа ✨',{body:`${minutes} минут төвлөрлөө${earned?` · ${petState.name} +${earned} XP`:''}`});
       }
@@ -1960,6 +2010,58 @@
       $('#focusTotalLabel').textContent = `${totalMinutes} мин нийт`;
       const history = [...focusState.sessions].sort((a,b)=>b.completedAt-a.completedAt).slice(0,6);
       $('#focusHistory').innerHTML = history.length ? history.map(item=>`<div class="focus-session"><div><b>${esc(item.taskTitle)}</b><small>${esc(shortDate(item.date))}</small></div><strong>${item.minutes} мин${item.reward?` · +${item.reward} XP`:''}</strong></div>`).join('') : '<div class="focus-empty">Анхны focus session-ээ эхлүүлээрэй.</div>';
+    }
+
+    function weeklyLifeSnapshot(){
+      const days = Array.from({length:7},(_,index)=>addDays(today(),index-6)).map(date=>{
+        const tasks = visibleTasks(date);
+        const taskDone = tasks.filter(task=>task.doneDates?.[date]).length;
+        const focus = focusDayStats(date).minutes;
+        const mood = Math.max(0,Math.min(5,Number(state.journal?.[date]?.mood)||0));
+        return {date,taskTotal:tasks.length,taskDone,focus,mood};
+      });
+      const taskTotal = days.reduce((sum,day)=>sum+day.taskTotal,0);
+      const taskDone = days.reduce((sum,day)=>sum+day.taskDone,0);
+      const focusMinutes = days.reduce((sum,day)=>sum+day.focus,0);
+      const moods = days.map(day=>day.mood).filter(Boolean);
+      const moodAverage = moods.length ? moods.reduce((sum,value)=>sum+value,0)/moods.length : 0;
+      const activeGoals = state.goals.filter(goal=>!goal.completed);
+      const healthyGoals = activeGoals.filter(goal=>goalHealth(goal).kind==='on-track').length;
+      const weeklyTransactions = state.money.transactions.filter(item=>days.some(day=>day.date===item.date));
+      const expense = weeklyTransactions.filter(item=>item.type==='expense').reduce((sum,item)=>sum+Number(item.amount||0),0);
+      const taskScore = taskTotal ? taskDone/taskTotal : 0;
+      const focusScore = Math.min(1,focusMinutes/125);
+      const goalScore = activeGoals.length ? healthyGoals/activeGoals.length : 0;
+      const reflectionScore = Math.min(1,moods.length/5);
+      const score = Math.round((taskScore*.35+focusScore*.25+goalScore*.20+reflectionScore*.20)*100);
+      return {days,taskTotal,taskDone,focusMinutes,moods,moodAverage,activeGoals,healthyGoals,expense,score};
+    }
+
+    function lifeInsightAdvice(snapshot){
+      const high = visibleTasks(today()).find(task=>!task.doneDates?.[today()] && task.priority==='high');
+      if(high) return `🔴 Эхлээд “${esc(high.title)}” task-аа хийе.`;
+      const risk = snapshot.activeGoals.find(goal=>goalHealth(goal).kind==='risk');
+      if(risk) return `🎯 “${esc(risk.title)}” зорилгоо өнөөдөр review хийгээрэй.`;
+      if(snapshot.moodAverage && snapshot.moodAverage<2.5) return '💜 Ачааллаа багасгаад өөртөө нэг тайван зав гаргаарай.';
+      if(snapshot.focusMinutes<50) return '⚡ Өнөөдөр 15 минутын жижиг focus session эхлүүлээрэй.';
+      if(snapshot.expense>0) return `💰 7 хоногийн зарлага ${moneyFmt(snapshot.expense)} — Money дээрээ нэг хараарай.`;
+      return snapshot.score>=70 ? '✨ Тэнцвэр сайн байна. Энэ хурдаа тогтвортой хадгалаарай!' : '🌱 Нэг task + нэг focus session өнөөдрийн оноог өсгөнө.';
+    }
+
+    function renderLifeInsights(){
+      if(!$('#lifeScore')) return;
+      const snapshot = weeklyLifeSnapshot();
+      $('#lifeScore').textContent = snapshot.score;
+      $('#insightTasks').textContent = `${snapshot.taskDone}/${snapshot.taskTotal}`;
+      $('#insightFocus').textContent = `${snapshot.focusMinutes}м`;
+      $('#insightGoals').textContent = `${snapshot.healthyGoals}/${snapshot.activeGoals.length}`;
+      $('#insightSpend').textContent = `💰 7 хоног: ${moneyFmt(snapshot.expense)}`;
+      const moodIndex = snapshot.moodAverage ? Math.max(1,Math.min(5,Math.round(snapshot.moodAverage))) : 0;
+      $('#insightMood').textContent = moodIndex ? `${JOURNAL_MOODS[moodIndex].emoji} ${snapshot.moodAverage.toFixed(1)}` : '—';
+      const maxTasks = Math.max(1,...snapshot.days.map(day=>day.taskTotal));
+      const maxFocus = Math.max(25,...snapshot.days.map(day=>day.focus));
+      $('#insightWeek').innerHTML = snapshot.days.map(day=>`<div class="insight-day" title="${esc(prettyDate(day.date))}: ${day.taskDone}/${day.taskTotal} task · ${day.focus} мин focus"><div class="insight-day-bars"><i class="insight-task-bar" style="height:${Math.max(3,Math.round(day.taskDone/maxTasks*60))}px"></i><i class="insight-focus-bar" style="height:${Math.max(3,Math.round(day.focus/maxFocus*60))}px"></i></div><span>${new Intl.DateTimeFormat('mn-MN',{weekday:'short'}).format(new Date(day.date+'T12:00:00')).slice(0,2)}</span></div>`).join('');
+      $('#insightAdvice').innerHTML = lifeInsightAdvice(snapshot);
     }
 
     saveFocus({touch:false,cloud:false});
@@ -2088,8 +2190,11 @@
     function petContextMessage(mood){
       if(focusState.active?.status==='running') return `“${focusState.active.taskTitle}” дээр focus хийж байна. Би чамтай хамт байна — битгий бууж өг!`;
       const p = progress(today());
-      const pending = visibleTasks(today()).find(task => !task.doneDates?.[today()]);
+      const pendingTasks = visibleTasks(today()).filter(task => !task.doneDates?.[today()]);
+      const priorityTask = pendingTasks.find(task=>task.priority==='high');
+      const pending = priorityTask || pendingTasks[0];
       const overdue = state.goals.find(goal => !goal.completed && goal.deadline<today());
+      const riskyGoal = state.goals.find(goal=>!goal.completed && goalHealth(goal).kind==='risk');
       const activeGoal = state.goals.find(goal => !goal.completed);
       if(mood==='sleepy') return 'Өнөөдрийн ахицаа хадгалаад сайхан амраарай. Маргааш дахин хамт эхэлнэ.';
       const questStatus = dailyQuestStatus();
@@ -2097,6 +2202,8 @@
       if(questStatus.claimed===3) return 'Өнөөдрийн бүх quest дууслаа! Маргааш шинэ 3 challenge нээгдэнэ.';
       if(p.total>0 && p.done===p.total) return `Өнөөдрийн ${p.total} task бүгд дууслаа! Чи үнэхээр гайхалтай байлаа.`;
       if(overdue) return `“${overdue.title}” зорилгоо өнөөдөр нэг жижиг алхмаар урагшлуулбал ямар вэ?`;
+      if(riskyGoal) return `“${riskyGoal.title}” зорилго эрсдэлтэй байна. Дараагийн алхмаа хамт сонгох уу?`;
+      if(priorityTask) return `🔴 “${priorityTask.title}” хамгийн чухал task байна. 15 минут focus хийж эхлэх үү?`;
       if(pending) return `${pending.time ? pending.time+'-д ' : ''}“${pending.title}” хүлээж байна. Хамт эхлэх үү?`;
       if(activeGoal) return `“${activeGoal.title}” зорилгодоо өнөөдөр 10 минут зарцуулбал ахиц болно.`;
       return 'Өнөөдрийн нэг жижиг алхмаа хамт хийцгээе. Би энд байна!';
@@ -2158,6 +2265,7 @@
 
     let selectedPlanner = today();
     let selectedJournal = today();
+    let selectedJournalMood = 0;
     let goalFilter = state.settings.goalFilter || 'all';
     let favoritesOnly = false;
     let readerDate = null;
@@ -3141,7 +3249,7 @@
     $('#backupData').addEventListener('click',() => {
       const backup = {
         app:'My Life Tracker',
-        version:7,
+        version:8,
         exportedAt:new Date().toISOString(),
         state,
         profile,
@@ -3274,11 +3382,13 @@
       day:{icon:'☀️',name:'Өдөр'},
       evening:{icon:'🌙',name:'Орой'}
     };
+    const priorityOrder = {high:0,medium:1,low:2,none:3};
+    const priorityLabels = {high:'High',medium:'Medium',low:'Low'};
 
     function visibleTasks(date){
       return state.tasks
         .filter(t => (t.repeat==='daily' && t.date<=date) || (t.repeat!=='daily' && t.date===date))
-        .sort((a,b) => (a.time||'99:99').localeCompare(b.time||'99:99'));
+        .sort((a,b) => ((priorityOrder[a.priority]??3)-(priorityOrder[b.priority]??3)) || (a.time||'99:99').localeCompare(b.time||'99:99'));
     }
 
     function taskListMarkup(date,period){
@@ -3302,6 +3412,7 @@
             <div class="task-title">${esc(t.title)}</div>
             <div class="task-meta">
               ${t.time ? `<span>⏰ ${esc(t.time)}</span>` : ''}
+              ${['high','medium','low'].includes(t.priority) ? `<span class="priority-pill ${t.priority}">${priorityLabels[t.priority]}</span>` : ''}
               ${t.repeat==='daily' ? '<span class="pill">↻ Өдөр бүр</span>' : ''}
             </div>
           </div>
@@ -3382,6 +3493,7 @@
         : '';
       renderDailyQuests();
       renderPet();
+      renderLifeInsights();
     }
 
     function showTaskModal(t=null){
@@ -3392,6 +3504,7 @@
       $('#taskTime').value = t?.time || '';
       $('#taskPeriod').value = t?.period || 'morning';
       $('#taskRepeat').value = t?.repeat || 'once';
+      $('#taskPriority').value = t?.priority || 'none';
       $('#deleteTask').hidden = !t;
       openModal('taskModal');
     }
@@ -3410,6 +3523,7 @@
         period:$('#taskPeriod').value,
         time:$('#taskTime').value,
         repeat:$('#taskRepeat').value,
+        priority:$('#taskPriority').value,
         doneDates:old?.doneDates || {},
         createdAt:old?.createdAt || Date.now(),
         updatedAt:Date.now()
@@ -3455,6 +3569,22 @@
       return {n,d,pct:g.completed?100:(n?Math.round(d/n*100):0)};
     }
 
+    function goalHealth(g){
+      if(g.completed) return {kind:'on-track',icon:'✓',label:'Completed'};
+      const p = goalProgress(g);
+      if(g.deadline<today()) return {kind:'risk',icon:'!',label:'Хугацаа дууссан'};
+      const start = new Date(g.start+'T12:00:00');
+      const deadline = new Date(g.deadline+'T12:00:00');
+      const now = new Date(today()+'T12:00:00');
+      const totalDays = Math.max(1,Math.ceil((deadline-start)/86400000));
+      const elapsedDays = Math.max(0,Math.ceil((now-start)/86400000));
+      const daysLeft = Math.max(0,Math.ceil((deadline-now)/86400000));
+      const expected = Math.min(100,Math.round(elapsedDays/totalDays*100));
+      if(daysLeft<=7 && p.pct<70) return {kind:'risk',icon:'!',label:'At risk'};
+      if(p.pct+15<expected) return {kind:'attention',icon:'↗',label:'Анхаарах'};
+      return {kind:'on-track',icon:'✓',label:'On track'};
+    }
+
     function goalBucket(g){
       const days = Math.ceil((new Date(g.deadline+'T12:00:00') - new Date(g.start+'T12:00:00'))/86400000);
       return days<=8 ? 'week' : days<=100 ? 'month' : 'year';
@@ -3485,6 +3615,8 @@
 
       $('#goalList').innerHTML = list.length ? list.map(g => {
         const p = goalProgress(g);
+        const health = goalHealth(g);
+        const next = g.steps.find(step=>!step.done);
         const over = !g.completed && g.deadline<today();
 
         return `
@@ -3499,6 +3631,8 @@
 
             <div class="bar"><i style="width:${p.pct}%"></i></div>
             <div class="goal-progress">${p.d}/${p.n} алхам · ${p.pct}%</div>
+            <span class="goal-health ${health.kind}">${health.icon} ${health.label}</span>
+            ${next ? `<div class="goal-next"><b>Next:</b> ${esc(next.text)}</div>` : ''}
 
             <div class="step-list">
               ${g.steps.map(s => `
@@ -3569,6 +3703,7 @@
         askGoalAdvice(state.goals.find(g => g.id===b.dataset.aiGoal))
       );
       renderPet();
+      renderLifeInsights();
     }
 
     function showGoalModal(g=null){
@@ -3642,6 +3777,11 @@
       }
     };
 
+    const JOURNAL_MOODS = {
+      1:{emoji:'😞',label:'Маш хэцүү'},2:{emoji:'😕',label:'Хэцүү'},3:{emoji:'😐',label:'Тайван'},
+      4:{emoji:'🙂',label:'Сайхан'},5:{emoji:'😄',label:'Гайхалтай'}
+    };
+
     function journalEntry(date){ return state.journal[date] || null; }
 
     function loadJournal(date){
@@ -3650,6 +3790,8 @@
       const e = journalEntry(date);
       $('#journalTitle').value = e?.title || '';
       $('#journalBody').value = e?.body || '';
+      selectedJournalMood = Math.max(0,Math.min(5,Number(e?.mood)||0));
+      $$('[data-journal-mood]').forEach(button=>button.classList.toggle('active',Number(button.dataset.journalMood)===selectedJournalMood));
       $('#toggleEditorFavorite').textContent = e?.favorite ? '★ Favorite' : '☆ Favorite';
       updateWordCount();
       $('#journalSaveState').textContent = 'Хадгалагдсан';
@@ -3663,11 +3805,12 @@
       const body = $('#journalBody').value;
       const old = journalEntry(selectedJournal);
 
-      if(title || body.trim()){
+      if(title || body.trim() || selectedJournalMood){
         state.journal[selectedJournal] = {
           date:selectedJournal,
           title,
           body,
+          mood:selectedJournalMood,
           favorite:old?.favorite || false,
           createdAt:old?.createdAt || Date.now(),
           updatedAt:Date.now()
@@ -3677,6 +3820,7 @@
         if(selectedJournal===today()) renderDailyQuests();
         $('#journalSaveState').textContent = 'Хадгалагдсан';
         renderArchive();
+        renderLifeInsights();
       } else if(old){
         $('#journalSaveState').textContent = 'Хоосон бичлэг';
       }
@@ -3697,14 +3841,16 @@
 
     function journalStats(){
       const month = selectedJournal.slice(0,7);
-      const all = Object.values(state.journal).filter(e => e.body?.trim() || e.title);
+      const all = Object.values(state.journal).filter(e => e.body?.trim() || e.title || Number(e.mood));
       const monthly = all.filter(e => e.date.startsWith(month));
+      const moodEntries = monthly.filter(e => Number(e.mood)>=1 && Number(e.mood)<=5);
 
       return {
         all,
         monthly,
         words:monthly.reduce((n,e) => n+words(e.body),0),
-        fav:monthly.filter(e => e.favorite).length
+        fav:monthly.filter(e => e.favorite).length,
+        avgMood:moodEntries.length ? moodEntries.reduce((sum,e)=>sum+Number(e.mood),0)/moodEntries.length : 0
       };
     }
 
@@ -3722,6 +3868,7 @@
       $('#statDays').textContent = st.monthly.length;
       $('#statWords').textContent = st.words;
       $('#statFavorites').textContent = st.fav;
+      $('#statMood').textContent = st.avgMood ? JOURNAL_MOODS[Math.round(st.avgMood)].emoji : '—';
       $('#archiveCount').textContent = list.length+' бичлэг';
       $('#favoriteFilter').textContent = favoritesOnly ? '★' : '☆';
       $('#favoriteFilter').style.color = favoritesOnly ? '#f5a524' : '';
@@ -3730,7 +3877,7 @@
         <div class="entry" role="button" tabindex="0" data-open-entry="${e.date}">
           <div>
             <div class="entry-date">${esc(prettyDate(e.date))}</div>
-            <h4>${esc(e.title || 'Гарчиггүй тэмдэглэл')}</h4>
+            <h4>${e.mood ? `<span class="entry-mood">${JOURNAL_MOODS[e.mood]?.emoji||''}</span>` : ''}${esc(e.title || 'Гарчиггүй тэмдэглэл')}</h4>
             <p>${esc(e.body || 'Текст бичээгүй')}</p>
           </div>
           <button class="star ${e.favorite?'on':''}" data-star-entry="${e.date}" aria-label="Favorite">${e.favorite?'★':'☆'}</button>
@@ -3785,6 +3932,12 @@
 
     $('#journalTitle').oninput = queueJournalSave;
     $('#journalBody').oninput = queueJournalSave;
+    $$('[data-journal-mood]').forEach(button=>button.onclick=()=>{
+      const mood = Number(button.dataset.journalMood);
+      selectedJournalMood = selectedJournalMood===mood ? 0 : mood;
+      $$('[data-journal-mood]').forEach(item=>item.classList.toggle('active',Number(item.dataset.journalMood)===selectedJournalMood));
+      saveJournal();
+    });
 
     $('#journalDate').onchange = e => {
       saveJournal();
@@ -3978,6 +4131,7 @@
       );
 
       renderTools();
+      renderLifeInsights();
     }
 
     function showMoneyModal(t=null, presetType='expense'){
@@ -4091,8 +4245,11 @@
         .map(g => ({
           title:g.title,
           deadline:g.deadline,
-          progress:goalProgress(g).pct
+          progress:goalProgress(g).pct,
+          health:goalHealth(g).label,
+          nextStep:g.steps.find(step=>!step.done)?.text || ''
         }));
+      const insights = weeklyLifeSnapshot();
 
       return {
         date:today(),
@@ -4111,10 +4268,21 @@
           items:visibleTasks(today()).map(x => ({
             title:x.title,
             time:x.time,
+            priority:x.priority||'none',
             done:!!x.doneDates?.[today()]
           }))
         },
         activeGoals:active,
+        weeklyInsights:{
+          lifeScore:insights.score,
+          completedTasks:insights.taskDone,
+          totalTasks:insights.taskTotal,
+          focusMinutes:insights.focusMinutes,
+          averageMood:insights.moodAverage ? Number(insights.moodAverage.toFixed(1)) : null,
+          journalCheckins:insights.moods.length,
+          healthyGoals:insights.healthyGoals,
+          activeGoals:insights.activeGoals.length
+        },
         money:(() => {
           const m = moneySummary(today().slice(0,7));
           return {

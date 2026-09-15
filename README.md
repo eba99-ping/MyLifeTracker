@@ -1,6 +1,6 @@
-# My Life Tracker v1.3 — Focus Mode
+# My Life Tracker v1.4 — Life Insights
 
-Production-ready PWA with Firebase Authentication, account-scoped Firestore sync, Focus Mode, Daily Quests, profile, planner, Smart Goals, Journal, AI Coach, AI Pet, Tools Hub, Money tracker, light/dark theme and migration-safe local data.
+Production-ready PWA with Firebase Authentication, account-scoped Firestore sync, Life Insights, Focus Mode, Daily Quests, prioritized planner, goal health, mood Journal, AI Coach, AI Pet, Tools Hub, Money tracker, light/dark theme and migration-safe local data.
 
 ## Local preview
 
@@ -38,7 +38,7 @@ The canonical production URL is `https://my-life-tracker-seven.vercel.app/`. If 
 - [ ] Test light/dark themes, 320 px mobile width, tablet and desktop.
 - [ ] Run Lighthouse for Accessibility, Best Practices, SEO and PWA checks.
 - [ ] Confirm `/manifest.json`, `/sw.js`, icons, `/privacy`, `/terms`, `/about`, `/contact`, `/robots.txt` and `/sitemap.xml` return 200.
-- [ ] Create a tagged release such as `v1.3.0` after production smoke testing.
+- [ ] Create a tagged release such as `v1.4.0` after production smoke testing.
 
 ## Firebase configuration safety
 

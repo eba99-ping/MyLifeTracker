@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.4.0 — Life Insights
+
+- Added a dashboard Life Score and seven-day task/focus activity chart.
+- Added weekly task completion, focus minutes, healthy goals and average mood metrics.
+- Added High, Medium and Low planner priorities with priority-first sorting.
+- Added goal health signals (On track, Attention and At risk) plus the next unfinished step.
+- Added a five-level Journal mood check-in with monthly average mood statistics.
+- Added context-aware weekly coaching that considers priorities, goal risk, mood, focus and spending.
+- Extended AI Coach context with task priority, goal health, next steps and the weekly Life Insights summary.
+- Updated AI Pet speech to surface high-priority tasks and at-risk goals.
+- Preserved all existing storage keys, account-scoped cloud sync, migrations and v1.3 functionality.
+
 ## v1.3.0 — Focus Mode
 
 - Added a mobile-first 15/25/45-minute focus timer linked to today's tasks.
