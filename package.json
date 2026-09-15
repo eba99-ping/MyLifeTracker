@@ -1,8 +1,8 @@
 {
   "name": "my-life-tracker",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "private": true,
-  "description": "My Life Tracker production PWA with Life Insights, Focus Mode, AI Pet, Cloud Sync and Daily Quests",
+  "description": "My Life Tracker production PWA with Smart Reminders, Life Insights, Focus Mode, AI Pet and Cloud Sync",
   "type": "module",
   "scripts": {
     "check": "node scripts/check.mjs"

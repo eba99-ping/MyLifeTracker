@@ -1,5 +1,18 @@
 # Changelog
 
+## v1.5.0 — Smart Reminders
+
+- Connected the task reminder time field to real task data, cloud sync and backup/restore.
+- Added a dashboard Reminder Center with permission state, Test, upcoming/due/missed items, Snooze and Done actions.
+- Added duplicate-safe reminder delivery with 12-hour missed-reminder recovery when the app is reopened.
+- Switched local notifications to service-worker `showNotification()` for better installed-PWA and mobile support.
+- Added notification click handling that focuses the app and supports a 10-minute snooze action.
+- Added Daily, Weekdays and Weekly task schedules with migration-safe defaults for existing tasks.
+- Added optional Firebase Cloud Messaging device registration using the existing public VAPID configuration.
+- Unified foreground and background push presentation and retained the legacy FCM worker for old installations.
+- Increased reminder checks to resume on focus, visibility and page restore without duplicate notifications.
+- Preserved Firebase Auth, Cloud Sync, Planner, Goals, Journal, Money, Focus, Life Insights, AI Pet and user data.
+
 ## v1.4.0 — Life Insights
 
 - Added a dashboard Life Score and seven-day task/focus activity chart.

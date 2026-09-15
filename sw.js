@@ -1,5 +1,44 @@
-const CACHE = 'my-life-tracker-v1.4.0';
-const APP_SHELL = ['/', '/index.html', '/manifest.json', '/favicon.svg', '/icon-192.png', '/icon-512.png', '/apple-touch-icon.png'];
+const CACHE = 'my-life-tracker-v1.5.0';
+const APP_SHELL = ['/', '/index.html', '/manifest.json', '/favicon.svg', '/icon-192.png', '/icon-512.png', '/apple-touch-icon.png', '/fcm_setup.js'];
+
+self.addEventListener('notificationclick',event => {
+  event.notification.close();
+  const data = event.notification.data||{};
+  event.waitUntil((async()=>{
+    const windows = await clients.matchAll({type:'window',includeUncontrolled:true});
+    if(event.action==='snooze'){
+      const open = windows.find(client=>new URL(client.url).origin===self.location.origin);
+      if(open){
+        open.postMessage({type:'REMINDER_ACTION',action:'snooze',eventId:data.eventId||''});
+        return open.focus();
+      }
+      return clients.openWindow(`/?reminderAction=snooze&event=${encodeURIComponent(data.eventId||'')}#today`);
+    }
+    const target = data.url||'/#today';
+    const open = windows.find(client=>new URL(client.url).origin===self.location.origin);
+    if(open){
+      if('navigate' in open) await open.navigate(target);
+      return open.focus();
+    }
+    return clients.openWindow(target);
+  })());
+});
+
+try{
+  importScripts('https://www.gstatic.com/firebasejs/11.0.2/firebase-app-compat.js');
+  importScripts('https://www.gstatic.com/firebasejs/11.0.2/firebase-messaging-compat.js');
+  firebase.initializeApp({
+    apiKey:'AIzaSyD2IpjP7BGUikR5cc7L2DvW0PYbPPQTPNw',authDomain:'my-life-tracker-6c19b.firebaseapp.com',
+    projectId:'my-life-tracker-6c19b',messagingSenderId:'932788931683',appId:'1:932788931683:web:d19934806548790d39bc56'
+  });
+  firebase.messaging().onBackgroundMessage(payload=>{
+    const note = payload.notification||{};
+    self.registration.showNotification(note.title||'My Life Tracker 🔔',{
+      body:note.body||payload.data?.body||'Шинэ сануулга ирлээ.',icon:note.icon||'/icon-192.png',badge:'/icon-192.png',
+      tag:payload.messageId||`push-${Date.now()}`,data:{url:payload.fcmOptions?.link||payload.data?.url||'/#today'}
+    });
+  });
+}catch(error){ console.warn('Firebase background messaging unavailable:',error); }
 
 self.addEventListener('install',event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));
@@ -27,4 +66,7 @@ self.addEventListener('fetch',event => {
 
 self.addEventListener('message',event => {
   if(event.data === 'SKIP_WAITING') self.skipWaiting();
+  if(event.data?.type==='SHOW_NOTIFICATION' && event.data.title){
+    event.waitUntil(self.registration.showNotification(event.data.title,event.data.options||{}));
+  }
 });

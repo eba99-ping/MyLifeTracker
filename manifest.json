@@ -2,7 +2,7 @@
   "id": "/",
   "name": "My Life Tracker",
   "short_name": "Life Tracker",
-  "description": "Planner, Focus Mode, Life Insights, Smart Goals, mood journal, AI Coach and money tracking in one personal productivity app.",
+  "description": "Smart Reminders, planner, Focus Mode, Life Insights, goals, mood journal, AI Coach and money tracking in one app.",
   "lang": "mn",
   "dir": "ltr",
   "start_url": "/?source=pwa",

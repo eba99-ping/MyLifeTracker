@@ -1,4 +1,19 @@
-# My Life Tracker v1.4 test checklist
+# My Life Tracker v1.5 test checklist
+
+## Smart Reminders
+
+- [ ] Create a task with a reminder time and confirm it appears immediately in Smart Reminders.
+- [ ] Edit the task and confirm reminder time, priority and repeat schedule persist after refresh.
+- [ ] Test Once, Daily, Weekdays and Weekly schedules on matching and non-matching days.
+- [ ] Press Enable from a user gesture, allow notifications, and confirm the ready notification appears.
+- [ ] Press Test and confirm a branded system notification appears once.
+- [ ] Set a due reminder and confirm it appears once without duplicate system notifications.
+- [ ] Press +10 мин and confirm the reminder moves forward by ten minutes.
+- [ ] Press Done and confirm the correct task occurrence completes and Life Insights/Pet update.
+- [ ] Close/reopen within 12 hours of a missed reminder and confirm recovery is shown.
+- [ ] Click a notification and confirm the existing app window focuses on Today.
+- [ ] Confirm reminder controls fit at 320 px and work in light/dark themes.
+- [ ] Confirm blocked/unsupported permission states show helpful UI without crashing.
 
 ## Life Insights
 

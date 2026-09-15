@@ -1,6 +1,12 @@
-# My Life Tracker v1.4 — Life Insights
+# My Life Tracker v1.5 — Smart Reminders
 
-Production-ready PWA with Firebase Authentication, account-scoped Firestore sync, Life Insights, Focus Mode, Daily Quests, prioritized planner, goal health, mood Journal, AI Coach, AI Pet, Tools Hub, Money tracker, light/dark theme and migration-safe local data.
+Production-ready PWA with Smart Reminders, Firebase Authentication, account-scoped Firestore sync, Life Insights, Focus Mode, Daily Quests, prioritized planner, goal health, mood Journal, AI Coach, AI Pet, Tools Hub, Money tracker, light/dark theme and migration-safe local data.
+
+## Notification delivery
+
+Task reminders use the active PWA service worker and are checked while the app is running, when it regains focus, and when it is reopened. Missed reminders recover for up to 12 hours and duplicate delivery is prevented per task occurrence. Notification permission must be granted from the in-app Enable button.
+
+Firebase Cloud Messaging device registration is prepared with the existing Web Push certificate. Exact scheduled delivery while the browser and PWA are completely closed still requires a trusted backend scheduler that sends FCM messages. Do not add service-account credentials to this repository or browser code. Firebase Scheduled Functions are the recommended production extension; Vercel Hobby cron is not precise enough for per-minute reminders.
 
 ## Local preview
 
@@ -38,7 +44,7 @@ The canonical production URL is `https://my-life-tracker-seven.vercel.app/`. If 
 - [ ] Test light/dark themes, 320 px mobile width, tablet and desktop.
 - [ ] Run Lighthouse for Accessibility, Best Practices, SEO and PWA checks.
 - [ ] Confirm `/manifest.json`, `/sw.js`, icons, `/privacy`, `/terms`, `/about`, `/contact`, `/robots.txt` and `/sitemap.xml` return 200.
-- [ ] Create a tagged release such as `v1.4.0` after production smoke testing.
+- [ ] Create a tagged release such as `v1.5.0` after production smoke testing.
 
 ## Firebase configuration safety
 

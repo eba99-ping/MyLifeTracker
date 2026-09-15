@@ -1,3 +1,9 @@
+// Legacy FCM entry point kept for existing installations. New registrations use /sw.js.
+self.addEventListener('notificationclick',event=>{
+  event.notification.close();
+  event.waitUntil(clients.openWindow(event.notification.data?.url||'/#today'));
+});
+
 importScripts(
 "https://www.gstatic.com/firebasejs/11.0.2/firebase-app-compat.js"
 );
@@ -20,11 +26,14 @@ const messaging = firebase.messaging();
 
 
 messaging.onBackgroundMessage((payload)=>{
-  
+  const note = payload.notification||{};
   self.registration.showNotification(
-    payload.notification.title || "My Life Tracker",
+    note.title || "My Life Tracker 🔔",
     {
-      body: payload.notification.body || "Reminder"
+      body:note.body||payload.data?.body||"Шинэ сануулга ирлээ.",
+      icon:note.icon||'/icon-192.png',badge:'/icon-192.png',
+      tag:payload.messageId||`push-${Date.now()}`,
+      data:{url:payload.fcmOptions?.link||payload.data?.url||'/#today'}
     }
   );
 
