@@ -1,5 +1,5 @@
-const CACHE = 'my-life-tracker-v1.5.0';
-const APP_SHELL = ['/', '/index.html', '/manifest.json', '/favicon.svg', '/icon-192.png', '/icon-512.png', '/apple-touch-icon.png', '/fcm_setup.js'];
+const CACHE = 'ornol-v2.0.0';
+const APP_SHELL = ['/', '/index.html', '/manifest.json', '/favicon.svg', '/ornol-mark.png', '/icon-192.png', '/icon-512.png', '/apple-touch-icon.png', '/fcm_setup.js'];
 
 self.addEventListener('notificationclick',event => {
   event.notification.close();
@@ -33,9 +33,12 @@ try{
   });
   firebase.messaging().onBackgroundMessage(payload=>{
     const note = payload.notification||{};
-    self.registration.showNotification(note.title||'My Life Tracker 🔔',{
-      body:note.body||payload.data?.body||'Шинэ сануулга ирлээ.',icon:note.icon||'/icon-192.png',badge:'/icon-192.png',
-      tag:payload.messageId||`push-${Date.now()}`,data:{url:payload.fcmOptions?.link||payload.data?.url||'/#today'}
+    const data = payload.data||{};
+    self.registration.showNotification(note.title||data.title||'Өрнөл 🔔',{
+      body:note.body||payload.data?.body||'Шинэ сануулга ирлээ.',icon:note.icon||'/ornol-mark.png',badge:'/icon-192.png',
+      tag:data.eventId||payload.messageId||`push-${Date.now()}`,
+      data:{url:payload.fcmOptions?.link||data.url||'/#today',eventId:data.eventId||'',taskId:data.taskId||'',date:data.date||''},
+      actions:data.eventId?[{action:'snooze',title:'10 мин snooze'},{action:'open',title:'App нээх'}]:[]
     });
   });
 }catch(error){ console.warn('Firebase background messaging unavailable:',error); }

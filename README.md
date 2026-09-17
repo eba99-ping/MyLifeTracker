@@ -1,61 +1,67 @@
-# My Life Tracker v1.5 — Smart Reminders
+# Өрнөл v2.0 — Personal Life OS
 
-Production-ready PWA with Smart Reminders, Firebase Authentication, account-scoped Firestore sync, Life Insights, Focus Mode, Daily Quests, prioritized planner, goal health, mood Journal, AI Coach, AI Pet, Tools Hub, Money tracker, light/dark theme and migration-safe local data.
+Өрнөл бол Study Hub, Planner, Smart Goals, Focus, Journal, Money, AI Coach, AI Pet, Cloud Sync болон Smart Reminders-ийг нэг дор багтаасан mobile-first PWA юм. Хуучин `myLifeTracker.*` storage key болон Firestore user document-ийг хэвээр үлдээсэн тул өмнөх хэрэглэгчийн өгөгдөл migration шаардахгүй үргэлжилнэ.
 
-## Notification delivery
+## v2.0 онцлох шинэчлэл
 
-Task reminders use the active PWA service worker and are checked while the app is running, when it regains focus, and when it is reopened. Missed reminders recover for up to 12 hours and duplicate delivery is prevented per task occurrence. Notification permission must be granted from the in-app Enable button.
+- Шинэ Өрнөл нэр, утга, logo, өнгө төрх, PWA metadata болон social preview.
+- Долоо хоногийн сонгосон өдрүүдтэй хичээлийн хуваарь, багш, анги/линк, өнгө, сануулга.
+- Хичээлийн даалгавар, priority, хугацаа, completion XP болон 25 минутын Focus shortcut.
+- Dashboard, AI Coach, AI Pet-тэй холбогдсон class/assignment context.
+- Signed-in хэрэглэгчийн reminder registry болон Firebase Scheduled Function-д суурилсан хаалттай үед хүрэх Cloud Push.
+- Local reminder, missed recovery, snooze, done болон PWA notification click-ийн өмнөх ажиллагааг хэвээр хадгалсан.
 
-Firebase Cloud Messaging device registration is prepared with the existing Web Push certificate. Exact scheduled delivery while the browser and PWA are completely closed still requires a trusted backend scheduler that sends FCM messages. Do not add service-account credentials to this repository or browser code. Firebase Scheduled Functions are the recommended production extension; Vercel Hobby cron is not precise enough for per-minute reminders.
+## Local preview ба шалгалт
 
-## Local preview
+`index.html`-ийг `file://`-оор биш HTTP server-ээр ажиллуулна. Build step шаардлагагүй; Vercel deployment output нь repository root.
 
-Do not open `index.html` with `file://` when testing authentication or PWA behavior. Serve the folder over HTTP, for example with VS Code Live Server, then open the local URL.
+```bash
+npm run check
+npm --prefix functions install
+npm run check:functions
+```
 
-No build step is required. The deployment output is the repository root.
+## Firebase Cloud Push
 
-## Production domain strategy
+Frontend sign-in хийсэн хэрэглэгчийн timezone, reminder tasks болон FCM token-ийг `reminderUsers/{uid}` private registry-д sync хийнэ. `sendSmartReminders` scheduled function минут тутам due reminder-ийг олж, occurrence бүрт duplicate-safe claim хийж FCM data message илгээнэ.
 
-Use one permanent canonical domain, ideally `app.yourdomain.com`, and redirect all old Vercel preview/production aliases to it. Avoid changing the canonical domain after launch because Firebase OAuth redirects, installed PWAs and shared links depend on it.
+```bash
+firebase deploy --only "firestore:rules,functions:sendSmartReminders" --project my-life-tracker-6c19b
+```
 
-The canonical production URL is `https://my-life-tracker-seven.vercel.app/`. If a custom domain is added later, update `index.html`, `robots.txt` and `sitemap.xml` in the same release.
+Scheduled Functions deploy хийхэд Firebase project Blaze plan шаарддаг. Billing-ийг repository эсвэл client code-д хадгалахгүй. Service-account credential, private key, Apple `.p8` зэрэг нууцыг commit хийж болохгүй.
 
-## GitHub → Vercel deployment checklist
+## Production domain
 
-- [ ] Create a private GitHub repository and add these files at repository root.
-- [ ] Check that no private keys, service-account JSON, Apple `.p8` keys or admin SDK credentials are committed.
-- [ ] Push to `main` and import the repository in Vercel.
-- [ ] Framework preset: **Other**; Build command: leave empty; Output directory: `.`.
-- [ ] Deploy once and test the generated `*.vercel.app` HTTPS URL.
-- [ ] Add the final custom domain in Vercel and select it as the production domain.
-- [x] Set the production domain in canonical/social metadata, `robots.txt` and `sitemap.xml`.
-- [ ] In Firebase Authentication → Settings → Authorized domains, add the final domain and the required Vercel domain. Do not add random preview domains.
-- [ ] In Google Cloud/Firebase OAuth settings, verify authorized redirect URIs and support email.
-- [ ] Enable only authentication providers that are actually configured. The UI currently labels Apple as unavailable until Apple Developer/Firebase setup is complete.
-- [ ] Enable Cloud Firestore in the existing `my-life-tracker-6c19b` Firebase project using a production region selected for the app's audience.
-- [ ] Deploy the included private-by-default rules with `firebase deploy --only firestore:rules --project my-life-tracker-6c19b`. Never use test mode.
-- [ ] Set Firebase App Check when cloud data/API endpoints are introduced.
-- [ ] Add a real support email or contact form to `contact.html`.
-- [ ] Review Privacy Policy and Terms with appropriate legal advice for the launch region and audience.
-- [ ] Test sign-up, login, logout, Google popup/redirect and email verification on desktop and mobile.
-- [ ] Verify old local data remains after refresh/update: planner, goals, journal, money, profile, theme and reminders.
-- [ ] Test offline reload after one successful online visit.
-- [ ] Test PWA install on Android Chrome and iOS Safari (Share → Add to Home Screen).
-- [ ] Test light/dark themes, 320 px mobile width, tablet and desktop.
-- [ ] Run Lighthouse for Accessibility, Best Practices, SEO and PWA checks.
-- [ ] Confirm `/manifest.json`, `/sw.js`, icons, `/privacy`, `/terms`, `/about`, `/contact`, `/robots.txt` and `/sitemap.xml` return 200.
-- [ ] Create a tagged release such as `v1.5.0` after production smoke testing.
+Одоогийн canonical URL: `https://my-life-tracker-seven.vercel.app/`
 
-## Firebase configuration safety
+Custom domain нэмэх бол нэг тогтвортой canonical domain сонгоод Vercel, Firebase Authorized Domains, OAuth redirect, `index.html`, `robots.txt`, `sitemap.xml`-ийг нэг release-д шинэчилнэ.
 
-The Firebase Web configuration in `index.html` is a public project identifier, not an admin secret. Production safety depends on Firebase Authentication, Authorized Domains, Security Rules, quotas and App Check. Never place service-account credentials or private keys in browser code.
+## GitHub → Vercel checklist
 
-The app accepts an optional `window.__FIREBASE_CONFIG__` object loaded before the main script if a future deployment needs a different Firebase project. Keep the current fallback until migration is deliberately planned; changing projects silently would disconnect existing cloud accounts/data.
+- [ ] `npm run check` болон `npm run check:functions` амжилттай.
+- [ ] Нууц credential, service-account JSON эсвэл private key commit хийгдээгүй.
+- [ ] Firebase project `my-life-tracker-6c19b` зөв account/region/billing plan-тай.
+- [ ] Firestore rules болон `sendSmartReminders` function deploy амжилттай.
+- [ ] Firebase Authentication Authorized Domains-д production domain бүртгэлтэй.
+- [ ] `main` branch GitHub-д push хийгдсэн; Vercel Framework preset **Other**, build command хоосон, output directory `.`.
+- [ ] Production HTTPS дээр Google/Email sign-in, logout, Device Mode, Cloud Sync ажилласан.
+- [ ] Хуучин Planner, Goals, Journal, Money, Pet, Focus, Quests, Reminders өгөгдөл refresh/update-ийн дараа хэвээр.
+- [ ] Study class/assignment CRUD, selected weekdays, reminder болон Pet XP шалгагдсан.
+- [ ] PWA install, offline reload, service-worker update, light/dark theme шалгагдсан.
+- [ ] 320 px mobile, tablet, desktop дээр horizontal overflow байхгүй.
+- [ ] Privacy, Terms, About, Contact, 404, manifest, icons, robots болон sitemap 200 хариулттай.
+- [ ] Production smoke test-ийн дараа `v2.0.0` tag гаргасан.
 
-Cloud data is stored only at `users/{uid}/data/tracker`. The included `firestore.rules` denies all other reads and writes, and only permits an authenticated user to access their own document. Device Mode continues to work fully offline without Firestore.
+## Data ба security contract
 
-## Release and rollback
+- Firebase web config нь public project identifier; admin credential биш.
+- Cloud data: `users/{uid}/data/tracker`; reminder registry: `reminderUsers/{uid}`.
+- Firestore rules хэрэглэгч бүрийг зөвхөн өөрийн document-д хязгаарлана; Scheduled Function Admin SDK-аар server талд ажиллана.
+- Device Mode нь Firestore-гүй offline ажиллана.
+- `myLifeTracker.*` localStorage key-г migration-гүй rename/clear хийж болохгүй.
+- Cache шинэчлэх үед `sw.js`-ийн `CACHE` болон visible app version-ийг хамт ахиулна.
 
-Vercel keeps immutable deployments. Promote a tested deployment to production, and roll back by promoting the previous known-good deployment. When changing cached app-shell files, increment `CACHE` in `sw.js` and the visible app version together.
+## Rollback
 
-Local storage migration keys are part of the public data contract. Do not rename or clear them without adding an explicit migration first.
+Vercel өмнөх immutable deployment-ийг promote хийж frontend-ийг буцаана. Firebase Function-ийн rollback-ийг өмнөх Git commit-оос ижил нэрээр дахин deploy хийж гүйцэтгэнэ.

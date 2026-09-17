@@ -1,5 +1,16 @@
 # Changelog
 
+## v2.0.0 — Өрнөл Final Edition
+
+- Rebranded the app as Өрнөл with a new generated logo, tagline, metadata, PWA identity and social preview.
+- Added a complete Study Hub with multi-day class schedules, teachers, rooms/links, colors and cloud reminder controls.
+- Added assignments with subjects, due dates, priorities, completion state and duplicate-safe AI Pet XP rewards.
+- Added Study summaries to the dashboard, AI Coach context and contextual reminder messages.
+- Added a private per-user reminder registry and a scheduled Firebase backend for closed-app FCM delivery.
+- Added timezone-safe selected-day scheduling, duplicate claims, token cleanup and automated reminder-logic tests.
+- Updated legal pages, deployment documentation, cache identity and production verification markers.
+- Preserved all Firebase Auth, Planner, Goals, Journal, Money, Focus, AI Pet, Quests, PWA and legacy localStorage data.
+
 ## v1.5.0 — Smart Reminders
 
 - Connected the task reminder time field to real task data, cloud sync and backup/restore.

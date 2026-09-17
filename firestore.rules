@@ -7,6 +7,33 @@ service cloud.firestore {
         && request.auth.uid == userId;
     }
 
+    match /reminderUsers/{userId} {
+      function isOwner() {
+        return request.auth != null && request.auth.uid == userId;
+      }
+
+      function validClientData() {
+        return request.resource.data.uid == userId
+          && request.resource.data.version == 1
+          && request.resource.data.enabled is bool
+          && request.resource.data.timezone is string
+          && request.resource.data.timezone.size() <= 64
+          && request.resource.data.tasks is list
+          && request.resource.data.tasks.size() <= 300
+          && (!request.resource.data.keys().hasAny(['tokens'])
+            || (request.resource.data.tokens is list && request.resource.data.tokens.size() <= 10));
+      }
+
+      allow read, delete: if isOwner();
+      allow create: if isOwner()
+        && request.resource.data.keys().hasOnly(['uid','version','enabled','timezone','tasks','tokens','updatedAt'])
+        && validClientData();
+      allow update: if isOwner()
+        && request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['uid','version','enabled','timezone','tasks','tokens','updatedAt'])
+        && validClientData();
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

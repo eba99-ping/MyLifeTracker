@@ -1,4 +1,25 @@
-# My Life Tracker v1.5 test checklist
+# Өрнөл v2.0 test checklist
+
+## Brand and Study Hub
+
+- [ ] Confirm the Өрнөл logo, name, tagline and v2.0.0 version appear on auth, header, footer, manifest and install UI.
+- [ ] Add a class with teacher, room/link, color and two or more selected weekdays; reload and confirm it persists.
+- [ ] Edit and delete a class; confirm Today, weekly hours, next class and subject cards update.
+- [ ] Add an assignment with subject, due date and priority; edit, complete and delete it.
+- [ ] Confirm completing an assignment awards AI Pet XP exactly once.
+- [ ] Start the 25-minute Study Focus shortcut and confirm Focus Mode receives the selected subject.
+- [ ] Confirm today's classes and pending assignments appear in dashboard and AI Coach context.
+- [ ] Confirm Study Hub works at 320 px and in both light/dark themes.
+
+## Cloud Push backend
+
+- [ ] Run `npm run check:functions` and confirm all schedule tests pass.
+- [ ] Deploy `firestore.rules` and confirm a user can access only their own `reminderUsers/{uid}` registry.
+- [ ] Sign in, enable Cloud Push and confirm timezone, sanitized tasks/classes and token sync to the registry.
+- [ ] Confirm `sendSmartReminders` runs every minute and sends one notification per due occurrence.
+- [ ] Confirm Daily, Weekdays, Weekly and selected-day class schedules fire only on matching dates.
+- [ ] Confirm invalid FCM tokens are removed and the scheduler does not resend an already claimed occurrence.
+- [ ] Sign out and confirm the reminder registry is disabled for that user.
 
 ## Smart Reminders
 

@@ -1,8 +1,8 @@
 {
   "id": "/",
-  "name": "My Life Tracker",
-  "short_name": "Life Tracker",
-  "description": "Smart Reminders, planner, Focus Mode, Life Insights, goals, mood journal, AI Coach and money tracking in one app.",
+  "name": "Өрнөл — Personal Life OS",
+  "short_name": "Өрнөл",
+  "description": "Study Hub, Cloud Push, planner, Focus, goals, mood journal, AI Coach and money in one personal life OS.",
   "lang": "mn",
   "dir": "ltr",
   "start_url": "/?source=pwa",
@@ -14,14 +14,14 @@
   "theme_color": "#6d5dfc",
   "categories": ["productivity", "lifestyle", "utilities"],
   "icons": [
-    {"src":"/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},
-    {"src":"/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any"},
-    {"src":"/icon-maskable-512.png","sizes":"512x512","type":"image/png","purpose":"maskable"}
+    {"src":"/ornol-mark.png","sizes":"1254x1254","type":"image/png","purpose":"any"},
+    {"src":"/ornol-mark.png","sizes":"1254x1254","type":"image/png","purpose":"maskable"}
   ],
   "shortcuts": [
-    {"name":"Өнөөдөр","short_name":"Today","url":"/#today","icons":[{"src":"/icon-192.png","sizes":"192x192"}]},
-    {"name":"Planner","short_name":"Planner","url":"/#planner","icons":[{"src":"/icon-192.png","sizes":"192x192"}]},
-    {"name":"Journal","short_name":"Journal","url":"/#journal","icons":[{"src":"/icon-192.png","sizes":"192x192"}]},
-    {"name":"Focus Mode","short_name":"Focus","url":"/#focus","icons":[{"src":"/icon-192.png","sizes":"192x192"}]}
+    {"name":"Өнөөдөр","short_name":"Today","url":"/#today","icons":[{"src":"/ornol-mark.png","sizes":"1254x1254"}]},
+    {"name":"Planner","short_name":"Planner","url":"/#planner","icons":[{"src":"/ornol-mark.png","sizes":"1254x1254"}]},
+    {"name":"Study Hub","short_name":"Study","url":"/#study","icons":[{"src":"/ornol-mark.png","sizes":"1254x1254"}]},
+    {"name":"Journal","short_name":"Journal","url":"/#journal","icons":[{"src":"/ornol-mark.png","sizes":"1254x1254"}]},
+    {"name":"Focus Mode","short_name":"Focus","url":"/#focus","icons":[{"src":"/ornol-mark.png","sizes":"1254x1254"}]}
   ]
 }
