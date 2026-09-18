@@ -1,8 +1,17 @@
-# Өрнөл v2.0 — Personal Life OS
+# Өрнөл v2.1 — Momentum
 
 Өрнөл бол Study Hub, Planner, Smart Goals, Focus, Journal, Money, AI Coach, AI Pet, Cloud Sync болон Smart Reminders-ийг нэг дор багтаасан mobile-first PWA юм. Хуучин `myLifeTracker.*` storage key болон Firestore user document-ийг хэвээр үлдээсэн тул өмнөх хэрэглэгчийн өгөгдөл migration шаардахгүй үргэлжилнэ.
 
-## v2.0 онцлох шинэчлэл
+## v2.1 онцлох шинэчлэл
+
+- Study Hub-д Даваа–Ням, 1–7-р цагийн interactive timetable нэмэгдсэн.
+- Хоосон timetable нүд дарахад өдөр, эхлэх/дуусах цаг class form-д автоматаар бөглөгдөнө.
+- Existing class-ийг grid дээрээс шууд засаж, room/teacher-ийг compact байдлаар харна.
+- Habit Lab: custom schedule, daily completion, streak, 28 хоногийн heatmap, weekly review, quick templates.
+- Habit completion бүр AI Pet-д duplicate-safe +8 XP өгч, Today болон AI Coach context-д холбогдоно.
+- Vercel-hosted mobile Google login-ийг redirect-ээс popup flow руу шилжүүлж third-party storage failure-ийг арилгасан.
+
+## v2.0 суурь боломжууд
 
 - Шинэ Өрнөл нэр, утга, logo, өнгө төрх, PWA metadata болон social preview.
 - Долоо хоногийн сонгосон өдрүүдтэй хичээлийн хуваарь, багш, анги/линк, өнгө, сануулга.
@@ -51,7 +60,7 @@ Custom domain нэмэх бол нэг тогтвортой canonical domain с�
 - [ ] PWA install, offline reload, service-worker update, light/dark theme шалгагдсан.
 - [ ] 320 px mobile, tablet, desktop дээр horizontal overflow байхгүй.
 - [ ] Privacy, Terms, About, Contact, 404, manifest, icons, robots болон sitemap 200 хариулттай.
-- [ ] Production smoke test-ийн дараа `v2.0.0` tag гаргасан.
+- [ ] Production smoke test-ийн дараа `v2.1.0` tag гаргасан.
 
 ## Data ба security contract
 

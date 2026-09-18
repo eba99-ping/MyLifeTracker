@@ -418,8 +418,11 @@
     .study-hero{padding:26px;border-radius:28px;background:radial-gradient(circle at 86% 16%,rgba(255,255,255,.26),transparent 13rem),linear-gradient(135deg,#4f46e5,#7c5cff 54%,#20c9a6);color:#fff;box-shadow:0 20px 55px rgba(79,70,229,.25);margin-bottom:18px;display:flex;align-items:end;justify-content:space-between;gap:16px}
     .study-hero h2{margin:0 0 7px;font-size:clamp(28px,5vw,42px);letter-spacing:-.04em}.study-hero p{margin:0;color:rgba(255,255,255,.82)}.study-hero-actions{display:flex;gap:8px;flex-wrap:wrap}.study-hero .btn{background:rgba(255,255,255,.17);color:#fff;border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(10px)}.study-hero .btn.primary{background:#fff;color:#5548db}
     .study-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}.study-stat{padding:16px;border:1px solid var(--line);background:var(--surface);border-radius:18px}.study-stat span{display:block;color:var(--muted);font-size:10px;font-weight:800}.study-stat strong{display:block;margin-top:5px;font-size:19px}.study-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);gap:16px}.study-layout>*{min-width:0}.study-panel{min-width:0;padding:18px}.study-days{display:flex;max-width:100%;gap:7px;overflow:auto;padding:2px 0 12px;scrollbar-width:none}.study-day{min-width:48px;padding:9px 8px;border:1px solid var(--line);border-radius:13px;background:var(--surface);color:var(--muted);font-weight:850;font-size:10px}.study-day.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+    .timetable-card{padding:18px;margin-bottom:16px;overflow:hidden}.timetable-help{color:var(--muted);font-size:12px}.timetable-scroll{overflow:auto;margin-top:13px;padding-bottom:5px;scrollbar-width:thin}.timetable-grid{display:grid;grid-template-columns:76px repeat(7,minmax(108px,1fr));min-width:870px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--line);gap:1px}.timetable-head,.timetable-period,.timetable-cell{background:var(--surface)}.timetable-head{padding:11px 8px;text-align:center;font-size:11px;font-weight:900;color:var(--muted)}.timetable-corner{position:sticky;left:0;z-index:3}.timetable-period{position:sticky;left:0;z-index:2;padding:10px 7px;display:flex;flex-direction:column;justify-content:center;text-align:center}.timetable-period b{font-size:12px}.timetable-period span{font-size:9px;color:var(--muted);margin-top:3px}.timetable-cell{position:relative;min-height:76px;padding:5px;display:flex;flex-direction:column;gap:4px}.timetable-add{position:absolute;inset:0;width:100%;border:0;background:transparent;color:transparent}.timetable-add:hover,.timetable-add:focus-visible{background:var(--brand-soft);color:var(--brand)}.timetable-add::after{content:'＋';font-size:18px;font-weight:900}.timetable-class{position:relative;z-index:1;border:0;border-left:4px solid var(--class-color,var(--brand));border-radius:9px;padding:7px;background:color-mix(in srgb,var(--class-color) 12%,var(--surface));color:var(--ink);text-align:left;font-size:10px;line-height:1.35}.timetable-class b{display:block;font-size:11px}.timetable-class span{display:block;color:var(--muted);font-size:9px;margin-top:2px}.timetable-cell:has(.timetable-class) .timetable-add{display:none}
     .class-list,.assignment-list,.subject-list{display:flex;flex-direction:column;gap:9px}.class-item,.assignment-item,.subject-item{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:15px;background:var(--surface)}.class-color{width:9px;height:42px;border-radius:999px;background:var(--class-color,var(--brand))}.class-copy b,.assignment-copy b,.subject-copy b{display:block;font-size:12px}.class-copy span,.assignment-copy span,.subject-copy span{display:block;color:var(--muted);font-size:10px;margin-top:3px}.class-time{font-size:11px;font-weight:900;color:var(--brand);text-align:right}.class-actions,.assignment-actions{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}.class-actions .btn,.assignment-actions .btn{padding:6px 8px;font-size:9px}.assignment-item.done{opacity:.62}.assignment-item.done b{text-decoration:line-through}.assignment-check{width:20px;height:20px;accent-color:var(--brand)}.study-empty{padding:18px;border:1px dashed var(--line);border-radius:15px;text-align:center;color:var(--muted);font-size:11px}.day-checks{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.day-check{display:flex;align-items:center;justify-content:center;gap:5px;padding:9px 6px;border:1px solid var(--line);border-radius:11px;background:var(--surface);font-size:10px;font-weight:800}.day-check input{accent-color:var(--brand)}.subject-dot{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;color:#fff;font-weight:950;background:var(--class-color,var(--brand))}
     html[data-theme="dark"] .study-stat,html[data-theme="dark"] .class-item,html[data-theme="dark"] .assignment-item,html[data-theme="dark"] .subject-item,html[data-theme="dark"] .study-day,html[data-theme="dark"] .day-check{background:var(--surface);border-color:var(--line)}
+    .habit-hero{position:relative;overflow:hidden;padding:26px;border-radius:28px;background:radial-gradient(circle at 88% 8%,rgba(255,255,255,.28),transparent 13rem),linear-gradient(135deg,#0f766e,#14b8a6 54%,#6d5dfc);color:#fff;box-shadow:0 20px 55px rgba(20,184,166,.22);margin-bottom:18px;display:flex;align-items:end;justify-content:space-between;gap:16px}.habit-hero h2{margin:0 0 7px;font-size:clamp(28px,5vw,42px);letter-spacing:-.04em}.habit-hero p{margin:0;color:rgba(255,255,255,.84)}.habit-hero .btn{background:#fff;color:#0f766e}.habit-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}.habit-stat{padding:16px;border:1px solid var(--line);background:var(--surface);border-radius:18px}.habit-stat span{display:block;color:var(--muted);font-size:10px;font-weight:800;text-transform:uppercase}.habit-stat strong{display:block;margin-top:5px;font-size:20px}.habit-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:16px}.habit-layout>*{min-width:0}.habit-panel{padding:18px;min-width:0}.habit-list{display:flex;flex-direction:column;gap:10px}.habit-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;padding:14px;border:1px solid var(--line);border-radius:17px;background:var(--surface)}.habit-toggle{width:44px;height:44px;border-radius:15px;border:1px solid color-mix(in srgb,var(--habit-color) 40%,var(--line));background:color-mix(in srgb,var(--habit-color) 12%,var(--surface));font-size:20px}.habit-toggle.done{background:var(--habit-color);color:#fff}.habit-copy b{display:block;font-size:14px}.habit-copy span{display:block;color:var(--muted);font-size:12px;margin-top:3px}.habit-streak{min-width:54px;text-align:right}.habit-streak b{display:block;color:#f97316;font-size:14px}.habit-streak button{margin-top:4px}.habit-empty{padding:28px 18px;border:1px dashed var(--line);border-radius:17px;text-align:center;color:var(--muted);font-size:13px}.habit-templates{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}.habit-template{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 11px;font-size:12px;font-weight:800}.habit-heatmap{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:14px}.habit-heatmap i{aspect-ratio:1;border-radius:7px;background:var(--surface-2);border:1px solid var(--line)}.habit-heatmap i[data-level="1"]{background:rgba(20,184,166,.24)}.habit-heatmap i[data-level="2"]{background:rgba(20,184,166,.48)}.habit-heatmap i[data-level="3"]{background:#14b8a6}.habit-week-labels{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:7px;color:var(--muted);font-size:10px;text-align:center}.habit-review{padding:16px;border-radius:18px;background:linear-gradient(135deg,var(--brand-soft),rgba(20,184,166,.10));border:1px solid rgba(109,93,252,.14)}.habit-review strong{display:block;font-size:16px}.habit-review p{margin:7px 0 0;color:var(--muted);font-size:13px;line-height:1.6}.habit-today-card{padding:18px;margin-bottom:20px;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center}.habit-today-icon{width:50px;height:50px;border-radius:17px;display:grid;place-items:center;background:linear-gradient(135deg,#14b8a6,#6d5dfc);color:#fff;font-size:24px}.habit-today-copy b{display:block;font-size:15px}.habit-today-copy span{display:block;color:var(--muted);font-size:12px;margin-top:4px}.habit-progress{height:7px;border-radius:999px;background:var(--surface-2);overflow:hidden;margin-top:9px}.habit-progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#14b8a6,var(--brand));border-radius:inherit;transition:width .3s ease}.habit-today-card .btn{white-space:nowrap}.habit-color-input{height:46px;padding:5px}.habit-schedule-note{color:var(--muted);font-size:11px;margin-top:6px}
+    html[data-theme="dark"] .habit-stat,html[data-theme="dark"] .habit-item,html[data-theme="dark"] .habit-template{background:var(--surface);border-color:var(--line)}
 
     /* ===== Tools Hub ===== */
     .tools-hero{
@@ -603,6 +606,7 @@
       .focus-layout{grid-template-columns:minmax(0,1fr)}.focus-stage{padding:24px 15px}.focus-side{gap:14px}
       .insight-metrics{grid-template-columns:1fr 1fr}.insights-card{padding:16px}
       .study-layout{grid-template-columns:minmax(0,1fr)}.study-stats{grid-template-columns:1fr 1fr}
+      .habit-layout{grid-template-columns:minmax(0,1fr)}.habit-stats{grid-template-columns:1fr 1fr}
     }
 
     @media(max-width:760px){
@@ -634,6 +638,8 @@
       .row{grid-template-columns:1fr}.nav{height:72px}
       .reminder-head{flex-direction:column}.reminder-controls{width:100%;justify-content:flex-start}.reminder-item{grid-template-columns:auto 1fr}.reminder-time{grid-column:2}.reminder-actions{grid-column:2}
       .study-hero{align-items:flex-start;flex-direction:column;padding:21px}.study-hero-actions{width:100%}.study-hero-actions .btn{flex:1}.day-checks{grid-template-columns:repeat(2,1fr)}
+      .timetable-card{padding:15px}.timetable-scroll{margin-left:-2px;margin-right:-2px}.timetable-grid{grid-template-columns:68px repeat(7,104px);min-width:796px}
+      .habit-hero{align-items:flex-start;flex-direction:column;padding:21px}.habit-hero .btn{width:100%}.habit-today-card{grid-template-columns:auto 1fr}.habit-today-card .btn{grid-column:1/-1;width:100%}
       .nav button{font-size:10px}.nav button b{font-size:18px}
     }
     @media(max-width:420px){
@@ -672,7 +678,7 @@
           </div>
         </div>
 
-        <div class="auth-credit">Өрнөл v2.0 · Final Edition · Built by Elbex Labs · 2026</div>
+        <div class="auth-credit">Өрнөл v2.1 · Momentum · Built by Elbex Labs · 2026</div>
       </div>
 
       <div class="auth-card">
@@ -700,7 +706,7 @@
 
         <button class="device-btn" type="button" id="deviceModeBtn">📱 Continue on this device</button>
         <button class="device-btn" type="button" id="howToStartBtn" style="margin-top:8px;background:#fff">? How to start</button>
-        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.0.0</div>
+        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.1.0</div>
       </div>
     </div>
   </section>
@@ -791,6 +797,15 @@
         </div>
         <div class="quest-list" id="dailyQuestList"></div>
       </section>
+      <section class="card habit-today-card" aria-labelledby="habitTodayTitle">
+        <div class="habit-today-icon" aria-hidden="true">🔥</div>
+        <div class="habit-today-copy">
+          <b id="habitTodayTitle">Өнөөдрийн Momentum</b>
+          <span id="habitTodayText">Habit-уудаа бэлдэж байна…</span>
+          <div class="habit-progress" aria-label="Өнөөдрийн habit progress"><i id="habitTodayBar"></i></div>
+        </div>
+        <button class="btn secondary small" type="button" data-open-tool="habits">Habit Lab нээх</button>
+      </section>
       <section class="card insights-card" aria-labelledby="weeklyInsightsTitle">
         <div class="insights-head">
           <div><h3 id="weeklyInsightsTitle">📊 Life Insights</h3><p>Сүүлийн 7 хоногийн нэгдсэн тойм</p></div>
@@ -848,6 +863,10 @@
         <div class="study-stat"><span>ДААЛГАВАР</span><strong id="studyAssignmentCount">0</strong></div>
         <div class="study-stat"><span>ЭНЭ 7 ХОНОГ</span><strong id="studyWeekHours">0ц</strong></div>
       </div>
+      <section class="card timetable-card" aria-labelledby="timetableTitle">
+        <div class="section-head"><div><h3 id="timetableTitle">🗓️ 7 цагийн хичээлийн хуваарь</h3><span class="timetable-help">Хоосон нүд дарахад сонгосон өдөр, цаг автоматаар бөглөгдөнө.</span></div><span id="timetableClassCount">0 хичээл</span></div>
+        <div class="timetable-scroll"><div class="timetable-grid" id="studyTimetable" aria-label="7 өдрийн 7 цагийн хичээлийн хуваарь"></div></div>
+      </section>
       <div class="study-layout">
         <section class="card study-panel">
           <div class="section-head"><h3>7 хоногийн хуваарь</h3><span id="studyDayLabel">Өнөөдөр</span></div>
@@ -918,6 +937,47 @@
           </div>
           <div class="tool-card-foot"><span class="tool-stat" id="toolFocusStat">Өнөөдөр 0 мин</span><span class="tool-arrow">›</span></div>
         </button>
+
+        <button class="tool-card" type="button" data-open-tool="habits">
+          <div>
+            <div class="tool-card-icon">🔥</div>
+            <h3>Habit Lab</h3>
+            <p>Өдөр тутмын дадал, streak, 28 хоногийн momentum-оо өсгө.</p>
+          </div>
+          <div class="tool-card-foot"><span class="tool-stat" id="toolHabitsStat">0/0 өнөөдөр</span><span class="tool-arrow">›</span></div>
+        </button>
+      </div>
+    </section>
+
+    <section class="page" id="page-habits" aria-labelledby="habitsTitle">
+      <button class="tool-back" type="button" data-back-tools>← Tools</button>
+      <div class="habit-hero">
+        <div><h2 id="habitsTitle">🔥 Habit Lab</h2><p>Жижиг дадлаа тогтвортой давтаад momentum-оо өсгө.</p></div>
+        <button class="btn" type="button" id="addHabit">＋ Habit нэмэх</button>
+      </div>
+      <div class="habit-stats">
+        <div class="habit-stat"><span>Өнөөдөр</span><strong id="habitTodayStat">0/0</strong></div>
+        <div class="habit-stat"><span>Best streak</span><strong id="habitBestStreak">0 өдөр</strong></div>
+        <div class="habit-stat"><span>7 хоног</span><strong id="habitWeekRate">0%</strong></div>
+        <div class="habit-stat"><span>Өнөөдрийн XP</span><strong id="habitXpToday">+0</strong></div>
+      </div>
+      <div class="habit-layout">
+        <section class="card habit-panel">
+          <div class="section-head"><h3>Өнөөдрийн дадал</h3><span id="habitDueLabel">0 үлдсэн</span></div>
+          <div class="habit-list" id="habitList"></div>
+          <div class="habit-templates" id="habitTemplates" aria-label="Habit quick starts"></div>
+        </section>
+        <aside style="display:flex;flex-direction:column;gap:16px">
+          <section class="card habit-panel">
+            <div class="section-head"><h3>28 хоногийн momentum</h3><span id="habitHeatmapRate">0%</span></div>
+            <div class="habit-heatmap" id="habitHeatmap" aria-label="28 хоногийн habit heatmap"></div>
+            <div class="habit-week-labels"><span>Да</span><span>Мя</span><span>Лх</span><span>Пү</span><span>Ба</span><span>Бя</span><span>Ня</span></div>
+          </section>
+          <section class="card habit-panel">
+            <div class="section-head"><h3>Weekly Review</h3><span>AI-ready</span></div>
+            <div class="habit-review" id="habitReview"><strong>Momentum эхлүүлэхэд бэлэн.</strong><p>Эхний habit-аа нэмээд өнөөдрөөс жижиг ялалт цуглуулаарай.</p></div>
+          </section>
+        </aside>
       </div>
     </section>
 
@@ -1107,7 +1167,7 @@
       </div>
     </section>
     <footer class="site-footer">
-      <span>© 2026 Өрнөл · Built by Elbex Labs · v2.0 Final Edition</span>
+      <span>© 2026 Өрнөл · Built by Elbex Labs · v2.1 Momentum</span>
       <nav aria-label="Legal and company links"><a href="/about.html">About</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></nav>
     </footer>
   </main>
@@ -1213,6 +1273,22 @@
         <div class="field"><label for="assignmentSubject">Хичээл</label><input id="assignmentSubject" list="studySubjectOptions" maxlength="80" placeholder="Математик"><datalist id="studySubjectOptions"></datalist></div>
         <div class="row"><div class="field"><label for="assignmentDue">Deadline</label><input id="assignmentDue" type="date" required></div><div class="field"><label for="assignmentPriority">Priority</label><select id="assignmentPriority"><option value="high">🔴 High</option><option value="medium" selected>🟠 Medium</option><option value="low">🟢 Low</option></select></div></div>
         <div class="modal-foot"><button type="button" class="btn danger" id="deleteAssignment" hidden>Устгах</button><button type="button" class="btn secondary" data-close="assignmentModal">Болих</button><button class="btn primary" type="submit">Хадгалах</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-wrap" id="habitModal" role="dialog" aria-modal="true" aria-labelledby="habitModalTitle">
+    <div class="modal">
+      <div class="modal-head"><h3 id="habitModalTitle">Habit нэмэх</h3><button class="icon-btn" data-close="habitModal" aria-label="Хаах">×</button></div>
+      <form id="habitForm">
+        <input type="hidden" id="habitId">
+        <div class="row">
+          <div class="field"><label for="habitIcon">Icon</label><select id="habitIcon"><option>💧</option><option>📖</option><option>🏃</option><option>🧘</option><option>🌙</option><option>🥗</option><option>💻</option><option>✍️</option><option>🔥</option><option>✨</option></select></div>
+          <div class="field"><label for="habitName">Habit-ийн нэр</label><input id="habitName" maxlength="80" required placeholder="Жишээ: 20 минут ном унших"></div>
+        </div>
+        <div class="field"><label>Давтах өдрүүд</label><div class="day-checks" id="habitDays"></div><div class="habit-schedule-note">Өдөр бүр эсвэл өөрт тохирох өдрүүдээ сонго.</div></div>
+        <div class="field"><label for="habitColor">Өнгө</label><input class="habit-color-input" id="habitColor" type="color" value="#14b8a6"></div>
+        <div class="modal-foot"><button type="button" class="btn danger" id="deleteHabit" hidden>Устгах</button><button type="button" class="btn secondary" data-close="habitModal">Болих</button><button class="btn primary" type="submit">Хадгалах</button></div>
       </form>
     </div>
   </div>
@@ -1512,6 +1588,7 @@
           savedAmount:0
         },
         study:{classes:[],assignments:[]},
+        habits:[],
         chat:[{
           role:'ai',
           text:'Сайн уу! Би таны AI Coach. Өнөөдрийн төлөвлөгөө, зорилго эсвэл дадлын талаар юугаар туслах вэ?'
@@ -1562,6 +1639,18 @@
       return {classes,assignments};
     }
 
+    function normalizeHabits(raw=[]){
+      if(!Array.isArray(raw)) return [];
+      return raw.map(item=>({
+        id:item.id||uid('habit'),name:String(item.name||'Шинэ habit').slice(0,80),
+        icon:String(item.icon||'✨').slice(0,4),
+        color:/^#[0-9a-f]{6}$/i.test(item.color||'')?item.color:'#14b8a6',
+        days:[...new Set((Array.isArray(item.days)?item.days:[1,2,3,4,5,6,7]).map(Number).filter(day=>day>=1&&day<=7))],
+        completions:Object.fromEntries(Object.entries(item.completions||{}).filter(([date,done])=>/^\d{4}-\d{2}-\d{2}$/.test(date)&&done)),
+        createdAt:Number(item.createdAt)||Date.now(),updatedAt:Number(item.updatedAt)||0
+      })).filter(item=>item.days.length);
+    }
+
     function normalizeGoal(g){
       const start = g.start || g.startDate || today();
       const deadline = g.deadline || g.endDate || addDays(start,30);
@@ -1592,6 +1681,7 @@
       if(!s || typeof s !== 'object') return false;
       return (Array.isArray(s.tasks) && s.tasks.length) ||
              (Array.isArray(s.goals) && s.goals.length) ||
+             (Array.isArray(s.habits) && s.habits.length) ||
              (s.journal && typeof s.journal === 'object' && Object.keys(s.journal).length) ||
              (s.money && Array.isArray(s.money.transactions) && s.money.transactions.length);
     }
@@ -1785,6 +1875,7 @@
     };
     if(!Array.isArray(state.money.transactions)) state.money.transactions = [];
     state.study = normalizeStudy(state.study||{});
+    state.habits = normalizeHabits(state.habits||[]);
 
     const PET_LEVELS = [0,100,240,420,650,930,1260,1650,2100];
     const PET_ACCESSORIES = [
@@ -2134,8 +2225,10 @@
       const focusScore = Math.min(1,focusMinutes/125);
       const goalScore = activeGoals.length ? healthyGoals/activeGoals.length : 0;
       const reflectionScore = Math.min(1,moods.length/5);
-      const score = Math.round((taskScore*.35+focusScore*.25+goalScore*.20+reflectionScore*.20)*100);
-      return {days,taskTotal,taskDone,focusMinutes,moods,moodAverage,activeGoals,healthyGoals,expense,score};
+      const habits = habitWindow(7);
+      const habitScore = habits.due ? habits.done/habits.due : 0;
+      const score = Math.round((taskScore*.30+focusScore*.20+goalScore*.20+reflectionScore*.15+habitScore*.15)*100);
+      return {days,taskTotal,taskDone,focusMinutes,moods,moodAverage,activeGoals,healthyGoals,expense,habits,score};
     }
 
     function lifeInsightAdvice(snapshot){
@@ -2144,6 +2237,7 @@
       const risk = snapshot.activeGoals.find(goal=>goalHealth(goal).kind==='risk');
       if(risk) return `🎯 “${esc(risk.title)}” зорилгоо өнөөдөр review хийгээрэй.`;
       if(snapshot.moodAverage && snapshot.moodAverage<2.5) return '💜 Ачааллаа багасгаад өөртөө нэг тайван зав гаргаарай.';
+      if(snapshot.habits.due && snapshot.habits.rate<60) return '🔥 Habit Lab-аас өнөөдрийн нэг жижиг дадлаа дуусгаарай.';
       if(snapshot.focusMinutes<50) return '⚡ Өнөөдөр 15 минутын жижиг focus session эхлүүлээрэй.';
       if(snapshot.expense>0) return `💰 7 хоногийн зарлага ${moneyFmt(snapshot.expense)} — Money дээрээ нэг хараарай.`;
       return snapshot.score>=70 ? '✨ Тэнцвэр сайн байна. Энэ хурдаа тогтвортой хадгалаарай!' : '🌱 Нэг task + нэг focus session өнөөдрийн оноог өсгөнө.';
@@ -2301,6 +2395,8 @@
       const questStatus = dailyQuestStatus();
       if(questStatus.ready) return `${questStatus.ready} Daily Quest reward бэлэн боллоо. XP-гээ claim хийгээрэй!`;
       if(questStatus.claimed===3) return 'Өнөөдрийн бүх quest дууслаа! Маргааш шинэ 3 challenge нээгдэнэ.';
+      const pendingHabit = habitDue().find(habit=>!habit.completions?.[today()]);
+      if(pendingHabit) return `${pendingHabit.icon} “${pendingHabit.name}” habit хүлээж байна. Дуусгаад +8 XP авах уу?`;
       if(p.total>0 && p.done===p.total) return `Өнөөдрийн ${p.total} task бүгд дууслаа! Чи үнэхээр гайхалтай байлаа.`;
       if(overdue) return `“${overdue.title}” зорилгоо өнөөдөр нэг жижиг алхмаар урагшлуулбал ямар вэ?`;
       if(riskyGoal) return `“${riskyGoal.title}” зорилго эрсдэлтэй байна. Дараагийн алхмаа хамт сонгох уу?`;
@@ -2624,6 +2720,9 @@
         'auth/wrong-password':'Password буруу байна.',
         'auth/popup-closed-by-user':'Google login цонхыг хаасан байна.',
         'auth/popup-blocked':'Browser Google login popup-ийг хаалаа. Popup зөвшөөрөөд дахин оролдоорой.',
+        'auth/cancelled-popup-request':'Өмнөх Google login цонх хаагдаж байна. Нэг удаа дахин оролдоорой.',
+        'auth/operation-not-supported-in-this-environment':'Энэ browser Google login popup дэмжихгүй байна. Chrome эсвэл Safari-аар нээгээрэй.',
+        'auth/account-exists-with-different-credential':'Энэ email өөр нэвтрэх аргаар бүртгэлтэй байна. Email login ашиглаад account-аа холбоно уу.',
         'auth/unauthorized-domain':'Энэ Vercel domain Firebase Authorized domains-д нэмэгдээгүй байна.',
         'auth/network-request-failed':'Интернет холболтоо шалгаад дахин оролдоорой.',
         'auth/too-many-requests':'Олон удаа оролдсон байна. Түр хүлээгээд дахин оролдоорой.',
@@ -2925,6 +3024,7 @@
         state.money = {...initialState().money,...(state.money||{})};
         state.money.transactions = Array.isArray(state.money.transactions) ? state.money.transactions : [];
         state.study = normalizeStudy(state.study||{});
+        state.habits = normalizeHabits(state.habits||[]);
         petState = normalizePetRecord(payload.pet||petState);
         questState = mergeQuestRecords(defaultQuestState(),payload.quests||questState);
         focusState = normalizeFocusState(payload.focus||focusState);
@@ -2944,7 +3044,7 @@
         saveQuests({touch:false,cloud:false});
         saveFocus({touch:false,cloud:false});
         persistCloudMeta();
-        renderProfile();renderTasks();renderGoals();loadJournal(selectedJournal);renderChat();renderMoney();renderTools();renderDailyQuests();renderFocus();renderStudy();
+        renderProfile();renderTasks();renderGoals();loadJournal(selectedJournal);renderChat();renderMoney();renderTools();renderDailyQuests();renderFocus();renderStudy();renderHabits();
       }finally{
         cloudApplying = false;
       }
@@ -3143,15 +3243,8 @@
         if(provider === 'google'){
           const googleProvider = new fb.GoogleAuthProvider();
           googleProvider.setCustomParameters({prompt:'select_account'});
-
-          const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-                         window.matchMedia('(max-width:760px)').matches;
-
-          if(mobile){
-            await fb.signInWithRedirect(fb.auth,googleProvider);
-            return;
-          }
-
+          // Popup avoids the third-party storage failure that affects redirect
+          // sign-in on apps hosted outside Firebase Hosting (including Vercel).
           const result = await fb.signInWithPopup(fb.auth,googleProvider);
           syncFirebaseUserToProfile(result.user);
           hideAuthScreen();
@@ -3400,7 +3493,7 @@
     $('#backupData').addEventListener('click',() => {
       const backup = {
         app:'Өрнөл',
-        version:10,
+version:11,
         exportedAt:new Date().toISOString(),
         state,
         profile,
@@ -3438,6 +3531,7 @@
           settings:{...initialState().settings,...(data.state.settings||{})}
         };
         state.study = normalizeStudy(state.study||{});
+        state.habits = normalizeHabits(state.habits||[]);
 
         if(data.profile && typeof data.profile === 'object'){
           profile = {...defaultProfile(),...data.profile};
@@ -3466,6 +3560,7 @@
         renderDailyQuests();
         renderFocus();
         renderStudy();
+        renderHabits();
         loadJournal(selectedJournal);
         renderChat();
 
@@ -3660,6 +3755,7 @@
       if(due.length) notices.push(`<b>🎯 ${due.length} зорилгын хугацаа дууссан.</b> Зорилго хэсэгт орж шалгаарай.`);
       $('#todayDeadlineNotices').innerHTML = notices.map(text=>`<div class="notice">${text}</div>`).join('');
       renderDailyQuests();
+      renderHabitSummary();
       renderPet();
       renderLifeInsights();
       renderReminder();
@@ -4397,6 +4493,12 @@
       {id:1,short:'Да',label:'Даваа'},{id:2,short:'Мя',label:'Мягмар'},{id:3,short:'Лх',label:'Лхагва'},
       {id:4,short:'Пү',label:'Пүрэв'},{id:5,short:'Ба',label:'Баасан'},{id:6,short:'Бя',label:'Бямба'},{id:7,short:'Ня',label:'Ням'}
     ];
+    const STUDY_PERIODS = [
+      {id:1,start:'08:00',end:'08:45'},{id:2,start:'08:55',end:'09:40'},
+      {id:3,start:'09:50',end:'10:35'},{id:4,start:'10:45',end:'11:30'},
+      {id:5,start:'11:40',end:'12:25'},{id:6,start:'13:00',end:'13:45'},
+      {id:7,start:'13:55',end:'14:40'}
+    ];
     let selectedStudyDay = new Date().getDay()||7;
 
     function studyClassesForDay(day){
@@ -4412,11 +4514,11 @@
       $('#classDays').innerHTML = STUDY_DAYS.map(day=>`<label class="day-check"><input type="checkbox" value="${day.id}" ${selected.includes(day.id)?'checked':''}>${day.short}</label>`).join('');
     }
 
-    function showClassModal(item=null){
+    function showClassModal(item=null,prefill={}){
       $('#classModalTitle').textContent = item?'Хичээл засах':'Хичээл нэмэх';
       $('#classId').value=item?.id||'';$('#classSubject').value=item?.subject||'';$('#classTeacher').value=item?.teacher||'';$('#classRoom').value=item?.room||'';
-      $('#classStart').value=item?.start||'09:00';$('#classEnd').value=item?.end||'10:00';$('#classColor').value=item?.color||'#6d5dfc';$('#classReminder').value=item?.reminder===false?'off':'on';
-      renderClassDayChecks(item?.days||[selectedStudyDay]);$('#deleteClass').hidden=!item;openModal('classModal');
+      $('#classStart').value=item?.start||prefill.start||'09:00';$('#classEnd').value=item?.end||prefill.end||'10:00';$('#classColor').value=item?.color||'#6d5dfc';$('#classReminder').value=item?.reminder===false?'off':'on';
+      renderClassDayChecks(item?.days||[Number(prefill.day)||selectedStudyDay]);$('#deleteClass').hidden=!item;openModal('classModal');
     }
 
     function showAssignmentModal(item=null){
@@ -4434,6 +4536,8 @@
       const weeklyMinutes = state.study.classes.reduce((sum,item)=>sum+studyMinutes(item)*item.days.length,0);
       $('#studyTodayCount').textContent=String(todayClasses.length);$('#studyNextClass').textContent=next?`${next.start} · ${next.subject.slice(0,14)}`:'Дууссан';
       $('#studyAssignmentCount').textContent=String(pending.length);$('#studyWeekHours').textContent=`${Math.round(weeklyMinutes/60*10)/10}ц`;
+      $('#timetableClassCount').textContent=`${state.study.classes.length} хичээл`;
+      $('#studyTimetable').innerHTML=`<div class="timetable-head timetable-corner">Цаг</div>${STUDY_DAYS.map(day=>`<div class="timetable-head">${day.label}</div>`).join('')}`+STUDY_PERIODS.map(period=>`<div class="timetable-period"><b>${period.id}-р цаг</b><span>${period.start}<br>${period.end}</span></div>${STUDY_DAYS.map(day=>{const items=state.study.classes.filter(item=>item.days.includes(day.id)&&item.start===period.start);return `<div class="timetable-cell">${items.map(item=>`<button class="timetable-class" style="--class-color:${item.color}" type="button" data-edit-class="${esc(item.id)}" title="${esc(item.subject)} засах"><b>${esc(item.subject)}</b><span>${esc(item.room||item.teacher||'')}</span></button>`).join('')}<button class="timetable-add" type="button" data-add-class-slot="${day.id}" data-start="${period.start}" data-end="${period.end}" aria-label="${day.label} ${period.id}-р цагт хичээл нэмэх">＋</button></div>`;}).join('')}`).join('');
       $('#studyDays').innerHTML=STUDY_DAYS.map(day=>`<button class="study-day ${selectedStudyDay===day.id?'active':''}" type="button" data-study-day="${day.id}">${day.short}</button>`).join('');
       $('#studyDayLabel').textContent=STUDY_DAYS.find(day=>day.id===selectedStudyDay)?.label||'';
       const classes=studyClassesForDay(selectedStudyDay);
@@ -4444,6 +4548,7 @@
       const groups=new Map();state.study.classes.forEach(item=>{const key=item.subject.trim()||'Хичээл';if(!groups.has(key))groups.set(key,{color:item.color,count:0,minutes:0});const group=groups.get(key);group.count+=item.days.length;group.minutes+=studyMinutes(item)*item.days.length;});
       $('#studySubjectList').innerHTML=groups.size?[...groups].map(([subject,group])=>`<article class="subject-item" style="--class-color:${group.color}"><div class="subject-dot">${esc(subject.charAt(0).toUpperCase())}</div><div class="subject-copy"><b>${esc(subject)}</b><span>${group.count} class · ${Math.round(group.minutes/60*10)/10}ц / 7 хоног</span></div><button class="btn secondary small" type="button" data-subject-focus="${esc(subject)}">Focus</button></article>`).join(''):'<div class="study-empty">Хичээлүүдээ нэмэхэд subject cards энд үүснэ.</div>';
       $$('[data-study-day]').forEach(button=>button.onclick=()=>{selectedStudyDay=Number(button.dataset.studyDay);renderStudy();});
+      $$('[data-add-class-slot]').forEach(button=>button.onclick=()=>{selectedStudyDay=Number(button.dataset.addClassSlot);showClassModal(null,{day:selectedStudyDay,start:button.dataset.start,end:button.dataset.end});});
       $$('[data-edit-class]').forEach(button=>button.onclick=()=>showClassModal(state.study.classes.find(item=>item.id===button.dataset.editClass)));
       $$('[data-class-focus],[data-subject-focus]').forEach(button=>button.onclick=()=>{focusState.settings.minutes=25;saveFocus();switchPage('focus');toast('25 минутын study focus бэлэн');});
       $$('[data-edit-assignment]').forEach(button=>button.onclick=()=>showAssignmentModal(state.study.assignments.find(item=>item.id===button.dataset.editAssignment)));
@@ -4456,6 +4561,93 @@
     $('#assignmentForm').onsubmit=event=>{event.preventDefault();const id=$('#assignmentId').value||uid('assignment');const old=state.study.assignments.find(item=>item.id===id);const item={id,title:$('#assignmentTitle').value.trim(),subject:$('#assignmentSubject').value.trim(),due:$('#assignmentDue').value,priority:$('#assignmentPriority').value,done:old?.done||false,createdAt:old?.createdAt||Date.now(),updatedAt:Date.now()};state.study.assignments=old?state.study.assignments.map(entry=>entry.id===id?item:entry):[...state.study.assignments,item];save();closeModal('assignmentModal');renderStudy();toast('Даалгавар хадгалагдлаа');};
     $('#deleteAssignment').onclick=()=>{const id=$('#assignmentId').value;if(!id||!confirm('Энэ даалгаврыг устгах уу?'))return;state.study.assignments=state.study.assignments.filter(item=>item.id!==id);save();closeModal('assignmentModal');renderStudy();toast('Даалгавар устлаа');};
 
+    const HABIT_TEMPLATES = [
+      {name:'8 аяга ус',icon:'💧',color:'#14b8a6'},
+      {name:'20 минут ном',icon:'📖',color:'#6d5dfc'},
+      {name:'30 минут хөдөлгөөн',icon:'🏃',color:'#f97316'},
+      {name:'10 минут бясалгал',icon:'🧘',color:'#ec4899'},
+      {name:'23:00-с өмнө унтах',icon:'🌙',color:'#3b82f6'}
+    ];
+    function habitDay(date){return new Date(date+'T12:00:00').getDay()||7;}
+    function habitScheduled(habit,date){return habit.days.includes(habitDay(date));}
+    function habitDue(date=today()){return state.habits.filter(habit=>habitScheduled(habit,date));}
+    function habitStreak(habit){
+      let cursor=today(),streak=0,checked=0;
+      if(habitScheduled(habit,cursor)&&!habit.completions?.[cursor]) cursor=addDays(cursor,-1);
+      while(checked<3660){
+        if(habitScheduled(habit,cursor)){
+          if(!habit.completions?.[cursor]) break;
+          streak++;
+        }
+        cursor=addDays(cursor,-1);checked++;
+      }
+      return streak;
+    }
+    function habitWindow(days=7){
+      const dates=Array.from({length:days},(_,index)=>addDays(today(),index-days+1));
+      let due=0,done=0;
+      dates.forEach(date=>habitDue(date).forEach(habit=>{due++;if(habit.completions?.[date])done++;}));
+      return {dates,due,done,rate:due?Math.round(done/due*100):0};
+    }
+    function habitDaysLabel(habit){
+      if(habit.days.length===7) return 'Өдөр бүр';
+      return STUDY_DAYS.filter(day=>habit.days.includes(day.id)).map(day=>day.short).join(' · ');
+    }
+    function renderHabitDayChecks(selected=[]){
+      $('#habitDays').innerHTML=STUDY_DAYS.map(day=>`<label class="day-check"><input type="checkbox" value="${day.id}" ${selected.includes(day.id)?'checked':''}>${day.short}</label>`).join('');
+    }
+    function showHabitModal(item=null){
+      $('#habitModalTitle').textContent=item?'Habit засах':'Habit нэмэх';
+      $('#habitId').value=item?.id||'';$('#habitName').value=item?.name||'';$('#habitIcon').value=item?.icon||'✨';$('#habitColor').value=item?.color||'#14b8a6';
+      renderHabitDayChecks(item?.days||[1,2,3,4,5,6,7]);$('#deleteHabit').hidden=!item;openModal('habitModal');
+    }
+    function addHabitTemplate(index){
+      const template=HABIT_TEMPLATES[Number(index)];if(!template)return;
+      const existing=state.habits.find(habit=>habit.name===template.name);
+      if(existing){showHabitModal(existing);return;}
+      state.habits.push({id:uid('habit'),...template,days:[1,2,3,4,5,6,7],completions:{},createdAt:Date.now(),updatedAt:Date.now()});
+      save();renderHabits();renderTools();toast(`${template.icon} Habit нэмэгдлээ`);
+    }
+    function toggleHabit(id){
+      const habit=state.habits.find(item=>item.id===id);if(!habit||!habitScheduled(habit,today()))return;
+      habit.completions=habit.completions||{};const newlyCompleted=!habit.completions[today()];
+      if(newlyCompleted) habit.completions[today()]=true;else delete habit.completions[today()];
+      habit.updatedAt=Date.now();let earned=0;if(newlyCompleted) earned=awardPetXP(`habit:${habit.id}:${today()}`,8);
+      save();renderHabits();renderTools();renderPet();renderLifeInsights();
+      toast(newlyCompleted?`${habit.icon} Habit дууслаа${earned?' · +8 XP':''}`:'Habit буцаагдлаа');
+    }
+    function renderHabitSummary(){
+      if(!$('#habitTodayText'))return;
+      const due=habitDue(),done=due.filter(habit=>habit.completions?.[today()]).length,pct=due.length?Math.round(done/due.length*100):0;
+      $('#habitTodayText').textContent=due.length?`${done}/${due.length} habit дууссан${done===due.length?' · Momentum бүрэн!':' · дараагийн жижиг ялалтаа хийе.'}`:'Өнөөдөр давтагдах habit алга. Habit Lab-аас нэмээрэй.';
+      $('#habitTodayBar').style.width=`${pct}%`;
+    }
+    function renderHabits(){
+      if(!$('#habitList'))return;
+      const due=habitDue(),done=due.filter(habit=>habit.completions?.[today()]).length,week=habitWindow(7);
+      const best=Math.max(0,...state.habits.map(habitStreak));
+      $('#habitTodayStat').textContent=`${done}/${due.length}`;$('#habitBestStreak').textContent=`${best} өдөр`;$('#habitWeekRate').textContent=`${week.rate}%`;$('#habitXpToday').textContent=`+${done*8}`;$('#habitDueLabel').textContent=`${Math.max(0,due.length-done)} үлдсэн`;
+      $('#habitList').innerHTML=state.habits.length?state.habits.slice().sort((a,b)=>Number(habitScheduled(b,today()))-Number(habitScheduled(a,today()))||a.createdAt-b.createdAt).map(habit=>{
+        const scheduled=habitScheduled(habit,today()),complete=!!habit.completions?.[today()],streak=habitStreak(habit);
+        return `<article class="habit-item" style="--habit-color:${habit.color}"><button class="habit-toggle ${complete?'done':''}" type="button" data-toggle-habit="${esc(habit.id)}" ${scheduled?'':'disabled'} aria-label="${esc(habit.name)} ${complete?'буцаах':'дуусгах'}">${complete?'✓':habit.icon}</button><div class="habit-copy"><b>${esc(habit.name)}</b><span>${esc(habitDaysLabel(habit))}${scheduled?'':' · Өнөөдөр биш'}</span></div><div class="habit-streak"><b>🔥 ${streak}</b><button class="mini" type="button" data-edit-habit="${esc(habit.id)}" aria-label="${esc(habit.name)} засах">✎</button></div></article>`;
+      }).join(''):'<div class="habit-empty">🌱 Эхний habit-аа нэмээд momentum-оо эхлүүлээрэй.</div>';
+      $('#habitTemplates').innerHTML=HABIT_TEMPLATES.map((template,index)=>`<button class="habit-template" type="button" data-habit-template="${index}">${template.icon} ${esc(template.name)}</button>`).join('');
+      const current=new Date(today()+'T12:00:00'),mondayOffset=(current.getDay()+6)%7,start=addDays(today(),-mondayOffset-21),heatDates=Array.from({length:28},(_,index)=>addDays(start,index));
+      let heatDue=0,heatDone=0;
+      $('#habitHeatmap').innerHTML=heatDates.map(date=>{const scheduled=habitDue(date),count=scheduled.filter(habit=>habit.completions?.[date]).length,isFuture=date>today();if(!isFuture){heatDue+=scheduled.length;heatDone+=count;}const ratio=scheduled.length?count/scheduled.length:0,level=isFuture?0:ratio===1&&count?3:ratio>=.5?2:count?1:0;return `<i data-level="${level}" title="${esc(shortDate(date))}: ${count}/${scheduled.length} habit${isFuture?' · upcoming':''}"></i>`;}).join('');
+      $('#habitHeatmapRate').textContent=`${heatDue?Math.round(heatDone/heatDue*100):0}%`;
+      const ranked=state.habits.map(habit=>{let scheduled=0,complete=0;week.dates.forEach(date=>{if(habitScheduled(habit,date)){scheduled++;if(habit.completions?.[date])complete++;}});return{habit,scheduled,complete,rate:scheduled?complete/scheduled:0};}).sort((a,b)=>b.rate-a.rate||b.complete-a.complete);
+      const top=ranked[0],review=top&&top.complete?`<strong>${top.habit.icon} “${esc(top.habit.name)}” хамгийн тогтвортой.</strong><p>Энэ 7 хоногт ${top.complete}/${top.scheduled} удаа хийсэн. Нийт momentum ${week.rate}%. ${week.rate>=80?'Энэ хурдаа хадгалаарай!':'Маргааш нэг habit-аа урьдчилж цагтай болгоорой.'}</p>`:'<strong>Momentum эхлүүлэхэд бэлэн.</strong><p>Өнөөдөр нэг habit дуусгахад Pet +8 XP авна.</p>';
+      $('#habitReview').innerHTML=review;
+      renderHabitSummary();
+      $$('[data-toggle-habit]').forEach(button=>button.onclick=()=>toggleHabit(button.dataset.toggleHabit));
+      $$('[data-edit-habit]').forEach(button=>button.onclick=()=>showHabitModal(state.habits.find(habit=>habit.id===button.dataset.editHabit)));
+      $$('[data-habit-template]').forEach(button=>button.onclick=()=>addHabitTemplate(button.dataset.habitTemplate));
+    }
+    $('#addHabit').onclick=()=>showHabitModal();
+    $('#habitForm').onsubmit=event=>{event.preventDefault();const days=$$('#habitDays input:checked').map(input=>Number(input.value));if(!days.length){toast('Дор хаяж нэг өдөр сонгоорой');return;}const id=$('#habitId').value||uid('habit'),old=state.habits.find(habit=>habit.id===id);const item={id,name:$('#habitName').value.trim(),icon:$('#habitIcon').value,color:$('#habitColor').value,days,completions:{...(old?.completions||{})},createdAt:old?.createdAt||Date.now(),updatedAt:Date.now()};state.habits=old?state.habits.map(habit=>habit.id===id?item:habit):[...state.habits,item];save();closeModal('habitModal');renderHabits();renderTools();renderPet();toast('Habit хадгалагдлаа');};
+    $('#deleteHabit').onclick=()=>{const id=$('#habitId').value;if(!id||!confirm('Энэ habit болон completion history-г устгах уу?'))return;state.habits=state.habits.filter(habit=>habit.id!==id);save();closeModal('habitModal');renderHabits();renderTools();renderPet();toast('Habit устлаа');};
+
     function renderTools(){
       const activeGoals = state.goals.filter(g=>!g.completed).length;
       const entries = Object.values(state.journal||{}).filter(e=>e?.title || e?.body?.trim()).length;
@@ -4466,6 +4658,7 @@
       if($('#toolJournalStat')) $('#toolJournalStat').textContent = entries + ' бичлэг';
       if($('#toolAiStat')) $('#toolAiStat').textContent = navigator.onLine ? 'Online' : 'Offline';
       if($('#toolFocusStat')) $('#toolFocusStat').textContent = `Өнөөдөр ${focusDayStats().minutes} мин`;
+      if($('#toolHabitsStat')){const due=habitDue(),done=due.filter(habit=>habit.completions?.[today()]).length;$('#toolHabitsStat').textContent=`${done}/${due.length} өнөөдөр`;}
     }
 
     $$('[data-open-tool]').forEach(b => b.onclick = () => switchPage(b.dataset.openTool));
@@ -4522,6 +4715,10 @@
           pendingAssignments:state.study.assignments.filter(item=>!item.done).slice(0,10).map(item=>({title:item.title,subject:item.subject,due:item.due,priority:item.priority})),
           weeklyClassHours:Number((state.study.classes.reduce((sum,item)=>sum+studyMinutes(item)*item.days.length,0)/60).toFixed(1))
         },
+        habits:(()=>{
+          const week=habitWindow(7),due=habitDue();
+          return {today:{done:due.filter(habit=>habit.completions?.[today()]).length,total:due.length},weekRate:week.rate,bestStreak:Math.max(0,...state.habits.map(habitStreak)),items:state.habits.slice(0,12).map(habit=>({name:habit.name,icon:habit.icon,schedule:habitDaysLabel(habit),streak:habitStreak(habit),doneToday:!!habit.completions?.[today()]}))};
+        })(),
         money:(() => {
           const m = moneySummary(today().slice(0,7));
           return {
@@ -4691,7 +4888,7 @@
     function switchPage(name){
       saveJournal();
 
-      const toolPages = ['goals','money','journal','ai','focus'];
+      const toolPages = ['goals','money','journal','ai','focus','habits'];
       const navPage = toolPages.includes(name) ? 'tools' : name;
 
       $$('.page').forEach(p => p.classList.toggle('active',p.id===`page-${name}`));
@@ -4704,6 +4901,7 @@
       if(name==='money') renderMoney();
       if(name==='focus') renderFocus();
       if(name==='study') renderStudy();
+      if(name==='habits') renderHabits();
       if(name==='tools') renderTools();
 
       window.scrollTo({top:0,behavior:'smooth'});
@@ -4913,7 +5111,7 @@
       try{
         const registration = await readyServiceWorker();
         if(!registration) return '';
-        const module = await import('/fcm_setup.js?v=1.6.0');
+        const module = await import('/fcm_setup.js?v=2.1.0');
         const token = await module.enableNotifications(registration);
         if(token){
           localStorage.setItem(PUSH_TOKEN_KEY,token);
@@ -5049,11 +5247,12 @@
       renderTools();
       renderFocus();
       renderStudy();
+      renderHabits();
 
       await initializeFirebaseSession();
 
       const hash = location.hash.slice(1);
-      if(['today','planner','study','tools','goals','money','journal','ai','focus'].includes(hash)){
+      if(['today','planner','study','tools','goals','money','journal','ai','focus','habits'].includes(hash)){
         switchPage(hash);
       }
     }

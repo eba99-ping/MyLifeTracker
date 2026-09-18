@@ -1,8 +1,29 @@
-# Өрнөл v2.0 test checklist
+# Өрнөл v2.1 test checklist
+
+## Study timetable and Google login
+
+- [ ] Confirm the Study page shows seven days and seven numbered periods.
+- [ ] Tap an empty cell and confirm its day, start time and end time prefill the class form.
+- [ ] Save a class and confirm it appears in the correct timetable cell and day list.
+- [ ] Tap an occupied timetable cell and confirm the existing class opens for editing.
+- [ ] Confirm room/teacher, weekly hours, subject cards and reminders update after editing.
+- [ ] Confirm the timetable scrolls inside its card at 320 px without page-level horizontal overflow.
+- [ ] Confirm the production domain is in Firebase Authorized Domains and Google provider is enabled.
+- [ ] Test Google popup login on desktop, Android Chrome, iOS Safari and the installed PWA.
+- [ ] Confirm cancelled/blocked popup errors show a useful Mongolian message without breaking Device Mode.
+
+## Habit Lab
+
+- [ ] Add a custom habit with selected weekdays and reload to confirm persistence.
+- [ ] Add a quick-start template and confirm duplicate template taps open the existing habit.
+- [ ] Complete today's habit and confirm streak, heatmap, Today progress and +8 Pet XP update once.
+- [ ] Uncheck/re-check the same occurrence and confirm XP is not awarded twice.
+- [ ] Confirm Weekly Review and AI Coach context reflect the last seven days.
+- [ ] Confirm Habit Lab syncs through Backup/Restore and account Cloud Sync.
 
 ## Brand and Study Hub
 
-- [ ] Confirm the Өрнөл logo, name, tagline and v2.0.0 version appear on auth, header, footer, manifest and install UI.
+- [ ] Confirm the Өрнөл logo, name, tagline and v2.1.0 version appear on auth, header, footer, manifest and install UI.
 - [ ] Add a class with teacher, room/link, color and two or more selected weekdays; reload and confirm it persists.
 - [ ] Edit and delete a class; confirm Today, weekly hours, next class and subject cards update.
 - [ ] Add an assignment with subject, due date and priority; edit, complete and delete it.

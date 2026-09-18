@@ -1,8 +1,8 @@
 {
   "name": "ornol-life-os",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
-  "description": "Өрнөл personal life OS with Study Hub, Cloud Push, planner, Focus, AI Pet and Cloud Sync",
+  "description": "Өрнөл personal life OS with 7-period Study timetable, Habit Lab, Cloud Push, Focus, AI Pet and Cloud Sync",
   "type": "module",
   "scripts": {
     "check": "node scripts/check.mjs",

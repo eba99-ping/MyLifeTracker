@@ -2,7 +2,7 @@
   "id": "/",
   "name": "Өрнөл — Personal Life OS",
   "short_name": "Өрнөл",
-  "description": "Study Hub, Cloud Push, planner, Focus, goals, mood journal, AI Coach and money in one personal life OS.",
+  "description": "7-period Study timetable, Habit Lab, Cloud Push, planner, Focus, goals, AI Coach and money in one personal life OS.",
   "lang": "mn",
   "dir": "ltr",
   "start_url": "/?source=pwa",
@@ -21,6 +21,7 @@
     {"name":"Өнөөдөр","short_name":"Today","url":"/#today","icons":[{"src":"/ornol-mark.png","sizes":"1254x1254"}]},
     {"name":"Planner","short_name":"Planner","url":"/#planner","icons":[{"src":"/ornol-mark.png","sizes":"1254x1254"}]},
     {"name":"Study Hub","short_name":"Study","url":"/#study","icons":[{"src":"/ornol-mark.png","sizes":"1254x1254"}]},
+    {"name":"Habit Lab","short_name":"Habits","url":"/#habits","icons":[{"src":"/ornol-mark.png","sizes":"1254x1254"}]},
     {"name":"Journal","short_name":"Journal","url":"/#journal","icons":[{"src":"/ornol-mark.png","sizes":"1254x1254"}]},
     {"name":"Focus Mode","short_name":"Focus","url":"/#focus","icons":[{"src":"/ornol-mark.png","sizes":"1254x1254"}]}
   ]

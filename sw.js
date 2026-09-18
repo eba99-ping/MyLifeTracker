@@ -1,4 +1,4 @@
-const CACHE = 'ornol-v2.0.0';
+const CACHE = 'ornol-v2.1.0';
 const APP_SHELL = ['/', '/index.html', '/manifest.json', '/favicon.svg', '/ornol-mark.png', '/icon-192.png', '/icon-512.png', '/apple-touch-icon.png', '/fcm_setup.js'];
 
 self.addEventListener('notificationclick',event => {

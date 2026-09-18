@@ -9,7 +9,7 @@ JSON.parse(fs.readFileSync('vercel.json','utf8'));
 JSON.parse(fs.readFileSync('firebase.json','utf8'));
 
 const html = fs.readFileSync('index.html','utf8');
-for(const marker of ['Өрнөл','page-study','classModal','assignmentModal','pushDeliveryStatus','myLifeTracker.v5','myLifeTracker.profile.v1','myLifeTracker.session.v1','myLifeTracker.pet.v1','myLifeTracker.quests.v1','myLifeTracker.focus.v1','myLifeTracker.cloud.v1','myLifeTracker.reminders.v1','taskReminderTime','testNotification','data-snooze-reminder','taskPriority','data-journal-mood','weeklyInsightsTitle','/manifest.json','/sw.js']) {
+for(const marker of ['Өрнөл','page-study','studyTimetable','STUDY_PERIODS','page-habits','habitModal','habitHeatmap','classModal','assignmentModal','pushDeliveryStatus','myLifeTracker.v5','myLifeTracker.profile.v1','myLifeTracker.session.v1','myLifeTracker.pet.v1','myLifeTracker.quests.v1','myLifeTracker.focus.v1','myLifeTracker.cloud.v1','myLifeTracker.reminders.v1','taskReminderTime','testNotification','data-snooze-reminder','taskPriority','data-journal-mood','weeklyInsightsTitle','/manifest.json','/sw.js']) {
   if(!html.includes(marker)) throw new Error(`Required compatibility marker missing: ${marker}`);
 }
 if((html.match(/<script/g)||[]).length !== (html.match(/<\/script>/g)||[]).length) throw new Error('Unbalanced script tags in index.html');

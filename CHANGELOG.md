@@ -1,5 +1,15 @@
 # Changelog
 
+## v2.1.0 — Momentum
+
+- Added an interactive seven-day, seven-period Study timetable with click-to-prefill class creation.
+- Kept timetable cells, per-day class lists, weekly hours and reminders synchronized from one migration-safe class record.
+- Added Habit Lab with custom schedules, quick templates, daily completion, streaks, 28-day heatmap and weekly review.
+- Added duplicate-safe +8 AI Pet XP for each habit occurrence and linked habit context to Today, Life Insights and AI Coach.
+- Replaced mobile Google redirect auth with popup auth to avoid third-party storage failures on Vercel-hosted browsers.
+- Confirmed the production Vercel domain is present in Firebase Authorized Domains and Google auth URI generation succeeds.
+- Preserved all v2.0 data, Firebase Auth, Cloud Sync, Planner, Goals, Journal, Money, Focus, PWA and reminder behavior.
+
 ## v2.0.0 — Өрнөл Final Edition
 
 - Rebranded the app as Өрнөл with a new generated logo, tagline, metadata, PWA identity and social preview.
