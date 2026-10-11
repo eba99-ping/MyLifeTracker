@@ -1,5 +1,15 @@
 # Changelog
 
+## v2.2.0 — Тэмүүл Rise
+
+- Google popup starts directly in the tap handler after Firebase has loaded; cold loads ask for a fresh tap, failed SDK loads can retry, and repeated taps cannot cancel an active attempt.
+- Installed-app login failures expose the Firebase error code and a Safari fallback explanation. Real iOS Home Screen sign-in still requires device verification.
+
+- Renamed the product from Өрнөл to Тэмүүл with the tagline “Өдөр бүр өөдөө.”
+- Added a new transparent brand mark combining an ascending path, subtle T silhouette and north-star spark.
+- Refreshed header, login, boot screen, footer, metadata, legal pages, PWA manifest, install icons, notifications, social preview and offline cache branding.
+- Preserved all user data keys, Firebase documents, auth behavior and feature logic.
+
 ## v2.1.0 — Momentum
 
 - Added an interactive seven-day, seven-period Study timetable with click-to-prefill class creation.

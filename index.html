@@ -4,31 +4,31 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#6d5dfc">
-  <meta name="description" content="Өрнөл — хичээлийн хуваарь, planner, Cloud Push, Focus, goals, journal, AI Coach болон money-г нэгтгэсэн personal life OS.">
-  <meta name="application-name" content="Өрнөл">
+  <meta name="description" content="Тэмүүл — хичээл, төлөвлөгөө, зорилго, habit, focus, money болон AI Coach-ийг нэгтгэсэн personal growth OS.">
+  <meta name="application-name" content="Тэмүүл">
   <meta name="author" content="Elbex Labs">
   <meta name="robots" content="index,follow,max-image-preview:large">
   <meta name="color-scheme" content="light dark">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Өрнөл">
+  <meta property="og:site_name" content="Тэмүүл">
   <meta property="og:url" content="https://my-life-tracker-seven.vercel.app/">
-  <meta property="og:title" content="Өрнөл — Амьдралын өрнөлөө бүтээ">
-  <meta property="og:description" content="Хичээл, төлөвлөгөө, зорилго, focus болон AI Coach — нэг ухаалаг орон зайд.">
+  <meta property="og:title" content="Тэмүүл — Өдөр бүр өөдөө">
+  <meta property="og:description" content="Хичээл, төлөвлөгөө, зорилго, habit, focus болон AI Coach — нэг ухаалаг орон зайд.">
   <meta property="og:image" content="https://my-life-tracker-seven.vercel.app/social-preview.svg">
-  <meta property="og:image:alt" content="Өрнөл — Амьдралын өрнөлөө бүтээ">
+  <meta property="og:image:alt" content="Тэмүүл — Өдөр бүр өөдөө">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Өрнөл">
+  <meta name="twitter:title" content="Тэмүүл">
   <meta name="twitter:description" content="Study Hub, Cloud Push, planner, goals, focus, mood болон AI Coach — бүгд хамт.">
   <meta name="twitter:image" content="https://my-life-tracker-seven.vercel.app/social-preview.svg">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Өрнөл">
-  <title>Өрнөл — Personal Life OS</title>
+  <meta name="apple-mobile-web-app-title" content="Тэмүүл">
+  <title>Тэмүүл — Personal Growth OS</title>
   <link rel="canonical" href="https://my-life-tracker-seven.vercel.app/">
   <link rel="manifest" href="/manifest.json">
-  <link rel="apple-touch-icon" href="/ornol-mark.png">
-  <link rel="icon" type="image/png" href="/ornol-mark.png">
-  <link rel="icon" type="image/png" href="/ornol-mark.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <script>
     try {
       const savedTheme = localStorage.getItem('myLifeTracker.theme.v1');
@@ -39,7 +39,7 @@
   <style>
     :root{
       --bg:#f5f7fb;--surface:#fff;--surface-2:#f8fafc;--ink:#101828;--muted:#667085;
-      --line:#e4e7ec;--brand:#6d5dfc;--brand-2:#8b7fff;--brand-soft:#efedff;
+      --line:#e4e7ec;--brand:#4f46e5;--brand-2:#8054ff;--brand-soft:#eef2ff;
       --green:#16a36a;--green-soft:#eafaf3;--red:#e5484d;--red-soft:#fff0f0;
       --amber:#f79009;--shadow:0 16px 50px rgba(16,24,40,.09);--radius:22px;
       --nav-h:78px;color-scheme:light
@@ -657,17 +657,17 @@
 </head>
 
 <body class="is-booting">
-  <div class="boot-screen" id="bootScreen" role="status" aria-live="polite"><div class="boot-card"><div class="boot-logo">✦</div><strong>Өрнөл</strong><span>Таны орон зайг бэлдэж байна…</span></div></div>
+  <div class="boot-screen" id="bootScreen" role="status" aria-live="polite"><div class="boot-card"><img src="/temuul-mark.png" alt="" style="width:64px;height:64px;object-fit:contain"><strong>Тэмүүл</strong><span>Таны орон зайг бэлдэж байна…</span></div></div>
   <section class="auth-screen" id="authScreen" aria-label="Login and signup">
     <div class="auth-shell">
       <div class="auth-hero">
         <div>
           <div class="auth-logo">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAEf0lEQVR42u3bMU7dQBQFUBhckRRkB0SiZidsAqXIklJEbIKdUCOxBBpEh5SCBikC/M3MeN6bc8sk+rGfj++M8ef429n5kcjWFCMQgAQgAUgAEgFIABKABCARgAQgAUgAEgFIABKABCARgAQgAUgAEoBENmQJetzXV/f5LsbN7UW4Yz6O8nthKcUk8DQ6oAndxJI0KCBuokgaDhA6sRgNBAidiIyGAIROXEaFntDZfXqFHoZCLmHo5FjOCj2qKBggejLNttDDUBhA9OSbc6GHoQCA6MlqqNDD0NCA6MltyFdaZWBA6id9CRV6GPpKWr0L66/n8vQk1kW9e37p/D+2eFm2hL6xwqF57+D7Yxq6gTrUT2g6O3ZS9RJaQt+4yfJ6arHaqH4DtaufxHR6tlHdEiqx7s55EuV8KwNqVD+z6Wl61nWv0eJGtCtKu4RNrifEHGoCqtuN9LSbRsUr5WWqZASkfqLMpBqgiq1IT4fJ1LpexX2mh+yBGubXHzOIA0j9hJuSBvq8fpRQc0BVdmTqp/Osqlw1DbRq96OERgekfoJOTAMJQF2e3q1iAElSQKNtgN4rm9FKaIS5aSABSAAaf/2ylQZIANq1fpQQQALQrvWjhAASgASguOuXVQwgAWjX+lFCAAlAAlDc9csqBpAAtGv9KCGA5KtZpj3zj5vj+4+f///h0+PDBx/19zdA1qx36Lz9q48ZzSZpQWelnrf/5j1DExbSws1BelYamqeQFnQO1bPe0AyFtEzuZpueQw0lLqRlcjp7HWQaRgs32+pnQwmlLKRlZjoKaVJA+d4exC2kBR2FNBGg18kmZqSBuk45jSR7IIU0HZ08j/FfLKSnx4fNT/LbnuGP/BxIIU1bOZkBbS6kbSV0UP14F5a8kA41tF6Pt/GzFNJ6Q2v0+D7QjIW0xtCnenwjcepCevVx0HeiJ3QzL6CVhWSDvDJ+rUcAqrGi7fgJAAlASkj9ACQACUDTrGLWL4AEoJ1KSP0AJAAJQBFXMesXQALQTiWkfgASgHYqIfUDkAAkAL3N3fNLiFVstPVrhLlpIAGoSwnZPgMkeQGNtg0aP4NMTAOtWsWsX20B3dxeKKFw9VPlqmmgz0tI/YQBpITCTUkDHfw8L0MDUkKx5lMNUJUdGUPdJlPrehX3me6xB5IUgCquYkqo6TQqXqkyz9ToaZElxOwuT0/QmeIxvu4qNnkVNTrruteouBed71dy/O3svPqHXl/dtzvi9MtZUzrVl4gl6HxTMorYsk0aqHUJ5WujPnRa7FCXNHMPhynHrq5VA3UrIdn3AbmEO2IZ6lqUoMctg1wFL1NlbEBKKHH9dGoghrLq6beEMZRST9c9EEP59PTeRDOUb84l8bnRkxAQQ8lmWyY5T3oapeG7sDXxviz6DVmmPXN6MgBiKPr0dl7CLGfRb7yBAGEUsbOHA4RRrOV+UEAkRdkmjg5oZkkhHi/CAJrBU8QH0qiAZJD4SqsAJAAJQAKQCEACkAAkAIkAJAAJQAKQCEACkAAkAIkAJAAJQAKQTJt/c8S9iPFTHGQAAAAASUVORK5CYII=" alt="My Life Tracker">
-            <div><strong>Өрнөл</strong><div style="color:#9aa4b7;font-size:12px">Your personal life OS</div></div>
+            <img src="/temuul-mark.png" alt="Тэмүүл">
+            <div><strong>Тэмүүл</strong><div style="color:#9aa4b7;font-size:12px">Өдөр бүр өөдөө.</div></div>
           </div>
 
-          <h1>Амьдралынхаа<br>өрнөлийг бүтээ.</h1>
+          <h1>Өдөр бүр<br>өөдөө.</h1>
           <p>Хичээл, planner, goals, focus, money, Journal болон AI Coach — бүгд нэг app дотор.</p>
 
           <div class="auth-features">
@@ -678,7 +678,7 @@
           </div>
         </div>
 
-        <div class="auth-credit">Өрнөл v2.1 · Momentum · Built by Elbex Labs · 2026</div>
+        <div class="auth-credit">Тэмүүл v2.2 · Rise · Built by Elbex Labs · 2026</div>
       </div>
 
       <div class="auth-card">
@@ -691,6 +691,7 @@
         </div>
 
         <div class="auth-error" id="authError"></div>
+        <p id="installedAuthHelp" hidden style="font-size:14px;line-height:1.5">iPhone дээр нэвтрэх цонх нээгдэхгүй бол Safari-г нээгээд <a href="https://my-life-tracker-seven.vercel.app/" target="_blank" rel="noopener">энэ хаягийг</a> оруулж нэвтрээрэй. Safari болон Home Screen app-ийн нэвтрэх төлөв тусдаа байж болно.</p>
 
         <button class="provider-btn" type="button" data-provider="google" id="googleAuthBtn">G&nbsp; Continue with Google</button>
         <button class="provider-btn apple" type="button" data-provider="apple" id="appleAuthBtn">Apple · Continue</button>
@@ -706,7 +707,7 @@
 
         <button class="device-btn" type="button" id="deviceModeBtn">📱 Continue on this device</button>
         <button class="device-btn" type="button" id="howToStartBtn" style="margin-top:8px;background:#fff">? How to start</button>
-        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.1.0</div>
+        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.2.0</div>
       </div>
     </div>
   </section>
@@ -714,8 +715,8 @@
   <main class="app">
     <header class="topbar">
       <div class="brand">
-        <img class="app-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAEf0lEQVR42u3bMU7dQBQFUBhckRRkB0SiZidsAqXIklJEbIKdUCOxBBpEh5SCBikC/M3MeN6bc8sk+rGfj++M8ef429n5kcjWFCMQgAQgAUgAEgFIABKABCARgAQgAUgAEgFIABKABCARgAQgAUgAEoBENmQJetzXV/f5LsbN7UW4Yz6O8nthKcUk8DQ6oAndxJI0KCBuokgaDhA6sRgNBAidiIyGAIROXEaFntDZfXqFHoZCLmHo5FjOCj2qKBggejLNttDDUBhA9OSbc6GHoQCA6MlqqNDD0NCA6MltyFdaZWBA6id9CRV6GPpKWr0L66/n8vQk1kW9e37p/D+2eFm2hL6xwqF57+D7Yxq6gTrUT2g6O3ZS9RJaQt+4yfJ6arHaqH4DtaufxHR6tlHdEiqx7s55EuV8KwNqVD+z6Wl61nWv0eJGtCtKu4RNrifEHGoCqtuN9LSbRsUr5WWqZASkfqLMpBqgiq1IT4fJ1LpexX2mh+yBGubXHzOIA0j9hJuSBvq8fpRQc0BVdmTqp/Osqlw1DbRq96OERgekfoJOTAMJQF2e3q1iAElSQKNtgN4rm9FKaIS5aSABSAAaf/2ylQZIANq1fpQQQALQrvWjhAASgASguOuXVQwgAWjX+lFCAAlAAlDc9csqBpAAtGv9KCGA5KtZpj3zj5vj+4+f///h0+PDBx/19zdA1qx36Lz9q48ZzSZpQWelnrf/5j1DExbSws1BelYamqeQFnQO1bPe0AyFtEzuZpueQw0lLqRlcjp7HWQaRgs32+pnQwmlLKRlZjoKaVJA+d4exC2kBR2FNBGg18kmZqSBuk45jSR7IIU0HZ08j/FfLKSnx4fNT/LbnuGP/BxIIU1bOZkBbS6kbSV0UP14F5a8kA41tF6Pt/GzFNJ6Q2v0+D7QjIW0xtCnenwjcepCevVx0HeiJ3QzL6CVhWSDvDJ+rUcAqrGi7fgJAAlASkj9ACQACUDTrGLWL4AEoJ1KSP0AJAAJQBFXMesXQALQTiWkfgASgHYqIfUDkAAkAL3N3fNLiFVstPVrhLlpIAGoSwnZPgMkeQGNtg0aP4NMTAOtWsWsX20B3dxeKKFw9VPlqmmgz0tI/YQBpITCTUkDHfw8L0MDUkKx5lMNUJUdGUPdJlPrehX3me6xB5IUgCquYkqo6TQqXqkyz9ToaZElxOwuT0/QmeIxvu4qNnkVNTrruteouBed71dy/O3svPqHXl/dtzvi9MtZUzrVl4gl6HxTMorYsk0aqHUJ5WujPnRa7FCXNHMPhynHrq5VA3UrIdn3AbmEO2IZ6lqUoMctg1wFL1NlbEBKKHH9dGoghrLq6beEMZRST9c9EEP59PTeRDOUb84l8bnRkxAQQ8lmWyY5T3oapeG7sDXxviz6DVmmPXN6MgBiKPr0dl7CLGfRb7yBAGEUsbOHA4RRrOV+UEAkRdkmjg5oZkkhHi/CAJrBU8QH0qiAZJD4SqsAJAAJQAKQCEACkAAkAIkAJAAJQAKQCEACkAAkAIkAJAAJQAKQTJt/c8S9iPFTHGQAAAAASUVORK5CYII=" alt="My Life Tracker">
-        <div><h1>Өрнөл</h1><p>by Elbex Labs</p></div>
+        <img class="app-logo" src="/temuul-mark.png" alt="Тэмүүл">
+        <div><h1>Тэмүүл</h1><p>Өдөр бүр өөдөө · Elbex Labs</p></div>
       </div>
 
       <div class="top-actions">
@@ -752,7 +753,7 @@
         <div class="pet-home">
           <button class="pet-stage" id="petStage" type="button" data-mood="neutral" aria-label="AI Coach нээх">
             <span class="pet-accessory" id="petAccessory" aria-hidden="true"></span>
-            <svg class="pet-svg" viewBox="0 0 200 205" role="img" aria-label="Өрнөл AI Pet">
+            <svg class="pet-svg" viewBox="0 0 200 205" role="img" aria-label="Тэмүүл AI Pet">
               <ellipse class="pet-body-fill" cx="66" cy="48" rx="22" ry="48" transform="rotate(-17 66 48)"/>
               <ellipse class="pet-body-fill" cx="134" cy="48" rx="22" ry="48" transform="rotate(17 134 48)"/>
               <ellipse class="pet-ear-inner" cx="68" cy="49" rx="9" ry="30" transform="rotate(-17 68 49)"/>
@@ -1167,7 +1168,7 @@
       </div>
     </section>
     <footer class="site-footer">
-      <span>© 2026 Өрнөл · Built by Elbex Labs · v2.1 Momentum</span>
+      <span>© 2026 Тэмүүл · Built by Elbex Labs · v2.2 Rise</span>
       <nav aria-label="Legal and company links"><a href="/about.html">About</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></nav>
     </footer>
   </main>
@@ -1535,6 +1536,8 @@
     });
 
     let firebaseBundlePromise = null;
+    let firebaseReadyBundle = null;
+    let googleLoginBusy = false;
     let firebaseCurrentUser = null;
     let cloudMeta = null;
     let cloudSyncTimer = null;
@@ -2707,6 +2710,10 @@
       return location.protocol === 'file:';
     }
 
+    function isInstalledApp(){
+      return navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+    }
+
     function firebaseErrorMessage(error){
       const code = error?.code || '';
       const raw = error?.message || '';
@@ -2723,7 +2730,7 @@
         'auth/cancelled-popup-request':'Өмнөх Google login цонх хаагдаж байна. Нэг удаа дахин оролдоорой.',
         'auth/operation-not-supported-in-this-environment':'Энэ browser Google login popup дэмжихгүй байна. Chrome эсвэл Safari-аар нээгээрэй.',
         'auth/account-exists-with-different-credential':'Энэ email өөр нэвтрэх аргаар бүртгэлтэй байна. Email login ашиглаад account-аа холбоно уу.',
-        'auth/unauthorized-domain':'Энэ Vercel domain Firebase Authorized domains-д нэмэгдээгүй байна.',
+        'auth/unauthorized-domain':`Google нэвтрэлт энэ хаягийг зөвшөөрсөнгүй: ${location.hostname}. Safari дээр https://my-life-tracker-seven.vercel.app/ хаягаар нээгээд дахин оролдоорой. Алдаа хэвээр бол энэ хаяг болон доорх алдааны кодыг support-д илгээнэ үү.`,
         'auth/network-request-failed':'Интернет холболтоо шалгаад дахин оролдоорой.',
         'auth/too-many-requests':'Олон удаа оролдсон байна. Түр хүлээгээд дахин оролдоорой.',
         'auth/operation-not-allowed':'Firebase дээр энэ нэвтрэх аргыг Enable хийгээгүй байна.',
@@ -2754,7 +2761,7 @@
         const db = firestoreMod.getFirestore(app);
         authMod.useDeviceLanguage(auth);
 
-        return {
+        const bundle = {
           auth,
           db,
           GoogleAuthProvider:authMod.GoogleAuthProvider,
@@ -2773,7 +2780,15 @@
           serverTimestamp:firestoreMod.serverTimestamp,
           arrayUnion:firestoreMod.arrayUnion
         };
-      })();
+        firebaseReadyBundle = bundle;
+        renderCloudAuthAvailability();
+        return bundle;
+      })().catch(error => {
+        firebaseBundlePromise = null;
+        firebaseReadyBundle = null;
+        renderCloudAuthAvailability();
+        throw error;
+      });
 
       return firebaseBundlePromise;
     }
@@ -3225,6 +3240,7 @@
     }
 
     async function cloudProviderAction(provider){
+      if(googleLoginBusy) return;
       setAuthError('');
 
       if(provider === 'apple'){
@@ -3237,10 +3253,24 @@
         return;
       }
 
+      if(provider !== 'google') return;
+      if(/FBAN|FBAV|Instagram|Line\/|; wv\)/i.test(navigator.userAgent)){
+        setAuthError('Энэ app-ийн доторх browser Google нэвтрэлтийг хязгаарлаж болно. Цэснээс Open in Chrome эсвэл Open in Safari сонгоод дахин нэвтрээрэй.');
+        return;
+      }
+      if(!firebaseReadyBundle){
+        setAuthError('Google нэвтрэлтийг бэлдэж байна…');
+        try{
+          await initFirebaseAuth();
+          setAuthError('Бэлэн боллоо. Google товчийг дахин дараарай.');
+        }catch(error){setAuthError(firebaseErrorMessage(error));}
+        return;
+      }
       try{
-        const fb = await initFirebaseAuth();
-
-        if(provider === 'google'){
+        const fb = firebaseReadyBundle;
+        googleLoginBusy = true;
+        renderCloudAuthAvailability();
+        {
           const googleProvider = new fb.GoogleAuthProvider();
           googleProvider.setCustomParameters({prompt:'select_account'});
           // Popup avoids the third-party storage failure that affects redirect
@@ -3252,7 +3282,11 @@
         }
       }catch(error){
         console.error('Firebase provider login:',error);
-        setAuthError(firebaseErrorMessage(error));
+        $('#installedAuthHelp').hidden = !isInstalledApp();
+        setAuthError(firebaseErrorMessage(error)+(error?.code?` (${error.code})`:''));
+      }finally{
+        googleLoginBusy = false;
+        renderCloudAuthAvailability();
       }
     }
 
@@ -3263,10 +3297,11 @@
       const appleBtn = $('#appleAuthBtn');
 
       if(googleBtn){
-        googleBtn.disabled = isLocalFilePreview();
+        googleBtn.disabled = isLocalFilePreview() || googleLoginBusy;
+        googleBtn.setAttribute('aria-busy',String(googleLoginBusy));
         googleBtn.innerHTML = isLocalFilePreview()
           ? 'G&nbsp; Google · Use Vercel link'
-          : 'G&nbsp; Continue with Google';
+          : googleLoginBusy ? 'Google нэвтрэлт үргэлжилж байна…' : 'G&nbsp; Continue with Google';
       }
 
       if(appleBtn){
@@ -3492,7 +3527,7 @@
 
     $('#backupData').addEventListener('click',() => {
       const backup = {
-        app:'Өрнөл',
+        app:'Тэмүүл',
 version:11,
         exportedAt:new Date().toISOString(),
         state,
@@ -3503,7 +3538,7 @@ version:11,
         settings:state.settings || {}
       };
 
-      downloadJSON(`ornol-backup-${today()}.json`,backup);
+      downloadJSON(`temuul-backup-${today()}.json`,backup);
       toast('💾 Backup бэлэн');
     });
 
@@ -5087,17 +5122,17 @@ version:11,
       if(notificationPermission()!=='granted') return false;
       const options = {
         body:event.test ? 'Notification зөв ажиллаж байна ✨' : (event.body||`${event.title}${event.priority==='high'?' · High priority':''}`),
-        icon:'/ornol-mark.png',badge:'/icon-192.png',tag:event.id,renotify:true,
+        icon:'/temuul-mark.png',badge:'/icon-192.png',tag:event.id,renotify:true,
         data:{url:'/#today',eventId:event.id,taskId:event.taskId||'',date:event.date||today()},
         actions:event.test ? [] : [{action:'snooze',title:'10 мин snooze'},{action:'open',title:'App нээх'}]
       };
       try{
         if('serviceWorker' in navigator){
           const registration = await readyServiceWorker();
-          if(registration) await registration.showNotification(event.notificationTitle||(event.test?'Өрнөл ready 🔔':'Task хийх цаг боллоо'),options);
-          else new Notification(event.notificationTitle||(event.test?'Өрнөл ready 🔔':'Task хийх цаг боллоо'),options);
+          if(registration) await registration.showNotification(event.notificationTitle||(event.test?'Тэмүүл ready 🔔':'Task хийх цаг боллоо'),options);
+          else new Notification(event.notificationTitle||(event.test?'Тэмүүл ready 🔔':'Task хийх цаг боллоо'),options);
         }else{
-          new Notification(event.notificationTitle||(event.test?'Өрнөл ready 🔔':'Task хийх цаг боллоо'),options);
+          new Notification(event.notificationTitle||(event.test?'Тэмүүл ready 🔔':'Task хийх цаг боллоо'),options);
         }
         return true;
       }catch(error){
@@ -5111,7 +5146,7 @@ version:11,
       try{
         const registration = await readyServiceWorker();
         if(!registration) return '';
-        const module = await import('/fcm_setup.js?v=2.1.0');
+        const module = await import('/fcm_setup.js?v=2.2.0');
         const token = await module.enableNotifications(registration);
         if(token){
           localStorage.setItem(PUSH_TOKEN_KEY,token);
@@ -5214,7 +5249,7 @@ version:11,
     window.addEventListener('appinstalled',() => {
       deferredInstallPrompt = null;
       installBanner?.classList.remove('show');
-      toast('Өрнөл амжилттай суулаа');
+      toast('Тэмүүл амжилттай суулаа');
     });
 
     if('serviceWorker' in navigator){
@@ -5230,8 +5265,8 @@ version:11,
     }
 
     function applyBrandAssets(){
-      const authLogo=$('.auth-logo img');if(authLogo){authLogo.src='/ornol-mark.png';authLogo.alt='Өрнөл';}
-      $$('.app-logo').forEach(image=>{image.src='/ornol-mark.png';image.alt='Өрнөл';});
+      const authLogo=$('.auth-logo img');if(authLogo){authLogo.src='/temuul-mark.png';authLogo.alt='Тэмүүл';}
+      $$('.app-logo').forEach(image=>{image.src='/temuul-mark.png';image.alt='Тэмүүл';});
     }
 
     async function startApp(){

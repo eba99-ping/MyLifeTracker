@@ -1,6 +1,12 @@
-# Өрнөл v2.1 — Momentum
+# Тэмүүл v2.2 — Rise
 
-Өрнөл бол Study Hub, Planner, Smart Goals, Focus, Journal, Money, AI Coach, AI Pet, Cloud Sync болон Smart Reminders-ийг нэг дор багтаасан mobile-first PWA юм. Хуучин `myLifeTracker.*` storage key болон Firestore user document-ийг хэвээр үлдээсэн тул өмнөх хэрэглэгчийн өгөгдөл migration шаардахгүй үргэлжилнэ.
+Тэмүүл бол Study Hub, Planner, Smart Goals, Habit Lab, Focus, Journal, Money, AI Coach, AI Pet, Cloud Sync болон Smart Reminders-ийг нэг дор багтаасан mobile-first personal growth PWA юм. Хуучин `myLifeTracker.*` storage key болон Firestore user document-ийг хэвээр үлдээсэн тул өмнөх хэрэглэгчийн өгөгдөл migration шаардахгүй үргэлжилнэ.
+
+## v2.2 brand refresh
+
+- Шинэ нэр: **Тэмүүл** — “Өдөр бүр өөдөө.”
+- Дээш тэмүүлэх зам, оргилын одыг нэгтгэсэн шинэ logo system.
+- Header, login, install icon, favicon, manifest, notification, social preview болон legal page-ууд нэг brand-тэй болсон.
 
 ## v2.1 онцлох шинэчлэл
 
@@ -60,7 +66,7 @@ Custom domain нэмэх бол нэг тогтвортой canonical domain с�
 - [ ] PWA install, offline reload, service-worker update, light/dark theme шалгагдсан.
 - [ ] 320 px mobile, tablet, desktop дээр horizontal overflow байхгүй.
 - [ ] Privacy, Terms, About, Contact, 404, manifest, icons, robots болон sitemap 200 хариулттай.
-- [ ] Production smoke test-ийн дараа `v2.1.0` tag гаргасан.
+- [ ] Production smoke test-ийн дараа `v2.2.0` tag гаргасан.
 
 ## Data ба security contract
 

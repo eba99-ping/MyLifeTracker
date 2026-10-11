@@ -24,9 +24,9 @@ export async function enableNotifications(serviceWorkerRegistration){
     onMessage(messaging,async payload=>{
       const note = payload.notification||{};
       const data = payload.data||{};
-      await serviceWorkerRegistration.showNotification(note.title||data.title||'Өрнөл 🔔',{
+      await serviceWorkerRegistration.showNotification(note.title||data.title||'Тэмүүл 🔔',{
         body:note.body||payload.data?.body||'Шинэ сануулга ирлээ.',
-        icon:note.icon||'/ornol-mark.png',badge:'/icon-192.png',
+        icon:note.icon||'/temuul-mark.png',badge:'/icon-192.png',
         tag:data.eventId||payload.messageId||`push-${Date.now()}`,
         data:{url:payload.fcmOptions?.link||data.url||'/#today',eventId:data.eventId||'',taskId:data.taskId||'',date:data.date||''},
         actions:data.eventId?[{action:'snooze',title:'10 мин snooze'},{action:'open',title:'App нээх'}]:[]

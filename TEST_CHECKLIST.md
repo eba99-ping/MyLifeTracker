@@ -1,4 +1,4 @@
-# Өрнөл v2.1 test checklist
+# Тэмүүл v2.2 test checklist
 
 ## Study timetable and Google login
 
@@ -23,7 +23,7 @@
 
 ## Brand and Study Hub
 
-- [ ] Confirm the Өрнөл logo, name, tagline and v2.1.0 version appear on auth, header, footer, manifest and install UI.
+- [ ] Confirm the Тэмүүл logo, “Өдөр бүр өөдөө.” tagline and v2.2.0 version appear on auth, header, footer, manifest and install UI.
 - [ ] Add a class with teacher, room/link, color and two or more selected weekdays; reload and confirm it persists.
 - [ ] Edit and delete a class; confirm Today, weekly hours, next class and subject cards update.
 - [ ] Add an assignment with subject, due date and priority; edit, complete and delete it.
