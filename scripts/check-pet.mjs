@@ -32,3 +32,14 @@ assert.equal(context.petState.xp,100);
 assert.equal(vm.runInContext('petLevelInfo().level',context),2);
 assert.match(html,/grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
 console.log('PASS: pet migration, appearance validation, level boundaries, duplicate XP and four-column navigation');
+vm.runInContext(section('    function petArtwork','    function renderPet'),context);
+for(const shape of ['bunny','bear','cat']){
+  context.look={shape,color:'#12abcf',accessory:'crown'};
+  const art=vm.runInContext('petArtwork(look,"preview")',context);
+  assert(art.includes('preview-coat')&&art.includes('#12abcf')&&art.includes('#ffd779'));
+  assert(!art.includes('undefined'));
+}
+context.look={shape:'cat',color:'"><script>bad</script>',accessory:'unknown'};
+assert(!vm.runInContext('petArtwork(look)',context).includes('<script>'));
+assert.match(html,/addEventListener\('input',previewPetAppearance\)/);
+console.log('PASS: vector pets, fitted accessories, isolated preview and safe color rendering');

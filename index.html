@@ -678,7 +678,7 @@
           </div>
         </div>
 
-        <div class="auth-credit">Тэмүүл v2.3 · Pet Studio · Built by Elbex Labs · 2026</div>
+        <div class="auth-credit">Тэмүүл v2.3.1 · Pet Studio · Built by Elbex Labs · 2026</div>
       </div>
 
       <div class="auth-card">
@@ -707,7 +707,7 @@
 
         <button class="device-btn" type="button" id="deviceModeBtn">📱 Continue on this device</button>
         <button class="device-btn" type="button" id="howToStartBtn" style="margin-top:8px;background:#fff">? How to start</button>
-        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.3.0</div>
+        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.3.1</div>
       </div>
     </div>
   </section>
@@ -1171,7 +1171,7 @@
       </div>
     </section>
     <footer class="site-footer">
-      <span>© 2026 Тэмүүл · Built by Elbex Labs · v2.3 Pet Studio</span>
+      <span>© 2026 Тэмүүл · Built by Elbex Labs · v2.3.1 Pet Studio</span>
       <nav aria-label="Legal and company links"><a href="/about.html">About</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></nav>
     </footer>
   </main>
@@ -1499,7 +1499,7 @@
         <h3 id="petModalTitle">AI Pet profile</h3>
         <button class="icon-btn" data-close="petModal" aria-label="Хаах">×</button>
       </div>
-      <div class="pet-modal-preview"><span>🐰</span><div><b>Таны өдөр тутмын хамтрагч</b><small>Task, goal дуусгаад XP цуглуулж шинэ style нээгээрэй.</small></div></div>
+      <div class="pet-modal-preview"><svg id="petLivePreview" viewBox="0 0 200 205" width="130" height="140" role="img" aria-label="Pet-ийн шинэ дүрийн урьдчилсан харагдац" style="flex-shrink:0"></svg><div><b id="petPreviewName">Таны хамтрагч</b><small>Дүр, өнгөө сонгоод шууд хараарай. Хадгалах хүртэл таны pet өөрчлөгдөхгүй.</small></div></div>
       <form id="petForm">
         <div class="field"><label for="petNameInput">Pet-ийн нэр</label><input id="petNameInput" maxlength="20" required placeholder="Жишээ: Nomi" autocomplete="off"></div>
         <div class="row"><div class="field"><label for="petShape">Дүр</label><select id="petShape"><option value="bunny">Туулай</option><option value="bear">Баавгай</option><option value="cat">Муур</option></select></div><div class="field"><label for="petColor">Өнгө</label><input id="petColor" type="color" value="#8b72ff"></div></div>
@@ -2435,6 +2435,46 @@
       return 'Өнөөдрийн нэг жижиг алхмаа хамт хийцгээе. Би энд байна!';
     }
 
+    function petArtwork(record,prefix='pet'){
+      const look=normalizePetAppearance({...record});
+      const fill=`url(#${prefix}-coat)`;
+      const ears=look.shape==='cat'
+        ? `<path d="M39 90 L34 39 Q56 36 79 73 M121 73 Q144 36 166 39 L161 90" fill="${fill}"/><path d="M44 67 L43 48 L64 66 M136 66 L157 48 L156 67" fill="#ffc7db"/>`
+        : look.shape==='bear'
+        ? `<circle cx="48" cy="68" r="25" fill="${fill}"/><circle cx="152" cy="68" r="25" fill="${fill}"/><circle cx="48" cy="68" r="13" fill="#ffc7db"/><circle cx="152" cy="68" r="13" fill="#ffc7db"/>`
+        : `<ellipse cx="65" cy="48" rx="20" ry="43" transform="rotate(-12 65 48)" fill="${fill}"/><ellipse cx="135" cy="48" rx="20" ry="43" transform="rotate(12 135 48)" fill="${fill}"/><ellipse cx="65" cy="46" rx="9" ry="28" transform="rotate(-12 65 46)" fill="#ffc7db"/><ellipse cx="135" cy="46" rx="9" ry="28" transform="rotate(12 135 46)" fill="#ffc7db"/>`;
+      const accessories={
+        sprout:'<path d="M100 78 V55" stroke="#287952" stroke-width="5"/><path d="M99 62 Q69 63 81 43 Q101 43 99 62 M101 58 Q101 33 121 39 Q126 57 101 58" fill="#73dba1"/>',
+        star:'<path d="M100 39 L106 53 L122 54 L110 65 L113 81 L100 73 L87 81 L90 65 L78 54 L94 53Z" fill="#ffe184" stroke="#cf953f" stroke-width="2"/>',
+        flower:'<g fill="#ffb1d5" stroke="#e885b1" stroke-width="1.5"><circle cx="92" cy="49" r="10"/><circle cx="108" cy="49" r="10"/><circle cx="113" cy="64" r="10"/><circle cx="100" cy="74" r="10"/><circle cx="87" cy="64" r="10"/></g><circle cx="100" cy="59" r="9" fill="#ffe9a0"/>',
+        crown:'<path d="M76 72 L70 45 L88 57 L100 36 L112 57 L130 45 L124 72Z" fill="#ffd779" stroke="#bc8541" stroke-width="2"/><path d="M78 75 H122" stroke="#fff0bd" stroke-width="5"/><circle cx="100" cy="61" r="4" fill="#ad84ef"/>',
+        bow:'<path d="M100 64 Q65 32 72 73 Q82 87 100 64 Q135 32 128 73 Q118 87 100 64" fill="#f68eb5" stroke="#c65b8a" stroke-width="2"/><circle cx="100" cy="64" r="7" fill="#ffd4e4"/>',
+        headphones:'<path d="M37 113 C28 32 172 32 163 113" fill="none" stroke="#293853" stroke-width="10"/><rect x="27" y="98" width="20" height="39" rx="10" fill="#6ae0d7"/><rect x="153" y="98" width="20" height="39" rx="10" fill="#6ae0d7"/>',
+        wizard:'<path d="M74 69 L95 14 L125 69Z" fill="#444590"/><ellipse cx="100" cy="70" rx="36" ry="8" fill="#6663b9"/><path d="M96 35 L100 43 L109 44 L102 50 L104 59 L96 54 L88 59 L90 50 L83 44 L92 43Z" fill="#ffe5a0"/>',
+        halo:'<ellipse cx="100" cy="28" rx="36" ry="10" fill="none" stroke="#ffda75" stroke-width="7"/><ellipse cx="100" cy="27" rx="35" ry="9" fill="none" stroke="#fff1c4" stroke-width="2"/>',
+        diamond:'<path d="M82 47 H118 L130 60 L100 87 L70 60Z" fill="#8de7f2" stroke="#438eae" stroke-width="2"/><path d="M82 47 L90 60 L100 87 L110 60 L118 47 M70 60 H130" fill="none" stroke="#ecfcff" stroke-width="2"/>'
+      };
+      return `<defs><radialGradient id="${prefix}-coat" cx="32%" cy="20%" r="90%"><stop stop-color="#fff"/><stop offset=".28" stop-color="${look.color}"/><stop offset="1" stop-color="${look.color}"/></radialGradient></defs>
+        ${ears}<ellipse cx="100" cy="165" rx="49" ry="33" fill="${fill}"/><ellipse cx="66" cy="189" rx="21" ry="11" fill="${fill}"/><ellipse cx="134" cy="189" rx="21" ry="11" fill="${fill}"/>
+        <ellipse cx="100" cy="116" rx="68" ry="61" fill="${fill}"/><ellipse cx="100" cy="139" rx="40" ry="27" fill="#fff5f3" opacity=".88"/>
+        <ellipse cx="100" cy="179" rx="27" ry="16" fill="#fff5f3" opacity=".7"/>
+        <g class="pet-eye"><ellipse cx="74" cy="113" rx="10" ry="14" fill="#263047"/><circle cx="71" cy="108" r="4" fill="white"/><circle cx="78" cy="119" r="2" fill="#a7b7de"/></g>
+        <g class="pet-eye"><ellipse cx="126" cy="113" rx="10" ry="14" fill="#263047"/><circle cx="123" cy="108" r="4" fill="white"/><circle cx="130" cy="119" r="2" fill="#a7b7de"/></g>
+        <ellipse class="pet-cheek" cx="53" cy="135" rx="12" ry="6"/><ellipse class="pet-cheek" cx="147" cy="135" rx="12" ry="6"/>
+        <path d="M94 131 Q100 126 106 131 Q100 141 94 131" fill="#805367"/><path d="M100 137 Q92 148 85 140 M100 137 Q108 148 115 140" fill="none" stroke="#694654" stroke-width="2.5" stroke-linecap="round"/>
+        ${look.shape==='cat'?'<path d="M35 131 L57 136 M34 145 L56 143 M143 136 L165 131 M144 143 L166 145" stroke="#694654" opacity=".45" stroke-width="2" stroke-linecap="round"/>':''}
+        ${accessories[look.accessory]||''}`;
+    }
+
+    function previewPetAppearance(){
+      const draft={...petState,shape:$('#petShape').value,color:$('#petColor').value,backdrop:$('#petBackdrop').value};
+      $('#petLivePreview').innerHTML=petArtwork(draft,'preview');
+      $('#petPreviewName').textContent=$('#petNameInput').value.trim()||'Таны хамтрагч';
+      const backgrounds={classic:'var(--brand-soft)',forest:'#d9eee1',ocean:'#d8ebf7',sunset:'#f9e0dc'};
+      $('#petLivePreview').style.background=backgrounds[draft.backdrop]||backgrounds.classic;
+      $('#petLivePreview').style.borderRadius='24px';
+    }
+
     function renderPet(){
       if(!$('#petStage')) return;
       const level = petLevelInfo();
@@ -2445,22 +2485,15 @@
         petState.mood = mood;petState.accessory = selected.id;savePet({touch:false,cloud:false});
       }
       $('#petStage').dataset.mood = mood;
-      const color=/^#[0-9a-f]{6}$/i.test(petState.color||'')?petState.color:'#8b72ff';
-      $$('.pet-body-fill').forEach(part=>part.style.fill=color);
-      const ears=$$('.pet-svg > ellipse');
-      const shape=['bunny','bear','cat'].includes(petState.shape)?petState.shape:'bunny';
-      ears.slice(0,4).forEach((ear,index)=>{
-        ear.style.display=shape==='cat'?'none':'';
-        ear.setAttribute('ry',shape==='bunny'?(index<2?'48':'30'):shape==='bear'?(index<2?'23':'12'):(index<2?'32':'18'));
-        ear.setAttribute('cy',shape==='bunny'?'48':'66');
-      });
-      $$('.pet-cat-ear').forEach(ear=>ear.style.display=shape==='cat'?'':'none');
+      const artKey=JSON.stringify([petState.shape,petState.color,selected.id]);
+      const svg=$('#petStage .pet-svg');
+      if(svg.dataset.artKey!==artKey){svg.innerHTML=petArtwork({...petState,accessory:selected.id});svg.dataset.artKey=artKey;}
       const scenes={classic:'',forest:'linear-gradient(135deg,#065f46,#34d399)',ocean:'linear-gradient(135deg,#1e3a8a,#38bdf8)',sunset:'linear-gradient(135deg,#9d174d,#fb923c)'};
       $('.pet-home').style.background=scenes[petState.backdrop]||'';
       $('#petNextReward').textContent=level.level<10?`Дараагийн шагнал: ${PET_ACCESSORIES.find(item=>item.level===level.level+1)?.label||''} · ${level.next-petState.xp} XP үлдсэн`:`🏅 Мастер ${level.level} · Дараагийн цол хүртэл ${level.next-petState.xp} XP`;
       $('#petStage').setAttribute('aria-label',`${petState.name}, ${moodInfo.label}. AI Coach нээх`);
       $('#petRewardSummary').textContent=$('#petNextReward').textContent;
-      $('#petAccessory').textContent = selected.icon;
+      $('#petAccessory').textContent = '';
       $('#petGreeting').textContent = `${petState.name}: ${moodInfo.label}`;
       $('#petMessage').textContent = petContextMessage(mood);
       $('#petProfileName').textContent = petState.name;
@@ -2496,8 +2529,11 @@
       $('#petShape').value=petState.shape||'bunny';
       $('#petColor').value=petState.color||'#8b72ff';
       $('#petBackdrop').value=petState.backdrop||'classic';
+      previewPetAppearance();
       openModal('petModal');
     });
+    $('#petForm').addEventListener('input',previewPetAppearance);
+    $('#petForm').addEventListener('change',previewPetAppearance);
     $('#petForm').addEventListener('submit',event => {
       event.preventDefault();
       petState.name = $('#petNameInput').value.trim().slice(0,20) || 'Nomi';
@@ -5192,7 +5228,7 @@ version:11,
       try{
         const registration = await readyServiceWorker();
         if(!registration) return '';
-        const module = await import('/fcm_setup.js?v=2.3.0');
+        const module = await import('/fcm_setup.js?v=2.3.1');
         const token = await module.enableNotifications(registration);
         if(token){
           localStorage.setItem(PUSH_TOKEN_KEY,token);

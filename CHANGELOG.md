@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.3.1 — Companion polish
+
+- Redesigned bunny, bear and cat as lightweight shaded vector characters with paws, expressive eyes and fitted vector accessories instead of floating emoji.
+- Added live customization preview for name, shape, color and environment; previews never mutate saved pet state.
+- Avoid rebuilding the dashboard SVG unless its appearance changes, preserving smooth animation. Existing reduced-motion support remains active.
+- Preserved pet storage keys, XP, levels and cloud data. Firebase CLI still has no authorized account; background server deployment remains blocked.
+
 ## v2.3.0 — Pet Studio
 
 - Customize pet name, bunny/bear/cat shape, body color and four environments; preserve existing local/cloud pet records and XP.
