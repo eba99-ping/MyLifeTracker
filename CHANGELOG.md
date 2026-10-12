@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.3.2 — Animal companions
+
+- Replaced round mascot bodies with separate quadruped silhouettes: slender curled-tail cat, broad bear with short tail, and rabbit with large hindquarters and cotton tail.
+- All three have four paws, a distinct head and coordinated fur, ear, belly and paw colors derived from the selected color.
+- Added five fur palette shortcuts to the non-saving live preview; custom colors remain available.
+- Kept accessories, mood animation, reduced motion, XP, levels and existing data unchanged.
+
 ## v2.3.1 — Companion polish
 
 - Redesigned bunny, bear and cat as lightweight shaded vector characters with paws, expressive eyes and fitted vector accessories instead of floating emoji.

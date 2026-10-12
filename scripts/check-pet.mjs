@@ -38,6 +38,9 @@ for(const shape of ['bunny','bear','cat']){
   const art=vm.runInContext('petArtwork(look,"preview")',context);
   assert(art.includes('preview-coat')&&art.includes('#12abcf')&&art.includes('#ffd779'));
   assert(!art.includes('undefined'));
+  assert.equal((art.match(/data-pet-leg=/g)||[]).length,4);
+  assert(art.includes(`data-pet-anatomy="${shape}"`));
+  assert(!art.includes('NaN'));
 }
 context.look={shape:'cat',color:'"><script>bad</script>',accessory:'unknown'};
 assert(!vm.runInContext('petArtwork(look)',context).includes('<script>'));

@@ -1,4 +1,4 @@
-const CACHE = 'temuul-v2.3.1';
+const CACHE = 'temuul-v2.3.2';
 const APP_SHELL = ['/', '/index.html', '/manifest.json', '/favicon.svg', '/temuul-mark.png', '/icon-192.png', '/icon-512.png', '/icon-maskable-512.png', '/apple-touch-icon.png', '/fcm_setup.js'];
 
 self.addEventListener('notificationclick',event => {
