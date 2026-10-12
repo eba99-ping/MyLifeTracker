@@ -242,13 +242,13 @@
     .nav{
       position:fixed;left:50%;bottom:max(12px,env(safe-area-inset-bottom));transform:translateX(-50%);
       width:min(460px,calc(100% - 22px));height:var(--nav-h);padding:8px;display:grid;
-      grid-template-columns:repeat(3,1fr);gap:4px;background:rgba(16,24,40,.94);
+      grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;background:rgba(16,24,40,.94);
       backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.12);border-radius:24px;
       box-shadow:0 20px 50px rgba(16,24,40,.28);z-index:50
     }
     .nav button{
       border:0;background:transparent;color:#98a2b3;border-radius:17px;font-size:11px;
-      font-weight:750;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px
+      min-width:0;min-height:44px;font-weight:750;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px
     }
     .nav button b{font-size:20px;line-height:1}
     .nav button.active{background:rgba(255,255,255,.12);color:#fff}
@@ -678,7 +678,7 @@
           </div>
         </div>
 
-        <div class="auth-credit">Тэмүүл v2.2 · Rise · Built by Elbex Labs · 2026</div>
+        <div class="auth-credit">Тэмүүл v2.3 · Pet Studio · Built by Elbex Labs · 2026</div>
       </div>
 
       <div class="auth-card">
@@ -707,7 +707,7 @@
 
         <button class="device-btn" type="button" id="deviceModeBtn">📱 Continue on this device</button>
         <button class="device-btn" type="button" id="howToStartBtn" style="margin-top:8px;background:#fff">? How to start</button>
-        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.2.0</div>
+        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.3.0</div>
       </div>
     </div>
   </section>
@@ -758,6 +758,8 @@
               <ellipse class="pet-body-fill" cx="134" cy="48" rx="22" ry="48" transform="rotate(17 134 48)"/>
               <ellipse class="pet-ear-inner" cx="68" cy="49" rx="9" ry="30" transform="rotate(-17 68 49)"/>
               <ellipse class="pet-ear-inner" cx="132" cy="49" rx="9" ry="30" transform="rotate(17 132 49)"/>
+              <path class="pet-body-fill pet-cat-ear" style="display:none" d="M35 92 L36 29 Q60 34 79 68 Z M121 68 Q140 34 164 29 L165 92 Z"/>
+              <path class="pet-cat-ear pet-ear-inner" style="display:none" d="M44 69 L44 43 L63 61 Z M137 61 L156 43 L156 69 Z"/>
               <ellipse class="pet-body-fill" cx="100" cy="124" rx="72" ry="70"/>
               <ellipse class="pet-belly" cx="100" cy="148" rx="43" ry="37" opacity=".7"/>
               <ellipse class="pet-eye" cx="75" cy="113" rx="7" ry="9"/>
@@ -777,10 +779,11 @@
         <aside class="pet-profile" aria-label="AI Pet profile">
           <div class="pet-profile-head">
             <div><h3 id="petProfileName">Nomi</h3><div class="pet-mood-pill" id="petMoodLabel">● Neutral</div></div>
-            <button class="mini" type="button" id="editPet" aria-label="Pet-ийн нэр солих">✎</button>
+            <button class="mini" type="button" id="editPet" aria-label="Pet-ийн дүр төрх өөрчлөх">🎨</button>
           </div>
           <div class="pet-level-row"><strong id="petLevelLabel">Level 1</strong><span id="petXpLabel">0 / 100 XP</span></div>
           <div class="pet-xp-track" aria-label="Pet XP progress"><i id="petXpBar"></i></div>
+          <p id="petRewardSummary" style="font-size:12px;margin:10px 0;color:var(--muted)"></p>
           <div class="pet-stats">
             <div class="pet-stat"><span>Mood</span><strong id="petMoodStat">Neutral</strong></div>
             <div class="pet-stat"><span>Streak bonus</span><strong id="petStreakStat">+0 XP</strong></div>
@@ -1168,7 +1171,7 @@
       </div>
     </section>
     <footer class="site-footer">
-      <span>© 2026 Тэмүүл · Built by Elbex Labs · v2.2 Rise</span>
+      <span>© 2026 Тэмүүл · Built by Elbex Labs · v2.3 Pet Studio</span>
       <nav aria-label="Legal and company links"><a href="/about.html">About</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></nav>
     </footer>
   </main>
@@ -1499,6 +1502,9 @@
       <div class="pet-modal-preview"><span>🐰</span><div><b>Таны өдөр тутмын хамтрагч</b><small>Task, goal дуусгаад XP цуглуулж шинэ style нээгээрэй.</small></div></div>
       <form id="petForm">
         <div class="field"><label for="petNameInput">Pet-ийн нэр</label><input id="petNameInput" maxlength="20" required placeholder="Жишээ: Nomi" autocomplete="off"></div>
+        <div class="row"><div class="field"><label for="petShape">Дүр</label><select id="petShape"><option value="bunny">Туулай</option><option value="bear">Баавгай</option><option value="cat">Муур</option></select></div><div class="field"><label for="petColor">Өнгө</label><input id="petColor" type="color" value="#8b72ff"></div></div>
+        <div class="field"><label for="petBackdrop">Орчин</label><select id="petBackdrop"><option value="classic">Сонгодог</option><option value="forest">Ой</option><option value="ocean">Далай</option><option value="sunset">Нар жаргах</option></select></div>
+        <p id="petNextReward" style="font-size:14px"></p>
         <div class="profile-section"><h4>XP авах арга</h4><p style="margin-bottom:0">Task +10 XP · Goal step +20 XP · Goal complete +100 XP · Daily Quest reward · Өдрийн streak bonus</p></div>
         <div class="modal-foot"><button class="btn secondary" type="button" data-close="petModal">Болих</button><button class="btn primary" type="submit">Хадгалах</button></div>
       </form>
@@ -1885,8 +1891,13 @@
       {id:'none',icon:'',label:'Classic',level:1},
       {id:'sprout',icon:'🌱',label:'Growth sprout',level:2},
       {id:'star',icon:'⭐',label:'Focus star',level:3},
+      {id:'flower',icon:'🌸',label:'Bloom flower',level:4},
       {id:'crown',icon:'👑',label:'Goal crown',level:5},
-      {id:'headphones',icon:'🎧',label:'Deep-focus headphones',level:7}
+      {id:'bow',icon:'🎀',label:'Ribbon',level:6},
+      {id:'headphones',icon:'🎧',label:'Deep-focus headphones',level:7},
+      {id:'wizard',icon:'🧙',label:'Magic hat',level:8},
+      {id:'halo',icon:'😇',label:'Golden halo',level:9},
+      {id:'diamond',icon:'💎',label:'Diamond',level:10}
     ];
     const PET_MOODS = {
       happy:{label:'Happy',dot:'🟢'},sleepy:{label:'Sleepy',dot:'🌙'},
@@ -1895,7 +1906,7 @@
 
     function defaultPetState(){
       return {
-        version:1,name:'Nomi',xp:0,mood:'neutral',accessory:'none',
+        version:1,name:'Nomi',xp:0,mood:'neutral',accessory:'none',shape:'bunny',color:'#8b72ff',backdrop:'classic',
         xpEvents:{},xpAwards:{},legacyXp:0,lastActiveAt:0,createdAt:Date.now(),updatedAt:0
       };
     }
@@ -1956,7 +1967,7 @@
       normalizePetAwards(pet);
       if(!PET_MOODS[pet.mood]) pet.mood = 'neutral';
       if(!PET_ACCESSORIES.some(item => item.id===pet.accessory)) pet.accessory = 'none';
-      return pet;
+      return normalizePetAppearance(pet);
     }
 
     let petState = migratePetState();
@@ -2341,10 +2352,18 @@
 
     saveQuests({touch:false,cloud:false});
 
+    function normalizePetAppearance(pet){
+      if(!['bunny','bear','cat'].includes(pet.shape)) pet.shape='bunny';
+      if(!/^#[0-9a-f]{6}$/i.test(pet.color||'')) pet.color='#8b72ff';
+      if(!['classic','forest','ocean','sunset'].includes(pet.backdrop)) pet.backdrop='classic';
+      return pet;
+    }
+
     function petLevelInfo(){
       let level = 1;
       for(let i=1;i<PET_LEVELS.length;i++) if(petState.xp>=PET_LEVELS[i]) level=i+1;
-      const start = PET_LEVELS[level-1] ?? PET_LEVELS.at(-1);
+      if(petState.xp>=PET_LEVELS.at(-1)) level=PET_LEVELS.length+Math.floor((petState.xp-PET_LEVELS.at(-1))/550);
+      const start = PET_LEVELS[level-1] ?? (PET_LEVELS.at(-1)+(level-PET_LEVELS.length)*550);
       const next = PET_LEVELS[level] ?? (start+550);
       const current = Math.max(0,petState.xp-start);
       const needed = Math.max(1,next-start);
@@ -2366,12 +2385,19 @@
 
     function awardPetXP(eventKey,amount){
       if(!eventKey || petState.xpEvents[eventKey]) return 0;
+      const oldLevel=petLevelInfo().level;
       const reward = Math.max(0,Number(amount)||0);
       petState.xpEvents[eventKey] = Date.now();
       petState.xpAwards[eventKey] = reward;
       petState.lastActiveAt = Date.now();
       petState.mood = 'happy';
       savePet();
+      const newLevel=petLevelInfo().level;
+      if(newLevel>oldLevel){
+        const unlocked=PET_ACCESSORIES.filter(item=>item.level>oldLevel&&item.level<=newLevel);
+        const message=unlocked.length?unlocked.map(item=>item.icon+' '+item.label).join(' · '):`🏅 Level ${newLevel} мастер цол`;
+        setTimeout(()=>toast(`🎉 Level ${newLevel}! ${message}`),500);
+      }
       return reward;
     }
 
@@ -2419,7 +2445,21 @@
         petState.mood = mood;petState.accessory = selected.id;savePet({touch:false,cloud:false});
       }
       $('#petStage').dataset.mood = mood;
+      const color=/^#[0-9a-f]{6}$/i.test(petState.color||'')?petState.color:'#8b72ff';
+      $$('.pet-body-fill').forEach(part=>part.style.fill=color);
+      const ears=$$('.pet-svg > ellipse');
+      const shape=['bunny','bear','cat'].includes(petState.shape)?petState.shape:'bunny';
+      ears.slice(0,4).forEach((ear,index)=>{
+        ear.style.display=shape==='cat'?'none':'';
+        ear.setAttribute('ry',shape==='bunny'?(index<2?'48':'30'):shape==='bear'?(index<2?'23':'12'):(index<2?'32':'18'));
+        ear.setAttribute('cy',shape==='bunny'?'48':'66');
+      });
+      $$('.pet-cat-ear').forEach(ear=>ear.style.display=shape==='cat'?'':'none');
+      const scenes={classic:'',forest:'linear-gradient(135deg,#065f46,#34d399)',ocean:'linear-gradient(135deg,#1e3a8a,#38bdf8)',sunset:'linear-gradient(135deg,#9d174d,#fb923c)'};
+      $('.pet-home').style.background=scenes[petState.backdrop]||'';
+      $('#petNextReward').textContent=level.level<10?`Дараагийн шагнал: ${PET_ACCESSORIES.find(item=>item.level===level.level+1)?.label||''} · ${level.next-petState.xp} XP үлдсэн`:`🏅 Мастер ${level.level} · Дараагийн цол хүртэл ${level.next-petState.xp} XP`;
       $('#petStage').setAttribute('aria-label',`${petState.name}, ${moodInfo.label}. AI Coach нээх`);
+      $('#petRewardSummary').textContent=$('#petNextReward').textContent;
       $('#petAccessory').textContent = selected.icon;
       $('#petGreeting').textContent = `${petState.name}: ${moodInfo.label}`;
       $('#petMessage').textContent = petContextMessage(mood);
@@ -2453,11 +2493,17 @@
     });
     $('#editPet').addEventListener('click',() => {
       $('#petNameInput').value = petState.name;
+      $('#petShape').value=petState.shape||'bunny';
+      $('#petColor').value=petState.color||'#8b72ff';
+      $('#petBackdrop').value=petState.backdrop||'classic';
       openModal('petModal');
     });
     $('#petForm').addEventListener('submit',event => {
       event.preventDefault();
       petState.name = $('#petNameInput').value.trim().slice(0,20) || 'Nomi';
+      petState.shape=$('#petShape').value;
+      petState.color=$('#petColor').value;
+      petState.backdrop=$('#petBackdrop').value;
       petState.lastActiveAt = Date.now();
       savePet();renderPet();closeModal('petModal');
       toast(`${petState.name} тантай хамт өсөхөд бэлэн!`);
@@ -2862,7 +2908,7 @@
       if(!Object.prototype.hasOwnProperty.call(raw,'legacyXp')) pet.legacyXp = Number.NaN;
       pet.name = String(pet.name||'Nomi').trim().slice(0,20)||'Nomi';
       if(!PET_ACCESSORIES.some(item=>item.id===pet.accessory)) pet.accessory='none';
-      return normalizePetAwards(pet);
+      return normalizePetAwards(normalizePetAppearance(pet));
     }
     function mergePetRecords(local={},remote={},localStamp=0,remoteStamp=0){
       const a = normalizePetRecord(local);
@@ -5048,7 +5094,7 @@ version:11,
       if(registryError){push.classList.add('error');push.textContent='● Cloud error';}
       else if(status!=='granted'){push.classList.add('pending');push.textContent='● Cloud push off';}
       else if(!firebaseCurrentUser || session.mode!=='cloud'){push.classList.add('pending');push.textContent='● Cloud sign-in needed';}
-      else if(tokenReady){push.classList.add('ready');push.textContent='● Cloud ready';}
+      else if(tokenReady){push.classList.add('pending');push.textContent='● Push registered';push.title='Төхөөрөмж бүртгэгдсэн. App хаалттай үеийн хүргэлтийг сервер болон бодит мэдэгдлээр шалгана.';}
       else{push.classList.add('pending');push.textContent='● Cloud setup pending';}
     }
 
@@ -5146,7 +5192,7 @@ version:11,
       try{
         const registration = await readyServiceWorker();
         if(!registration) return '';
-        const module = await import('/fcm_setup.js?v=2.2.0');
+        const module = await import('/fcm_setup.js?v=2.3.0');
         const token = await module.enableNotifications(registration);
         if(token){
           localStorage.setItem(PUSH_TOKEN_KEY,token);

@@ -1,4 +1,4 @@
-const CACHE = 'temuul-v2.2.0';
+const CACHE = 'temuul-v2.3.0';
 const APP_SHELL = ['/', '/index.html', '/manifest.json', '/favicon.svg', '/temuul-mark.png', '/icon-192.png', '/icon-512.png', '/icon-maskable-512.png', '/apple-touch-icon.png', '/fcm_setup.js'];
 
 self.addEventListener('notificationclick',event => {
@@ -34,7 +34,7 @@ try{
   firebase.messaging().onBackgroundMessage(payload=>{
     const note = payload.notification||{};
     const data = payload.data||{};
-    self.registration.showNotification(note.title||data.title||'Тэмүүл 🔔',{
+    return self.registration.showNotification(note.title||data.title||'Тэмүүл 🔔',{
       body:note.body||payload.data?.body||'Шинэ сануулга ирлээ.',icon:note.icon||'/temuul-mark.png',badge:'/icon-192.png',
       tag:data.eventId||payload.messageId||`push-${Date.now()}`,
       data:{url:payload.fcmOptions?.link||data.url||'/#today',eventId:data.eventId||'',taskId:data.taskId||'',date:data.date||''},

@@ -1,4 +1,17 @@
-# Тэмүүл v2.2 test checklist
+# Тэмүүл v2.3 test checklist
+
+## Pet Studio and background notifications
+
+- [ ] At 320/375/390 px, all four bottom buttons remain in one row, including Tools; repeat on an iPhone with safe-area inset.
+- [ ] Change pet name, bunny/bear/cat, color and environment; save/reload and confirm persistence. Repeat in dark mode and Cloud Sync.
+- [ ] Cancel customization and confirm no saved changes.
+- [ ] Existing pet XP and earned accessories survive update; new accessories stay locked until their level.
+- [ ] Cross levels 2–10 and confirm reward message, accessory unlock and next-reward progress; level 11 continues at 3200 XP.
+- [ ] Re-completing a previously rewarded task does not duplicate XP.
+- [ ] Tap the pet and confirm the existing AI Coach opens.
+- [ ] Authorized owner signs in with Firebase CLI and deploys the existing rules and scheduled reminder function (Blaze plan required; do not enable billing without approval).
+- [ ] iPhone iOS 16.4+: launch from Home Screen, sign in, allow notifications, schedule a task 2–3 minutes ahead, close app and lock screen; verify one notification, correct title and tap-to-open.
+- [ ] Test denied permission, expired token, offline phone, snooze and foreground reminders. A local “Test” notification does not prove server delivery.
 
 ## Study timetable and Google login
 

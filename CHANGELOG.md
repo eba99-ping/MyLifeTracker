@@ -1,5 +1,15 @@
 # Changelog
 
+## v2.3.0 — Pet Studio
+
+- Customize pet name, bunny/bear/cat shape, body color and four environments; preserve existing local/cloud pet records and XP.
+- Unlock a new accessory at every level from 2–10, with level-up messages and visible next-reward progress. Levels above 10 continue every 550 XP with numbered master titles.
+- Fix four-button bottom navigation wrapping and clipping on phones.
+- Return the background notification promise so the worker can finish displaying it. Add branded server reminder titles and a ten-minute push TTL.
+- Show “Push registered” rather than implying that a saved device token proves background delivery.
+- Firebase scheduled-function deployment and real iPhone closed-app delivery remain unverified: Firebase CLI is not signed in on this machine. No billing changes were made.
+- Automated checks cover legacy pet migration, appearance validation, level thresholds, duplicate XP, Google auth and reminder scheduling.
+
 ## v2.2.0 — Тэмүүл Rise
 
 - Google popup starts directly in the tap handler after Firebase has loaded; cold loads ask for a fresh tap, failed SDK loads can retry, and repeated taps cannot cancel an active attempt.

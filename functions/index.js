@@ -46,11 +46,11 @@ async function deliverReminder(ref,registry,event){
     const response = await getMessaging().sendEachForMulticast({
       tokens,
       data:{
-        title:'Task хийх цаг боллоо 🔔',
+        title:'Тэмүүл · Таны дараагийн алхам 🔔',
         body:`${event.title}${event.priority==='high'?' · High priority':''}`,
         url:APP_URL,eventId:event.id,taskId:event.taskId,date:event.date
       },
-      webpush:{headers:{Urgency:event.priority==='high'?'high':'normal'},fcmOptions:{link:APP_URL}}
+      webpush:{headers:{Urgency:event.priority==='high'?'high':'normal',TTL:'600'},fcmOptions:{link:APP_URL}}
     });
     const validTokens = tokens.filter((token,index)=>{
       const result = response.responses[index];
