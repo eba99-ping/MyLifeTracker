@@ -1,11 +1,11 @@
 {
   "name": "temuul-growth-os",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "private": true,
   "description": "Тэмүүл personal growth OS with Study timetable, Habit Lab, Cloud Push, Focus, AI Pet and Cloud Sync",
   "type": "module",
   "scripts": {
-    "check": "node scripts/check.mjs && node scripts/check-google-auth.mjs && node scripts/check-pet.mjs",
+    "check": "node scripts/check.mjs && node scripts/check-google-auth.mjs && node scripts/check-pet.mjs && node scripts/check-ai.mjs",
     "check:functions": "npm --prefix functions run check"
   },
   "dependencies": {

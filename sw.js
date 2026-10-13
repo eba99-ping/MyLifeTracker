@@ -1,4 +1,4 @@
-const CACHE = 'temuul-v2.3.2';
+const CACHE = 'temuul-v2.3.3';
 const APP_SHELL = ['/', '/index.html', '/manifest.json', '/favicon.svg', '/temuul-mark.png', '/icon-192.png', '/icon-512.png', '/icon-maskable-512.png', '/apple-touch-icon.png', '/fcm_setup.js'];
 
 self.addEventListener('notificationclick',event => {
@@ -53,6 +53,9 @@ self.addEventListener('activate',event => {
 
 self.addEventListener('fetch',event => {
   if(event.request.method !== 'GET' || new URL(event.request.url).origin !== self.location.origin) return;
+  if(/^\/admin(?:\.html)?\/?$/.test(new URL(event.request.url).pathname)){
+    event.respondWith(fetch(event.request,{cache:'no-store'}));return;
+  }
   if(event.request.mode === 'navigate') {
     event.respondWith(fetch(event.request).then(response => {
       const copy = response.clone();

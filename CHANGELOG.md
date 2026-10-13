@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.3.3 — AI resilience and protected admin foundation
+
+- Diagnosed production AI failures as provider 503 overload; added one bounded transient retry, request size validation, provider/client timeouts and safe localized error messages.
+- Added `/admin.html` and a callable, server-role-checked paginated account listing with audit records. Private Journal, AI chat and Money contents are not exposed.
+- Admin pages bypass offline cache; no admin role is assigned automatically. Backend deployment, billing approval and admin identity verification remain required (see ADMIN_SETUP.md).
+
 ## v2.3.2 — Animal companions
 
 - Replaced round mascot bodies with separate quadruped silhouettes: slender curled-tail cat, broad bear with short tail, and rabbit with large hindquarters and cotton tail.

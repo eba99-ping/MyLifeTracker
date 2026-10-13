@@ -678,7 +678,7 @@
           </div>
         </div>
 
-        <div class="auth-credit">Тэмүүл v2.3.2 · Pet Studio · Built by Elbex Labs · 2026</div>
+        <div class="auth-credit">Тэмүүл v2.3.3 · Pet Studio · Built by Elbex Labs · 2026</div>
       </div>
 
       <div class="auth-card">
@@ -707,7 +707,7 @@
 
         <button class="device-btn" type="button" id="deviceModeBtn">📱 Continue on this device</button>
         <button class="device-btn" type="button" id="howToStartBtn" style="margin-top:8px;background:#fff">? How to start</button>
-        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.3.2</div>
+        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.3.3</div>
       </div>
     </div>
   </section>
@@ -1171,7 +1171,7 @@
       </div>
     </section>
     <footer class="site-footer">
-      <span>© 2026 Тэмүүл · Built by Elbex Labs · v2.3.2 Pet Studio</span>
+      <span>© 2026 Тэмүүл · Built by Elbex Labs · v2.3.3 Pet Studio</span>
       <nav aria-label="Legal and company links"><a href="/about.html">About</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></nav>
     </footer>
   </main>
@@ -4873,7 +4873,11 @@ version:11,
     }
 
     async function callAI(message){
+      const controller=new AbortController();
+      const timeout=setTimeout(()=>controller.abort(),35000);
+      try{
       const res = await fetch('/api/chat',{
+        signal:controller.signal,
         method:'POST',
         headers:{'Content-Type':'application/json'},
         // FIX: existing Vercel API expects "tracker", not "context".
@@ -4890,7 +4894,13 @@ version:11,
         throw new Error(data.error || data.message || `Server ${res.status}`);
       }
 
-      return data.reply || data.message || data.text || data.response || data.content || 'AI хариу хоосон ирлээ.';
+      const reply=data.reply || data.message || data.text || data.response || data.content;
+      if(typeof reply!=='string'||!reply.trim()) throw new Error('AI хариу хоосон ирлээ. Дахин оролдоорой.');
+      return reply;
+      }catch(error){
+        if(error.name==='AbortError') throw new Error('AI хариу удаж байна. Дахин оролдоорой.');
+        throw error;
+      }finally{clearTimeout(timeout);}
     }
 
     async function askGoalAdvice(g){
@@ -5249,7 +5259,7 @@ version:11,
       try{
         const registration = await readyServiceWorker();
         if(!registration) return '';
-        const module = await import('/fcm_setup.js?v=2.3.2');
+        const module = await import('/fcm_setup.js?v=2.3.3');
         const token = await module.enableNotifications(registration);
         if(token){
           localStorage.setItem(PUSH_TOKEN_KEY,token);

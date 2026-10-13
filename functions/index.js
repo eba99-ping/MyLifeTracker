@@ -1,6 +1,9 @@
 'use strict';
 
 const {onSchedule} = require('firebase-functions/v2/scheduler');
+const {onCall,HttpsError} = require('firebase-functions/v2/https');
+const {getAuth} = require('firebase-admin/auth');
+const {accountSummary,validPageToken} = require('./admin-access');
 const logger = require('firebase-functions/logger');
 const {initializeApp} = require('firebase-admin/app');
 const {getFirestore} = require('firebase-admin/firestore');
@@ -10,6 +13,20 @@ const {findDueEvents,pruneFired} = require('./reminder-logic');
 initializeApp();
 const db = getFirestore();
 const APP_URL = 'https://my-life-tracker-seven.vercel.app/#today';
+
+// Admin role is assigned only by a trusted project owner, never by the client.
+exports.listAdminAccounts = onCall({region:'asia-northeast1',maxInstances:1},async request=>{
+  if(!request.auth) throw new HttpsError('unauthenticated','Эхлээд Google account-аар нэвтэрнэ үү.');
+  if(request.auth.token.admin!==true) throw new HttpsError('permission-denied','Admin эрх шаардлагатай.');
+  const admin=await getAuth().getUser(request.auth.uid);
+  if(admin.disabled||admin.customClaims?.admin!==true) throw new HttpsError('permission-denied','Admin эрх идэвхгүй байна.');
+  const pageToken=request.data?.pageToken;
+  if(!validPageToken(pageToken)) throw new HttpsError('invalid-argument','Хуудасны утга буруу байна.');
+  const result=await getAuth().listUsers(50,pageToken);
+  // Fail closed if audit persistence fails. Do not record emails or private content.
+  await db.collection('adminAudit').add({actorUid:admin.uid,action:'list-accounts',count:result.users.length,at:Date.now()});
+  return {users:result.users.map(accountSummary),nextPageToken:result.pageToken||null};
+});
 const INVALID_TARGET_CODES = new Set([
   'messaging/invalid-registration-token','messaging/registration-token-not-registered','messaging/invalid-argument'
 ]);

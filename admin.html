@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="mn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Тэмүүл · Admin</title><link rel="icon" href="/favicon.svg">
+<style>body{font:16px system-ui;margin:0;background:#111827;color:#e5e7eb}main{max-width:960px;margin:auto;padding:24px}a{color:#c4b5fd}button{font:inherit;padding:12px 18px;border:0;border-radius:12px;background:#7957ed;color:white;cursor:pointer}button:disabled{opacity:.5;cursor:wait}header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}article{padding:20px;border:1px solid #374151;border-radius:18px;margin:14px 0;background:#1f2937;overflow-wrap:anywhere}h2{font-size:18px}dl{display:grid;grid-template-columns:minmax(100px,1fr) 2fr;gap:10px}dd{margin:0}dt,p{color:#b6c1d2}#status{min-height:30px}nav{display:flex;gap:12px;flex-wrap:wrap}</style></head>
+<body><main><header><div><a href="/">← Тэмүүл рүү буцах</a><h1>Admin · Хэрэглэгчид</h1></div><button id="login" disabled>Бэлдэж байна…</button></header>
+<p>Зөвхөн серверээс admin эрх авсан account нэвтэрнэ. Энэ хуудас хувийн Journal, AI яриа, Money мэдээллийг уншихгүй. Хандалтыг бүртгэнэ.</p>
+<p id="status" role="status" aria-live="polite">Нэвтрэлтийг шалгаж байна…</p><nav><button id="reload" disabled>Эхнээс шинэчлэх</button><button id="next" hidden>Дараагийн 50</button></nav><section id="users" aria-label="Бүртгэлтэй хэрэглэгчид"></section>
+<script type="module">
+const $=id=>document.getElementById(id);let user=null,nextToken=null,busy=false;
+function message(text){$('status').textContent=text;}
+try{
+  const [{initializeApp},{getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged}]=await Promise.all([
+    import('https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js'),import('https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js')]);
+  const app=initializeApp({apiKey:'AIzaSyD2IpjP7BGUikR5cc7L2DvW0PYbPPQTPNw',authDomain:'my-life-tracker-6c19b.firebaseapp.com',projectId:'my-life-tracker-6c19b',appId:'1:932788931683:web:d19934806548790d39bc56'});
+  const auth=getAuth(app);$('login').disabled=false;$('login').textContent='Google нэвтрэх / account солих';
+  $('login').onclick=async()=>{try{const provider=new GoogleAuthProvider();provider.setCustomParameters({prompt:'select_account'});await signInWithPopup(auth,provider);}catch{message('Google нэвтрэлт амжилтгүй. Safari/Chrome дээр дахин оролдоорой.');}};
+  onAuthStateChanged(auth,async current=>{
+    user=current;nextToken=null;$('users').replaceChildren();$('next').hidden=true;$('reload').disabled=true;
+    if(!user){message('Admin Google account-аар нэвтэрнэ үү.');return;}
+    try{const token=await user.getIdTokenResult(true);if(token.claims.admin!==true){message('Энэ account admin эрхгүй.');return;}$('reload').disabled=false;message('Admin нэвтэрлээ. “Эхнээс шинэчлэх” дарна уу.');}catch{message('Нэвтрэлтийг шалгаж чадсангүй.');}
+  });
+  async function load(next=false){
+    if(!user||busy)return;busy=true;$('reload').disabled=true;$('next').disabled=true;
+    const current=user,controller=new AbortController(),timer=setTimeout(()=>controller.abort(),20000);
+    message('Хэрэглэгчдийг уншиж байна…');
+    try{
+      const token=await current.getIdToken();
+      const response=await fetch('https://asia-northeast1-my-life-tracker-6c19b.cloudfunctions.net/listAdminAccounts',{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${token}`},body:JSON.stringify({data:next&&nextToken?{pageToken:nextToken}:{}}),signal:controller.signal});
+      const payload=await response.json();if(!response.ok||payload.error)throw new Error(payload.error?.message||'Admin сервер бэлэн биш байна.');
+      if(user!==current)return;
+      const data=payload.result||payload.data;if(!Array.isArray(data?.users))throw new Error('Серверийн хариу буруу байна.');
+      if(!next)$('users').replaceChildren();
+      for(const item of data.users){const card=document.createElement('article'),heading=document.createElement('h2'),list=document.createElement('dl');heading.textContent=item.name||item.email||'Нэргүй хэрэглэгч';card.append(heading,list);
+        for(const [label,value] of [['Email',item.email],['UID',item.uid],['Бүртгүүлсэн',item.createdAt],['Сүүлд нэвтэрсэн',item.lastSignInAt],['Email баталгаатай',item.emailVerified?'Тийм':'Үгүй'],['Төлөв',item.disabled?'Хаалттай':'Идэвхтэй']]){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value||'—';list.append(dt,dd);}$('users').append(card);}
+      nextToken=data.nextPageToken;$('next').hidden=!nextToken;message(`${$('users').children.length} хэрэглэгч харагдаж байна.`);
+    }catch(error){if(user===current)message(error.name==='AbortError'?'Сервер удаж байна. Дахин оролдоорой.':error.message==='Failed to fetch'?'Admin сервер хараахан нийтлэгдээгүй эсвэл холболт тасарсан байна.':error.message);}
+    finally{clearTimeout(timer);busy=false;$('reload').disabled=!user;$('next').disabled=false;}
+  }
+  $('reload').onclick=()=>load();$('next').onclick=()=>load(true);
+}catch{message('Нэвтрэлтийн үйлчилгээ ачаалагдсангүй. Интернетээ шалгаад хуудсаа шинэчилнэ үү.');}
+</script></main></body></html>
