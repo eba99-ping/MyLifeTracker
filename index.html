@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#6d5dfc">
+  <meta name="theme-color" content="#6854d9">
   <meta name="description" content="Тэмүүл — хичээл, төлөвлөгөө, зорилго, habit, focus, money болон AI Coach-ийг нэгтгэсэн personal growth OS.">
   <meta name="application-name" content="Тэмүүл">
   <meta name="author" content="Elbex Labs">
@@ -654,6 +654,7 @@
       *{scroll-behavior:auto!important;animation:none!important;transition:none!important}
     }
   </style>
+  <link rel="stylesheet" href="/redesign.css?v=2.4.0">
 </head>
 
 <body class="is-booting">
@@ -668,7 +669,8 @@
           </div>
 
           <h1>Өдөр бүр<br>өөдөө.</h1>
-          <p>Хичээл, planner, goals, focus, money, Journal болон AI Coach — бүгд нэг app дотор.</p>
+          <p>Өдөртөө зай гарга. Хичээл, зорилго, дадал, бодлоо нэг тайван орон зайд цэгцэл.</p>
+          <div class="auth-day-preview" aria-hidden="true"><span>ТАНЫ ДАРААГИЙН ЖИЖИГ ЯЛАЛТ</span><b>Өнөөдрөө өөрийн хэмнэлээр.</b><div><i>✓</i> Төлөвлө. Төвлөр. Урагшил.</div><div class="auth-preview-track"><i></i></div></div>
 
           <div class="auth-features">
             <div class="auth-feature">📚 Smart Study Hub</div>
@@ -678,7 +680,7 @@
           </div>
         </div>
 
-        <div class="auth-credit">Тэмүүл v2.3.3 · Pet Studio · Built by Elbex Labs · 2026</div>
+        <div class="auth-credit">Тэмүүл v2.4.0 · Daily Workspace · Built by Elbex Labs · 2026</div>
       </div>
 
       <div class="auth-card">
@@ -707,7 +709,7 @@
 
         <button class="device-btn" type="button" id="deviceModeBtn">📱 Continue on this device</button>
         <button class="device-btn" type="button" id="howToStartBtn" style="margin-top:8px;background:#fff">? How to start</button>
-        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.3.3</div>
+        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.4.0</div>
       </div>
     </div>
   </section>
@@ -730,24 +732,21 @@
     </header>
 
     <section class="page active" id="page-today" aria-labelledby="todayTitle">
-      <div class="reminder-card" aria-labelledby="reminderCenterTitle">
-        <div class="reminder-head">
-          <div><h3 id="reminderCenterTitle">🔔 Smart Reminders</h3><p>Task-ийн цаг, давталт, priority-тэй автоматаар холбогдоно.</p></div>
-          <div class="reminder-controls">
-            <span class="notify-status" id="notifyStatus">● Checking</span>
-            <span class="notify-status pending" id="pushDeliveryStatus">● Cloud checking</span>
-            <button class="btn secondary small" id="testNotification" type="button">Test</button>
-            <button class="btn primary small" id="requestNotify" type="button">Enable</button>
-          </div>
-        </div>
-        <div class="reminder-summary" id="reminderSummary">Дараагийн сануулгыг бэлдэж байна…</div>
-        <div class="reminder-list" id="nextReminder"></div>
+      <div class="hero today-welcome">
+        <div><span class="welcome-eyebrow">ТАНЫ ӨДӨР · ТАНЫ ХЭМНЭЛ</span><h2 id="todayTitle">Өнөөдрөө утгатай болгоё.</h2><p id="todaySubtitle"></p></div>
+        <button class="btn primary" data-add-task>＋ Ажил нэмэх</button>
       </div>
-
-      <div class="hero">
-        <div><h2 id="todayTitle">Өнөөдөр</h2><p id="todaySubtitle"></p></div>
-        <button class="btn primary" data-add-task>＋ Task нэмэх</button>
+      <nav class="quick-launch" aria-label="Өдрийн товчлолууд">
+        <button type="button" data-open-tool="focus"><span aria-hidden="true">◷</span><div><b>Төвлөрөх цаг</b><small>Нэг зүйлд анхаарлаа өг</small></div><i aria-hidden="true">↗</i></button>
+        <button type="button" data-open-tool="journal"><span aria-hidden="true">✎</span><div><b>Бодлоо бичье</b><small>Өөртөө түр завсарлага</small></div><i aria-hidden="true">↗</i></button>
+        <button type="button" data-open-tool="ai"><span aria-hidden="true">✧</span><div><b>AI-тай ярилцах</b><small>Дараагийн алхмаа ол</small></div><i aria-hidden="true">↗</i></button>
+      </nav>
+      <div class="card card-pad progress-card today-progress">
+        <div class="progress-ring" id="todayRing"><strong id="todayPercent">0%</strong></div>
+        <div><span class="section-eyebrow">НЭГ АЛХАМ НЭГ УДАА</span><h3>Өдрийн ахиц</h3><p id="todayProgressText">Өнөөдрийн ажлуудаа эхлүүлээрэй.</p></div>
       </div>
+      <div id="todayDeadlineNotices"></div>
+      <section class="today-agenda" aria-labelledby="agendaTitle"><div class="section-head"><h3 id="agendaTitle">Хийх ажлууд</h3><span>Өөрийн хэмнэлээр</span></div><div class="grid" id="todayPeriods"></div></section>
 
       <section class="pet-card card" aria-labelledby="petProfileName">
         <div class="pet-home">
@@ -810,6 +809,17 @@
         </div>
         <button class="btn secondary small" type="button" data-open-tool="habits">Habit Lab нээх</button>
       </section>
+      <details class="reminder-card" aria-labelledby="reminderCenterTitle">
+        <summary class="reminder-disclosure"><span><b id="reminderCenterTitle">Сануулгын төв</b><span class="reminder-summary" id="reminderSummary">Дараагийн сануулгыг бэлдэж байна…</span></span><i aria-hidden="true">⌄</i></summary>
+        <div class="reminder-head"><p>Ажлын цаг, давталт, priority-тэй автоматаар холбогдоно.</p></div>
+        <div class="reminder-controls">
+          <span class="notify-status" id="notifyStatus">● Checking</span>
+          <span class="notify-status pending" id="pushDeliveryStatus">● Cloud checking</span>
+          <button class="btn secondary small" id="testNotification" type="button">Test</button>
+          <button class="btn primary small" id="requestNotify" type="button">Enable</button>
+        </div>
+        <div class="reminder-list" id="nextReminder"></div>
+      </details>
       <section class="card insights-card" aria-labelledby="weeklyInsightsTitle">
         <div class="insights-head">
           <div><h3 id="weeklyInsightsTitle">📊 Life Insights</h3><p>Сүүлийн 7 хоногийн нэгдсэн тойм</p></div>
@@ -827,12 +837,6 @@
           <span class="insight-advice" id="insightAdvice">Өнөөдрийн нэг жижиг алхмаа эхлүүлээрэй.</span>
         </div>
       </section>
-      <div id="todayDeadlineNotices"></div>
-      <div class="card card-pad progress-card">
-        <div class="progress-ring" id="todayRing"><strong id="todayPercent">0%</strong></div>
-        <div><h3>Өдрийн ахиц</h3><p id="todayProgressText">Өнөөдрийн ажлуудаа эхлүүлээрэй.</p></div>
-      </div>
-      <div class="grid" id="todayPeriods"></div>
     </section>
 
     <section class="page" id="page-planner" aria-labelledby="plannerTitle">
@@ -1171,7 +1175,7 @@
       </div>
     </section>
     <footer class="site-footer">
-      <span>© 2026 Тэмүүл · Built by Elbex Labs · v2.3.3 Pet Studio</span>
+      <span>© 2026 Тэмүүл · Built by Elbex Labs · v2.4.0 Daily Workspace</span>
       <nav aria-label="Legal and company links"><a href="/about.html">About</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></nav>
     </footer>
   </main>
@@ -3862,7 +3866,7 @@ version:11,
       const t = today();
       const p = progress(t);
 
-      $('#todaySubtitle').textContent = prettyDate(t);
+      $('#todaySubtitle').textContent = new Intl.DateTimeFormat('mn-MN',{month:'long',day:'numeric',weekday:'long'}).format(new Date(t+'T12:00:00'));
       $('#todayRing').style.setProperty('--p',p.pct);
       $('#todayPercent').textContent = p.pct+'%';
       $('#todayProgressText').textContent = p.total
@@ -5259,7 +5263,7 @@ version:11,
       try{
         const registration = await readyServiceWorker();
         if(!registration) return '';
-        const module = await import('/fcm_setup.js?v=2.3.3');
+        const module = await import('/fcm_setup.js?v=2.4.0');
         const token = await module.enableNotifications(registration);
         if(token){
           localStorage.setItem(PUSH_TOKEN_KEY,token);

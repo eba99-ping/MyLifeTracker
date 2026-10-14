@@ -1,4 +1,14 @@
-# Тэмүүл v2.3 test checklist
+# Тэмүүл v2.4 test checklist
+
+## Workspace redesign
+
+- [ ] At 320, 390, 768, 1100 and 1440 px, confirm no page-level horizontal overflow; all four navigation buttons remain reachable.
+- [ ] Today shows welcome, shortcuts, progress and tasks before supporting sections on mobile; desktop uses two columns.
+- [ ] Focus, Journal and AI shortcuts open the correct existing tool. Add Task and task completion still work.
+- [ ] Expand/collapse the reminder center and verify summary, permission controls and snooze remain usable.
+- [ ] Check light/dark themes on Today, Tools, Planner, Study, Journal, AI and forms; confirm readable text and focus indicators.
+- [ ] Check login welcome and Google/email/Device Mode without changing authentication behavior.
+- [ ] Update the installed PWA, reload offline and confirm the redesigned stylesheet remains available.
 
 ## Pet Studio and background notifications
 

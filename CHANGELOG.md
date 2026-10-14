@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.4.0 — A calmer daily workspace
+
+- Reorganized Today around a welcome, three useful shortcuts, daily progress and tasks; pets, habits, reminders, quests and insights now have clear secondary areas.
+- Added a two-column desktop dashboard, single-column mobile flow and a desktop side navigation at wide viewports.
+- Unified backgrounds, card borders, spacing, buttons, forms and typography across Planner, Study, Tools, Journal, AI, Money and modals in light/dark mode.
+- Refreshed the login welcome, added an illustrated daily-progress preview and localized the Today date.
+- Made the reminder center expandable while leaving its summary visible; retained all existing reminder controls and IDs.
+- Updated PWA cache and manifest colors. Existing storage keys, auth, Firebase access and feature logic remain unchanged.
+
 ## v2.3.3 — AI resilience and protected admin foundation
 
 - Diagnosed production AI failures as provider 503 overload; added one bounded transient retry, request size validation, provider/client timeouts and safe localized error messages.
