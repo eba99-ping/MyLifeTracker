@@ -2,6 +2,10 @@
 
 ## Workspace redesign
 
+- [ ] Pet page: at 320/390/768/1280 px, measure nonzero character/card width, one column on phones/two on desktop, and no implicit extra grid columns or page overflow.
+- [ ] Real iPhone Home Screen app: at the top of the page, confirm logo/theme/profile sit below the clock/status area and are tappable without pulling the page down.
+- [ ] Confirm portrait/landscape safe areas and profile/modal close controls; refresh an already-installed PWA to load v2.4.2.
+
 - [ ] At 320, 390, 768, 1100 and 1440 px, confirm no page-level horizontal overflow; all five navigation buttons remain reachable.
 - [ ] Today has no full pet profile, Daily Quests or weekly statistics; its small pet shortcut opens the Pet tab.
 - [ ] Pet customization and quest rewards work on the dedicated page; direct reload of #pet and #insights restores the correct page and navigation state.

@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.4.2 — Mobile Pet and iPhone header fixes
+
+- Removed a leaked named-grid placement from Daily Quests that created implicit columns and squeezed the Pet card to a thin line on mobile.
+- Constrained Pet page children to their actual tracks while keeping the character, speech and customization controls visible.
+- Added iOS safe-area top spacing to the app, login and modal overlays, a status-bar backdrop and 44 px header controls.
+- Bumped the stylesheet/offline cache version so installed PWAs fetch the corrected layout. No pet data or XP changes.
+
 ## v2.4.1 — Less scrolling, a dedicated Pet tab
 
 - Added a fifth primary navigation tab: Today, Planner, Study, Pet, Tools.
