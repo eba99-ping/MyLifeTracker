@@ -3866,7 +3866,9 @@ version:11,
       const t = today();
       const p = progress(t);
 
-      $('#todaySubtitle').textContent = new Intl.DateTimeFormat('mn-MN',{month:'long',day:'numeric',weekday:'long'}).format(new Date(t+'T12:00:00'));
+      const localToday=new Date(t+'T12:00:00');
+      const weekday=['Ням','Даваа','Мягмар','Лхагва','Пүрэв','Баасан','Бямба'][localToday.getDay()];
+      $('#todaySubtitle').textContent = `${localToday.getMonth()+1}-р сарын ${localToday.getDate()} · ${weekday}`;
       $('#todayRing').style.setProperty('--p',p.pct);
       $('#todayPercent').textContent = p.pct+'%';
       $('#todayProgressText').textContent = p.total
