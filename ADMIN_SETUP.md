@@ -3,12 +3,13 @@
 ## Deployment blockers
 
 - Firebase project was verified on Spark on 2026-10-12. The owner must approve/activate Blaze before deploying scheduled reminders and callable admin functions. No billing changes have been made.
-- Firebase CLI has not completed authorization. Vercel CLI is also not authenticated. GitHub pushes alone have not yet been confirmed to publish the latest version.
-- The requested admin email differs from the account observed in Console. Privately verify the intended account and its Firebase Authentication UID before assigning any role; do not commit the owner's email or credentials.
+- Firebase CLI authorization completed on 2026-10-14. Production v2.3.3 was verified on the canonical domain, and live AI returned a valid response.
+- The owner-confirmed account was matched to a verified, enabled Firebase Authentication user. Its admin claim was assigned and read back as true on 2026-10-14. No email, UID or credential is stored in this document.
+- Cloud Billing API returned `billingEnabled:false` on 2026-10-14. Admin callable and scheduled-reminder deployment remain blocked pending owner billing approval.
 
 ## Secure role setup
 
-Use the Firebase Admin SDK in a trusted owner-controlled environment to look up the verified account with `getUserByEmail`, review its UID, and merge `{admin:true}` into its existing custom claims with `setCustomUserClaims`. Never put service-account keys, admin passwords, or an email-based privilege switch in the frontend. Refresh the account ID token afterward. No role has been assigned by this release.
+Use the Firebase Admin SDK in a trusted owner-controlled environment to look up the verified account with `getUserByEmail`, review its UID, and merge `{admin:true}` into its existing custom claims with `setCustomUserClaims`. Never put service-account keys, admin passwords, or an email-based privilege switch in the frontend. Refresh the account ID token afterward. `functions/scripts/admin-role.cjs` supports explicit inspect/grant operations using an already-approved local CLI session; it never prints access or refresh tokens. Role assignment does not deploy the callable backend.
 
 Deploy `functions:listAdminAccounts`, `functions:sendSmartReminders` and the existing Firestore rules only after owner approval and authentication. Visit `/admin.html` to log in. Non-admin users receive permission-denied; a fresh server-side role lookup also blocks revoked admins. Listings contain only name/email, UID, creation/sign-in dates and account status; never passwords, tokens, Journal, AI conversations or Money data. All successful listing requests require an audit entry. Existing deny-by-default Firestore rules keep audit entries inaccessible to clients.
 
