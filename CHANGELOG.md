@@ -1,5 +1,13 @@
 # Changelog
 
+## v2.4.1 — Less scrolling, a dedicated Pet tab
+
+- Added a fifth primary navigation tab: Today, Planner, Study, Pet, Tools.
+- Moved the full pet profile, appearance controls, unlocks and Daily Quests into a dedicated Pet page with refresh-safe routing.
+- Kept only a small live pet portrait/name/level shortcut on Today; compressed daily shortcuts, progress and reminders so tasks appear sooner.
+- Moved weekly insights and habit overview to Tools → Миний ахиц; all existing stats, XP and user data are retained.
+- Added a Pet PWA shortcut and refreshed the offline cache.
+
 ## v2.4.0 — A calmer daily workspace
 
 - Reorganized Today around a welcome, three useful shortcuts, daily progress and tasks; pets, habits, reminders, quests and insights now have clear secondary areas.

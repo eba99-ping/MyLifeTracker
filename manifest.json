@@ -19,6 +19,7 @@
     {"src":"/icon-maskable-512.png","sizes":"512x512","type":"image/png","purpose":"maskable"}
   ],
   "shortcuts": [
+    {"name":"Миний Pet","short_name":"Pet","url":"/#pet","icons":[{"src":"/icon-192.png","sizes":"192x192"}]},
     {"name":"Өнөөдөр","short_name":"Today","url":"/#today","icons":[{"src":"/icon-192.png","sizes":"192x192"}]},
     {"name":"Planner","short_name":"Planner","url":"/#planner","icons":[{"src":"/icon-192.png","sizes":"192x192"}]},
     {"name":"Study Hub","short_name":"Study","url":"/#study","icons":[{"src":"/icon-192.png","sizes":"192x192"}]},

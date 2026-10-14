@@ -30,8 +30,8 @@ assert.equal(vm.runInContext('normalizePetRecord(raw)',context).color,'#8b72ff')
 vm.runInContext('petState=defaultPetState();awardPetXP("task:new",100);awardPetXP("task:new",100)',context);
 assert.equal(context.petState.xp,100);
 assert.equal(vm.runInContext('petLevelInfo().level',context),2);
-assert.match(html,/grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
-console.log('PASS: pet migration, appearance validation, level boundaries, duplicate XP and four-column navigation');
+assert.match(html,/grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
+console.log('PASS: pet migration, appearance validation, level boundaries, duplicate XP and five-column navigation');
 vm.runInContext(section('    function petArtwork','    function renderPet'),context);
 for(const shape of ['bunny','bear','cat']){
   context.look={shape,color:'#12abcf',accessory:'crown'};

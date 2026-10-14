@@ -242,7 +242,7 @@
     .nav{
       position:fixed;left:50%;bottom:max(12px,env(safe-area-inset-bottom));transform:translateX(-50%);
       width:min(460px,calc(100% - 22px));height:var(--nav-h);padding:8px;display:grid;
-      grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;background:rgba(16,24,40,.94);
+      grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;background:rgba(16,24,40,.94);
       backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.12);border-radius:24px;
       box-shadow:0 20px 50px rgba(16,24,40,.28);z-index:50
     }
@@ -654,7 +654,7 @@
       *{scroll-behavior:auto!important;animation:none!important;transition:none!important}
     }
   </style>
-  <link rel="stylesheet" href="/redesign.css?v=2.4.0">
+  <link rel="stylesheet" href="/redesign.css?v=2.4.1">
 </head>
 
 <body class="is-booting">
@@ -680,7 +680,7 @@
           </div>
         </div>
 
-        <div class="auth-credit">Тэмүүл v2.4.0 · Daily Workspace · Built by Elbex Labs · 2026</div>
+        <div class="auth-credit">Тэмүүл v2.4.1 · Daily Workspace · Built by Elbex Labs · 2026</div>
       </div>
 
       <div class="auth-card">
@@ -709,7 +709,7 @@
 
         <button class="device-btn" type="button" id="deviceModeBtn">📱 Continue on this device</button>
         <button class="device-btn" type="button" id="howToStartBtn" style="margin-top:8px;background:#fff">? How to start</button>
-        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.4.0</div>
+        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.4.1</div>
       </div>
     </div>
   </section>
@@ -745,9 +745,26 @@
         <div class="progress-ring" id="todayRing"><strong id="todayPercent">0%</strong></div>
         <div><span class="section-eyebrow">НЭГ АЛХАМ НЭГ УДАА</span><h3>Өдрийн ахиц</h3><p id="todayProgressText">Өнөөдрийн ажлуудаа эхлүүлээрэй.</p></div>
       </div>
+      <button class="pet-brief" type="button" data-open-tool="pet" aria-label="Миний Pet хуудас нээх"><span class="pet-brief-icon" id="petBriefIcon" aria-hidden="true">🐾</span><span><b id="petBriefName">Миний хамтрагч</b><small id="petBriefLevel">Level 1</small></span><span class="pet-brief-link">Pet нээх ↗</span></button>
+      <details class="reminder-card" aria-labelledby="reminderCenterTitle">
+        <summary class="reminder-disclosure"><span><b id="reminderCenterTitle">Сануулгын төв</b><span class="reminder-summary" id="reminderSummary">Дараагийн сануулгыг бэлдэж байна…</span></span><i aria-hidden="true">⌄</i></summary>
+        <div class="reminder-head"><p>Ажлын цаг, давталт, priority-тэй автоматаар холбогдоно.</p></div>
+        <div class="reminder-controls">
+          <span class="notify-status" id="notifyStatus">● Checking</span>
+          <span class="notify-status pending" id="pushDeliveryStatus">● Cloud checking</span>
+          <button class="btn secondary small" id="testNotification" type="button">Test</button>
+          <button class="btn primary small" id="requestNotify" type="button">Enable</button>
+        </div>
+        <div class="reminder-list" id="nextReminder"></div>
+      </details>
       <div id="todayDeadlineNotices"></div>
       <section class="today-agenda" aria-labelledby="agendaTitle"><div class="section-head"><h3 id="agendaTitle">Хийх ажлууд</h3><span>Өөрийн хэмнэлээр</span></div><div class="grid" id="todayPeriods"></div></section>
 
+    </section>
+
+    <section class="page" id="page-pet" aria-labelledby="petPageTitle">
+      <div class="hero"><div><span class="welcome-eyebrow">ТАНЫ ӨДӨР ТУТМЫН ХАМТРАГЧ</span><h2 id="petPageTitle">Миний Pet</h2><p>Хамтдаа өсөж, шинэ шагналуудаа нээгээрэй.</p></div><button class="btn secondary" type="button" data-open-tool="ai">✧ AI Coach нээх</button></div>
+      <div class="pet-page-layout">
       <section class="pet-card card" aria-labelledby="petProfileName">
         <div class="pet-home">
           <button class="pet-stage" id="petStage" type="button" data-mood="neutral" aria-label="AI Coach нээх">
@@ -800,6 +817,12 @@
         </div>
         <div class="quest-list" id="dailyQuestList"></div>
       </section>
+      </div>
+    </section>
+
+    <section class="page" id="page-insights" aria-labelledby="insightsPageTitle">
+      <button class="tool-back" type="button" data-back-tools>← Tools</button>
+      <div class="hero"><div><h2 id="insightsPageTitle">Миний ахиц</h2><p>Дадал, төвлөрөл, долоо хоногийн тойм.</p></div></div>
       <section class="card habit-today-card" aria-labelledby="habitTodayTitle">
         <div class="habit-today-icon" aria-hidden="true">🔥</div>
         <div class="habit-today-copy">
@@ -809,17 +832,6 @@
         </div>
         <button class="btn secondary small" type="button" data-open-tool="habits">Habit Lab нээх</button>
       </section>
-      <details class="reminder-card" aria-labelledby="reminderCenterTitle">
-        <summary class="reminder-disclosure"><span><b id="reminderCenterTitle">Сануулгын төв</b><span class="reminder-summary" id="reminderSummary">Дараагийн сануулгыг бэлдэж байна…</span></span><i aria-hidden="true">⌄</i></summary>
-        <div class="reminder-head"><p>Ажлын цаг, давталт, priority-тэй автоматаар холбогдоно.</p></div>
-        <div class="reminder-controls">
-          <span class="notify-status" id="notifyStatus">● Checking</span>
-          <span class="notify-status pending" id="pushDeliveryStatus">● Cloud checking</span>
-          <button class="btn secondary small" id="testNotification" type="button">Test</button>
-          <button class="btn primary small" id="requestNotify" type="button">Enable</button>
-        </div>
-        <div class="reminder-list" id="nextReminder"></div>
-      </details>
       <section class="card insights-card" aria-labelledby="weeklyInsightsTitle">
         <div class="insights-head">
           <div><h3 id="weeklyInsightsTitle">📊 Life Insights</h3><p>Сүүлийн 7 хоногийн нэгдсэн тойм</p></div>
@@ -901,6 +913,7 @@
       </div>
 
       <div class="tools-grid">
+        <button class="tool-card" type="button" data-open-tool="insights"><div><div class="tool-card-icon">📊</div><h3>Миний ахиц</h3><p>Долоо хоногийн тойм, дадал, төвлөрлийн ахицаа хар.</p></div><div class="tool-card-foot"><span class="tool-stat">7 хоногийн тойм</span><span class="tool-arrow">›</span></div></button>
         <button class="tool-card" type="button" data-open-tool="goals">
           <div>
             <div class="tool-card-icon">🎯</div>
@@ -1175,7 +1188,7 @@
       </div>
     </section>
     <footer class="site-footer">
-      <span>© 2026 Тэмүүл · Built by Elbex Labs · v2.4.0 Daily Workspace</span>
+      <span>© 2026 Тэмүүл · Built by Elbex Labs · v2.4.1 Daily Workspace</span>
       <nav aria-label="Legal and company links"><a href="/about.html">About</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></nav>
     </footer>
   </main>
@@ -1184,6 +1197,7 @@
     <button class="active" data-page="today"><b>🏠</b><span>Өнөөдөр</span></button>
     <button data-page="planner"><b>📅</b><span>Planner</span></button>
     <button data-page="study"><b>📚</b><span>Study</span></button>
+    <button data-page="pet"><b>🐾</b><span>Pet</span></button>
     <button data-page="tools"><b>🧰</b><span>Tools</span></button>
   </nav>
 
@@ -2509,7 +2523,10 @@
       $('#petStage').dataset.mood = mood;
       const artKey=JSON.stringify([petState.shape,petState.color,selected.id]);
       const svg=$('#petStage .pet-svg');
-      if(svg.dataset.artKey!==artKey){svg.innerHTML=petArtwork({...petState,accessory:selected.id});svg.dataset.artKey=artKey;}
+      if(svg.dataset.artKey!==artKey){
+        svg.innerHTML=petArtwork({...petState,accessory:selected.id});svg.dataset.artKey=artKey;
+        $('#petBriefIcon').innerHTML=`<svg viewBox="0 0 200 205" width="42" height="44">${petArtwork({...petState,accessory:selected.id},'petbrief')}</svg>`;
+      }
       const scenes={classic:'',forest:'linear-gradient(135deg,#065f46,#34d399)',ocean:'linear-gradient(135deg,#1e3a8a,#38bdf8)',sunset:'linear-gradient(135deg,#9d174d,#fb923c)'};
       $('.pet-home').style.background=scenes[petState.backdrop]||'';
       $('#petNextReward').textContent=level.level<10?`Дараагийн шагнал: ${PET_ACCESSORIES.find(item=>item.level===level.level+1)?.label||''} · ${level.next-petState.xp} XP үлдсэн`:`🏅 Мастер ${level.level} · Дараагийн цол хүртэл ${level.next-petState.xp} XP`;
@@ -2522,6 +2539,8 @@
       $('#petMoodLabel').textContent = `${moodInfo.dot} ${moodInfo.label}`;
       $('#petMoodStat').textContent = moodInfo.label;
       $('#petLevelLabel').textContent = `Level ${level.level}`;
+      $('#petBriefName').textContent=petState.name;
+      $('#petBriefLevel').textContent=`Level ${level.level} · ${moodInfo.label}`;
       $('#petXpLabel').textContent = `${level.current} / ${level.needed} XP`;
       $('#petXpBar').style.width = `${level.pct}%`;
       $('#petStreakStat').textContent = `+${petStreakBonus()} XP`;
@@ -5042,7 +5061,7 @@ version:11,
     function switchPage(name){
       saveJournal();
 
-      const toolPages = ['goals','money','journal','ai','focus','habits'];
+      const toolPages = ['goals','money','journal','ai','focus','habits','insights'];
       const navPage = toolPages.includes(name) ? 'tools' : name;
 
       $$('.page').forEach(p => p.classList.toggle('active',p.id===`page-${name}`));
@@ -5057,6 +5076,8 @@ version:11,
       if(name==='study') renderStudy();
       if(name==='habits') renderHabits();
       if(name==='tools') renderTools();
+      if(name==='pet'){renderPet();renderDailyQuests();}
+      if(name==='insights'){renderHabits();renderLifeInsights();}
 
       window.scrollTo({top:0,behavior:'smooth'});
     }
@@ -5265,7 +5286,7 @@ version:11,
       try{
         const registration = await readyServiceWorker();
         if(!registration) return '';
-        const module = await import('/fcm_setup.js?v=2.4.0');
+        const module = await import('/fcm_setup.js?v=2.4.1');
         const token = await module.enableNotifications(registration);
         if(token){
           localStorage.setItem(PUSH_TOKEN_KEY,token);
@@ -5406,7 +5427,7 @@ version:11,
       await initializeFirebaseSession();
 
       const hash = location.hash.slice(1);
-      if(['today','planner','study','tools','goals','money','journal','ai','focus','habits'].includes(hash)){
+      if(['today','planner','study','pet','tools','goals','money','journal','ai','focus','habits','insights'].includes(hash)){
         switchPage(hash);
       }
     }

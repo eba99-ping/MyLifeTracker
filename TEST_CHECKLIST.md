@@ -2,7 +2,10 @@
 
 ## Workspace redesign
 
-- [ ] At 320, 390, 768, 1100 and 1440 px, confirm no page-level horizontal overflow; all four navigation buttons remain reachable.
+- [ ] At 320, 390, 768, 1100 and 1440 px, confirm no page-level horizontal overflow; all five navigation buttons remain reachable.
+- [ ] Today has no full pet profile, Daily Quests or weekly statistics; its small pet shortcut opens the Pet tab.
+- [ ] Pet customization and quest rewards work on the dedicated page; direct reload of #pet and #insights restores the correct page and navigation state.
+- [ ] Tools → Миний ахиц shows the existing weekly insights and habit overview.
 - [ ] Today shows welcome, shortcuts, progress and tasks before supporting sections on mobile; desktop uses two columns.
 - [ ] Focus, Journal and AI shortcuts open the correct existing tool. Add Task and task completion still work.
 - [ ] Expand/collapse the reminder center and verify summary, permission controls and snooze remain usable.
