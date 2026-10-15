@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.5.1 — Small-screen game polish
+
+- Kept all three game statistics on one row on narrow phones and aligned back/restart controls under the game title.
+- Removed an empty library spacer and return new rounds to the page top so the header remains reachable.
+- Verified complete memory, reaction and puzzle rounds in the live UI; best scores survived reload.
+
 ## v2.5.0 — Little Games
 
 - Added a dedicated Games tab with three offline games: animal-pair memory, three-trial reaction speed and a solvable illustrated 3×3 sliding puzzle.

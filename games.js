@@ -1,4 +1,4 @@
-import {shuffle,neighbors,moveTile,solved,makePuzzle,safeScores,recordScore} from './games-core.js?v=2.5.0';
+import {shuffle,neighbors,moveTile,solved,makePuzzle,safeScores,recordScore} from './games-core.js?v=2.5.1';
 
 const root=document.getElementById('page-games');
 if(root){
@@ -41,7 +41,7 @@ if(root){
     $('gamesPauseNote').textContent='';
     if(game==='memory')newMemory();if(game==='reaction')newReaction();if(game==='puzzle')newPuzzle();
     $('gameTitle').focus({preventScroll:true});
-    root.scrollIntoView({behavior:'instant',block:'start'});
+    window.scrollTo({top:0,behavior:'instant'});
   }
   function showHub(note=''){
     resetSession();game='';$('gameStage').hidden=true;$('gamesHub').hidden=false;$('gamesPauseNote').textContent=note;
