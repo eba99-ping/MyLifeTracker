@@ -1,6 +1,6 @@
 # Changelog
 
-## v2.6.0 — Companion moments & daily direction
+## v2.6.1 — Companion moments & daily direction
 
 - Added petting, feeding and play with gentle, reduced-motion-aware reactions and cooldowns; care never consumes real money or penalizes inactivity.
 - New work earns pet coins once per activity. Five purchasable environments/props keep all existing level unlocks and appearance settings intact. Historical XP is preserved without retroactive coin grants.

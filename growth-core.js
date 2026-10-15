@@ -15,7 +15,7 @@ globalThis.TemuulGrowth = (() => {
     }
     return result;
   }
-  function reward(key){return ({task:5,'goal-step':8,goal:25,habit:3,assignment:5,focus:8})[String(key).split(':')[0]]||0;}
+  function reward(key){const rewards={task:5,'goal-step':8,goal:25,habit:3,assignment:5,focus:8};const kind=String(key).split(':')[0];return Object.hasOwn(rewards,kind)?rewards[kind]:0;}
   function economy(raw={}){return {earnings:object(raw?.earnings),purchases:object(raw?.purchases)};}
   function mergeEconomy(a,b){a=economy(a);b=economy(b);return {earnings:mergeEntries(a.earnings,b.earnings),purchases:mergeEntries(a.purchases,b.purchases)};}
   function wallet(raw){
@@ -27,6 +27,7 @@ globalThis.TemuulGrowth = (() => {
   }
   function previousDate(date){const d=new Date(date+'T12:00:00');d.setDate(d.getDate()-1);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
   function nextAction(tasks,date,now,priority=''){
+    priority=typeof priority==='string'?priority:'';
     const minutes=now.getHours()*60+now.getMinutes();
     const pending=tasks.filter(t=>!t.doneDates?.[date]);
     const ranked=pending.map(t=>{
