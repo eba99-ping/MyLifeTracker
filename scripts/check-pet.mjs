@@ -8,6 +8,7 @@ function section(start,end){
   return html.slice(a,b);
 }
 const context=vm.createContext({Date,console,PET_KEY:'myLifeTracker.pet.v1',setTimeout(){},toast(){},scheduleCloudSync(){},localStorage:{setItem(){}},cloneData:structuredClone});
+vm.runInContext(fs.readFileSync('growth-core.js','utf8'),context);
 vm.runInContext(section('    const PET_LEVELS','    function seedPetFromTracker')+
   section('    function normalizePetAppearance','    function petStreak()')+
   section('    function normalizePetRecord','    function mergePetRecords')+

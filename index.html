@@ -654,8 +654,9 @@
       *{scroll-behavior:auto!important;animation:none!important;transition:none!important}
     }
   </style>
-  <link rel="stylesheet" href="/redesign.css?v=2.5.1">
-  <link rel="stylesheet" href="/games.css?v=2.5.1">
+  <link rel="stylesheet" href="/redesign.css?v=2.6.0">
+  <link rel="stylesheet" href="/growth.css?v=2.6.0">
+  <link rel="stylesheet" href="/games.css?v=2.6.0">
 </head>
 
 <body class="is-booting">
@@ -681,7 +682,7 @@
           </div>
         </div>
 
-        <div class="auth-credit">Тэмүүл v2.5.1 · Daily Workspace · Built by Elbex Labs · 2026</div>
+        <div class="auth-credit">Тэмүүл v2.6.0 · Daily Workspace · Built by Elbex Labs · 2026</div>
       </div>
 
       <div class="auth-card">
@@ -710,7 +711,7 @@
 
         <button class="device-btn" type="button" id="deviceModeBtn">📱 Continue on this device</button>
         <button class="device-btn" type="button" id="howToStartBtn" style="margin-top:8px;background:#fff">? How to start</button>
-        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.5.1</div>
+        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.6.0</div>
       </div>
     </div>
   </section>
@@ -758,6 +759,12 @@
         </div>
         <div class="reminder-list" id="nextReminder"></div>
       </details>
+      <section class="card daily-flow" aria-label="Өдрийн дараагийн алхам">
+        <div class="next-row"><div class="next-copy"><h3>🎯 Одоо юу хийх вэ?</h3><p id="nextActionTitle">Нэг жижиг алхмаас эхэлье</p><small id="nextActionReason"></small></div><button class="btn primary small" id="nextActionStart" type="button">Focus →</button></div>
+        <details id="eveningReview"><summary>🌙 Оройн 30 секундийн дүгнэлт <small id="reviewSaved"></small></summary>
+          <form id="reviewForm"><label for="reviewWin">Өнөөдөр юу бүтээв?</label><textarea id="reviewWin" maxlength="1200" rows="2" placeholder="Жижиг ялалт ч үнэ цэнтэй…"></textarea><label for="reviewPriority">Маргаашийн хамгийн чухал ажил юу вэ?</label><input id="reviewPriority" maxlength="160" placeholder="Зөвхөн нэг ажлаа сонгоорой"><p>Маргааш Today дээр автоматаар санал болгоно. Planner-д давхар ажил үүсгэхгүй.</p><button class="btn secondary small" type="submit">Дүгнэлт хадгалах</button></form>
+        </details>
+      </section>
       <div id="todayDeadlineNotices"></div>
       <section class="today-agenda" aria-labelledby="agendaTitle"><div class="section-head"><h3 id="agendaTitle">Хийх ажлууд</h3><span>Өөрийн хэмнэлээр</span></div><div class="grid" id="todayPeriods"></div></section>
 
@@ -793,6 +800,7 @@
             <small>Намайг дарж AI Coach-той ярилцаарай →</small>
           </div>
         </div>
+        <div class="pet-care"><div class="pet-care-head"><b>Хамтдаа өнгөрүүлэх мөч</b><span id="petCoins">🪙 0</span></div><div class="pet-care-actions"><button class="btn secondary small" type="button" data-pet-care="pet">🤍 Илэх</button><button class="btn secondary small" type="button" data-pet-care="feed">🍎 Хооллох</button><button class="btn secondary small" type="button" data-pet-care="play">🎾 Тоглуулах</button></div><p id="petCareMessage" role="status">Ажлаа дуусгаад зоос цуглуулж, хамтрагчийнхаа орчинг тохижуулаарай.</p><details><summary>🛍️ Pet дэлгүүр · орчин ба хэрэгсэл</summary><p>Ажил +5 · Зорилгын алхам +8 · Зорилго +25 · Дадал +3 · Focus +8 зоос. Хуучин ахицыг өөрчлөхгүй.</p><div class="pet-shop" id="petShop"></div><button class="btn secondary small" id="petRoomReset" type="button">Үндсэн орчин</button></details></div>
         <aside class="pet-profile" aria-label="AI Pet profile">
           <div class="pet-profile-head">
             <div><h3 id="petProfileName">Nomi</h3><div class="pet-mood-pill" id="petMoodLabel">● Neutral</div></div>
@@ -1211,7 +1219,7 @@
       </div>
     </section>
     <footer class="site-footer">
-      <span>© 2026 Тэмүүл · Built by Elbex Labs · v2.5.1 Daily Workspace</span>
+      <span>© 2026 Тэмүүл · Built by Elbex Labs · v2.6.0 Daily Workspace</span>
       <nav aria-label="Legal and company links"><a href="/about.html">About</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></nav>
     </footer>
   </main>
@@ -1562,6 +1570,7 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+  <script src="/growth-core.js?v=2.6.0"></script>
   <script>
   (() => {
     'use strict';
@@ -1638,7 +1647,7 @@
         updatedAt:0,
         tasks:[],
         goals:[],
-        journal:{},
+        journal:{},reviews:{},
         money:{
           transactions:[],
           monthlyBudget:0,
@@ -2438,6 +2447,8 @@
       const reward = Math.max(0,Number(amount)||0);
       petState.xpEvents[eventKey] = Date.now();
       petState.xpAwards[eventKey] = reward;
+      petState.economy=TemuulGrowth.economy(petState.economy);
+      if(TemuulGrowth.reward(eventKey) && !petState.economy.earnings[eventKey]) petState.economy.earnings[eventKey]={at:Date.now()};
       petState.lastActiveAt = Date.now();
       petState.mood = 'happy';
       savePet();
@@ -2537,6 +2548,7 @@
 
     function renderPet(){
       if(!$('#petStage')) return;
+      renderPetCare();
       const level = petLevelInfo();
       const mood = computedPetMood();
       const moodInfo = PET_MOODS[mood];
@@ -2553,6 +2565,10 @@
       }
       const scenes={classic:'',forest:'linear-gradient(135deg,#065f46,#34d399)',ocean:'linear-gradient(135deg,#1e3a8a,#38bdf8)',sunset:'linear-gradient(135deg,#9d174d,#fb923c)'};
       $('.pet-home').style.background=scenes[petState.backdrop]||'';
+      const room=TemuulGrowth.shop.find(item=>item.id===petState.room && TemuulGrowth.wallet(petState.economy).owned.includes(item.id));
+      if(room?.color) $('.pet-home').style.background=room.color;
+      let prop=$('#petRoomProp');if(!prop){prop=document.createElement('span');prop.id='petRoomProp';prop.setAttribute('aria-hidden','true');$('.pet-home').append(prop);}
+      prop.textContent=TemuulGrowth.shop.find(item=>item.id===petState.roomProp && TemuulGrowth.wallet(petState.economy).owned.includes(item.id))?.prop||'';
       $('#petNextReward').textContent=level.level<10?`Дараагийн шагнал: ${PET_ACCESSORIES.find(item=>item.level===level.level+1)?.label||''} · ${level.next-petState.xp} XP үлдсэн`:`🏅 Мастер ${level.level} · Дараагийн цол хүртэл ${level.next-petState.xp} XP`;
       $('#petStage').setAttribute('aria-label',`${petState.name}, ${moodInfo.label}. AI Coach нээх`);
       $('#petRewardSummary').textContent=$('#petNextReward').textContent;
@@ -2581,6 +2597,69 @@
         toast(`${item.label} сонгогдлоо`);
       });
     }
+
+    function renderPetCare(){
+      const wallet=TemuulGrowth.wallet(petState.economy);
+      $('#petCoins').textContent=`🪙 ${wallet.coins} зоос`;
+      $('#petShop').innerHTML=TemuulGrowth.shop.map(item=>{
+        const owned=wallet.owned.includes(item.id),selected=(item.prop?petState.roomProp:petState.room)===item.id;
+        return `<button type="button" class="btn secondary small" data-room="${item.id}" ${!owned&&wallet.coins<item.price?'disabled':''}><b>${item.name}</b><small>${selected?'✓ Сонгосон':owned?'Сонгох':`${item.price} зоос`}</small></button>`;
+      }).join('');
+      $$('[data-room]').forEach(button=>button.onclick=()=>{
+        const item=TemuulGrowth.shop.find(x=>x.id===button.dataset.room);if(!item)return;
+        petState.economy=TemuulGrowth.economy(petState.economy);
+        const current=TemuulGrowth.wallet(petState.economy);
+        if(!current.owned.includes(item.id)){
+          if(current.coins<item.price)return;
+          petState.economy.purchases[item.id]={at:Date.now()};
+        }
+        petState[item.prop?'roomProp':'room']=item.id;savePet();renderPet();toast(`${item.name} сонгогдлоо`);
+      });
+    }
+    $$('[data-pet-care]').forEach(button=>button.addEventListener('click',()=>{
+      const kind=button.dataset.petCare,now=Date.now();petState.care=petState.care||{};
+      const cooldown=kind==='pet'?2000:30000;
+      if(now-Number(petState.care[kind]||0)<cooldown){$('#petCareMessage').textContent='Жаахан амраагаад дахин хамт тоглоорой 🤍';return;}
+      petState.care[kind]=now;petState.lastActiveAt=now;savePet();renderPet();
+      const message={pet:'🤍 Надад хайртайг чинь мэдэрлээ!',feed:'🍎 Амттай байлаа, баярлалаа!',play:'🎾 Ямар хөгжилтэй юм бэ!'}[kind];
+      $('#petCareMessage').textContent=message;$('#petMessage').textContent=message;
+      $('#petStage').classList.remove('pet-loved');requestAnimationFrame(()=>$('#petStage').classList.add('pet-loved'));
+      setTimeout(()=>$('#petStage').classList.remove('pet-loved'),600);
+    }));
+    $('#petRoomReset').addEventListener('click',()=>{petState.room='';petState.roomProp='';savePet();renderPet();});
+
+    function suggestedAction(){
+      const date=today(),yesterday=TemuulGrowth.previousDate(date);
+      const tasks=[...visibleTasks(date)];
+      (state.study?.assignments||[]).filter(x=>!x.done&&x.due&&x.due<=date).forEach(x=>tasks.push({id:`assignment:${x.id}`,title:x.title||x.subject||'Хичээлийн даалгавар',priority:'high',time:'00:00',deadline:x.due}));
+      state.goals.filter(x=>!x.completed&&x.deadline&&x.deadline<=date).forEach(x=>tasks.push({id:`goal:${x.id}`,title:x.title,priority:'high',time:'00:00',deadline:x.deadline}));
+      return TemuulGrowth.nextAction(tasks,date,new Date(),state.reviews?.[yesterday]?.priority||'');
+    }
+    function renderDailyFlow(){
+      const action=suggestedAction();
+      $('#nextActionTitle').textContent=action?.title||'Өнөөдрийн төлөвлөсөн ажлууд дууслаа ✨';
+      $('#nextActionReason').textContent=focusState.active?'Эхэлсэн Focus-оо үргэлжлүүлээрэй':action?.reason||'Хүсвэл өөртөө тайван Focus цаг гаргаарай';
+      $('#nextActionStart').textContent=focusState.active?'Focus нээх →':'Focus →';
+      $('#reviewSaved').textContent=state.reviews?.[today()]?'· Хадгалсан ✓':'';
+    }
+    $('#eveningReview').addEventListener('toggle',()=>{
+      if(!$('#eveningReview').open)return;
+      const review=state.reviews?.[today()]||{};
+      $('#reviewForm').dataset.date=today();$('#reviewWin').value=review.win||'';$('#reviewPriority').value=review.priority||'';
+    });
+    $('#reviewForm').addEventListener('submit',event=>{
+      event.preventDefault();const date=$('#reviewForm').dataset.date||today();
+      state.reviews=state.reviews||{};state.reviews[date]={win:$('#reviewWin').value.trim().slice(0,1200),priority:$('#reviewPriority').value.trim().slice(0,160),updatedAt:Date.now()};
+      save();renderDailyFlow();toast('Дүгнэлт хадгалагдлаа. Маргаашийн нэг алхам бэлэн 🌙');
+    });
+    $('#nextActionStart').addEventListener('click',()=>{
+      const action=suggestedAction();switchPage('focus');
+      if(focusState.active)return;
+      $('#focusTaskSelect').value=action?.id||'';startOrPauseFocus();
+      if(action&&focusState.active){focusState.active.taskTitle=action.title;focusState.active.taskId=state.tasks.some(x=>x.id===action.id)?action.id:'';saveFocus();renderFocus();}
+      renderDailyFlow();
+    });
+    setInterval(()=>{if($('#page-today').classList.contains('active'))renderDailyFlow();},60000);
 
     savePet({touch:false,cloud:false});
 
@@ -3025,6 +3104,8 @@
       const awards = {...(a.xpAwards||{}),...(b.xpAwards||{})};
       return normalizePetRecord({
         ...preferred,
+        economy:TemuulGrowth.mergeEconomy(a.economy,b.economy),
+        care:Object.fromEntries(['pet','feed','play'].map(key=>[key,Math.max(Number(a.care?.[key])||0,Number(b.care?.[key])||0)])),
         xpEvents:events,
         xpAwards:awards,
         legacyXp:Math.max(Number(a.legacyXp)||0,Number(b.legacyXp)||0),
@@ -3089,6 +3170,7 @@
         tasks:mergeRecordArrays(localState.tasks,remoteState.tasks,'tasks',tombstones,localStateStamp,remoteStateStamp,mergeTaskRecord).map(normalizeTask),
         goals:mergeRecordArrays(localState.goals,remoteState.goals,'goals',tombstones,localStateStamp,remoteStateStamp,mergeGoalRecord).map(normalizeGoal),
         journal:mergeJournal(localState.journal,remoteState.journal,tombstones,localStateStamp,remoteStateStamp),
+        reviews:TemuulGrowth.mergeEntries(localState.reviews,remoteState.reviews),
         money:{
           ...(localStateStamp>=remoteStateStamp ? remoteState.money : localState.money),
           ...(localStateStamp>=remoteStateStamp ? localState.money : remoteState.money),
@@ -3906,6 +3988,7 @@ version:11,
     }
 
     function renderTasks(){
+      renderDailyFlow();
       const t = today();
       const p = progress(t);
 
@@ -5310,7 +5393,7 @@ version:11,
       try{
         const registration = await readyServiceWorker();
         if(!registration) return '';
-        const module = await import('/fcm_setup.js?v=2.5.1');
+        const module = await import('/fcm_setup.js?v=2.6.0');
         const token = await module.enableNotifications(registration);
         if(token){
           localStorage.setItem(PUSH_TOKEN_KEY,token);
@@ -5476,6 +5559,6 @@ version:11,
   })();
 </script>
 
-  <script type="module" src="/games.js?v=2.5.1"></script>
+  <script type="module" src="/games.js?v=2.6.0"></script>
 </body>
 </html>

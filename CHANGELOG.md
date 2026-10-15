@@ -1,5 +1,22 @@
 # Changelog
 
+## v2.6.0 — Companion moments & daily direction
+
+- Added petting, feeding and play with gentle, reduced-motion-aware reactions and cooldowns; care never consumes real money or penalizes inactivity.
+- New work earns pet coins once per activity. Five purchasable environments/props keep all existing level unlocks and appearance settings intact. Historical XP is preserved without retroactive coin grants.
+- Added a compact next-action card using time, priority, due assignments/goals and yesterday's chosen priority. One click starts Focus or opens an existing session without replacing it.
+- Added a two-question evening review. Tomorrow's priority appears automatically on Today without creating duplicate Planner records. Reviews merge independently by date; coins and purchases merge deterministically across devices.
+- Included new assets in the versioned offline shell and added economy/review/ranking regression checks.
+
+### Test checklist
+
+- Complete a new task: +5 coins once; undo/re-complete does not duplicate coins. Existing XP, Journal, Money, Study and Games survive reload.
+- Pet, feed and play: distinct feedback, brief cooldown, no coin farming; pet portrait still opens AI Coach.
+- Earn enough coins, buy/equip an environment and prop, reload and verify persistence. Insufficient funds disable purchase; two offline purchases cannot produce a negative balance.
+- Save/edit an evening review, reload, then check the next local day's priority. Editing never creates Planner duplicates; cloud merge retains reviews on different dates.
+- Check overdue/timed/high-priority recommendations; start Focus twice and verify the active session is preserved.
+- Check 320/390 px and desktop, both themes, keyboard controls and reduced-motion mode. New assets are included in the PWA cache.
+
 ## v2.5.1 — Small-screen game polish
 
 - Kept all three game statistics on one row on narrow phones and aligned back/restart controls under the game title.
