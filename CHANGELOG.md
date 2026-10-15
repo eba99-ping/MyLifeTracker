@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.7.1 — Original colors, new mark
+
+- Restored the pre-Spectrum light/dark palette as requested; no feature, layout or data changes.
+- Replaced the old ribbon mark with a rounded mountain-and-rising-trail symbol, including favicon, header/login artwork and install icons.
+
 ## v2.7.0 — Spectrum
 
 - Replaced the flat indigo palette with a forest/mint base, apricot actions, sky-blue Focus direction and lilac Pet accents in both themes.
