@@ -654,9 +654,10 @@
       *{scroll-behavior:auto!important;animation:none!important;transition:none!important}
     }
   </style>
-  <link rel="stylesheet" href="/redesign.css?v=2.6.1">
-  <link rel="stylesheet" href="/growth.css?v=2.6.1">
-  <link rel="stylesheet" href="/games.css?v=2.6.1">
+  <link rel="stylesheet" href="/redesign.css?v=2.7.0">
+  <link rel="stylesheet" href="/growth.css?v=2.7.0">
+  <link rel="stylesheet" href="/games.css?v=2.7.0">
+  <link rel="stylesheet" href="/spectrum.css?v=2.7.0">
 </head>
 
 <body class="is-booting">
@@ -682,7 +683,7 @@
           </div>
         </div>
 
-        <div class="auth-credit">Тэмүүл v2.6.1 · Daily Workspace · Built by Elbex Labs · 2026</div>
+        <div class="auth-credit">Тэмүүл v2.7.0 · Daily Workspace · Built by Elbex Labs · 2026</div>
       </div>
 
       <div class="auth-card">
@@ -711,7 +712,7 @@
 
         <button class="device-btn" type="button" id="deviceModeBtn">📱 Continue on this device</button>
         <button class="device-btn" type="button" id="howToStartBtn" style="margin-top:8px;background:#fff">? How to start</button>
-        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.6.1</div>
+        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.7.0</div>
       </div>
     </div>
   </section>
@@ -1219,7 +1220,7 @@
       </div>
     </section>
     <footer class="site-footer">
-      <span>© 2026 Тэмүүл · Built by Elbex Labs · v2.6.1 Daily Workspace</span>
+      <span>© 2026 Тэмүүл · Built by Elbex Labs · v2.7.0 Daily Workspace</span>
       <nav aria-label="Legal and company links"><a href="/about.html">About</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></nav>
     </footer>
   </main>
@@ -1570,7 +1571,7 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="/growth-core.js?v=2.6.1"></script>
+  <script src="/growth-core.js?v=2.7.0"></script>
   <script>
   (() => {
     'use strict';
@@ -5393,7 +5394,7 @@ version:11,
       try{
         const registration = await readyServiceWorker();
         if(!registration) return '';
-        const module = await import('/fcm_setup.js?v=2.6.1');
+        const module = await import('/fcm_setup.js?v=2.7.0');
         const token = await module.enableNotifications(registration);
         if(token){
           localStorage.setItem(PUSH_TOKEN_KEY,token);
@@ -5559,6 +5560,6 @@ version:11,
   })();
 </script>
 
-  <script type="module" src="/games.js?v=2.6.1"></script>
+  <script type="module" src="/games.js?v=2.7.0"></script>
 </body>
 </html>

@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.7.0 — Spectrum
+
+- Replaced the flat indigo palette with a forest/mint base, apricot actions, sky-blue Focus direction and lilac Pet accents in both themes.
+- Gave shortcuts, progress, Pet and daily direction distinct tinted surfaces; added a small sunrise accent and color-coded agenda edges without adding scrolling or changing navigation.
+- Updated the offline shell. No storage, authentication, AI or tracker logic changes.
+- QA: run the complete regression suite; inspect Today/Pet in both themes at 390 px and verify no horizontal overflow at 320 px/desktop.
+
 ## v2.6.1 — Companion moments & daily direction
 
 - Added petting, feeding and play with gentle, reduced-motion-aware reactions and cooldowns; care never consumes real money or penalizes inactivity.
