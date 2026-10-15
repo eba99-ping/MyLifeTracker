@@ -3,6 +3,7 @@ import fs from 'node:fs';
 const required = ['index.html','manifest.json','sw.js','vercel.json','firebase.json','firestore.rules','.firebaserc','temuul-mark.png','icon-192.png','icon-512.png','icon-maskable-512.png','privacy.html','terms.html','about.html','contact.html','404.html','api/chat.js','functions/index.js','functions/reminder-logic.js'];
 const missing = required.filter(file => !fs.existsSync(file));
 if(!fs.existsSync('redesign.css')) missing.push('redesign.css');
+for(const asset of ['games.css','games.js','games-core.js'])if(!fs.existsSync(asset))missing.push(asset);
 if(missing.length) throw new Error(`Missing production files: ${missing.join(', ')}`);
 
 JSON.parse(fs.readFileSync('manifest.json','utf8'));

@@ -242,7 +242,7 @@
     .nav{
       position:fixed;left:50%;bottom:max(12px,env(safe-area-inset-bottom));transform:translateX(-50%);
       width:min(460px,calc(100% - 22px));height:var(--nav-h);padding:8px;display:grid;
-      grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;background:rgba(16,24,40,.94);
+      grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;background:rgba(16,24,40,.94);
       backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.12);border-radius:24px;
       box-shadow:0 20px 50px rgba(16,24,40,.28);z-index:50
     }
@@ -654,7 +654,8 @@
       *{scroll-behavior:auto!important;animation:none!important;transition:none!important}
     }
   </style>
-  <link rel="stylesheet" href="/redesign.css?v=2.4.2">
+  <link rel="stylesheet" href="/redesign.css?v=2.5.0">
+  <link rel="stylesheet" href="/games.css?v=2.5.0">
 </head>
 
 <body class="is-booting">
@@ -680,7 +681,7 @@
           </div>
         </div>
 
-        <div class="auth-credit">Тэмүүл v2.4.2 · Daily Workspace · Built by Elbex Labs · 2026</div>
+        <div class="auth-credit">Тэмүүл v2.5.0 · Daily Workspace · Built by Elbex Labs · 2026</div>
       </div>
 
       <div class="auth-card">
@@ -709,7 +710,7 @@
 
         <button class="device-btn" type="button" id="deviceModeBtn">📱 Continue on this device</button>
         <button class="device-btn" type="button" id="howToStartBtn" style="margin-top:8px;background:#fff">? How to start</button>
-        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.4.2</div>
+        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.5.0</div>
       </div>
     </div>
   </section>
@@ -904,6 +905,28 @@
           </section>
         </aside>
       </div>
+    </section>
+
+    <section class="page" id="page-games" aria-labelledby="gamesTitle">
+      <div class="games-hub" id="gamesHub">
+        <header class="games-intro"><div><span class="welcome-eyebrow">БЯЦХАН ЗАВСАРЛАГА · ТОМ ИНЭЭМСЭГЛЭЛ</span><h2 id="gamesTitle">Тоглоомын булан</h2><p>Толгойгоо амрааж, өөрийгөө сорь. Нэг жижиг тоглолт хийгээд өдөртөө эргээд ороорой.</p></div><div class="arcade-emblem" aria-hidden="true">🎮</div></header>
+        <p class="game-note" id="gamesPauseNote" role="status"></p>
+        <div class="game-library">
+          <article class="card"><div class="game-cover" aria-hidden="true">🐱 🦊</div><h3>Хосоо олоорой</h3><p>16 картын цаана нуугдсан 8 хос амьтныг олоорой.</p><div class="game-tags"><span>Ой тогтоолт</span><span>1–3 минут</span></div><div class="game-best" id="best-memory"></div><button class="btn primary" type="button" data-play-game="memory">Хос карт тоглох</button></article>
+          <article class="card"><div class="game-cover reaction" aria-hidden="true">⚡</div><h3>Гялс дараарай</h3><p>Ногоон дохиог хүлээгээд, хэр хурдан хариу үйлдэл үзүүлэхээ шалга.</p><div class="game-tags"><span>Хурд</span><span>3 оролдлого</span></div><div class="game-best" id="best-reaction"></div><button class="btn primary" type="button" data-play-game="reaction">Хурдаа шалгах</button></article>
+          <article class="card"><div class="game-cover puzzle" aria-hidden="true">🏡</div><h3>Бяцхан цэцэрлэг</h3><p>Зургийн хэсгүүдийг гулсуулж, тайван цэцэрлэгээ эвлүүл.</p><div class="game-tags"><span>Эвлүүлдэг зураг</span><span>3 × 3</span></div><div class="game-best" id="best-puzzle"></div><button class="btn primary" type="button" data-play-game="puzzle">Зураг эвлүүлэх</button></article>
+        </div>
+        <p class="game-storage-note" id="gamesPlayCount"></p><p class="game-storage-note" id="gamesStorageNote"></p>
+      </div>
+      <section class="game-stage" id="gameStage" aria-labelledby="gameTitle" hidden>
+        <div class="game-toolbar"><button class="btn secondary small" id="gameBack" type="button">← Тоглоомууд</button><h3 id="gameTitle" tabindex="-1">Тоглоом</h3><button class="btn secondary small" id="gameRestart" type="button">↻ Дахин</button></div>
+        <div class="card game-sheet">
+          <div id="memoryGame" hidden><div class="game-stats"><div><small>Олсон хос</small><b id="memoryPairs">0 / 8</b></div><div><small>Алхалт</small><b id="memoryMoves">0</b></div><div><small>Хугацаа</small><b id="memoryTime">0с</b></div></div><div class="memory-grid" id="memoryBoard" role="group" aria-label="Хос картын талбай"></div><p class="game-help">Хоёр картыг дараад ижил амьтдыг олоорой. Цөөн алхалттай дуусгахыг хичээгээрэй.</p></div>
+          <div id="reactionGame" hidden><div class="game-stats"><div><small>Оролдлого</small><b id="reactionTrials">0 / 3</b></div></div><button id="reactionPad" class="reaction-pad" type="button" data-state="idle"><span id="reactionIcon" aria-hidden="true">🌱</span><b id="reactionTitle">Бэлэн үү?</b><small id="reactionHint">Энд дараад эхлээрэй</small></button><div class="reaction-results" id="reactionResults"></div><p class="game-help">Ногоон өнгө болон “Одоо!” бичиг гармагц дар. Компьютер дээр Space эсвэл Enter ашиглаж болно.</p></div>
+          <div id="puzzleGame" hidden><div class="game-stats"><div><small>Нүүдэл</small><b id="puzzleMoves">0</b></div><div><small>Хугацаа</small><b id="puzzleTime">0с</b></div></div><div class="puzzle-grid" id="puzzleBoard" role="group" aria-label="Зураг эвлүүлэх талбай"></div><figure class="puzzle-reference"><img id="puzzleReference" alt="Эвлүүлэх цэцэрлэгийн бүтэн зураг"><figcaption>Зорилтот зураг. 1–8 дугаарыг дарааллаар байрлуулна.</figcaption></figure><p class="game-help">Хоосон нүдний хажуугийн хэсгийг дарж хөдөлгөнө. Компьютер дээр талбайг сонгоод сумтай товч ашиглаж болно.</p></div>
+          <p class="game-announcement" id="gameAnnouncement" role="status" aria-live="polite"></p>
+        </div>
+      </section>
     </section>
 
     <section class="page" id="page-tools" aria-labelledby="toolsTitle">
@@ -1188,7 +1211,7 @@
       </div>
     </section>
     <footer class="site-footer">
-      <span>© 2026 Тэмүүл · Built by Elbex Labs · v2.4.2 Daily Workspace</span>
+      <span>© 2026 Тэмүүл · Built by Elbex Labs · v2.5.0 Daily Workspace</span>
       <nav aria-label="Legal and company links"><a href="/about.html">About</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></nav>
     </footer>
   </main>
@@ -1198,6 +1221,7 @@
     <button data-page="planner"><b>📅</b><span>Planner</span></button>
     <button data-page="study"><b>📚</b><span>Study</span></button>
     <button data-page="pet"><b>🐾</b><span>Pet</span></button>
+    <button data-page="games"><b>🎮</b><span>Games</span></button>
     <button data-page="tools"><b>🧰</b><span>Tools</span></button>
   </nav>
 
@@ -5286,7 +5310,7 @@ version:11,
       try{
         const registration = await readyServiceWorker();
         if(!registration) return '';
-        const module = await import('/fcm_setup.js?v=2.4.2');
+        const module = await import('/fcm_setup.js?v=2.5.0');
         const token = await module.enableNotifications(registration);
         if(token){
           localStorage.setItem(PUSH_TOKEN_KEY,token);
@@ -5427,7 +5451,7 @@ version:11,
       await initializeFirebaseSession();
 
       const hash = location.hash.slice(1);
-      if(['today','planner','study','pet','tools','goals','money','journal','ai','focus','habits','insights'].includes(hash)){
+      if(['today','planner','study','pet','games','tools','goals','money','journal','ai','focus','habits','insights'].includes(hash)){
         switchPage(hash);
       }
     }
@@ -5452,5 +5476,6 @@ version:11,
   })();
 </script>
 
+  <script type="module" src="/games.js?v=2.5.0"></script>
 </body>
 </html>

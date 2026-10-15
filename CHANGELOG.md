@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.5.0 — Little Games
+
+- Added a dedicated Games tab with three offline games: animal-pair memory, three-trial reaction speed and a solvable illustrated 3×3 sliding puzzle.
+- Added local personal bests, clear rules, restart/back controls, keyboard/touch support, status announcements and reduced-motion layouts.
+- Interrupted rounds stop their timers and return to the game library; results are saved once on completion. No changes to existing pet XP or tracker records.
+- Included game code, illustrated puzzle artwork and styling in the offline shell. Six bottom buttons retain touch targets on small phones.
+
 ## v2.4.2 — Mobile Pet and iPhone header fixes
 
 - Removed a leaked named-grid placement from Daily Quests that created implicit columns and squeezed the Pet card to a thin line on mobile.

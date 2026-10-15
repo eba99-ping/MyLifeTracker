@@ -1,5 +1,15 @@
 # Тэмүүл v2.4 test checklist
 
+## Little Games v2.5
+
+- [ ] Six navigation buttons fit at 320/390 px without overflow; Pet and profile safe-area fixes still work.
+- [ ] Memory: reveal/mismatch/match all 8 pairs, no same-card double selection, no extra moves while locked, restart cancels pending flips.
+- [ ] Reaction: early taps do not count; three valid green taps produce an average and best; keyboard and touch work without double activation.
+- [ ] Puzzle: only adjacent pieces move, every generated board is solvable, solved state saves once, arrows work while board is focused.
+- [ ] Switching pages or backgrounding stops pending rounds and timers; returning offers a fresh round.
+- [ ] Reload retains local bests; blocked storage still permits playing. Already-installed PWA updates its offline assets.
+- [ ] Test Games direct link, light/dark mode, reduced motion and offline play after initial load. No changes to other feature data.
+
 ## Workspace redesign
 
 - [ ] Pet page: at 320/390/768/1280 px, measure nonzero character/card width, one column on phones/two on desktop, and no implicit extra grid columns or page overflow.
