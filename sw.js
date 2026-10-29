@@ -1,5 +1,5 @@
-const CACHE = 'temuul-v2.9.6';
-const APP_SHELL = ['/', '/index.html', '/redesign.css?v=2.9.6', '/motion.css?v=2.9.6', '/launch.css?v=2.9.6', '/growth.css?v=2.9.6', '/growth-core.js?v=2.9.6', '/games.css?v=2.9.6', '/games.js?v=2.9.6', '/games-core.js?v=2.9.6', '/manifest.json', '/favicon.svg?v=2.9.6', '/temuul-mark.png?v=2.9.6', '/icon-192.png?v=2.9.6', '/icon-512.png?v=2.9.6', '/icon-maskable-512.png?v=2.9.6', '/apple-touch-icon.png?v=2.9.6', '/fcm_setup.js'];
+const CACHE = 'temuul-v2.9.7';
+const APP_SHELL = ['/', '/index.html', '/redesign.css?v=2.9.7', '/motion.css?v=2.9.7', '/launch.css?v=2.9.7', '/growth.css?v=2.9.7', '/growth-core.js?v=2.9.7', '/games.css?v=2.9.7', '/games.js?v=2.9.7', '/games-core.js?v=2.9.7', '/manifest.json', '/favicon.svg?v=2.9.7', '/temuul-mark.png?v=2.9.7', '/icon-192.png?v=2.9.7', '/icon-512.png?v=2.9.7', '/icon-maskable-512.png?v=2.9.7', '/apple-touch-icon.png?v=2.9.7', '/fcm_setup.js'];
 
 self.addEventListener('notificationclick',event => {
   event.notification.close();
@@ -35,7 +35,7 @@ try{
     const note = payload.notification||{};
     const data = payload.data||{};
     return self.registration.showNotification(note.title||data.title||'Тэмүүл 🔔',{
-      body:note.body||payload.data?.body||'Шинэ сануулга ирлээ.',icon:note.icon||'/temuul-mark.png?v=2.9.6',badge:'/icon-192.png?v=2.9.6',
+      body:note.body||payload.data?.body||'Шинэ сануулга ирлээ.',icon:note.icon||'/temuul-mark.png?v=2.9.7',badge:'/icon-192.png?v=2.9.7',
       tag:data.eventId||payload.messageId||`push-${Date.now()}`,
       data:{url:payload.fcmOptions?.link||data.url||'/#today',eventId:data.eventId||'',taskId:data.taskId||'',date:data.date||''},
       actions:data.eventId?[{action:'snooze',title:'10 мин snooze'},{action:'open',title:'App нээх'}]:[]

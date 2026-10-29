@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.9.7 — Tap the flying rocket
+
+- “Эхэлцгээе” now reveals a gently flying rocket with active exhaust, without any tap-instruction text. Tapping that rocket triggers an immediate upward boost and the logo reveal.
+- Kept the approved first screen and branding; added keyboard focus and a static reduced-motion alternative for the interactive spacecraft.
+
 ## v2.9.6 — Two deliberate taps
 
 - Restored the approved branded “Эхэлцгээе” start card. First tap reveals the waiting rocket; only a second tap on the rocket ignites its flight and logo reveal. Neither stage advances automatically.

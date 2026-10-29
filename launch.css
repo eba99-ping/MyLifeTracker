@@ -1,5 +1,5 @@
 /* A fresh, silent launch on every document open. No saved 'seen' flag. */
-.launch-intro:not(.is-playing) .launch-scene{display:none}
+.launch-intro:not(.is-started) .launch-scene{display:none}
 .launch-intro:not(.is-playing)>.launch-screen-reader{display:none}
 .launch-start{position:relative;display:flex;align-items:center;gap:18px;width:min(320px,calc(100vw - 48px));min-height:100px;padding:20px;border:1px solid #bba1f14d;border-radius:28px;background:linear-gradient(120deg,#302943ee,#181828f5);color:#fff;font:500 18px/1.3 system-ui,sans-serif;text-align:left;box-shadow:0 24px 65px #0005,0 0 70px #ad83ff16,inset 0 1px 0 #ffffff14;cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s}
 .launch-start:before{content:"";position:absolute;inset:-9px;border:1px solid #bea2f010;border-radius:36px;pointer-events:none}
@@ -81,6 +81,23 @@
 @keyframes launch-aura{0%{opacity:0;transform:scale(.2)}38%{opacity:1;transform:scale(1)}100%{opacity:.55;transform:scale(1.15)}}
 @keyframes launch-shockwave{0%{opacity:0;transform:scale(.2)}20%{opacity:.8}100%{opacity:0;transform:scale(2.1)}}
 @keyframes launch-sparks{0%{opacity:0;transform:scale(.2) rotate(-15deg)}30%{opacity:1}100%{opacity:0;transform:scale(1.65) rotate(12deg)}}
-@media(prefers-reduced-motion:reduce){.launch-reveal-glow,.launch-reveal-ring,.launch-reveal-sparks{display:none}.launch-emblem,.launch-eyebrow,.launch-brand strong,.launch-brand p{animation:none}}
+.launch-rocket{padding:0;border:0;background:none;cursor:pointer;color:inherit;border-radius:30px}
+.launch-rocket:focus-visible{outline:2px solid #d4bbff;outline-offset:12px}
+.launch-intro.is-started:not(.is-playing) .launch-rocket{animation:launch-cruise 2.6s ease-in-out infinite}
+.launch-intro.is-started:not(.is-playing) .launch-flame{animation:launch-flame .3s ease-in-out infinite alternate}
+.launch-intro:not(.is-playing) .launch-brand,.launch-intro:not(.is-playing) .launch-loading,.launch-intro:not(.is-playing) .launch-trail,.launch-intro:not(.is-playing) .launch-reveal-glow,.launch-intro:not(.is-playing) .launch-reveal-ring,.launch-intro:not(.is-playing) .launch-reveal-sparks{display:none}
+.launch-intro.is-playing .launch-rocket{animation:launch-boost .85s cubic-bezier(.35,0,.7,.4) both;pointer-events:none}
+.launch-intro.is-playing .launch-trail{animation-duration:1s}
+.launch-intro.is-playing .launch-emblem{animation-delay:.35s;animation-duration:1.2s}
+.launch-intro.is-playing .launch-reveal-glow{animation-delay:.25s}
+.launch-intro.is-playing .launch-reveal-ring,.launch-intro.is-playing .launch-reveal-sparks{animation-delay:.4s}
+.launch-intro.is-playing .launch-eyebrow{animation-delay:1.1s}
+.launch-intro.is-playing .launch-brand strong{animation-delay:1.2s}
+.launch-intro.is-playing .launch-brand p{animation-delay:1.45s}
+.launch-intro.is-playing .launch-loading{animation-delay:2s}
+.launch-intro.is-playing .launch-loading i:after{animation-delay:2s;animation-duration:1.8s}
+@keyframes launch-cruise{0%,100%{transform:translateY(3px) rotate(-2deg)}50%{transform:translateY(-15px) rotate(2deg)}}
+@keyframes launch-boost{0%{opacity:1;transform:translateY(-5px) scale(1)}25%{opacity:1;transform:translateY(-30px) scale(1.03)}100%{opacity:0;transform:translateY(-520px) scale(.55)}}
+@media(prefers-reduced-motion:reduce){.launch-intro.is-started:not(.is-playing) .launch-rocket{display:block}.launch-reveal-glow,.launch-reveal-ring,.launch-reveal-sparks{display:none}.launch-emblem,.launch-eyebrow,.launch-brand strong,.launch-brand p{animation:none}}
 @media(prefers-reduced-motion:reduce){.launch-rocket,.launch-trail{display:none}.launch-brand,.launch-loading,.launch-loading i:after{animation:none}.launch-brand{opacity:1}}
 @media(max-height:500px){.launch-scene{height:340px}.launch-brand{top:65px}.launch-rocket{top:100px}.launch-loading{bottom:16px}}
