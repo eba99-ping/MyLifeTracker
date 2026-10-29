@@ -1,4 +1,11 @@
 /* A fresh, silent launch on every document open. No saved 'seen' flag. */
+.launch-intro:not(.is-playing) .launch-scene{display:none}
+.launch-intro:not(.is-playing)>.launch-screen-reader{display:none}
+.launch-start{display:flex;align-items:center;gap:30px;min-height:64px;padding:16px 32px;border:1px solid #c8b0ff77;border-radius:22px;background:linear-gradient(135deg,#ab91ef,#7854cf);color:#fff;font:700 20px/1.3 system-ui,sans-serif;box-shadow:0 12px 60px #9264ed35;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.launch-start:hover{transform:translateY(-3px);box-shadow:0 16px 70px #9264ed55}
+.launch-start:focus-visible{outline:3px solid #f4d3a3;outline-offset:6px}
+.launch-start:active{transform:scale(.97)}
+.launch-start[hidden]{display:none}
 .launch-intro{background:radial-gradient(ellipse at 50% 60%,#28214d 0,#111426 48%,#090d18 100%);color:#f7f3ff;overflow:hidden;touch-action:none}
 .launch-scene{position:relative;width:min(360px,90vw);height:420px;text-align:center;isolation:isolate}
 .launch-stars{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 16% 22%,#d7cdff 0 1px,transparent 2px),radial-gradient(circle at 82% 16%,#ffddb2 0 2px,transparent 3px),radial-gradient(circle at 9% 56%,#b9d8ff 0 1px,transparent 2px),radial-gradient(circle at 85% 67%,#c3b2ff 0 1px,transparent 2px),radial-gradient(circle at 70% 40%,#fff 0 1px,transparent 2px)}

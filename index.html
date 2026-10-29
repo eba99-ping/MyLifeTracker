@@ -26,9 +26,9 @@
   <title>Тэмүүл — Personal Growth OS</title>
   <link rel="canonical" href="https://my-life-tracker-seven.vercel.app/">
   <link rel="manifest" href="/manifest.json">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2.9.1">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2.9.2">
   <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2.9.1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2.9.2">
   <script>
     try {
       const savedTheme = localStorage.getItem('myLifeTracker.theme.v1');
@@ -654,26 +654,31 @@
       *{scroll-behavior:auto!important;animation:none!important;transition:none!important}
     }
   </style>
-  <link rel="stylesheet" href="/redesign.css?v=2.9.1">
-  <link rel="stylesheet" href="/growth.css?v=2.9.1">
-  <link rel="stylesheet" href="/games.css?v=2.9.1">
-  <link rel="stylesheet" href="/motion.css?v=2.9.1">
-  <link rel="stylesheet" href="/launch.css?v=2.9.1">
+  <link rel="stylesheet" href="/redesign.css?v=2.9.2">
+  <link rel="stylesheet" href="/growth.css?v=2.9.2">
+  <link rel="stylesheet" href="/games.css?v=2.9.2">
+  <link rel="stylesheet" href="/motion.css?v=2.9.2">
+  <link rel="stylesheet" href="/launch.css?v=2.9.2">
 </head>
 
 <body class="is-booting">
-  <div class="boot-screen launch-intro" id="bootScreen" role="status" aria-live="polite" aria-label="Тэмүүлэл нээгдэж байна">
+  <div class="boot-screen launch-intro" id="bootScreen" role="dialog" aria-modal="true" aria-label="Тэмүүлэл эхлүүлэх">
+    <button type="button" class="launch-start" id="launchStart">Эхлэх <span aria-hidden="true">↗</span></button>
     <span class="launch-screen-reader">Тэмүүлэл — Өдөр бүр өөдөө. Апп нээгдэж байна.</span>
     <div class="launch-scene" aria-hidden="true"><div class="launch-stars"></div><div class="launch-orbit"></div><div class="launch-trail"></div>
       <div class="launch-rocket"><svg viewBox="0 0 100 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path class="launch-flame" d="M36 108Q31 128 50 149Q69 128 64 108" fill="#ffb470"/><path class="launch-flame" d="M43 109Q40 124 50 137Q60 124 57 109" fill="#fff1bd"/>
-        <path d="M29 67Q9 77 12 111L35 99M71 67Q91 77 88 111L65 99" fill="#a18aff"/>
-        <path d="M29 91C23 50 33 25 50 9C67 25 77 50 71 91L64 109H36Z" fill="#f4f0ff"/>
-        <path d="M50 9C59 18 65 29 68 42H32C35 29 41 18 50 9" fill="#b09aff"/>
-        <circle cx="50" cy="62" r="16" fill="#8a73da"/><circle cx="50" cy="62" r="11" fill="#a9ddf5"/><path d="M44 59Q47 54 53 55" stroke="white" stroke-width="3" stroke-linecap="round"/>
-        <path d="M36 99H64L61 111H39Z" fill="#7460b7"/><path d="M44 84Q50 90 56 84" stroke="#7460b7" stroke-width="3" stroke-linecap="round"/>
+        <defs><linearGradient id="rocketHull"><stop stop-color="#a99ed1"/><stop offset=".38" stop-color="#ffffff"/><stop offset=".65" stop-color="#e2ddf6"/><stop offset="1" stop-color="#8c81b2"/></linearGradient><linearGradient id="rocketFin" x2="1" y2="1"><stop stop-color="#d9c6ff"/><stop offset="1" stop-color="#7651c8"/></linearGradient><linearGradient id="rocketGlass" x2="1" y2="1"><stop stop-color="#c9f5ff"/><stop offset=".5" stop-color="#64b6df"/><stop offset="1" stop-color="#3c4c92"/></linearGradient><linearGradient id="rocketExhaust" x2="0" y2="1"><stop stop-color="#fff5dd"/><stop offset=".4" stop-color="#ffcf9c"/><stop offset="1" stop-color="#ad85ff" stop-opacity="0"/></linearGradient></defs>
+        <path class="launch-flame" d="M39 111Q32 130 50 158Q68 130 61 111Z" fill="url(#rocketExhaust)"/>
+        <path d="M32 67Q13 81 12 115L34 102M68 67Q87 81 88 115L66 102" fill="url(#rocketFin)" stroke="#d5bdff" stroke-opacity=".4"/>
+        <path d="M33 96C25 58 32 26 50 7C68 26 75 58 67 96L61 111H39Z" fill="url(#rocketHull)"/>
+        <path d="M50 7Q62 20 67 40H33Q38 20 50 7" fill="url(#rocketFin)"/>
+        <path d="M40 32Q44 20 49 16" stroke="#fff" stroke-opacity=".6" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="50" cy="61" r="15" fill="#645584" stroke="#f4eaff" stroke-width="2"/><circle cx="50" cy="61" r="10.5" fill="url(#rocketGlass)"/>
+        <path d="M44 59Q45 54 51 54" stroke="white" stroke-opacity=".8" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M34 96H66M38 105H62" stroke="#8a76b6" stroke-width="3"/><path d="M50 84V116" stroke="#9473d5" stroke-width="6" stroke-linecap="round"/>
+        <path d="M39 45Q35 65 38 84" stroke="#fff" stroke-opacity=".65" stroke-width="2" stroke-linecap="round"/>
       </svg></div>
-      <div class="launch-brand"><div class="launch-emblem"><img src="/temuul-mark.png?v=2.9.1" alt=""></div><span class="launch-eyebrow">ТАНЫ ДАРААГИЙН АЛХАМ</span><strong>Тэмүүлэл<span class="launch-name-dot">.</span></strong><p>Жижиг алхам. Том өөрчлөлт.</p></div><div class="launch-loading"><span>Өөрийн хэмнэлээр, өөдөө.</span><i></i></div>
+      <div class="launch-brand"><div class="launch-emblem"><img src="/temuul-mark.png?v=2.9.2" alt=""></div><span class="launch-eyebrow">ТАНЫ ДАРААГИЙН АЛХАМ</span><strong>Тэмүүлэл<span class="launch-name-dot">.</span></strong><p>Жижиг алхам. Том өөрчлөлт.</p></div><div class="launch-loading"><span>Өөрийн хэмнэлээр, өөдөө.</span><i></i></div>
     </div>
   </div>
   <section class="auth-screen" id="authScreen" aria-label="Login and signup">
@@ -681,7 +686,7 @@
       <div class="auth-hero">
         <div>
           <div class="auth-logo">
-            <img src="/temuul-mark.png?v=2.9.1" alt="Тэмүүл">
+            <img src="/temuul-mark.png?v=2.9.2" alt="Тэмүүл">
             <div><strong>Тэмүүл</strong><div style="color:#9aa4b7;font-size:12px">Өдөр бүр өөдөө.</div></div>
           </div>
 
@@ -697,7 +702,7 @@
           </div>
         </div>
 
-        <div class="auth-credit">Тэмүүл v2.9.1 · Daily Workspace · Built by Elbex Labs · 2026</div>
+        <div class="auth-credit">Тэмүүл v2.9.2 · Daily Workspace · Built by Elbex Labs · 2026</div>
       </div>
 
       <div class="auth-card">
@@ -726,7 +731,7 @@
 
         <button class="device-btn" type="button" id="deviceModeBtn">📱 Continue on this device</button>
         <button class="device-btn" type="button" id="howToStartBtn" style="margin-top:8px;background:#fff">? How to start</button>
-        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.9.1</div>
+        <div style="text-align:center;margin-top:16px;color:#98a2b3;font-size:11px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · v2.9.2</div>
       </div>
     </div>
   </section>
@@ -734,7 +739,7 @@
   <main class="app">
     <header class="topbar">
       <div class="brand">
-        <img class="app-logo" src="/temuul-mark.png?v=2.9.1" alt="Тэмүүл">
+        <img class="app-logo" src="/temuul-mark.png?v=2.9.2" alt="Тэмүүл">
         <div><h1>Тэмүүл</h1><p>Өдөр бүр өөдөө · Elbex Labs</p></div>
       </div>
 
@@ -1234,7 +1239,7 @@
       </div>
     </section>
     <footer class="site-footer">
-      <span>© 2026 Тэмүүл · Built by Elbex Labs · v2.9.1 Daily Workspace</span>
+      <span>© 2026 Тэмүүл · Built by Elbex Labs · v2.9.2 Daily Workspace</span>
       <nav aria-label="Legal and company links"><a href="/about.html">About</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></nav>
     </footer>
   </main>
@@ -1585,11 +1590,20 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="/growth-core.js?v=2.9.1"></script>
+  <script src="/growth-core.js?v=2.9.2"></script>
   <script>
   (() => {
     'use strict';
-    const introStartedAt=performance.now();
+    const introFinished=new Promise(resolve=>{
+      const start=document.getElementById('launchStart');
+      document.querySelectorAll('.app,#authScreen,.nav').forEach(element=>element.inert=true);
+      start.addEventListener('click',()=>{
+        start.disabled=true;start.hidden=true;
+        document.getElementById('bootScreen').classList.add('is-playing');
+        const duration=window.matchMedia('(prefers-reduced-motion: reduce)').matches?900:5800;
+        setTimeout(resolve,duration);
+      },{once:true});
+    });
 
     const KEY = 'myLifeTracker.v5';
     const PROFILE_KEY = 'myLifeTracker.profile.v1';
@@ -5385,7 +5399,7 @@ version:11,
       if(notificationPermission()!=='granted') return false;
       const options = {
         body:event.test ? 'Notification зөв ажиллаж байна ✨' : (event.body||`${event.title}${event.priority==='high'?' · High priority':''}`),
-        icon:'/temuul-mark.png?v=2.9.1',badge:'/icon-192.png',tag:event.id,renotify:true,
+        icon:'/temuul-mark.png?v=2.9.2',badge:'/icon-192.png',tag:event.id,renotify:true,
         data:{url:'/#today',eventId:event.id,taskId:event.taskId||'',date:event.date||today()},
         actions:event.test ? [] : [{action:'snooze',title:'10 мин snooze'},{action:'open',title:'App нээх'}]
       };
@@ -5409,7 +5423,7 @@ version:11,
       try{
         const registration = await readyServiceWorker();
         if(!registration) return '';
-        const module = await import('/fcm_setup.js?v=2.9.1');
+        const module = await import('/fcm_setup.js?v=2.9.2');
         const token = await module.enableNotifications(registration);
         if(token){
           localStorage.setItem(PUSH_TOKEN_KEY,token);
@@ -5528,8 +5542,8 @@ version:11,
     }
 
     function applyBrandAssets(){
-      const authLogo=$('.auth-logo img');if(authLogo){authLogo.src='/temuul-mark.png?v=2.9.1';authLogo.alt='Тэмүүл';}
-      $$('.app-logo').forEach(image=>{image.src='/temuul-mark.png?v=2.9.1';image.alt='Тэмүүл';});
+      const authLogo=$('.auth-logo img');if(authLogo){authLogo.src='/temuul-mark.png?v=2.9.2';authLogo.alt='Тэмүүл';}
+      $$('.app-logo').forEach(image=>{image.src='/temuul-mark.png?v=2.9.2';image.alt='Тэмүүл';});
     }
 
     async function startApp(){
@@ -5568,8 +5582,8 @@ version:11,
       console.error('App startup failed:',error);
       setAuthError('App ачааллахад алдаа гарлаа. Интернетээ шалгаад refresh хийнэ үү.');
     }).finally(async () => {
-      const introDuration=window.matchMedia('(prefers-reduced-motion: reduce)').matches?900:5800;
-      await new Promise(resolve=>setTimeout(resolve,Math.max(0,introDuration-(performance.now()-introStartedAt))));
+      await introFinished;
+      document.querySelectorAll('.app,#authScreen,.nav').forEach(element=>element.inert=false);
       document.body.classList.remove('is-booting');
       $('#bootScreen')?.classList.add('hidden');
       setTimeout(() => $('#bootScreen')?.remove(),350);
@@ -5577,6 +5591,6 @@ version:11,
   })();
 </script>
 
-  <script type="module" src="/games.js?v=2.9.1"></script>
+  <script type="module" src="/games.js?v=2.9.2"></script>
 </body>
 </html>

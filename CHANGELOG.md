@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.9.2 — Press to launch
+
+- Opening the app now shows only “Эхлэх”; one tap starts the intro and then opens the app. Background controls are inert until the sequence finishes; double taps cannot restart it.
+- Replaced the smiling cartoon rocket with a shaded silver spacecraft, violet fins, glass porthole and tapered exhaust. Existing logo, wordmark, app palette and data remain unchanged.
+
 ## v2.9.1 — A more deliberate introduction
 
 - Slowed the launch to 5.8 seconds: longer rocket flight, soft emblem reveal and a held, larger “Тэмүүлэл” wordmark.
