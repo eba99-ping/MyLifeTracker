@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.9.6 — Two deliberate taps
+
+- Restored the approved branded “Эхэлцгээе” start card. First tap reveals the waiting rocket; only a second tap on the rocket ignites its flight and logo reveal. Neither stage advances automatically.
+- Keyboard focus moves to the rocket after the first tap. Double-tap protection, reduced motion and existing app data remain intact.
+
 ## v2.9.5 — Tap the rocket
 
 - Replaced the start card with the waiting spacecraft itself. Tap/click it, or focus it and press Enter/Space, to ignite and launch into the existing logo reveal.

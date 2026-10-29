@@ -1,0 +1,13 @@
+import fs from 'node:fs';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+const html=fs.readFileSync('index.html','utf8');
+const node=()=>({hidden:false,disabled:false,handlers:{},addEventListener(type,fn){this.handlers[type]=fn},querySelector(){return {append(){}}},focus(){this.focused=true}});
+const start=node(),rocket=node();rocket.hidden=true;let playing=false;const timers=[];
+const context=vm.createContext({Promise,setTimeout(fn,ms){timers.push({fn,ms})},window:{matchMedia(){return {matches:false}}},document:{getElementById(id){return id==='launchStart'?start:id==='launchRocketButton'?rocket:{classList:{add(){playing=true}}}},querySelector(){return {cloneNode(){return {innerHTML:'rocketHull'}}}},querySelectorAll(){return []}}});
+const a=html.indexOf('    const introFinished='),b=html.indexOf('    const KEY',a);
+vm.runInContext(html.slice(a,b),context);
+assert.equal(rocket.hidden,true);assert.equal(timers.length,0);
+start.handlers.click();assert.equal(start.hidden,true);assert.equal(rocket.hidden,false);assert.equal(rocket.focused,true);assert.equal(playing,false);assert.equal(timers.length,0);
+rocket.handlers.click();assert.equal(rocket.hidden,true);assert.equal(playing,true);assert.equal(timers.length,1);assert.equal(timers[0].ms,6600);
+console.log('PASS: start card → waiting rocket → click-to-fly → timed reveal; no automatic launch after first tap');
