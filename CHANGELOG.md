@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.10.0 — Pixel companions
+
+- Replaced the smooth animal illustrations with original, transparent pixel-art cats, rabbits and bears; added a bamboo-carrying panda option inspired by the supplied references.
+- Unified stepped outlines, expressive faces, pixel shading and all nine earned accessories. Colors still apply to existing animals; panda retains its recognizable black-and-white coat.
+- Kept pet names, XP, level, coins, purchased rooms/props, care actions and AI Coach behavior intact. Added pixel artwork and accessory regression coverage; included the new renderer in the PWA shell.
+
 ## v2.9.7 — Tap the flying rocket
 
 - “Эхэлцгээе” now reveals a gently flying rocket with active exhaust, without any tap-instruction text. Tapping that rocket triggers an immediate upward boost and the logo reveal.

@@ -9,6 +9,7 @@ function section(start,end){
 }
 const context=vm.createContext({Date,console,PET_KEY:'myLifeTracker.pet.v1',setTimeout(){},toast(){},scheduleCloudSync(){},localStorage:{setItem(){}},cloneData:structuredClone});
 vm.runInContext(fs.readFileSync('growth-core.js','utf8'),context);
+vm.runInContext(fs.readFileSync('pet-pixel.js','utf8'),context);
 vm.runInContext(section('    const PET_LEVELS','    function seedPetFromTracker')+
   section('    function normalizePetAppearance','    function petStreak()')+
   section('    function normalizePetRecord','    function mergePetRecords')+
@@ -34,10 +35,12 @@ assert.equal(vm.runInContext('petLevelInfo().level',context),2);
 assert.match(html,/grid-template-columns:repeat\(6,minmax\(0,1fr\)\)/);
 console.log('PASS: pet migration, appearance validation, level boundaries, duplicate XP and six-column navigation');
 vm.runInContext(section('    function petArtwork','    function renderPet'),context);
-for(const shape of ['bunny','bear','cat']){
+for(const shape of ['bunny','bear','cat','panda']){
   context.look={shape,color:'#12abcf',accessory:'crown'};
   const art=vm.runInContext('petArtwork(look,"preview")',context);
-  assert(art.includes('preview-coat')&&art.includes('#12abcf')&&art.includes('#ffd779'));
+  assert(art.includes('shape-rendering="crispEdges"')&&art.includes('#ffd779'));
+  if(shape!=='panda')assert(art.includes('#12abcf'));
+  assert(!art.includes('<image')&&!art.includes('linearGradient'));
   assert(!art.includes('undefined'));
   assert.equal((art.match(/data-pet-leg=/g)||[]).length,4);
   assert(art.includes(`data-pet-anatomy="${shape}"`));
@@ -46,4 +49,10 @@ for(const shape of ['bunny','bear','cat']){
 context.look={shape:'cat',color:'"><script>bad</script>',accessory:'unknown'};
 assert(!vm.runInContext('petArtwork(look)',context).includes('<script>'));
 assert.match(html,/addEventListener\('input',previewPetAppearance\)/);
-console.log('PASS: vector pets, fitted accessories, isolated preview and safe color rendering');
+for(const accessory of ['none','sprout','star','flower','crown','bow','headphones','wizard','halo','diamond']){
+  context.look={shape:'panda',color:'#12abcf',accessory};
+  const art=vm.runInContext('petArtwork(look)',context);
+  assert(!art.includes('undefined')&&!art.includes('NaN'));
+  assert(art.includes('data-pet-style="pixel"'));
+}
+console.log('PASS: four pixel pets, all level accessories, isolated preview and safe color rendering');
