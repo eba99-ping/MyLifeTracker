@@ -1,0 +1,30 @@
+/* Small transform/opacity-only transitions. No startup delay or data changes. */
+@keyframes temuul-arrive{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes temuul-logo{from{opacity:0;transform:translateY(12px) scale(.84) rotate(-6deg)}to{opacity:1;transform:translateY(0) scale(1) rotate(0)}}
+@keyframes temuul-orbit{to{transform:rotate(360deg)}}
+@keyframes temuul-modal{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(prefers-reduced-motion:no-preference){
+  .boot-card{position:relative;padding:32px;isolation:isolate}
+  .boot-card:before{content:"";position:absolute;width:112px;height:112px;left:50%;top:9px;margin-left:-56px;border-radius:50%;border:1px solid var(--line);border-top:2px solid var(--brand);z-index:-1;animation:temuul-orbit 1.8s linear 3}
+  .boot-card img{animation:temuul-logo .6s cubic-bezier(.2,.8,.2,1) both;filter:drop-shadow(0 12px 24px #8172ff33)}
+  .boot-card strong{animation:temuul-arrive .45s .12s both}
+  .boot-card span{animation:temuul-arrive .45s .2s both}
+  body:not(.is-booting) .topbar{animation:temuul-arrive .4s both}
+  body:not(.is-booting) .page.active>*{animation:temuul-arrive .42s cubic-bezier(.2,.7,.2,1) backwards}
+  body:not(.is-booting) .page.active>:nth-child(2){animation-delay:45ms}
+  body:not(.is-booting) .page.active>:nth-child(3){animation-delay:80ms}
+  body:not(.is-booting) .page.active>:nth-child(4){animation-delay:115ms}
+  body:not(.is-booting) .page.active>:nth-child(5){animation-delay:150ms}
+  body:not(.is-booting) .page.active>:nth-child(n+6){animation-delay:180ms}
+  .modal-wrap.open .modal{animation:temuul-modal .24s cubic-bezier(.2,.7,.2,1) both}
+  .auth-card{animation:temuul-arrive .45s both}
+  .btn,.quick-launch button,.pet-brief,.tool-card,.nav button,.theme-toggle,.profile-chip{transition:transform .16s ease,background-color .16s,border-color .16s,box-shadow .16s}
+  .btn:active,.quick-launch button:active,.pet-brief:active,.nav button:active{transform:scale(.97)}
+  .nav button b{transition:transform .22s cubic-bezier(.2,.8,.2,1)}
+  .nav button.active b{transform:translateY(-2px)}
+  .pet-xp-track i,.pet-xp-track span{transition:width .5s ease}
+  @media(hover:hover){.quick-launch button:hover,.tool-card:hover,.pet-brief:hover{transform:translateY(-3px)}.btn.primary:hover{transform:translateY(-1px)}}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}

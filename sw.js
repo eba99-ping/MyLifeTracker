@@ -1,5 +1,5 @@
-const CACHE = 'temuul-v2.7.1';
-const APP_SHELL = ['/', '/index.html', '/redesign.css?v=2.7.1', '/growth.css?v=2.7.1', '/growth-core.js?v=2.7.1', '/games.css?v=2.7.1', '/games.js?v=2.7.1', '/games-core.js?v=2.7.1', '/manifest.json', '/favicon.svg?v=2.7.1', '/temuul-mark.png?v=2.7.1', '/icon-192.png?v=2.7.1', '/icon-512.png?v=2.7.1', '/icon-maskable-512.png?v=2.7.1', '/apple-touch-icon.png?v=2.7.1', '/fcm_setup.js'];
+const CACHE = 'temuul-v2.8.0';
+const APP_SHELL = ['/', '/index.html', '/redesign.css?v=2.8.0', '/motion.css?v=2.8.0', '/growth.css?v=2.8.0', '/growth-core.js?v=2.8.0', '/games.css?v=2.8.0', '/games.js?v=2.8.0', '/games-core.js?v=2.8.0', '/manifest.json', '/favicon.svg?v=2.8.0', '/temuul-mark.png?v=2.8.0', '/icon-192.png?v=2.8.0', '/icon-512.png?v=2.8.0', '/icon-maskable-512.png?v=2.8.0', '/apple-touch-icon.png?v=2.8.0', '/fcm_setup.js'];
 
 self.addEventListener('notificationclick',event => {
   event.notification.close();
@@ -35,7 +35,7 @@ try{
     const note = payload.notification||{};
     const data = payload.data||{};
     return self.registration.showNotification(note.title||data.title||'Тэмүүл 🔔',{
-      body:note.body||payload.data?.body||'Шинэ сануулга ирлээ.',icon:note.icon||'/temuul-mark.png?v=2.7.1',badge:'/icon-192.png?v=2.7.1',
+      body:note.body||payload.data?.body||'Шинэ сануулга ирлээ.',icon:note.icon||'/temuul-mark.png?v=2.8.0',badge:'/icon-192.png?v=2.8.0',
       tag:data.eventId||payload.messageId||`push-${Date.now()}`,
       data:{url:payload.fcmOptions?.link||data.url||'/#today',eventId:data.eventId||'',taskId:data.taskId||'',date:data.date||''},
       actions:data.eventId?[{action:'snooze',title:'10 мин snooze'},{action:'open',title:'App нээх'}]:[]

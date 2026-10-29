@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.8.0 — Motion polish
+
+- Added a logo reveal and subtle loading orbit, staggered page entrances, modal reveals and responsive button presses/hover feedback.
+- No artificial loading delay, new libraries, looping page animations or changes to app data and authentication.
+- Transform/opacity-only entrance effects respect reduced-motion preferences; new stylesheet included in the offline shell.
+
 ## v2.7.1 — Original colors, new mark
 
 - Restored the pre-Spectrum light/dark palette as requested; no feature, layout or data changes.
