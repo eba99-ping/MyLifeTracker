@@ -18,5 +18,23 @@
 @keyframes launch-flame{from{transform:scaleY(.7)}to{transform:scaleY(1.12)}}
 @keyframes launch-trail{0%,20%{opacity:0;transform:translateY(50px) scaleY(.2)}45%,65%{opacity:.9;transform:translateY(0) scaleY(1)}100%{opacity:0;transform:translateY(-230px) scaleY(1.4)}}
 @keyframes launch-brand{from{opacity:0;transform:translateY(12px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
-@media(prefers-reduced-motion:reduce){.launch-rocket,.launch-trail{display:none}.launch-brand,.launch-loading{animation:none}.launch-brand{opacity:1}}
+.launch-scene{width:min(440px,92vw);height:500px}
+.launch-intro{background:radial-gradient(ellipse at 50% 45%,#302553 0,#16182e 42%,#0a0d1a 80%)}
+.launch-orbit{width:310px;height:310px;margin-left:-155px;top:75px}
+.launch-rocket{width:120px;height:180px;margin-left:-60px;top:150px;animation-duration:2.9s}
+.launch-flame{animation-duration:.3s;animation-iteration-count:10}
+.launch-trail{top:250px;animation-duration:2.9s;box-shadow:0 0 18px #b49aff44}
+.launch-brand{inset:78px 0 auto;animation-duration:.95s;animation-delay:2.65s}
+.launch-emblem{width:122px;height:122px;margin:0 auto;position:relative}
+.launch-emblem:before{content:"";position:absolute;inset:-24px;border:1px solid #c1a6ff20;border-radius:50%;box-shadow:0 0 60px #a278ff18}
+.launch-brand img{width:122px;height:122px;filter:drop-shadow(0 16px 28px #06071388)}
+.launch-eyebrow{display:block;margin-top:38px;font-size:9px;font-weight:600;letter-spacing:.22em;color:#bfb0df}
+.launch-brand strong{margin-top:10px;font-size:clamp(44px,11vw,64px);line-height:1.15;letter-spacing:-.055em;font-weight:800;color:#fff8ff;text-shadow:0 4px 24px #c8a3ff18}
+.launch-name-dot{color:#efc28c}
+.launch-brand p{font-size:13px;margin-top:17px;letter-spacing:.035em;color:#c1b9d5}
+.launch-loading{bottom:25px;animation-delay:3.5s;letter-spacing:.05em;color:#8d86a6}
+.launch-loading i{display:block;width:100px;height:2px;background:#ffffff12;margin:16px auto 0;overflow:hidden;border-radius:2px}
+.launch-loading i:after{content:"";display:block;height:100%;background:linear-gradient(90deg,#b394ee,#f4c68e);transform-origin:left;animation:launch-progress 1.9s 3.5s both}
+@keyframes launch-progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media(prefers-reduced-motion:reduce){.launch-rocket,.launch-trail{display:none}.launch-brand,.launch-loading,.launch-loading i:after{animation:none}.launch-brand{opacity:1}}
 @media(max-height:500px){.launch-scene{height:340px}.launch-brand{top:65px}.launch-rocket{top:100px}.launch-loading{bottom:16px}}

@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.9.1 — A more deliberate introduction
+
+- Slowed the launch to 5.8 seconds: longer rocket flight, soft emblem reveal and a held, larger “Тэмүүлэл” wordmark.
+- Replaced the winding-path mark with a crisp orbital ascent symbol; regenerated app/favicons and added restrained typographic hierarchy, warm accents and a closing progress line.
+- Kept the original application palette, no-skip behavior and reduced-motion alternative.
+
 ## v2.9.0 — Rocket launch
 
 - Every document open now shows a silent illustrated rocket flight, followed by the existing logo and “Тэмүүлэл” wordmark. No skip button or one-time seen flag; tab navigation does not replay it.
