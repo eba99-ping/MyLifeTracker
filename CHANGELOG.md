@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.9.4 — Logo reveal behind the rocket
+
+- The emblem now emerges behind the ascending spacecraft, with an expanding glow, a single soft shockwave and a short constellation burst. Wordmark and tagline follow independently.
+- Increased the sequence to 6.6 seconds to hold the finished brand. Start control, logo design, tracker data and reduced-motion alternative are preserved.
+
 ## v2.9.3 — Cohesive start control
 
 - Replaced the isolated bright-purple button with a dark, softly illuminated branded start control using the existing emblem, deliberate typography and a restrained arrow. Intro behavior and branding are unchanged.
