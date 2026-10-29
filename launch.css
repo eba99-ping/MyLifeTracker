@@ -1,8 +1,15 @@
 /* A fresh, silent launch on every document open. No saved 'seen' flag. */
 .launch-intro:not(.is-playing) .launch-scene{display:none}
 .launch-intro:not(.is-playing)>.launch-screen-reader{display:none}
-.launch-start{display:flex;align-items:center;gap:30px;min-height:64px;padding:16px 32px;border:1px solid #c8b0ff77;border-radius:22px;background:linear-gradient(135deg,#ab91ef,#7854cf);color:#fff;font:700 20px/1.3 system-ui,sans-serif;box-shadow:0 12px 60px #9264ed35;cursor:pointer;transition:transform .2s,box-shadow .2s}
-.launch-start:hover{transform:translateY(-3px);box-shadow:0 16px 70px #9264ed55}
+.launch-start{position:relative;display:flex;align-items:center;gap:18px;width:min(320px,calc(100vw - 48px));min-height:100px;padding:20px;border:1px solid #bba1f14d;border-radius:28px;background:linear-gradient(120deg,#302943ee,#181828f5);color:#fff;font:500 18px/1.3 system-ui,sans-serif;text-align:left;box-shadow:0 24px 65px #0005,0 0 70px #ad83ff16,inset 0 1px 0 #ffffff14;cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s}
+.launch-start:before{content:"";position:absolute;inset:-9px;border:1px solid #bea2f010;border-radius:36px;pointer-events:none}
+.launch-start img{width:52px;height:52px;flex-shrink:0;border-radius:15px;box-shadow:0 5px 14px #0003}
+.launch-start-copy{display:grid;gap:6px;flex:1}
+.launch-start-copy small{font-size:9px;letter-spacing:.2em;color:#b9aacd;font-weight:600}
+.launch-start-copy b{font-size:21px;font-weight:650;letter-spacing:-.025em}
+.launch-start-arrow{width:36px;height:36px;display:grid;place-items:center;background:#bfa0ff13;border:1px solid #c9afff20;border-radius:50%;color:#e4d3ff;transition:transform .25s}
+.launch-start:hover{transform:translateY(-2px);border-color:#cbb2ff88;box-shadow:0 28px 70px #0005,0 0 90px #ad83ff25,inset 0 1px 0 #ffffff20}
+.launch-start:hover .launch-start-arrow{transform:translateX(3px)}
 .launch-start:focus-visible{outline:3px solid #f4d3a3;outline-offset:6px}
 .launch-start:active{transform:scale(.97)}
 .launch-start[hidden]{display:none}

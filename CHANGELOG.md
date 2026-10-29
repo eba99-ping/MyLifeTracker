@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.9.3 — Cohesive start control
+
+- Replaced the isolated bright-purple button with a dark, softly illuminated branded start control using the existing emblem, deliberate typography and a restrained arrow. Intro behavior and branding are unchanged.
+
 ## v2.9.2 — Press to launch
 
 - Opening the app now shows only “Эхлэх”; one tap starts the intro and then opens the app. Background controls are inert until the sequence finishes; double taps cannot restart it.
