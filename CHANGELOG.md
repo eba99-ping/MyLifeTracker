@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.9.5 — Tap the rocket
+
+- Replaced the start card with the waiting spacecraft itself. Tap/click it, or focus it and press Enter/Space, to ignite and launch into the existing logo reveal.
+- The waiting illustration has no active exhaust; gradient IDs are isolated from the flight SVG. One-shot click protection, reduced motion and tracker state are unchanged.
+
 ## v2.9.4 — Logo reveal behind the rocket
 
 - The emblem now emerges behind the ascending spacecraft, with an expanding glow, a single soft shockwave and a short constellation burst. Wordmark and tagline follow independently.

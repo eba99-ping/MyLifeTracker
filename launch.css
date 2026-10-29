@@ -13,6 +13,17 @@
 .launch-start:focus-visible{outline:3px solid #f4d3a3;outline-offset:6px}
 .launch-start:active{transform:scale(.97)}
 .launch-start[hidden]{display:none}
+.launch-start.launch-ready-rocket{width:min(300px,88vw);min-height:250px;padding:20px;display:flex;flex-direction:column;justify-content:center;gap:22px;background:none;border:0;box-shadow:none;text-align:center}
+.launch-start.launch-ready-rocket[hidden]{display:none}
+.launch-ready-rocket:before{inset:14px 40px 48px;border:0;background:radial-gradient(ellipse,#b18aff20,transparent 65%);border-radius:50%}
+.launch-ready-art{display:block;width:120px;height:180px;filter:drop-shadow(0 12px 26px #ae8dff44);transition:transform .25s}
+.launch-ready-art svg{display:block;width:100%;height:100%;overflow:visible}
+.launch-ready-art .launch-flame{visibility:hidden}
+.launch-ready-hint{font-size:12px;font-weight:500;letter-spacing:.025em;color:#c1b5d8}
+.launch-ready-hint>span{display:inline-block;margin-left:8px;color:#f0c38e}
+.launch-start.launch-ready-rocket:hover{border:0;box-shadow:none;transform:none}
+.launch-ready-rocket:hover .launch-ready-art{transform:translateY(-6px)}
+.launch-start.launch-ready-rocket:active{transform:scale(.97)}
 .launch-intro{background:radial-gradient(ellipse at 50% 60%,#28214d 0,#111426 48%,#090d18 100%);color:#f7f3ff;overflow:hidden;touch-action:none}
 .launch-scene{position:relative;width:min(360px,90vw);height:420px;text-align:center;isolation:isolate}
 .launch-stars{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 16% 22%,#d7cdff 0 1px,transparent 2px),radial-gradient(circle at 82% 16%,#ffddb2 0 2px,transparent 3px),radial-gradient(circle at 9% 56%,#b9d8ff 0 1px,transparent 2px),radial-gradient(circle at 85% 67%,#c3b2ff 0 1px,transparent 2px),radial-gradient(circle at 70% 40%,#fff 0 1px,transparent 2px)}
@@ -28,7 +39,7 @@
 .launch-brand p{margin:9px 0;color:#c6bfdc;font-size:14px;letter-spacing:.08em}
 .launch-loading{position:absolute;bottom:38px;left:0;right:0;color:#b2adc6;font-size:11px;animation:launch-brand .5s 2.2s both}
 .launch-screen-reader{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
-@keyframes launch-flight{0%{opacity:0;transform:translateY(80px) scale(.75) rotate(-10deg)}20%{opacity:1;transform:translateY(20px) scale(1) rotate(-5deg)}45%{opacity:1;transform:translateY(5px) rotate(4deg)}65%{opacity:1;transform:translateY(-30px) rotate(0)}100%{opacity:0;transform:translateY(-350px) scale(.55) rotate(9deg)}}
+@keyframes launch-flight{0%{opacity:1;transform:translateY(0) scale(1) rotate(0)}20%{opacity:1;transform:translateY(2px) scale(1) rotate(-2deg)}45%{opacity:1;transform:translateY(-15px) rotate(2deg)}65%{opacity:1;transform:translateY(-70px) rotate(0)}100%{opacity:0;transform:translateY(-350px) scale(.55) rotate(9deg)}}
 @keyframes launch-flame{from{transform:scaleY(.7)}to{transform:scaleY(1.12)}}
 @keyframes launch-trail{0%,20%{opacity:0;transform:translateY(50px) scaleY(.2)}45%,65%{opacity:.9;transform:translateY(0) scaleY(1)}100%{opacity:0;transform:translateY(-230px) scaleY(1.4)}}
 @keyframes launch-brand{from{opacity:0;transform:translateY(12px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
