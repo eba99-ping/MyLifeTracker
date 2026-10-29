@@ -1,0 +1,22 @@
+/* A fresh, silent launch on every document open. No saved 'seen' flag. */
+.launch-intro{background:radial-gradient(ellipse at 50% 60%,#28214d 0,#111426 48%,#090d18 100%);color:#f7f3ff;overflow:hidden;touch-action:none}
+.launch-scene{position:relative;width:min(360px,90vw);height:420px;text-align:center;isolation:isolate}
+.launch-stars{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 16% 22%,#d7cdff 0 1px,transparent 2px),radial-gradient(circle at 82% 16%,#ffddb2 0 2px,transparent 3px),radial-gradient(circle at 9% 56%,#b9d8ff 0 1px,transparent 2px),radial-gradient(circle at 85% 67%,#c3b2ff 0 1px,transparent 2px),radial-gradient(circle at 70% 40%,#fff 0 1px,transparent 2px)}
+.launch-orbit{position:absolute;width:260px;height:260px;left:50%;top:85px;margin-left:-130px;border:1px solid #bfa5ff16;border-radius:50%;transform:rotate(-25deg) scaleY(.72)}
+.launch-orbit:after{content:"";position:absolute;width:8px;height:8px;top:25px;left:42px;background:#c4b2ff;border-radius:50%;box-shadow:0 0 18px #c4b2ff}
+.launch-rocket{position:absolute;left:50%;top:150px;width:100px;height:150px;margin-left:-50px;animation:launch-flight 1.8s cubic-bezier(.45,0,.55,1) both;filter:drop-shadow(0 12px 22px #ae8dff44)}
+.launch-rocket svg{width:100%;height:100%;overflow:visible}
+.launch-flame{transform-origin:50px 112px;animation:launch-flame .18s ease-in-out 10 alternate}
+.launch-trail{position:absolute;left:50%;top:230px;width:3px;height:100px;margin-left:-1.5px;background:linear-gradient(#e5c0ff,#a07bff66,transparent);border-radius:50%;animation:launch-trail 1.8s ease-out both}
+.launch-brand{position:absolute;inset:110px 0 auto;animation:launch-brand .65s 1.65s cubic-bezier(.2,.8,.2,1) both}
+.launch-brand img{width:88px;height:88px;filter:drop-shadow(0 14px 24px #9472ff40)}
+.launch-brand strong{display:block;margin-top:18px;font-size:38px;font-weight:800;letter-spacing:-.04em}
+.launch-brand p{margin:9px 0;color:#c6bfdc;font-size:14px;letter-spacing:.08em}
+.launch-loading{position:absolute;bottom:38px;left:0;right:0;color:#b2adc6;font-size:11px;animation:launch-brand .5s 2.2s both}
+.launch-screen-reader{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+@keyframes launch-flight{0%{opacity:0;transform:translateY(80px) scale(.75) rotate(-10deg)}20%{opacity:1;transform:translateY(20px) scale(1) rotate(-5deg)}45%{opacity:1;transform:translateY(5px) rotate(4deg)}65%{opacity:1;transform:translateY(-30px) rotate(0)}100%{opacity:0;transform:translateY(-350px) scale(.55) rotate(9deg)}}
+@keyframes launch-flame{from{transform:scaleY(.7)}to{transform:scaleY(1.12)}}
+@keyframes launch-trail{0%,20%{opacity:0;transform:translateY(50px) scaleY(.2)}45%,65%{opacity:.9;transform:translateY(0) scaleY(1)}100%{opacity:0;transform:translateY(-230px) scaleY(1.4)}}
+@keyframes launch-brand{from{opacity:0;transform:translateY(12px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(prefers-reduced-motion:reduce){.launch-rocket,.launch-trail{display:none}.launch-brand,.launch-loading{animation:none}.launch-brand{opacity:1}}
+@media(max-height:500px){.launch-scene{height:340px}.launch-brand{top:65px}.launch-rocket{top:100px}.launch-loading{bottom:16px}}

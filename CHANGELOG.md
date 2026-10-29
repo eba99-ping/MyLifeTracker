@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.9.0 — Rocket launch
+
+- Every document open now shows a silent illustrated rocket flight, followed by the existing logo and “Тэмүүлэл” wordmark. No skip button or one-time seen flag; tab navigation does not replay it.
+- App initialization runs in parallel with the 3.2-second intro. Reduced-motion users get a brief static logo instead of flight. Existing app data and login flow are unchanged.
+
 ## v2.8.0 — Motion polish
 
 - Added a logo reveal and subtle loading orbit, staggered page entrances, modal reveals and responsive button presses/hover feedback.
