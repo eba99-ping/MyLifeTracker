@@ -5,6 +5,10 @@
 #petStage .pixel-head{transform-origin:50% 95%}
 #petStage .pet-eye{animation:none}
 .pet-reaction-fx{position:absolute;top:6px;right:10px;font-size:27px;pointer-events:none;opacity:0;z-index:2}
+.pet-growth{margin:12px 0;padding:12px;background:var(--surface-2);border:1px solid var(--line);border-radius:14px}
+.pet-growth-head{display:flex;flex-wrap:wrap;gap:6px;justify-content:space-between;align-items:center}.pet-growth-head small{font-size:10px;color:var(--muted)}
+.pet-growth-stages{display:flex;gap:5px;margin:10px 0}.pet-growth-stages span{flex:1;text-align:center;font-size:10px;color:var(--muted);border-radius:8px;padding:6px 3px;border:1px solid var(--line)}.pet-growth-stages .active{background:var(--brand-soft);color:var(--brand);border-color:var(--brand)}
+.pet-growth-track{height:5px;background:var(--line);border-radius:5px;overflow:hidden}.pet-growth-track i{display:block;height:100%;background:var(--brand);width:0}.pet-growth p{font-size:10px;color:var(--muted);margin:8px 0 0}
 @media(prefers-reduced-motion:no-preference){
   #page-pet.active #petStage .pixel-body{animation:pixel-breathe 3s steps(3,end) infinite}
   #page-pet.active #petStage .pixel-head{animation:pixel-nod 5s steps(2,end) infinite}
@@ -15,6 +19,8 @@
   #page-pet.active #petStage [data-pet-anatomy="panda"] .pixel-head{animation:pixel-munch 5.2s steps(2,end) infinite}
   #page-pet.active #petStage[data-mood="sleepy"] .pet-eye{animation:none;transform:scaleY(.2)}
   #page-pet.active #petStage[data-mood="sleepy"] .pixel-body{animation-duration:4.5s}
+  #page-pet.active #petStage [data-pet-growth="baby"] .pixel-body{animation-duration:2.4s}
+  #page-pet.active #petStage [data-pet-growth="adult"] .pixel-body{animation-duration:3.8s}
   #page-pet.active #petStage[data-reaction="pet"] .pixel-reaction{animation:pixel-cuddle 1.1s steps(4,end) both}
   #page-pet.active #petStage[data-reaction="feed"] .pixel-head{animation:pixel-eat 1.1s steps(4,end) both}
   #page-pet.active #petStage[data-reaction="play"] .pixel-reaction{animation:pixel-hop 1.1s steps(5,end) both}

@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.12.0 — Grow together
+
+- Pets now grow from Baby (L1–3) to junior (L4–6) to adult (L7+), derived from existing XP without resets or extra storage keys.
+- Each stage has a distinct size, head/body proportion and breathing pace; all species, custom colors and earned accessories remain compatible.
+- Added a growth panel, next-evolution XP progress and level-up growth messages. Today shows the current stage; stage transitions invalidate the artwork cache correctly.
+
 ## v2.11.0 — Living pixel pets
 
 - Added stepped breathing/blinking, cat tail swishes, rabbit ear twitches, bear paw waves and panda nibbling. Head accessories move with the head rather than drifting independently.

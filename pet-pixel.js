@@ -1,6 +1,13 @@
 /* Original code-native pixel companions; transparent, recolorable, no image downloads. */
 globalThis.TemuulPixelPet = (()=>{
+  function growth(rawXP=0){
+    const xp=Math.max(0,Number(rawXP)||0);
+    const stages=[{id:'baby',name:'Baby',icon:'🐣',level:1,start:0,next:420,nextLevel:4,size:.72,body:'.84 .78',head:1.1},{id:'junior',name:'Өсвөр',icon:'🌱',level:4,start:420,next:1260,nextLevel:7,size:.87,body:'.94 .93',head:1.02},{id:'adult',name:'Том',icon:'✨',level:7,start:1260,next:null,nextLevel:null,size:1,body:'1 1',head:.94}];
+    const stage=xp>=1260?stages[2]:xp>=420?stages[1]:stages[0];
+    return {...stage,progress:stage.next?Math.min(100,Math.floor((xp-stage.start)/(stage.next-stage.start)*100)):100,remaining:stage.next?Math.max(0,stage.next-xp):0};
+  }
   function artwork(record){
+    const stage=growth(record.xp);
     const shape=['cat','bear','bunny','panda'].includes(record.shape)?record.shape:'bunny';
     const color=/^#[0-9a-f]{6}$/i.test(record.color||'')?record.color:'#8b72ff';
     const tint=(target,a)=>'#'+[1,3,5].map(i=>Math.round(parseInt(color.slice(i,i+2),16)*(1-a)+target*a).toString(16).padStart(2,'0')).join('');
@@ -32,7 +39,7 @@ globalThis.TemuulPixelPet = (()=>{
       halo:p('M10 1H22V2H24V4H22V5H10V4H8V2H10ZM11 2V4H21V2Z','#ffda75'),
       diamond:p('M11 2H21V3H23V5H21V6H19V8H17V9H15V8H13V6H11V5H9V3H11Z','#8de7f2')+r(12,3,8,1,'#ecfcff')
     };
-    return `<g data-pet-anatomy="${shape}" data-pet-style="pixel" shape-rendering="crispEdges" transform="translate(4 8) scale(6)"><g class="pixel-reaction"><g class="pixel-tail">${tail}</g><g class="pixel-body">${body}${limbs}${bamboo}</g><g class="pixel-head"><g class="pixel-ears">${ears}</g>${head}${face}${whiskers}${accessories[record.accessory]||''}</g></g></g>`;
+    return `<g data-pet-anatomy="${shape}" data-pet-style="pixel" data-pet-growth="${stage.id}" transform="translate(100 194) scale(${stage.size}) translate(-100 -194)"><g shape-rendering="crispEdges" transform="translate(4 8) scale(6)"><g class="pixel-reaction"><g class="pixel-tail">${tail}</g><g transform="translate(16 26) scale(${stage.body}) translate(-16 -26)"><g class="pixel-body">${body}${limbs}${bamboo}</g></g><g transform="translate(16 21) scale(${stage.head}) translate(-16 -21)"><g class="pixel-head"><g class="pixel-ears">${ears}</g>${head}${face}${whiskers}${accessories[record.accessory]||''}</g></g></g></g></g>`;
   }
-  return {artwork};
+  return {artwork,growth};
 })();
