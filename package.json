@@ -1,6 +1,6 @@
 {
   "name": "temuul-growth-os",
-  "version": "2.14.0",
+  "version": "2.14.1",
   "private": true,
   "description": "Тэмүүл personal growth OS with Study timetable, Habit Lab, Cloud Push, Focus, AI Pet and Cloud Sync",
   "type": "module",
