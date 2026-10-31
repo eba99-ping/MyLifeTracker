@@ -39,7 +39,7 @@ for(const shape of ['bunny','bear','cat','panda']){
   context.look={shape,color:'#12abcf',accessory:'crown'};
   const art=vm.runInContext('petArtwork(look,"preview")',context);
   assert(art.includes('shape-rendering="crispEdges"')&&art.includes('#ffd779'));
-  if(shape!=='panda')assert(art.includes('#12abcf'));
+  assert(art.includes('#12abcf'));
   assert(!art.includes('<image')&&!art.includes('linearGradient'));
   assert(!art.includes('undefined'));
   assert.equal((art.match(/data-pet-leg=/g)||[]).length,4);
@@ -55,4 +55,11 @@ for(const accessory of ['none','sprout','star','flower','crown','bow','headphone
   assert(!art.includes('undefined')&&!art.includes('NaN'));
   assert(art.includes('data-pet-style="pixel"'));
 }
-console.log('PASS: four pixel pets, all level accessories, isolated preview and safe color rendering');
+for(const shape of ['bunny','bear','cat','panda']){
+  context.look={shape,color:'#fa7ca8',accessory:'none'};
+  const pink=vm.runInContext('petArtwork(look)',context);
+  context.look.color='#73bdf4';
+  const blue=vm.runInContext('petArtwork(look)',context);
+  assert(pink.includes('#fa7ca8')&&blue.includes('#73bdf4')&&pink!==blue);
+}
+console.log('PASS: four recolorable pixel pets, all level accessories, isolated preview and safe color rendering');

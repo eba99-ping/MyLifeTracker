@@ -4,7 +4,7 @@ globalThis.TemuulPixelPet = (()=>{
     const shape=['cat','bear','bunny','panda'].includes(record.shape)?record.shape:'bunny';
     const color=/^#[0-9a-f]{6}$/i.test(record.color||'')?record.color:'#8b72ff';
     const tint=(target,a)=>'#'+[1,3,5].map(i=>Math.round(parseInt(color.slice(i,i+2),16)*(1-a)+target*a).toString(16).padStart(2,'0')).join('');
-    const ink='#25212c',cream='#fff5e7',coat=shape==='panda'?'#fffdf6':color,shade=shape==='panda'?'#d7d8d4':tint(35,.25),light=tint(255,.35),pink='#f4a8ba';
+    const ink='#25212c',cream='#fff5e7',coat=color,shade=tint(35,.25),light=tint(255,.35),pink='#f4a8ba';
     const r=(x,y,w,h,c,extra='')=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}" ${extra}/>`;
     const p=(d,c)=>`<path d="${d}" fill="${c}"/>`;
     let ears='';

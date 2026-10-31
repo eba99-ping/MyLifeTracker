@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.10.1 — Colors for every pet
+
+- Enabled the saved coat color on pandas as well as cats, rabbits and bears, while keeping panda eye patches and bamboo recognizable.
+- Added white and sky-blue shortcuts alongside the existing custom color picker; all changes remain preview-only until saved.
+- Added color-change regression checks for all four species. Existing names, XP, coins and equipment remain untouched.
+
 ## v2.10.0 — Pixel companions
 
 - Replaced the smooth animal illustrations with original, transparent pixel-art cats, rabbits and bears; added a bamboo-carrying panda option inspired by the supplied references.
