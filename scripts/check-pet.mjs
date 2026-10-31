@@ -68,6 +68,7 @@ const motion=fs.readFileSync('pet-motion.css','utf8');
 assert.match(motion,/#page-pet\.active/);assert.match(motion,/prefers-reduced-motion:reduce/);
 for(const action of ['pet','feed','play'])assert(motion.includes(`[data-reaction="${action}"]`));
 assert.match(html,/clearTimeout\(petReactionTimer\)/);
+assert.match(html,/class="pet-style-art"/);assert.match(html,/aria-pressed=/);assert.match(html,/item.level>level.level\?'disabled'/);
 console.log('PASS: articulated pixel anatomy, active-page motion, reduced-motion support and three care reactions');
 for(const [xp,id,progress] of [[0,'baby',0],[419,'baby',99],[420,'junior',0],[1259,'junior',99],[1260,'adult',100],[9999,'adult',100]]){
   const growth=context.TemuulPixelPet.growth(xp);assert.equal(growth.id,id);assert.equal(growth.progress,progress);

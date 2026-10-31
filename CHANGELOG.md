@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.13.0 — Pixel wardrobe
+
+- Replaced tiny emoji-only accessory controls with actual pet outfit thumbnails, Mongolian names, clear locked levels and an equipped state. Selection remains restricted to earned levels.
+- Refined pixel crown jewels, metallic headphones, layered wizard hat and crystal facets; growth proportions and head-following animations remain intact.
+- No changes to XP thresholds, pet colors, coins or existing unlocked accessories.
+
 ## v2.12.0 — Grow together
 
 - Pets now grow from Baby (L1–3) to junior (L4–6) to adult (L7+), derived from existing XP without resets or extra storage keys.

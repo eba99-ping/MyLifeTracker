@@ -29,15 +29,15 @@ globalThis.TemuulPixelPet = (()=>{
     const whiskers=shape==='cat'?r(2,15,5,1,ink)+r(2,18,5,1,ink)+r(25,15,5,1,ink)+r(25,18,5,1,ink):'';
     const bamboo=shape==='panda'?p('M8 21H9V22H11V24H13V26H15V28H16V30H14V28H12V26H10V24H8Z','#62c978')+r(8,21,4,1,'#b9f19b')+r(10,24,4,1,'#b9f19b')+p('M8 20H4V18H7V19H9ZM12 25H16V23H14V24H12Z','#60ce75'):'';
     const accessories={
-      sprout:r(15,4,1,4,'#36764d')+p('M15 5H12V4H11V2H14V3H15ZM16 4V2H18V1H20V3H19V4Z','#7fda9d'),
-      star:p('M15 1H17V3H20V5H18V8H16V7H14V8H12V5H10V3H14V2H15Z','#ffe184')+r(15,3,2,2,'#fff4be'),
-      flower:r(13,2,6,6,'#f68eb5')+r(11,4,10,2,'#f68eb5')+r(15,4,2,2,'#ffe184'),
-      crown:p('M10 2H12V4H14V1H17V4H19V2H21V8H10Z','#ffd779')+r(10,7,11,1,'#fff0bd')+r(15,5,2,1,'#ad84ef'),
-      bow:p('M10 3H12V4H14V5H17V4H19V3H21V8H19V7H17V6H14V7H12V8H10Z','#f68eb5')+r(14,4,3,3,'#ffd4e4'),
-      headphones:p('M4 15V9H5V7H7V6H25V7H27V9H28V15H26V9H24V8H8V9H6V15Z','#46506b')+r(3,12,3,5,'#6ae0d7')+r(26,12,3,5,'#6ae0d7'),
-      wizard:p('M10 7H11V5H12V3H13V1H16V3H18V5H20V7H23V9H8V7Z','#6663b9')+r(14,3,2,2,'#ffe5a0'),
-      halo:p('M10 1H22V2H24V4H22V5H10V4H8V2H10ZM11 2V4H21V2Z','#ffda75'),
-      diamond:p('M11 2H21V3H23V5H21V6H19V8H17V9H15V8H13V6H11V5H9V3H11Z','#8de7f2')+r(12,3,8,1,'#ecfcff')
+      sprout:r(15,4,1,4,'#36764d')+p('M15 5H12V4H11V2H14V3H15ZM16 4V2H18V1H20V3H19V4Z','#7fda9d')+r(12,2,2,1,'#bdf2b3')+r(18,1,2,1,'#c6f6bb')+r(14,4,1,1,'#4ca56f'),
+      star:p('M15 1H17V3H20V5H18V8H16V7H14V8H12V5H10V3H14V2H15Z','#ffe184')+r(15,3,2,2,'#fff4be')+r(12,5,1,2,'#dcaa52')+r(17,6,1,1,'#dcaa52')+r(15,1,2,1,'#fff4be'),
+      flower:p('M14 1H18V3H20V4H22V7H19V9H17V8H15V9H12V7H10V4H12V3H14Z','#b95b8c')+r(14,2,4,6,'#f68eb5')+r(12,4,8,3,'#f68eb5')+r(14,2,2,1,'#ffd4e4')+r(12,4,2,1,'#ffd4e4')+r(15,4,3,3,'#ffe184')+r(15,4,1,1,'#fff4be'),
+      crown:p('M9 1H12V3H14V0H17V3H19V1H22V9H9Z','#8f6135')+p('M10 2H11V4H15V1H16V4H20V2H21V8H10Z','#ffd779')+r(10,7,11,1,'#fff0bd')+r(15,5,2,2,'#ad84ef')+r(11,5,1,1,'#eb7b9a')+r(19,5,1,1,'#75cbdc'),
+      bow:p('M9 2H12V3H14V4H17V3H19V2H22V9H19V8H17V7H14V8H12V9H9Z','#a44f79')+p('M10 3H12V4H14V5H17V4H19V3H21V8H19V7H17V6H14V7H12V8H10Z','#f68eb5')+r(14,4,3,3,'#ffd4e4')+r(10,3,2,1,'#ffd4e4')+r(19,3,2,1,'#ffd4e4'),
+      headphones:p('M4 15V9H5V7H7V6H25V7H27V9H28V15H26V9H24V8H8V9H6V15Z','#46506b')+r(8,6,16,1,'#a9aac9')+r(2,11,5,7,'#25212c')+r(25,11,5,7,'#25212c')+r(3,12,3,5,'#6ae0d7')+r(26,12,3,5,'#6ae0d7')+r(3,12,1,4,'#c9fff0')+r(26,12,1,4,'#c9fff0'),
+      wizard:p('M8 7H10V5H11V3H12V0H16V2H18V4H20V6H22V7H24V10H7V7Z','#32335e')+p('M9 8H11V5H12V3H13V1H15V3H17V5H19V7H22V8Z','#7867bf')+r(9,8,13,1,'#b9a5ed')+r(12,6,8,1,'#efbd78')+r(14,3,2,2,'#ffe5a0')+r(18,7,1,1,'#fff1bc'),
+      halo:p('M10 1H22V2H24V4H22V5H10V4H8V2H10ZM11 2V4H21V2Z','#ffda75')+r(11,1,10,1,'#fff3c2')+r(9,2,1,1,'#fff3c2')+r(25,0,1,3,'#fff3c2')+r(24,1,3,1,'#fff3c2'),
+      diamond:p('M11 1H21V2H23V3H24V5H22V6H20V8H18V10H14V8H12V6H10V5H8V3H9V2H11Z','#438eae')+p('M11 2H21V3H23V5H21V6H19V8H17V9H15V8H13V6H11V5H9V3H11Z','#8de7f2')+r(12,3,8,1,'#ecfcff')+r(15,4,2,4,'#e7ffff')+r(10,4,3,1,'#d4faff')
     };
     return `<g data-pet-anatomy="${shape}" data-pet-style="pixel" data-pet-growth="${stage.id}" transform="translate(100 194) scale(${stage.size}) translate(-100 -194)"><g shape-rendering="crispEdges" transform="translate(4 8) scale(6)"><g class="pixel-reaction"><g class="pixel-tail">${tail}</g><g transform="translate(16 26) scale(${stage.body}) translate(-16 -26)"><g class="pixel-body">${body}${limbs}${bamboo}</g></g><g transform="translate(16 21) scale(${stage.head}) translate(-16 -21)"><g class="pixel-head"><g class="pixel-ears">${ears}</g>${head}${face}${whiskers}${accessories[record.accessory]||''}</g></g></g></g></g>`;
   }
