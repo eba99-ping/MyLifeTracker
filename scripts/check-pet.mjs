@@ -44,6 +44,7 @@ for(const shape of ['bunny','bear','cat','panda']){
   assert(!art.includes('undefined'));
   assert.equal((art.match(/data-pet-leg=/g)||[]).length,4);
   assert(art.includes(`data-pet-anatomy="${shape}"`));
+  for(const part of ['pixel-body','pixel-head','pixel-tail','pixel-ears','pixel-reaction'])assert(art.includes(`class="${part}"`));
   assert(!art.includes('NaN'));
 }
 context.look={shape:'cat',color:'"><script>bad</script>',accessory:'unknown'};
@@ -63,3 +64,8 @@ for(const shape of ['bunny','bear','cat','panda']){
   assert(pink.includes('#fa7ca8')&&blue.includes('#73bdf4')&&pink!==blue);
 }
 console.log('PASS: four recolorable pixel pets, all level accessories, isolated preview and safe color rendering');
+const motion=fs.readFileSync('pet-motion.css','utf8');
+assert.match(motion,/#page-pet\.active/);assert.match(motion,/prefers-reduced-motion:reduce/);
+for(const action of ['pet','feed','play'])assert(motion.includes(`[data-reaction="${action}"]`));
+assert.match(html,/clearTimeout\(petReactionTimer\)/);
+console.log('PASS: articulated pixel anatomy, active-page motion, reduced-motion support and three care reactions');

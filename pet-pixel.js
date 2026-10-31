@@ -32,7 +32,7 @@ globalThis.TemuulPixelPet = (()=>{
       halo:p('M10 1H22V2H24V4H22V5H10V4H8V2H10ZM11 2V4H21V2Z','#ffda75'),
       diamond:p('M11 2H21V3H23V5H21V6H19V8H17V9H15V8H13V6H11V5H9V3H11Z','#8de7f2')+r(12,3,8,1,'#ecfcff')
     };
-    return `<g data-pet-anatomy="${shape}" data-pet-style="pixel" shape-rendering="crispEdges" transform="translate(4 8) scale(6)">${tail}${body}${limbs}${ears}${head}${face}${whiskers}${bamboo}${accessories[record.accessory]||''}</g>`;
+    return `<g data-pet-anatomy="${shape}" data-pet-style="pixel" shape-rendering="crispEdges" transform="translate(4 8) scale(6)"><g class="pixel-reaction"><g class="pixel-tail">${tail}</g><g class="pixel-body">${body}${limbs}${bamboo}</g><g class="pixel-head"><g class="pixel-ears">${ears}</g>${head}${face}${whiskers}${accessories[record.accessory]||''}</g></g></g>`;
   }
   return {artwork};
 })();

@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.11.0 — Living pixel pets
+
+- Added stepped breathing/blinking, cat tail swishes, rabbit ear twitches, bear paw waves and panda nibbling. Head accessories move with the head rather than drifting independently.
+- Petting produces a happy wiggle/heart, feeding a munch/apple and play a short hop/sparkle; quick different actions cancel the previous reaction cleanup timer safely.
+- Ambient motion runs only on the active Pet page; mini portraits remain still. Reduced-motion preferences remove all character animation. Names, colors, XP and coins are unchanged.
+
 ## v2.10.1 — Colors for every pet
 
 - Enabled the saved coat color on pandas as well as cats, rabbits and bears, while keeping panda eye patches and bamboo recognizable.
