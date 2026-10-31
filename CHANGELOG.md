@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.14.0 — A more useful AI Coach
+
+- Added bounded multi-turn conversation history so follow-up questions retain context. General questions, study explanations and practical planning are explicitly supported without fabricating tracker facts or claiming actions/searches.
+- Added four editable starter prompts, an explicit tracker-sharing toggle, a privacy explanation, visible loading state and retryable errors that do not pollute conversation history.
+- Prevented duplicate sends and chat clearing while a response is pending; retries reuse the same question/history rather than duplicating user bubbles. Existing chat records, backend key/model configuration and goal advice tools are preserved.
+
 ## v2.13.0 — Pixel wardrobe
 
 - Replaced tiny emoji-only accessory controls with actual pet outfit thumbnails, Mongolian names, clear locked levels and an equipped state. Selection remains restricted to earned levels.
