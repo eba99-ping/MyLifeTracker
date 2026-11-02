@@ -1,5 +1,13 @@
 # Changelog
 
+## v2.15.0 — Daily companion upgrade
+
+- Added a header quick-add sheet for tasks, assignments, Journal and classes without duplicating data or changing the bottom navigation.
+- Study now shows a current/next-class countdown across week boundaries, preserves assignment checklists and builds short, date-bounded exam revision suggestions with safe Focus entry.
+- Added an owned-item Pet room layout: show/hide and position multiple purchased props without charging twice; existing selected props migrate to sensible placements.
+- Added a factual seven-day report covering wins, overdue items and upcoming work, plus a local text download. Existing Life Insights remains intact.
+- Added honest push-delivery diagnostics and setup instructions, corrected the backend notification link to the new domain, and documented the release gate. Background sender activation still requires owner reauthentication, billing/deployment verification and a real closed-device delivery test; no paid resources were enabled.
+
 ## v2.14.0 — A more useful AI Coach
 
 - Added bounded multi-turn conversation history so follow-up questions retain context. General questions, study explanations and practical planning are explicitly supported without fabricating tracker facts or claiming actions/searches.

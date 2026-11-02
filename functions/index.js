@@ -12,7 +12,7 @@ const {findDueEvents,pruneFired} = require('./reminder-logic');
 
 initializeApp();
 const db = getFirestore();
-const APP_URL = 'https://my-life-tracker-seven.vercel.app/#today';
+const APP_URL = 'https://temuul.vercel.app/#today';
 
 // Admin role is assigned only by a trusted project owner, never by the client.
 exports.listAdminAccounts = onCall({region:'asia-northeast1',maxInstances:1},async request=>{
