@@ -49,3 +49,35 @@
 @keyframes pixel-hop{0%,100%{transform:translateY(0)}25%{transform:translateY(-3px) rotate(-3deg)}50%{transform:translateY(0)}75%{transform:translateY(-2px) rotate(3deg)}}
 @keyframes pixel-fx{0%{opacity:0;transform:translateY(8px) scale(.6)}20%,70%{opacity:1}100%{opacity:0;transform:translateY(-24px) scale(1.05)}}
 @media(prefers-reduced-motion:reduce){#petStage [data-pet-style] *{animation:none!important;transform:none!important}}
+
+/* Care scenes stay inside the stage; no layout animation or extra render loop. */
+#petStage .pet-reaction-fx{inset:auto 8% 10% auto;width:58px;height:52px;font-size:26px;opacity:0;animation:none;transform:none}
+#petStage .pet-reaction-fx svg{width:100%;height:100%;overflow:visible}
+#petStage[data-reaction] .pet-reaction-fx{opacity:1}
+#petStage[data-reaction="pet"] .pet-reaction-fx{inset:14% 12% auto auto;width:100px;height:70px;color:#f5a8c5}
+.care-heart{position:absolute;left:0;top:25px}.care-heart:nth-child(2){left:34px;top:5px;font-size:20px}.care-heart:nth-child(3){left:68px;top:26px;font-size:15px}
+#petStage[data-mood="sleepy"]:not([data-reaction])::after{content:'z z Z';position:absolute;right:12%;top:15%;color:var(--muted);font-size:16px;letter-spacing:4px;pointer-events:none}
+@media(prefers-reduced-motion:no-preference){
+ #page-pet.active #petStage[data-reaction="pet"] .pixel-reaction{animation:care-snuggle 2.6s ease-in-out both}
+ #page-pet.active #petStage[data-reaction="pet"] .pet-eye{animation:none;transform:scaleY(.22)}
+ #page-pet.active #petStage[data-reaction="pet"] .pixel-tail{animation:pixel-tail .4s steps(3,end) infinite}
+ #page-pet.active #petStage[data-reaction="pet"] .care-heart{animation:care-heart 2.6s ease-out both}
+ #page-pet.active #petStage[data-reaction="pet"] .care-heart:nth-child(2){animation-delay:.15s}
+ #page-pet.active #petStage[data-reaction="pet"] .care-heart:nth-child(3){animation-delay:.3s}
+ #page-pet.active #petStage[data-reaction="feed"] .pixel-reaction{animation:care-lean 2.6s ease-in-out both}
+ #page-pet.active #petStage[data-reaction="feed"] .pixel-head{animation:care-munch .42s steps(3,end) 6}
+ #page-pet.active #petStage[data-reaction="feed"] .pet-reaction-fx{animation:care-bowl 2.6s ease both}
+ #page-pet.active #petStage[data-reaction="play"] .pixel-reaction{animation:care-pounce 2.6s ease-in-out both}
+ #page-pet.active #petStage[data-reaction="play"] .pixel-tail{animation:pixel-tail .3s steps(3,end) infinite}
+ #page-pet.active #petStage[data-reaction="play"] .pet-reaction-fx{animation:care-ball 2.6s ease-in-out both}
+ #page-pet.active #petStage[data-mood="sleepy"]:not([data-reaction])::after{animation:care-dream 3s ease-in-out infinite}
+}
+@keyframes care-snuggle{0%,100%{transform:rotate(0)}20%,65%{transform:translateY(1px) rotate(-6deg)}40%,80%{transform:translateY(-1px) rotate(4deg)}}
+@keyframes care-heart{0%{opacity:0;transform:translateY(12px) scale(.6)}25%,65%{opacity:1}100%{opacity:0;transform:translateY(-24px) scale(1.1)}}
+@keyframes care-lean{0%,100%{transform:rotate(0)}20%,80%{transform:translate(1px,1px) rotate(6deg)}}
+@keyframes care-munch{0%,100%{transform:translateY(0)}50%{transform:translateY(1px) rotate(3deg)}}
+@keyframes care-bowl{0%,100%{opacity:0;transform:translateY(5px)}15%,85%{opacity:1;transform:translateY(0)}}
+@keyframes care-pounce{0%,100%{transform:translate(0,0)}20%{transform:translate(-2px,1px) rotate(-5deg)}40%{transform:translate(3px,-4px) rotate(5deg)}60%{transform:translate(1px,0)}78%{transform:translate(-2px,-2px) rotate(-3deg)}}
+@keyframes care-ball{0%{opacity:0;transform:translateX(-85px) rotate(-180deg)}20%{opacity:1;transform:translate(-35px,-30px) rotate(-90deg)}42%{transform:translate(0,0) rotate(0)}65%{transform:translate(-50px,-22px) rotate(-140deg)}85%{opacity:1;transform:translate(-80px,0) rotate(-200deg)}100%{opacity:0;transform:translateX(-95px)}}
+@keyframes care-dream{0%,100%{opacity:.3;transform:translateY(0)}60%{opacity:.9;transform:translateY(-7px)}}
+@media(prefers-reduced-motion:reduce){#petStage .pet-reaction-fx,#petStage .care-heart,#petStage::after{animation:none!important}}
