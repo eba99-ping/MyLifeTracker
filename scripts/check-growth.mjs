@@ -47,3 +47,14 @@ node('#nextActionStart').listeners.click();const active=integration.focusState.a
 assert.equal(active.taskTitle,'Read');assert.equal(active.taskId,'one');assert.equal(active.status,'running');
 node('#nextActionStart').listeners.click();assert.equal(integration.focusState.active,active);assert.equal(active.status,'running');
 console.log('PASS: actual evening form save/reopen and Focus start/double-click handlers');
+
+// Run the real shop apply handler against isolated balances, never live accounts.
+const shopButton={};let shopSaves=0;
+const shopContext=vm.createContext({Date,TemuulGrowth:G,$:()=>shopButton,petShopPreviewId:'beach',petState:{economy:{earnings:Object.fromEntries(Array.from({length:10},(_,i)=>[`task:${i}`,{at:1}]))}},renderPetShopPreview(){},savePet(){shopSaves++;},renderPet(){},closeModal(){},toast(){}});
+vm.runInContext(section("    $('#petShopApply').onclick=",'    function renderPetCare(){'),shopContext);
+shopButton.onclick();assert.equal(G.wallet(shopContext.petState.economy).coins,10);assert.equal(shopContext.petState.room,'beach');
+shopButton.onclick();assert.equal(G.wallet(shopContext.petState.economy).coins,10); // owned: no second debit
+shopContext.petShopPreviewId='moon';shopButton.onclick();assert.equal(shopContext.petState.room,'beach');assert.equal(shopSaves,2); // insufficient: no mutation/save
+shopContext.petShopPreviewId='plant';shopContext.petState.economy.earnings['goal:bonus']={at:2};shopButton.onclick();
+assert.equal(G.wallet(shopContext.petState.economy).coins,15);assert.equal(shopContext.petState.roomLayout.plant.enabled,true);assert.equal(shopContext.petState.room,'beach');
+console.log('PASS: actual shop handler preserves ownership, prevents repeated/insufficient purchases and places props beside the selected scene');
