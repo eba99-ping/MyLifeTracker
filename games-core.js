@@ -20,9 +20,9 @@ export function makePuzzle(random=Math.random){
   }
   return solved(board)?moveTile(board,7):board;
 }
-const higherScores=new Set(['merge','line','lights']);
+const higherScores=new Set(['merge','line','lights','snake','meteor']);
 export function safeScores(raw){
-  const out={version:1,memory:null,reaction:null,puzzle:null,merge:null,mines:null,line:null,lights:null,plays:0};
+  const out={version:1,memory:null,reaction:null,puzzle:null,merge:null,mines:null,line:null,lights:null,snake:null,meteor:null,plays:0};
   if(!raw||typeof raw!=='object')return out;
   for(const key of Object.keys(out).filter(key=>out[key]===null)){
     const value=raw[key];
@@ -43,6 +43,13 @@ export function recordScore(raw,game,score,now=Date.now()){
 }
 
 const winningLines=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+export function snakeStep(body,dx,dy,food,size=10){
+  const x=body[0]%size+dx,y=Math.floor(body[0]/size)+dy;
+  const head=y*size+x;
+  const ate=head===food;
+  if(x<0||x>=size||y<0||y>=size||(ate?body:body.slice(0,-1)).includes(head))return null;
+  return {body:[head,...(ate?body:body.slice(0,-1))],ate};
+}
 export function lineWinner(board){
   return winningLines.find(([a,b,c])=>board[a]&&board[a]===board[b]&&board[b]===board[c])?.[0] ?? -1;
 }

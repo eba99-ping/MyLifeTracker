@@ -1,4 +1,4 @@
-import {shuffle,neighbors,moveTile,solved,makePuzzle,safeScores,recordScore,mergeBoard,mineNeighbors,mineField,revealMineArea,lineWinner,computerMove} from './games-core.js?v=2.23.0';
+import {shuffle,neighbors,moveTile,solved,makePuzzle,safeScores,recordScore,mergeBoard,mineNeighbors,mineField,revealMineArea,lineWinner,computerMove,snakeStep} from './games-core.js?v=2.24.0';
 
 const root=document.getElementById('page-games');
 if(root){
@@ -12,12 +12,15 @@ if(root){
   const art=`data:image/svg+xml,${encodeURIComponent(scene)}`;
   $('puzzleReference').src=art;
   $('puzzleBoard').style.setProperty('--puzzle-art',`url("${art}")`);
-  const unit={memory:'алхалт',reaction:'ms',puzzle:'нүүдэл',merge:'оноо',mines:'секунд',line:'дараалсан ялалт',lights:'шат'};
-  const titles={memory:'Хосоо олоорой',reaction:'Гялс дараарай',puzzle:'Бяцхан цэцэрлэг',merge:'2048',mines:'Мина илрүүлэгч',line:'3 дараалуулах',lights:'Гэрлийн хэмнэл'};
+  const unit={memory:'алхалт',reaction:'ms',puzzle:'нүүдэл',merge:'оноо',mines:'секунд',line:'дараалсан ялалт',lights:'шат',snake:'жимс',meteor:'оноо'};
+  const titles={memory:'Хосоо олоорой',reaction:'Гялс дараарай',puzzle:'Бяцхан цэцэрлэг',merge:'2048',mines:'Мина илрүүлэгч',line:'3 дараалуулах',lights:'Гэрлийн хэмнэл',snake:'Жимсчин могой',meteor:'Солирын бороо'};
   const directions={ArrowLeft:'left',ArrowUp:'up',ArrowDown:'down',ArrowRight:'right'};
   let numbers=[],points=0,mines=null,revealed=new Set(),flags=new Set(),flagMode=false,swipe=null;
   let marks=[],streak=0,sequence=[],lightIndex=0,lightLevel=0;
   const lightButtons=[...root.querySelectorAll('[data-light]')];
+  const motionGames=new Set(['snake','meteor']);
+  const motionVectors={left:[-1,0],right:[1,0],up:[0,-1],down:[0,1]};
+  let motion;
   function summaries(){
     for(const id of Object.keys(titles))$('best-'+id).textContent=scores[id]?`Шилдэг: ${Math.round(scores[id].score)} ${unit[id]}`:'Анхны амжилтаа тогтоогоорой';
     $('gamesPlayCount').textContent=`${scores.plays} тоглолт дуусгасан · Энэ төхөөрөмж дээр хадгална`;
@@ -42,12 +45,16 @@ if(root){
     if(!Object.hasOwn(titles,id))return;
     if(game!==id)streak=0;
     resetSession();game=id;$('gamesHub').hidden=true;$('gameStage').hidden=false;
-    for(const name of Object.keys(titles))$(name+'Game').hidden=name!==game;
+    for(const name of Object.keys(titles)){
+      if(!motionGames.has(name))$(name+'Game').hidden=name!==game;
+    }
+    $('motionGame').hidden=!motionGames.has(game);
     $('gameTitle').textContent=titles[game];
     $('gamesPauseNote').textContent='';
     if(game==='memory')newMemory();if(game==='reaction')newReaction();if(game==='puzzle')newPuzzle();
     if(game==='merge')newMerge();if(game==='mines')newMines();
     if(game==='line')newLine();if(game==='lights')newLights();
+    if(motionGames.has(game))newMotion();
     $('gameTitle').focus({preventScroll:true});
     window.scrollTo({top:0,behavior:'instant'});
   }
@@ -281,6 +288,88 @@ if(root){
     locked=true;lightPad();announce(`${lightLevel}-р шат давлаа!`);
     timer=setTimeout(nextLights,700);
   }
+  function placeFruit(){
+    const free=Array.from({length:100},(_,index)=>index).filter(index=>!motion.body.includes(index));
+    return free[Math.floor(Math.random()*free.length)];
+  }
+  function drawMotion(){
+    const cells=$('motionBoard').children;
+    for(let index=0;index<cells.length;index++){
+      let kind='';
+      if(game==='snake'){
+        if(index===motion.body[0])kind='head';
+        else if(motion.body.includes(index))kind='snake';
+        else if(index===motion.food)kind='fruit';
+      }else{
+        if(index===90+motion.ship)kind='ship';
+        else if(motion.rocks.includes(index))kind='rock';
+      }
+      if(cells[index].dataset.kind!==kind)cells[index].dataset.kind=kind;
+    }
+    $('motionPoints').textContent=String(motion.score);
+  }
+  function newMotion(){
+    motion={body:[54,53,52],food:24,direction:'right',pending:null,ship:4,rocks:[],score:0,ticks:0,running:false};
+    $('motionBoard').replaceChildren(...Array.from({length:100},()=>document.createElement('span')));
+    root.querySelectorAll('[data-motion]').forEach(button=>{
+      button.hidden=game==='meteor'&&['up','down'].includes(button.dataset.motion);
+    });
+    $('motionStart').hidden=false;
+    drawMotion();announce('Бэлэн бол Эхлэх товчийг дар.');
+  }
+  function endMotion(text){
+    motion.running=false;
+    if(motion.score)result(motion.score,text);
+    else{finished=true;stop();announce(text);}
+  }
+  function motionTick(){
+    if(!motion.running||finished)return;
+    if(game==='snake'){
+      motion.direction=motion.pending||motion.direction;
+      motion.pending=null;
+      const [dx,dy]=motionVectors[motion.direction];
+      const next=snakeStep(motion.body,dx,dy,motion.food);
+      if(!next){endMotion(`Тоглолт дууслаа. ${motion.score} жимс.`);return;}
+      motion.body=next.body;
+      if(next.ate){
+        motion.score++;motion.food=placeFruit();
+        if(motion.food===undefined){drawMotion();endMotion('Талбайг бүтэн дүүргэлээ!');return;}
+      }
+    }else{
+      motion.ticks++;
+      const advanced=motion.rocks.map(index=>index+10);
+      motion.score+=advanced.filter(index=>index>=100).length;
+      motion.rocks=advanced.filter(index=>index<100);
+      if(motion.ticks%2===1)motion.rocks.push(Math.floor(Math.random()*10));
+      if(motion.rocks.includes(90+motion.ship)){drawMotion();endMotion(`Солир таарлаа. ${motion.score} оноо.`);return;}
+    }
+    drawMotion();
+    const base=game==='snake'?280:325;
+    timer=setTimeout(motionTick,Math.max(120,base-motion.score*9));
+  }
+  function steer(direction){
+    if(!motionGames.has(game)||!motion?.running||finished)return;
+    const [dx,dy]=motionVectors[direction];
+    if(game==='snake'){
+      const [oldX,oldY]=motionVectors[motion.direction];
+      if(dx!==-oldX||dy!==-oldY)motion.pending=direction;
+    }else{
+      motion.ship=Math.min(9,Math.max(0,motion.ship+dx));
+      drawMotion();
+      if(motion.rocks.includes(90+motion.ship))endMotion(`Солир таарлаа. ${motion.score} оноо.`);
+    }
+  }
+  $('motionStart').onclick=()=>{
+    if(!motionGames.has(game)||motion.running||finished)return;
+    motion.running=true;$('motionStart').hidden=true;$('motionBoard').focus();
+    announce(game==='snake'?'Жимсээ цуглуулаарай.':'Солироос бултаарай.');
+    timer=setTimeout(motionTick,game==='snake'?360:430);
+  };
+  $('motionGame').addEventListener('keydown',event=>{
+    if(!Object.hasOwn(directions,event.key))return;
+    event.preventDefault();steer(directions[event.key]);
+  });
+  root.querySelectorAll('[data-motion]').forEach(button=>button.onclick=()=>steer(button.dataset.motion));
   lightButtons.forEach((button,index)=>button.onclick=()=>tapLight(index));
   $('mineMode').onclick=()=>{flagMode=!flagMode;$('mineMode').setAttribute('aria-pressed',String(flagMode));};
   root.querySelectorAll('[data-merge]').forEach(button=>button.onclick=()=>shiftNumbers(button.dataset.merge));

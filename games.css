@@ -45,6 +45,17 @@ html[data-theme=dark] .game-cover{background:#312846;color:#d4bef6}html[data-the
 .lights-grid>button[data-light="1"]{--pad:#355aa4}
 .lights-grid>button[data-light="2"]{--pad:#197253}
 .lights-grid>button[data-light="3"]{--pad:#92600d}
+.motion-library{margin-top:18px}
+.game-cover.snake-cover{background:#d4eadb;color:#27694b}
+.game-cover.meteor-cover{background:#dedcf7;color:#534499}
+.motion-grid{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:2px;width:min(100%,350px);margin:12px auto;padding:7px;border-radius:16px;background:#20283d}
+.motion-grid>span{position:relative;aspect-ratio:1;min-width:0;border-radius:4px;background:#2c3650}
+.motion-grid>span[data-kind="snake"]{background:#69c887}
+.motion-grid>span[data-kind="head"]{background:#a2e5a2;border:2px solid #d6ffbf}
+.motion-grid>span[data-kind="fruit"]::after,.motion-grid>span[data-kind="rock"]::after,.motion-grid>span[data-kind="ship"]::after{content:"";position:absolute;inset:15%;background:#f57b83;border-radius:50%}
+.motion-grid>span[data-kind="rock"]::after{background:#f0a75f;border-radius:32% 60% 38% 55%;transform:rotate(-20deg)}
+.motion-grid>span[data-kind="ship"]::after{background:#89ddf2;border-radius:0;clip-path:polygon(50% 0,100% 100%,50% 77%,0 100%)}
+.motion-start:not([hidden]){display:block;margin:12px auto 0}
 .reaction-pad{transition:none}
 #gamesPauseNote:empty{display:none}
 @media(max-width:700px){.game-toolbar{display:grid;grid-template-columns:1fr auto}.game-toolbar h3{grid-column:1/-1;grid-row:1}.game-toolbar #gameBack{grid-row:2;justify-self:start}.game-toolbar #gameRestart{grid-row:2}.game-stats{gap:6px}.game-stats>div{flex:1;min-width:0;max-width:130px;padding:8px}}

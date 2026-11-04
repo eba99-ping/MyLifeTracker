@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {shuffle,neighbors,moveTile,solved,makePuzzle,safeScores,recordScore,mergeBoard,mineField,mineNeighbors,revealMineArea,lineWinner,computerMove} from '../games-core.js';
+import {shuffle,neighbors,moveTile,solved,makePuzzle,safeScores,recordScore,mergeBoard,mineField,mineNeighbors,revealMineArea,lineWinner,computerMove,snakeStep} from '../games-core.js';
 let seed=73;
 const random=()=>((seed=(seed*1664525+1013904223)>>>0)/2**32);
 const original=[0,1,2,3,4,5,6,7,8];
@@ -49,3 +49,10 @@ assert.equal(computerMove(['X','X','','','O','','','','']),2,'Block an imminent 
 assert.equal(recordScore(recordScore(null,'lights',5).scores,'lights',3).scores.lights.score,5);
 assert.equal(recordScore(recordScore(null,'line',1).scores,'line',2).scores.line.score,2);
 console.log('PASS: line wins, computer tactics and new game high scores');
+assert.deepEqual(snakeStep([54,53,52],1,0,55),{body:[55,54,53,52],ate:true});
+assert.deepEqual(snakeStep([54,53,52],1,0,24),{body:[55,54,53],ate:false});
+assert.equal(snakeStep([59,58,57],1,0,24),null);
+assert.equal(snakeStep([54,53,63,64,65],0,1,24),null);
+assert.deepEqual(snakeStep([54,53,63,64],0,1,24),{body:[64,54,53,63],ate:false});
+assert.equal(recordScore(recordScore(null,'meteor',5).scores,'meteor',8).scores.meteor.score,8);
+console.log('PASS: snake growth, wall and body collisions, tail movement and arcade scores');
