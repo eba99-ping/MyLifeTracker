@@ -4,6 +4,7 @@ globalThis.TemuulConnections = (() => {
   let records = [];
   let busy = false;
   let listeningId = '';
+  let profileThread = '';
   const feedback = message => { find('connectionStatus').textContent = message; };
   const connection = id => sdk.doc(sdk.db,'connections',id);
   const name = () => (user.displayName || 'Тэмүүлийн гишүүн').trim().slice(0,48) || 'Тэмүүлийн гишүүн';
@@ -18,26 +19,44 @@ globalThis.TemuulConnections = (() => {
   }
 
   function renderList(){
-    const items = records.map(record => {
-      const peer = peerName(record);
-      const button = element('button','','connection-item');
-      button.type = 'button';
-      button.append(element('strong',peer),element('small',labels[record.status]));
-      button.setAttribute('aria-pressed',String(record.id === selected));
-      button.onclick = () => {
-        selected = record.id;
-        feedback('');
-        renderList();
-        renderThread();
-        find('connectionPeer').focus();
-      };
-      return button;
-    });
+    const items = [];
+    for(const [title,statuses] of [['Найзууд',['active']],['Хүсэлт ба урилга',['pending','waiting']],['Хаасан чат',['closed']]]){
+      const group = records.filter(record => statuses.includes(record.status));
+      if(!group.length) continue;
+      items.push(element('h4',title,'friend-group-title'));
+      for(const record of group){
+        const peer = peerName(record);
+        const button = element('button','','connection-item');
+        button.type = 'button';
+        const copy = element('span','');
+        copy.append(element('strong',peer),element('small',labels[record.status]));
+        button.append(element('span',peer.slice(0,1).toUpperCase(),'friend-avatar'),copy);
+        button.setAttribute('aria-pressed',String(record.id === selected));
+        button.onclick = () => {
+          selected = record.id;
+          feedback('');
+          renderList();
+          renderThread();
+          find('connectionPeer').focus();
+        };
+        items.push(button);
+      }
+    }
     find('connectionList').replaceChildren(...(items.length ? items : [element('p','Холбоо хараахан алга.')]));
   }
 
   function renderThread(){
     const record = records.find(item => item.id === selected);
+    const profile = find('friendProfile');
+    const activeId = record?.status === 'active' ? record.id : '';
+    if(activeId !== profileThread){
+      profileThread = activeId;
+      profile.open = false;
+      find('friendProfileCard').replaceChildren();
+      find('friendProfileName').value = '';
+      find('friendProfileBio').value = '';
+    }
+    profile.hidden = !activeId;
     globalThis.TemuulVoice?.update(sdk,user,record?.status === 'active' ? record.id : '');
     find('connectionThread').hidden = !record;
     if(!record){
@@ -143,6 +162,42 @@ globalThis.TemuulConnections = (() => {
 
   function init(openProfile){
     find('connectionSignIn').onclick = openProfile;
+    find('friendProfile').ontoggle = async event => {
+      if(!event.currentTarget.open || !profileThread) return;
+      const record = records.find(item => item.id === profileThread);
+      if(!record) return;
+      const activeScope = scope;
+      const peer = record.members.find(uid => uid !== user.uid);
+      const fallback = peerName(record);
+      const card = find('friendProfileCard');
+      card.replaceChildren(element('p','Профайл ачаалж байна…'));
+      find('friendProfileSave').disabled = true;
+      try{
+        const ref = connection(record.id);
+        const [other,own] = await Promise.all([sdk.getDoc(sdk.doc(ref,'profiles',peer)),sdk.getDoc(sdk.doc(ref,'profiles',user.uid))]);
+        if(scope !== activeScope || profileThread !== record.id) return;
+        const shown = other.data();
+        const display = shown?.name || fallback;
+        card.replaceChildren(element('span',display.slice(0,1).toUpperCase(),'friend-avatar'),element('strong',display),element('p',shown?.bio || 'Танилцуулга нэмээгүй байна.'));
+        find('friendProfileName').value = own.data()?.name || name();
+        find('friendProfileBio').value = own.data()?.bio || '';
+      }catch{
+        if(scope === activeScope && profileThread === record.id) card.replaceChildren(element('p','Профайл ачаалж чадсангүй.'));
+      }finally{
+        if(scope === activeScope && profileThread === record.id) find('friendProfileSave').disabled = false;
+      }
+    };
+    find('friendProfileForm').onsubmit = event => {
+      event.preventDefault();
+      run(find('friendProfileSave'),async current => {
+        if(!profileThread) return;
+        const display = find('friendProfileName').value.trim();
+        const bio = find('friendProfileBio').value.trim();
+        if(!display){ feedback('Харагдах нэрээ оруулаарай.'); return; }
+        await sdk.setDoc(sdk.doc(connection(profileThread),'profiles',user.uid),{name:display,bio});
+        if(current()) feedback('Найзад харагдах профайл хадгалагдлаа.');
+      });
+    };
     find('connectionCreate').onclick = event => run(event.currentTarget,async current => {
       const id = Array.from(crypto.getRandomValues(new Uint8Array(16)),byte => byte.toString(16).padStart(2,'0')).join('');
       const members = [user.uid];

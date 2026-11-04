@@ -84,6 +84,18 @@ service cloud.firestore {
           && request.resource.data.createdAt == request.time;
       }
 
+      match /profiles/{uid} {
+        function activeFriends() {
+          let parent = get(/databases/$(database)/documents/connections/$(code)).data;
+          return member(parent) && parent.status == 'active';
+        }
+        allow get: if activeFriends();
+        allow create, update: if activeFriends() && request.auth.uid == uid
+          && request.resource.data.keys().hasOnly(['name','bio'])
+          && validName(request.resource.data.name)
+          && request.resource.data.bio is string && request.resource.data.bio.size() <= 160;
+      }
+
       match /voice/current {
         function thread() {
           return get(/databases/$(database)/documents/connections/$(code)).data;

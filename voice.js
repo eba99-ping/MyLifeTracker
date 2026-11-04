@@ -7,11 +7,20 @@ globalThis.TemuulVoice = (() => {
   function release(session){
     session.peer?.close();
     session.stream?.getTracks().forEach(track => track.stop());
+    session.camera?.getTracks().forEach(track => track.stop());
+    session.camera = null;
+    session.remoteVideo = null;
+    session.remoteCamera = false;
+    session.mediaChannel = null;
     session.peer = session.stream = null;
     session.nonce = '';
     if(room === session){
       byId('voiceAudio').srcObject = null;
       byId('voiceListen').hidden = true;
+      byId('voiceLocalVideo').srcObject = null;
+      byId('voiceRemoteVideo').srcObject = null;
+      byId('voiceMediaControls').hidden = true;
+      byId('voiceVideos').hidden = true;
     }
   }
 
@@ -31,11 +40,45 @@ globalThis.TemuulVoice = (() => {
     byId('voiceAnswer').disabled = session.busy || !supported();
     byId('voiceEnd').hidden = !active;
     byId('voiceEnd').disabled = session.busy;
+    const connected = session.peer?.connectionState === 'connected';
+    const mic = session.stream?.getAudioTracks()[0];
+    const direction = videoChannel(session)?.currentDirection;
+    byId('voiceMediaControls').hidden = !connected;
+    byId('voiceMic').setAttribute('aria-pressed',String(!!mic?.enabled));
+    byId('voiceMic').textContent = mic?.enabled ? '🎙 Микрофон унтраах' : '🎙 Микрофон асаах';
+    byId('voiceCamera').disabled = session.cameraBusy || session.mediaChannel?.readyState !== 'open'
+      || !['sendrecv','sendonly'].includes(direction);
+    byId('voiceCamera').setAttribute('aria-pressed',String(!!session.camera));
+    byId('voiceCamera').textContent = session.camera ? '📷 Камер унтраах' : '📷 Камер асаах';
+    byId('voiceLocalVideo').hidden = !session.camera;
+    byId('voiceRemoteVideo').hidden = !session.remoteCamera || !session.remoteVideo || session.remoteVideo.muted;
+    byId('voiceVideos').hidden = byId('voiceLocalVideo').hidden && byId('voiceRemoteVideo').hidden;
     if(session.note) status(session.note);
     else if(!supported()) status('Энэ хөтөч дуут дуудлага дэмжихгүй байна.');
     else if(active && call.state === 'ringing') status(call.caller === session.uid ? 'Хариу хүлээж байна…' : 'Дуут дуудлага ирлээ');
     else if(active) status(session.peer?.connectionState === 'connected' ? 'Дуудлага холбогдлоо' : session.peer ? 'Холбогдож байна…' : 'Өмнөх дуудлага нээлттэй байна. Шинээр дуудахын өмнө таслаарай.');
     else status('');
+  }
+
+  function videoChannel(session){
+    return session.peer?.getTransceivers().find(channel => channel.receiver.track.kind === 'video');
+  }
+
+  function shareCameraState(session){
+    try{
+      if(session.mediaChannel?.readyState === 'open') session.mediaChannel.send(session.camera ? 'on' : 'off');
+    }catch{ /* The connection may close as the state is sent. */ }
+  }
+
+  function attachMediaChannel(session,channel){
+    session.mediaChannel = channel;
+    channel.onopen = () => { shareCameraState(session); render(session); };
+    channel.onclose = () => { session.remoteCamera = false; render(session); };
+    channel.onmessage = event => {
+      if(session.mediaChannel !== channel || !['on','off'].includes(event.data)) return;
+      session.remoteCamera = event.data === 'on';
+      render(session);
+    };
   }
 
   async function end(session,nonce){
@@ -47,7 +90,7 @@ globalThis.TemuulVoice = (() => {
     });
   }
 
-  async function createPeer(session,nonce){
+  async function createPeer(session,nonce,caller=false){
     const stream = await navigator.mediaDevices.getUserMedia({audio:true,video:false});
     if(room !== session){
       stream.getTracks().forEach(track => track.stop());
@@ -58,10 +101,25 @@ globalThis.TemuulVoice = (() => {
     const peer = new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'}]});
     session.peer = peer;
     stream.getTracks().forEach(track => peer.addTrack(track,stream));
+    if(caller){
+      peer.addTransceiver('video',{direction:'sendrecv'});
+      attachMediaChannel(session,peer.createDataChannel('camera-state'));
+    }else{
+      peer.ondatachannel = event => {
+        if(room === session && session.peer === peer && event.channel.label === 'camera-state') attachMediaChannel(session,event.channel);
+      };
+    }
     peer.ontrack = event => {
       if(room !== session || session.peer !== peer) return;
+      if(event.track.kind === 'video'){
+        session.remoteVideo = event.track;
+        byId('voiceRemoteVideo').srcObject = new MediaStream([event.track]);
+        event.track.onmute = event.track.onunmute = () => render(session);
+        render(session);
+        return;
+      }
       const audio = byId('voiceAudio');
-      audio.srcObject = event.streams[0] || new MediaStream([event.track]);
+      audio.srcObject = new MediaStream([event.track]);
       audio.play().catch(() => { if(room === session) byId('voiceListen').hidden = false; });
     };
     peer.onconnectionstatechange = () => {
@@ -157,7 +215,7 @@ globalThis.TemuulVoice = (() => {
   byId('voiceDial').onclick = () => act(async session => {
     if(!session.ready || live(session.call)) return;
     const nonce = crypto.randomUUID();
-    const peer = await createPeer(session,nonce);
+    const peer = await createPeer(session,nonce,true);
     const offer = await gather(peer,await peer.createOffer());
     if(room !== session) return;
     await session.sdk.setDoc(session.ref,{caller:session.uid,offer,nonce,state:'ringing',startedAt:session.sdk.serverTimestamp()});
@@ -167,6 +225,8 @@ globalThis.TemuulVoice = (() => {
     if(!live(call) || call.state !== 'ringing' || call.caller === session.uid) return;
     const peer = await createPeer(session,call.nonce);
     await peer.setRemoteDescription({type:'offer',sdp:call.offer});
+    const video = videoChannel(session);
+    if(video) video.direction = 'sendrecv';
     const answer = await gather(peer,await peer.createAnswer());
     if(room !== session) return;
     await session.sdk.runTransaction(session.sdk.db,async transaction => {
@@ -182,5 +242,43 @@ globalThis.TemuulVoice = (() => {
     await end(session,nonce);
   });
   byId('voiceListen').onclick = () => byId('voiceAudio').play().then(() => { byId('voiceListen').hidden = true; }).catch(() => {});
+  byId('voiceMic').onclick = () => {
+    const mic = room?.stream?.getAudioTracks()[0];
+    if(!mic) return;
+    mic.enabled = !mic.enabled;
+    render(room);
+  };
+  byId('voiceCamera').onclick = async () => {
+    const session = room;
+    const peer = session?.peer;
+    const channel = session && videoChannel(session);
+    if(!channel || session.cameraBusy) return;
+    session.cameraBusy = true;
+    session.note = '';
+    render(session);
+    let stream;
+    try{
+      if(session.camera){
+        session.camera.getTracks().forEach(track => track.stop());
+        session.camera = null;
+        byId('voiceLocalVideo').srcObject = null;
+        await channel.sender.replaceTrack(null);
+      }else{
+        stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});
+        if(room !== session || session.peer !== peer) return;
+        await channel.sender.replaceTrack(stream.getVideoTracks()[0]);
+        if(room !== session || session.peer !== peer) return;
+        session.camera = stream;
+        byId('voiceLocalVideo').srcObject = stream;
+      }
+    }catch(error){
+      if(room === session) session.note = error.name === 'NotAllowedError' ? 'Камерын зөвшөөрлөө шалгана уу.' : 'Камер асааж чадсангүй.';
+    }finally{
+      if(stream && session.camera !== stream) stream.getTracks().forEach(track => track.stop());
+      session.cameraBusy = false;
+      shareCameraState(session);
+      render(session);
+    }
+  };
   return {update};
 })();

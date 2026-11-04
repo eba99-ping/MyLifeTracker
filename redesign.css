@@ -128,6 +128,19 @@ body:before{content:"";position:fixed;inset:0 0 auto;height:var(--safe-top);back
 #connectionVoice{margin:12px 0;padding:10px 0;border-top:1px solid var(--line)}
 #voiceStatus{font-size:13px;color:var(--muted);margin:0 0 8px}
 #voiceStatus:empty{display:none}
+.call-controls{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.call-controls button[aria-pressed="true"]{background:var(--brand-soft);color:var(--brand)}
+.call-videos{display:grid;grid-template-columns:2fr 1fr;gap:8px;margin-top:10px}
+.call-videos video{width:100%;aspect-ratio:4/3;object-fit:cover;background:#151721;border-radius:12px}
+#voiceLocalVideo{transform:scaleX(-1)}
+.connection-item{display:flex;align-items:center;gap:10px}
+.friend-avatar{display:inline-grid;place-items:center;width:34px;height:34px;flex:0 0 34px;border-radius:50%;background:var(--brand-soft);color:var(--brand);font-weight:750}
+.friend-group-title{margin:10px 0 3px;color:var(--muted);font-size:12px}
+#friendProfile{padding:10px 0}
+#friendProfile summary{cursor:pointer;color:var(--brand);font-weight:650}
+#friendProfileCard{margin-top:10px;overflow-wrap:anywhere}
+#friendProfileCard strong{margin-inline-start:8px}
+.nav button[data-page="connections"] b{color:var(--brand)}
 .connection-message{align-self:flex-start;max-width:88%;padding:8px 12px;border-radius:12px;background:var(--surface-2);overflow-wrap:anywhere}
 .connection-message.mine{align-self:flex-end;background:var(--brand-soft)}
 .connection-message p{margin:4px 0;white-space:pre-wrap}
