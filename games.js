@@ -1,4 +1,4 @@
-import {shuffle,neighbors,moveTile,solved,makePuzzle,safeScores,recordScore} from './games-core.js?v=2.17.1';
+import {shuffle,neighbors,moveTile,solved,makePuzzle,safeScores,recordScore} from './games-core.js?v=2.18.0';
 
 const root=document.getElementById('page-games');
 if(root){

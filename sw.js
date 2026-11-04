@@ -1,5 +1,5 @@
-const CACHE = 'temuul-v2.17.1';
-const APP_SHELL = ['/', '/index.html', '/redesign.css?v=2.17.1', '/motion.css?v=2.17.1', '/launch.css?v=2.17.1', '/growth.css?v=2.17.1', '/growth-core.js?v=2.17.1', '/pet-pixel.js?v=2.17.1', '/pet-motion.css?v=2.17.1', '/coach.css?v=2.17.1', '/daily-plus.css?v=2.17.1', '/daily-plus.js?v=2.17.1', '/games.css?v=2.17.1', '/games.js?v=2.17.1', '/games-core.js?v=2.17.1', '/manifest.json', '/favicon.svg?v=2.17.1', '/temuul-mark.png?v=2.17.1', '/icon-192.png?v=2.17.1', '/icon-512.png?v=2.17.1', '/icon-maskable-512.png?v=2.17.1', '/apple-touch-icon.png?v=2.17.1', '/fcm_setup.js'];
+const CACHE = 'temuul-v2.18.0';
+const APP_SHELL = ['/', '/index.html', '/redesign.css?v=2.18.0', '/motion.css?v=2.18.0', '/launch.css?v=2.18.0', '/growth.css?v=2.18.0', '/growth-core.js?v=2.18.0', '/pet-pixel.js?v=2.18.0', '/pet-motion.css?v=2.18.0', '/coach.css?v=2.18.0', '/daily-plus.css?v=2.18.0', '/daily-plus.js?v=2.18.0', '/connections.js?v=2.18.0', '/games.css?v=2.18.0', '/games.js?v=2.18.0', '/games-core.js?v=2.18.0', '/manifest.json', '/favicon.svg?v=2.18.0', '/temuul-mark.png?v=2.18.0', '/icon-192.png?v=2.18.0', '/icon-512.png?v=2.18.0', '/icon-maskable-512.png?v=2.18.0', '/apple-touch-icon.png?v=2.18.0', '/fcm_setup.js'];
 
 self.addEventListener('notificationclick',event => {
   event.notification.close();
@@ -35,7 +35,7 @@ try{
     const note = payload.notification||{};
     const data = payload.data||{};
     return self.registration.showNotification(note.title||data.title||'Тэмүүл 🔔',{
-      body:note.body||payload.data?.body||'Шинэ сануулга ирлээ.',icon:note.icon||'/temuul-mark.png?v=2.17.1',badge:'/icon-192.png?v=2.17.1',
+      body:note.body||payload.data?.body||'Шинэ сануулга ирлээ.',icon:note.icon||'/temuul-mark.png?v=2.18.0',badge:'/icon-192.png?v=2.18.0',
       tag:data.eventId||payload.messageId||`push-${Date.now()}`,
       data:{url:payload.fcmOptions?.link||data.url||'/#today',eventId:data.eventId||'',taskId:data.taskId||'',date:data.date||''},
       actions:data.eventId?[{action:'snooze',title:'10 мин snooze'},{action:'open',title:'App нээх'}]:[]
@@ -48,26 +48,34 @@ self.addEventListener('install',event => {
 });
 
 self.addEventListener('activate',event => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim()));
+  event.waitUntil(caches.keys().then(keys => Promise.all(
+    keys.filter(key => key.startsWith('temuul-v') && key !== CACHE).map(key => caches.delete(key))
+  )).then(() => self.clients.claim()));
 });
 
 self.addEventListener('fetch',event => {
-  if(event.request.method !== 'GET' || new URL(event.request.url).origin !== self.location.origin) return;
-  if(/^\/admin(?:\.html)?\/?$/.test(new URL(event.request.url).pathname)){
+  const {request} = event;
+  const url = new URL(request.url);
+  if(request.method !== 'GET' || url.origin !== self.location.origin) return;
+  if(/^\/admin(?:\.html)?\/?$/.test(url.pathname)){
     event.respondWith(fetch(event.request,{cache:'no-store'}));return;
   }
-  if(event.request.mode === 'navigate') {
-    event.respondWith(fetch(event.request).then(response => {
-      const copy = response.clone();
-      caches.open(CACHE).then(cache => cache.put('/index.html',copy));
-      return response;
-    }).catch(() => caches.match('/index.html')));
+  if(request.mode === 'navigate'){
+    if(url.pathname !== '/' && url.pathname !== '/index.html') return;
+    event.respondWith((async()=>{
+      const offlineShell = () => caches.open(CACHE).then(cache => cache.match('/')).catch(() => null);
+      try{
+        const response = await fetch(request);
+        return response.status >= 500 ? await offlineShell() || response : response;
+      }catch{
+        return await offlineShell() || Response.error();
+      }
+    })());
     return;
   }
-  event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request).then(response => {
-    if(response.ok) caches.open(CACHE).then(cache => cache.put(event.request,response.clone()));
-    return response;
-  })));
+  if(!APP_SHELL.includes(url.pathname + url.search)) return;
+  event.respondWith(caches.open(CACHE).then(cache => cache.match(request)).catch(() => null)
+    .then(cached => cached || fetch(request)));
 });
 
 self.addEventListener('message',event => {

@@ -34,6 +34,49 @@ service cloud.firestore {
         && validClientData();
     }
 
+    match /connections/{code} {
+      function signedIn() { return request.auth != null; }
+      function member(data) { return signedIn() && request.auth.uid in data.members; }
+      function owner() { return signedIn() && request.auth.uid == resource.data.members[0]; }
+      function validName(name) { return name is string && name.size() > 0 && name.size() <= 48; }
+
+      allow get: if member(resource.data) || (signedIn() && resource.data.status == 'waiting');
+      allow list: if member(resource.data);
+      allow create: if signedIn() && code.matches('^[a-f0-9]{32}$')
+        && request.resource.data.keys().hasOnly(['members','names','status','createdAt'])
+        && request.resource.data.members == [request.auth.uid]
+        && request.resource.data.names is list && request.resource.data.names.size() == 1
+        && validName(request.resource.data.names[0])
+        && request.resource.data.status == 'waiting'
+        && request.resource.data.createdAt == request.time;
+      allow update: if signedIn() && (
+        (resource.data.status == 'waiting' && !member(resource.data)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['members','names','status'])
+          && request.resource.data.members == [resource.data.members[0],request.auth.uid]
+          && request.resource.data.names is list && request.resource.data.names.size() == 2
+          && request.resource.data.names[0] == resource.data.names[0]
+          && validName(request.resource.data.names[1])
+          && request.resource.data.status == 'pending')
+        || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
+          && ((owner() && resource.data.status == 'pending' && request.resource.data.status == 'active')
+            || (member(resource.data) && resource.data.status != 'closed' && request.resource.data.status == 'closed')))
+      );
+
+      match /messages/{messageId} {
+        function connection() {
+          return get(/databases/$(database)/documents/connections/$(code)).data;
+        }
+        allow get: if member(connection());
+        allow list: if member(connection()) && request.query.limit <= 50;
+        allow create: if member(connection()) && connection().status == 'active'
+          && request.resource.data.keys().hasOnly(['sender','text','createdAt'])
+          && request.resource.data.sender == request.auth.uid
+          && request.resource.data.text is string && request.resource.data.text.size() > 0
+          && request.resource.data.text.size() <= 1000
+          && request.resource.data.createdAt == request.time;
+      }
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }
