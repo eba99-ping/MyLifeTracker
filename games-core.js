@@ -21,11 +21,11 @@ export function makePuzzle(random=Math.random){
   return solved(board)?moveTile(board,7):board;
 }
 export function safeScores(raw){
-  const out={version:1,memory:null,reaction:null,puzzle:null,plays:0};
+  const out={version:1,memory:null,reaction:null,puzzle:null,merge:null,mines:null,plays:0};
   if(!raw||typeof raw!=='object')return out;
-  for(const key of ['memory','reaction','puzzle']){
+  for(const key of ['memory','reaction','puzzle','merge','mines']){
     const value=raw[key];
-    if(value&&Number.isFinite(value.score)&&value.score>0&&value.score<1e9){
+    if(value&&Number.isFinite(value.score)&&value.score>=(key==='merge'?0:1)&&value.score<1e9){
       out[key]={score:value.score,at:Number.isFinite(value.at)?value.at:0};
     }
   }
@@ -34,9 +34,58 @@ export function safeScores(raw){
 }
 export function recordScore(raw,game,score,now=Date.now()){
   const next=safeScores(raw);
-  if(!['memory','reaction','puzzle'].includes(game)||!Number.isFinite(score)||score<=0)return {scores:next,improved:false};
-  const improved=!next[game]||score<next[game].score;
+  if(!['memory','reaction','puzzle','merge','mines'].includes(game)||!Number.isFinite(score)||score<(game==='merge'?0:1))return {scores:next,improved:false};
+  const improved=!next[game]||(game==='merge'?score>next[game].score:score<next[game].score);
   if(improved)next[game]={score,at:now};
   next.plays++;
   return {scores:next,improved};
+}
+
+export function mergeBoard(board,direction){
+  const next=[...board];
+  let points=0;
+  for(let line=0;line<4;line++){
+    const indexes=Array.from({length:4},(_,i)=>direction==='left'||direction==='right'?line*4+i:i*4+line);
+    if(direction==='right'||direction==='down') indexes.reverse();
+    const values=indexes.map(i=>board[i]).filter(Boolean);
+    const merged=[];
+    for(let i=0;i<values.length;i++){
+      if(values[i]===values[i+1]){
+        const value=values[i]*2;
+        merged.push(value);
+        points+=value;
+        i++;
+      }else merged.push(values[i]);
+    }
+    indexes.forEach((index,i)=>{next[index]=merged[i]||0;});
+  }
+  return {board:next,points,changed:next.some((value,i)=>value!==board[i])};
+}
+
+export function mineNeighbors(index){
+  const row=Math.floor(index/6),col=index%6;
+  const result=[];
+  for(let r=Math.max(0,row-1);r<=Math.min(5,row+1);r++){
+    for(let c=Math.max(0,col-1);c<=Math.min(5,col+1);c++){
+      if(r!==row||c!==col)result.push(r*6+c);
+    }
+  }
+  return result;
+}
+
+export function mineField(first,random=Math.random){
+  const safe=new Set([first,...mineNeighbors(first)]);
+  return new Set(shuffle(Array.from({length:36},(_,i)=>i).filter(i=>!safe.has(i)),random).slice(0,6));
+}
+
+export function revealMineArea(first,mines,flags,revealed){
+  const next=new Set(revealed), queue=[first];
+  while(queue.length){
+    const index=queue.pop();
+    if(next.has(index)||flags.has(index)||mines.has(index))continue;
+    next.add(index);
+    const around=mineNeighbors(index);
+    if(!around.some(i=>mines.has(i)))queue.push(...around);
+  }
+  return next;
 }

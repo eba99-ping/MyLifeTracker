@@ -1,4 +1,4 @@
-import {shuffle,neighbors,moveTile,solved,makePuzzle,safeScores,recordScore} from './games-core.js?v=2.21.0';
+import {shuffle,neighbors,moveTile,solved,makePuzzle,safeScores,recordScore,mergeBoard,mineNeighbors,mineField,revealMineArea} from './games-core.js?v=2.22.0';
 
 const root=document.getElementById('page-games');
 if(root){
@@ -12,9 +12,12 @@ if(root){
   const art=`data:image/svg+xml,${encodeURIComponent(scene)}`;
   $('puzzleReference').src=art;
   $('puzzleBoard').style.setProperty('--puzzle-art',`url("${art}")`);
-  const unit={memory:'алхалт',reaction:'ms',puzzle:'нүүдэл'};
+  const unit={memory:'алхалт',reaction:'ms',puzzle:'нүүдэл',merge:'оноо',mines:'секунд'};
+  const titles={memory:'Хосоо олоорой',reaction:'Гялс дараарай',puzzle:'Бяцхан цэцэрлэг',merge:'2048',mines:'Мина илрүүлэгч'};
+  const directions={ArrowLeft:'left',ArrowUp:'up',ArrowDown:'down',ArrowRight:'right'};
+  let numbers=[],points=0,mines=null,revealed=new Set(),flags=new Set(),flagMode=false,swipe=null;
   function summaries(){
-    for(const id of ['memory','reaction','puzzle'])$('best-'+id).textContent=scores[id]?`Шилдэг: ${Math.round(scores[id].score)} ${unit[id]}`:'Анхны амжилтаа тогтоогоорой';
+    for(const id of Object.keys(titles))$('best-'+id).textContent=scores[id]?`Шилдэг: ${Math.round(scores[id].score)} ${unit[id]}`:'Анхны амжилтаа тогтоогоорой';
     $('gamesPlayCount').textContent=`${scores.plays} тоглолт дуусгасан · Энэ төхөөрөмж дээр хадгална`;
     $('gamesStorageNote').textContent=storageAvailable?'Интернетгүй үед ч тоглоно. Амжилт зөвхөн энэ төхөөрөмж дээр хадгалагдана.':'Хадгалах боломжгүй байна. Тоглож болно, гэхдээ энэ удаагийн амжилт хадгалагдахгүй.';
   }
@@ -34,12 +37,13 @@ if(root){
     summaries();announce(`${text}${saved.improved?' ✨ Шинэ шилдэг амжилт!':''}`,true);
   }
   function showGame(id){
-    if(!['memory','reaction','puzzle'].includes(id))return;
+    if(!Object.hasOwn(titles,id))return;
     resetSession();game=id;$('gamesHub').hidden=true;$('gameStage').hidden=false;
-    for(const name of ['memory','reaction','puzzle'])$(name+'Game').hidden=name!==game;
-    $('gameTitle').textContent={memory:'Хосоо олоорой',reaction:'Гялс дараарай',puzzle:'Бяцхан цэцэрлэг'}[game];
+    for(const name of Object.keys(titles))$(name+'Game').hidden=name!==game;
+    $('gameTitle').textContent=titles[game];
     $('gamesPauseNote').textContent='';
     if(game==='memory')newMemory();if(game==='reaction')newReaction();if(game==='puzzle')newPuzzle();
+    if(game==='merge')newMerge();if(game==='mines')newMines();
     $('gameTitle').focus({preventScroll:true});
     window.scrollTo({top:0,behavior:'instant'});
   }
@@ -115,6 +119,97 @@ if(root){
     if(solved(board))result(moves,`Зураг эвлэрлээ! ${moves} нүүдэл · ${Math.floor((performance.now()-started)/1000)} секунд.`);
     drawPuzzle(oldBlank);
   }
+  function spawnNumber(){
+    const empty=numbers.flatMap((value,index)=>value?[]:[index]);
+    if(empty.length)numbers[empty[Math.floor(Math.random()*empty.length)]]=Math.random()<.9?2:4;
+  }
+  function drawMerge(){
+    $('mergePoints').textContent=String(points);
+    $('mergeBoard').replaceChildren(...numbers.map((value,index)=>{
+      const cell=document.createElement('span');
+      cell.textContent=value||'';
+      cell.dataset.value=String(value);
+      cell.setAttribute('aria-label',`${Math.floor(index/4)+1}-р мөр, ${index%4+1}-р багана, ${value||'хоосон'}`);
+      return cell;
+    }));
+  }
+  function newMerge(){
+    numbers=Array(16).fill(0);points=0;swipe=null;
+    spawnNumber();spawnNumber();drawMerge();
+    announce('Ижил тоонуудыг нийлүүлж 2048-д хүрээрэй.');
+  }
+  function shiftNumbers(direction){
+    if(game!=='merge'||finished)return;
+    const move=mergeBoard(numbers,direction);
+    if(!move.changed)return;
+    numbers=move.board;points+=move.points;
+    spawnNumber();drawMerge();
+    if(numbers.includes(2048))result(points,`2048-д хүрлээ! ${points} оноо.`);
+    else if(!Object.values(directions).some(next=>mergeBoard(numbers,next).changed)){
+      result(points,`Нүүдэл дууслаа. ${points} оноо.`);
+    }
+  }
+  function newMines(){
+    mines=null;flags=new Set();revealed=new Set();flagMode=false;
+    $('mineMode').setAttribute('aria-pressed','false');
+    drawMines();announce('Аюулгүй нүднүүдийг нээж, зургаан мина илрүүлээрэй.');
+  }
+  function drawMines(exploded){
+    const activeIndex=Array.prototype.indexOf.call($('mineBoard').children,document.activeElement);
+    $('mineCount').textContent=`${revealed.size} / 30`;
+    $('mineFlags').textContent=`${flags.size} / 6`;
+    $('mineBoard').replaceChildren(...Array.from({length:36},(_,index)=>{
+      const cell=document.createElement('button');
+      const open=revealed.has(index),flag=flags.has(index);
+      const bomb=finished&&mines?.has(index);
+      const count=open?mineNeighbors(index).filter(i=>mines.has(i)).length:0;
+      cell.type='button';cell.disabled=finished;
+      cell.dataset.open=String(open);cell.dataset.bomb=String(index===exploded);
+      cell.textContent=bomb?'💣':flag?'🚩':count||'';
+      cell.setAttribute('aria-label',`${Math.floor(index/6)+1}-р мөр, ${index%6+1}-р багана, ${bomb?'мина':flag?'тугтай':open?`${count} мина ойрхон`:'хаалттай'}`);
+      cell.onclick=()=>playMine(index,flagMode);
+      cell.oncontextmenu=event=>{event.preventDefault();playMine(index,true);};
+      return cell;
+    }));
+    if(activeIndex>=0&&!finished)$('mineBoard').children[activeIndex]?.focus({preventScroll:true});
+  }
+  function playMine(index,flag){
+    if(game!=='mines'||finished||revealed.has(index))return;
+    if(flag){
+      if(flags.has(index))flags.delete(index);
+      else if(flags.size<6)flags.add(index);
+      drawMines();return;
+    }
+    if(flags.has(index))return;
+    if(!mines){mines=mineField(index);started=performance.now();}
+    if(mines.has(index)){
+      finished=true;drawMines(index);announce('Мина таарлаа. Дахин тоглоод үзээрэй.');return;
+    }
+    revealed=revealMineArea(index,mines,flags,revealed);
+    if(revealed.size===30){
+      const seconds=Math.max(1,Math.round((performance.now()-started)/1000));
+      result(seconds,`Бүх аюулгүй нүд нээгдлээ! ${seconds} секунд.`);
+    }
+    drawMines();
+  }
+  $('mineMode').onclick=()=>{flagMode=!flagMode;$('mineMode').setAttribute('aria-pressed',String(flagMode));};
+  root.querySelectorAll('[data-merge]').forEach(button=>button.onclick=()=>shiftNumbers(button.dataset.merge));
+  $('mergeGame').addEventListener('keydown',event=>{
+    if(!Object.hasOwn(directions,event.key))return;
+    event.preventDefault();shiftNumbers(directions[event.key]);
+  });
+  $('mergeBoard').addEventListener('pointerdown',event=>{
+    if(!event.isPrimary||event.button!==0)return;
+    swipe={id:event.pointerId,x:event.clientX,y:event.clientY};
+    event.currentTarget.setPointerCapture(event.pointerId);
+  });
+  $('mergeBoard').addEventListener('pointercancel',()=>{swipe=null;});
+  $('mergeBoard').addEventListener('pointerup',event=>{
+    if(swipe?.id!==event.pointerId)return;
+    const x=event.clientX-swipe.x,y=event.clientY-swipe.y;swipe=null;
+    if(Math.max(Math.abs(x),Math.abs(y))<24)return;
+    shiftNumbers(Math.abs(x)>Math.abs(y)?(x>0?'right':'left'):(y>0?'down':'up'));
+  });
   root.querySelectorAll('[data-play-game]').forEach(button=>button.addEventListener('click',()=>showGame(button.dataset.playGame)));
   $('gameBack').addEventListener('click',()=>{showHub();root.querySelector('[data-play-game]')?.focus({preventScroll:true});});
   $('gameRestart').addEventListener('click',()=>showGame(game));

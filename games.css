@@ -10,6 +10,26 @@ html[data-theme=dark] .game-cover{background:#312846;color:#d4bef6}html[data-the
 @media(max-width:800px){.game-library{grid-template-columns:1fr}.game-library article{display:grid;grid-template-columns:110px minmax(0,1fr);gap:0 18px;padding:17px}.game-cover{grid-row:1/6;height:100%;min-height:140px;margin:0;font-size:40px}.game-library h3{font-size:18px}.game-library p{margin-bottom:10px}.game-tags{margin-bottom:8px}.game-best{margin-bottom:9px}.games-intro{padding:22px}.arcade-emblem{width:80px;height:80px;font-size:40px;border-radius:23px}}
 @media(max-width:700px){.nav{padding:6px;gap:1px}.nav button{font-size:8px;min-width:0;border-radius:11px}.nav button b{font-size:17px}.game-sheet{padding:17px}.games-intro{gap:12px;padding:20px}.games-intro h2{font-size:28px}.games-intro p{font-size:11px}.games-intro .welcome-eyebrow{font-size:8px}.arcade-emblem{width:60px;height:60px;font-size:31px;border-radius:20px}.memory-grid{gap:8px}.memory-card{border-radius:13px}.game-stats>div{min-width:74px;padding:8px 12px}.reaction-pad{min-height:255px;padding:20px}.reaction-pad>b{font-size:22px}.game-toolbar .btn{font-size:11px}.game-toolbar h3{font-size:17px}.puzzle-tile{padding:5px}.game-library article{grid-template-columns:87px minmax(0,1fr);gap:0 13px}.game-cover{font-size:33px;border-radius:13px}.game-tags span{font-size:9px}.game-library h3{font-size:16px}.game-library p{font-size:11px}}
 @media(prefers-reduced-motion:reduce){.memory-card,.puzzle-tile{transition:none}}
+
+.game-cover.merge-cover{background:#f2ddbf;color:#704729}
+.game-cover.mines-cover{background:#d8eae8;color:#286257}
+.number-grid{display:grid;gap:5px;width:min(100%,365px);margin:12px auto;padding:6px;border-radius:14px;background:var(--line)}
+.merge-grid{grid-template-columns:repeat(4,minmax(0,1fr));touch-action:none}
+.mines-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
+.number-grid>span,.number-grid>button{display:grid;place-items:center;min-width:0;aspect-ratio:1;border:0;border-radius:8px;background:var(--surface);color:var(--ink);font-weight:800}
+.merge-grid>span{font-size:clamp(15px,5vw,28px)}
+.merge-grid>span[data-value="0"]{background:var(--surface-2)}
+.merge-grid>span[data-value="2"],.merge-grid>span[data-value="4"]{background:#f3e1c7;color:#5f402c}
+.merge-grid>span[data-value="8"],.merge-grid>span[data-value="16"]{background:#f3b47b;color:#492b27}
+.merge-grid>span[data-value="32"],.merge-grid>span[data-value="64"]{background:#f38e86;color:#4a2327}
+.merge-grid>span[data-value="128"],.merge-grid>span[data-value="256"],.merge-grid>span[data-value="512"]{background:#ebd285;color:#473713}
+.merge-grid>span[data-value="1024"],.merge-grid>span[data-value="2048"]{background:#9173ce;color:#fff}
+.merge-controls{display:flex;justify-content:center;gap:6px}
+.merge-controls button{min-width:44px;padding-inline:9px;font-size:18px}
+.mines-grid button{background:var(--brand-soft);cursor:pointer}
+.mines-grid button[data-open="true"]{background:var(--surface);cursor:default}
+.mines-grid button[data-bomb="true"]{background:#f38e86;color:#4a2327}
+#mineMode[aria-pressed="true"]{background:var(--brand-soft);color:var(--brand)}
 .reaction-pad{transition:none}
 #gamesPauseNote:empty{display:none}
 @media(max-width:700px){.game-toolbar{display:grid;grid-template-columns:1fr auto}.game-toolbar h3{grid-column:1/-1;grid-row:1}.game-toolbar #gameBack{grid-row:2;justify-self:start}.game-toolbar #gameRestart{grid-row:2}.game-stats{gap:6px}.game-stats>div{flex:1;min-width:0;max-width:130px;padding:8px}}
