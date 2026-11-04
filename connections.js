@@ -8,6 +8,7 @@ globalThis.TemuulConnections = (() => {
   const connection = id => sdk.doc(sdk.db,'connections',id);
   const name = () => (user.displayName || 'Тэмүүлийн гишүүн').trim().slice(0,48) || 'Тэмүүлийн гишүүн';
   const labels = {waiting:'Урилга бэлэн',pending:'Зөвшөөрөл хүлээж байна',active:'Чат нээлттэй',closed:'Хаасан'};
+  const peerName = record => (record.members[0] === user.uid ? record.guestName || record.names[1] : record.names[0]) || 'Шинэ урилга';
 
   function element(tag,text,className){
     const node = document.createElement(tag);
@@ -18,7 +19,7 @@ globalThis.TemuulConnections = (() => {
 
   function renderList(){
     const items = records.map(record => {
-      const peer = record.names[record.members[0] === user.uid ? 1 : 0] || 'Шинэ урилга';
+      const peer = peerName(record);
       const button = element('button','','connection-item');
       button.type = 'button';
       button.append(element('strong',peer),element('small',labels[record.status]));
@@ -37,6 +38,7 @@ globalThis.TemuulConnections = (() => {
 
   function renderThread(){
     const record = records.find(item => item.id === selected);
+    globalThis.TemuulVoice?.update(sdk,user,record?.status === 'active' ? record.id : '');
     find('connectionThread').hidden = !record;
     if(!record){
       stopMessages?.();
@@ -46,10 +48,11 @@ globalThis.TemuulConnections = (() => {
       return;
     }
     const owner = record.members[0] === user.uid;
-    find('connectionPeer').textContent = record.names[owner ? 1 : 0] || 'Шинэ урилга';
+    find('connectionPeer').textContent = peerName(record);
     find('connectionThreadStatus').textContent = labels[record.status];
     find('connectionInvite').hidden = record.status !== 'waiting';
-    find('connectionCode').value = record.status === 'waiting' ? record.id : '';
+    find('connectionCode').value = record.status === 'waiting' ? record.shortCode || record.id : '';
+    find('connectionCodeExpiry').textContent = record.shortCode ? '· үүссэнээс хойш 10 минут' : '';
     find('connectionAccept').hidden = !owner || record.status !== 'pending';
     find('connectionClose').hidden = record.status === 'closed';
     find('connectionClose').textContent = record.status === 'waiting' ? 'Урилга цуцлах' : record.status === 'pending' ? 'Хүсэлт цуцлах' : 'Чат хаах';
@@ -142,17 +145,40 @@ globalThis.TemuulConnections = (() => {
     find('connectionSignIn').onclick = openProfile;
     find('connectionCreate').onclick = event => run(event.currentTarget,async current => {
       const id = Array.from(crypto.getRandomValues(new Uint8Array(16)),byte => byte.toString(16).padStart(2,'0')).join('');
-      await sdk.setDoc(connection(id),{members:[user.uid],names:[name()],status:'waiting',createdAt:sdk.serverTimestamp()});
-      if(current()){ selected = id; renderList(); renderThread(); feedback('Урилгын кодоо холбогдох хүндээ өгнө үү.'); }
+      const members = [user.uid];
+      const names = [name()];
+      for(let attempt=0;attempt<6 && current();attempt++){
+        const number = crypto.getRandomValues(new Uint32Array(1))[0] % 10000;
+        const pin = String(number).padStart(4,'0');
+        const batch = sdk.writeBatch(sdk.db);
+        batch.set(connection(id),{members,names,status:'waiting',shortCode:pin,createdAt:sdk.serverTimestamp()});
+        batch.set(sdk.doc(sdk.db,'connectionCodes',pin),{thread:id,createdAt:sdk.serverTimestamp()});
+        try{ await batch.commit(); }
+        catch(error){ if(error.code === 'permission-denied' && attempt < 5) continue; throw error; }
+        if(current()){ selected = id; renderList(); renderThread(); feedback('4 оронтой кодоо найздаа өгнө үү.'); }
+        return;
+      }
     });
     find('connectionJoin').onsubmit = event => {
       event.preventDefault();
       run(find('connectionJoinButton'),async current => {
         const input = find('connectionJoinCode');
-        const id = input.value.trim().toLowerCase();
-        if(!/^[a-f0-9]{32}$/.test(id)){ feedback('32 тэмдэгттэй урилгын кодоо оруулаарай.'); return; }
+        let id = input.value.trim().toLowerCase();
+        if(!/^(?:[0-9]{4}|[a-f0-9]{32})$/.test(id)){ feedback('Найзынхаа 4 оронтой кодыг оруулаарай.'); return; }
         const uid = user.uid;
         const displayName = name();
+        if(id.length === 4){
+          const code = await sdk.getDoc(sdk.doc(sdk.db,'connectionCodes',id));
+          if(!current()) return;
+          id = code.data()?.thread;
+          if(!id){ feedback('Код олдсонгүй. Шинэ код аваарай.'); return; }
+          if(!records.some(record => record.id === id)){
+            // The rules verify the invite and membership without exposing the owner's profile.
+            await sdk.updateDoc(connection(id),{members:sdk.arrayUnion(uid),guestName:displayName,status:'pending'});
+          }
+          if(current()){ input.value = ''; selected = id; renderList(); renderThread(); feedback('Урилгын эзэн зөвшөөрөхөд чат нээгдэнэ.'); }
+          return;
+        }
         const ref = connection(id);
         const joined = await sdk.runTransaction(sdk.db,async transaction => {
           if(!current()) throw new Error('Session changed');

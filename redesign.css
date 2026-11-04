@@ -125,6 +125,9 @@ body:before{content:"";position:fixed;inset:0 0 auto;height:var(--safe-top);back
 .connection-item small,.connection-message small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
 #connectionMessages{display:flex;flex-direction:column;gap:9px;min-height:120px;max-height:42dvh;overflow:auto;margin:14px 0;padding:10px;border-radius:12px;border:1px solid var(--line)}
 #connectionMessages[hidden]{display:none}
+#connectionVoice{margin:12px 0;padding:10px 0;border-top:1px solid var(--line)}
+#voiceStatus{font-size:13px;color:var(--muted);margin:0 0 8px}
+#voiceStatus:empty{display:none}
 .connection-message{align-self:flex-start;max-width:88%;padding:8px 12px;border-radius:12px;background:var(--surface-2);overflow-wrap:anywhere}
 .connection-message.mine{align-self:flex-end;background:var(--brand-soft)}
 .connection-message p{margin:4px 0;white-space:pre-wrap}

@@ -40,10 +40,14 @@ service cloud.firestore {
       function owner() { return signedIn() && request.auth.uid == resource.data.members[0]; }
       function validName(name) { return name is string && name.size() > 0 && name.size() <= 48; }
 
-      allow get: if member(resource.data) || (signedIn() && resource.data.status == 'waiting');
+      allow get: if member(resource.data) || (signedIn() && resource.data.status == 'waiting'
+        && !resource.data.keys().hasAny(['shortCode']));
       allow list: if member(resource.data);
       allow create: if signedIn() && code.matches('^[a-f0-9]{32}$')
-        && request.resource.data.keys().hasOnly(['members','names','status','createdAt'])
+        && request.resource.data.keys().hasOnly(['members','names','status','createdAt','shortCode'])
+        && (!request.resource.data.keys().hasAny(['shortCode'])
+          || (request.resource.data.shortCode is string && request.resource.data.shortCode.matches('^[0-9]{4}$')
+            && getAfter(/databases/$(database)/documents/connectionCodes/$(request.resource.data.shortCode)).data.thread == code))
         && request.resource.data.members == [request.auth.uid]
         && request.resource.data.names is list && request.resource.data.names.size() == 1
         && validName(request.resource.data.names[0])
@@ -51,11 +55,15 @@ service cloud.firestore {
         && request.resource.data.createdAt == request.time;
       allow update: if signedIn() && (
         (resource.data.status == 'waiting' && !member(resource.data)
-          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['members','names','status'])
+          && (!resource.data.keys().hasAny(['shortCode'])
+            || (request.time < resource.data.createdAt + duration.value(10,'m')
+              && get(/databases/$(database)/documents/connectionCodes/$(resource.data.shortCode)).data.thread == code))
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['members','names','guestName','status'])
           && request.resource.data.members == [resource.data.members[0],request.auth.uid]
-          && request.resource.data.names is list && request.resource.data.names.size() == 2
-          && request.resource.data.names[0] == resource.data.names[0]
-          && validName(request.resource.data.names[1])
+          && (resource.data.keys().hasAny(['shortCode'])
+            ? request.resource.data.names == resource.data.names && validName(request.resource.data.guestName)
+            : request.resource.data.names is list && request.resource.data.names.size() == 2
+              && request.resource.data.names[0] == resource.data.names[0] && validName(request.resource.data.names[1]))
           && request.resource.data.status == 'pending')
         || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
           && ((owner() && resource.data.status == 'pending' && request.resource.data.status == 'active')
@@ -75,6 +83,49 @@ service cloud.firestore {
           && request.resource.data.text.size() <= 1000
           && request.resource.data.createdAt == request.time;
       }
+
+      match /voice/current {
+        function thread() {
+          return get(/databases/$(database)/documents/connections/$(code)).data;
+        }
+        function validSdp(sdp) { return sdp is string && sdp.size() > 0 && sdp.size() <= 20000; }
+        function canStart() {
+          let data = request.resource.data;
+          return thread().status == 'active'
+            && data.keys().hasOnly(['caller','offer','state','startedAt','nonce'])
+            && data.caller == request.auth.uid && data.state == 'ringing'
+            && data.startedAt == request.time && validSdp(data.offer)
+            && data.nonce is string && data.nonce.size() == 36;
+        }
+        allow get: if member(thread());
+        allow create: if member(thread()) && canStart();
+        allow update: if member(thread()) && (
+          ((resource.data.state == 'ended'
+            || (resource.data.state == 'ringing' && request.time >= resource.data.startedAt + duration.value(2,'m'))
+            || request.time >= resource.data.startedAt + duration.value(2,'h')) && canStart())
+          || (thread().status == 'active' && resource.data.state == 'ringing'
+            && request.time < resource.data.startedAt + duration.value(2,'m')
+            && request.auth.uid != resource.data.caller && request.resource.data.state == 'answered'
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['state','answer'])
+            && validSdp(request.resource.data.answer))
+          || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['state'])
+            && request.resource.data.state == 'ended')
+        );
+      }
+    }
+
+    match /connectionCodes/{pin} {
+      function validCode() {
+        let thread = getAfter(/databases/$(database)/documents/connections/$(request.resource.data.thread)).data;
+        return request.auth != null && pin.matches('^[0-9]{4}$')
+          && request.resource.data.keys().hasOnly(['thread','createdAt'])
+          && request.resource.data.createdAt == request.time
+          && thread.createdAt == request.time && thread.shortCode == pin
+          && thread.members == [request.auth.uid];
+      }
+      allow get: if request.auth != null && request.time < resource.data.createdAt + duration.value(10,'m');
+      allow create: if validCode();
+      allow update: if request.time >= resource.data.createdAt + duration.value(10,'m') && validCode();
     }
 
     match /{document=**} {
