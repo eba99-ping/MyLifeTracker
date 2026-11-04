@@ -1,6 +1,7 @@
 globalThis.TemuulVoice = (() => {
   const byId = id => document.getElementById(id);
   let room = null;
+  let inbox = null;
   const supported = () => !!(globalThis.RTCPeerConnection && navigator.mediaDevices?.getUserMedia);
   const status = text => { byId('voiceStatus').textContent = text; };
 
@@ -50,6 +51,8 @@ globalThis.TemuulVoice = (() => {
       || !['sendrecv','sendonly'].includes(direction);
     byId('voiceCamera').setAttribute('aria-pressed',String(!!session.camera));
     byId('voiceCamera').textContent = session.camera ? '📷 Камер унтраах' : '📷 Камер асаах';
+    byId('voiceFlip').hidden = !session.camera;
+    byId('voiceFlip').disabled = !!session.cameraBusy;
     byId('voiceLocalVideo').hidden = !session.camera;
     byId('voiceRemoteVideo').hidden = !session.remoteCamera || !session.remoteVideo || session.remoteVideo.muted;
     byId('voiceVideos').hidden = byId('voiceLocalVideo').hidden && byId('voiceRemoteVideo').hidden;
@@ -248,7 +251,7 @@ globalThis.TemuulVoice = (() => {
     mic.enabled = !mic.enabled;
     render(room);
   };
-  byId('voiceCamera').onclick = async () => {
+  async function changeCamera(flip=false){
     const session = room;
     const peer = session?.peer;
     const channel = session && videoChannel(session);
@@ -258,27 +261,103 @@ globalThis.TemuulVoice = (() => {
     render(session);
     let stream;
     try{
+      const enable = flip || !session.camera;
+      const facing = flip && session.facing !== 'environment' ? 'environment' : 'user';
       if(session.camera){
         session.camera.getTracks().forEach(track => track.stop());
         session.camera = null;
         byId('voiceLocalVideo').srcObject = null;
         await channel.sender.replaceTrack(null);
-      }else{
-        stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});
+      }
+      if(enable && room === session && session.peer === peer){
+        stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:flip?{exact:facing}:{ideal:facing}},audio:false});
         if(room !== session || session.peer !== peer) return;
         await channel.sender.replaceTrack(stream.getVideoTracks()[0]);
         if(room !== session || session.peer !== peer) return;
         session.camera = stream;
+        session.facing = stream.getVideoTracks()[0].getSettings?.().facingMode || facing;
         byId('voiceLocalVideo').srcObject = stream;
+        byId('voiceLocalVideo').dataset.facing = session.facing;
       }
     }catch(error){
-      if(room === session) session.note = error.name === 'NotAllowedError' ? 'Камерын зөвшөөрлөө шалгана уу.' : 'Камер асааж чадсангүй.';
+      if(room === session) session.note = error.name === 'NotAllowedError' ? 'Камерын зөвшөөрлөө шалгана уу.' : flip ? 'Нөгөө камерыг нээж чадсангүй.' : 'Камер асааж чадсангүй.';
     }finally{
       if(stream && session.camera !== stream) stream.getTracks().forEach(track => track.stop());
       session.cameraBusy = false;
       shareCameraState(session);
       render(session);
     }
-  };
-  return {update};
+  }
+  byId('voiceCamera').onclick = () => changeCamera();
+  byId('voiceFlip').onclick = () => changeCamera(true);
+
+  function showIncoming(session){
+    if(inbox !== session) return;
+    clearTimeout(session.expiry);
+    const incoming = [...session.calls].find(([,call]) =>
+      call?.state === 'ringing' && call.caller !== session.uid && call.startedAt && live(call));
+    byId('incomingCall').hidden = !incoming;
+    if(!incoming) return;
+    const [id,call] = incoming;
+    byId('incomingOpen').onclick = () => session.open(id);
+    session.expiry = setTimeout(() => showIncoming(session),Math.max(0,call.startedAt.toMillis()+120000-Date.now())+50);
+    if(document.hidden && globalThis.Notification?.permission === 'granted' && !session.notified.has(call.nonce)){
+      const worker = navigator.serviceWorker?.controller;
+      if(!worker) return;
+      session.notified.add(call.nonce);
+      worker.postMessage({type:'SHOW_NOTIFICATION',title:'Тэмүүл · Дуудлага ирлээ',options:{
+        body:'Тэмүүлийг нээгээд дуудлагаа аваарай.',
+        tag:'temuul-incoming-call',
+        data:{url:`/?call=${encodeURIComponent(id)}#connections`}
+      }});
+    }
+  }
+
+  function watch(sdk,user,open){
+    if(inbox?.uid === user?.uid && inbox) return;
+    if(inbox){
+      inbox.stop();
+      clearTimeout(inbox.expiry);
+      inbox.subscriptions.forEach(stop => stop());
+      document.removeEventListener('visibilitychange',inbox.visibility);
+    }
+    inbox = null;
+    byId('incomingCall').hidden = true;
+    if(!sdk || !user) return;
+    const session = {uid:user.uid,open,calls:new Map(),subscriptions:new Map(),notified:new Set()};
+    inbox = session;
+    session.visibility = () => showIncoming(session);
+    document.addEventListener('visibilitychange',session.visibility);
+    const query = sdk.query(sdk.collection(sdk.db,'connections'),sdk.where('members','array-contains',user.uid));
+    session.stop = sdk.onSnapshot(query,snapshot => {
+      if(inbox !== session) return;
+      const ids = new Set(snapshot.docs.filter(doc => doc.data().status === 'active').map(doc => doc.id));
+      session.subscriptions.forEach((stop,id) => {
+        if(ids.has(id)) return;
+        stop();
+        session.subscriptions.delete(id);
+        session.calls.delete(id);
+      });
+      ids.forEach(id => {
+        if(session.subscriptions.has(id)) return;
+        const ref = sdk.doc(sdk.db,'connections',id,'voice','current');
+        const stop = sdk.onSnapshot(ref,call => {
+          if(inbox !== session) return;
+          session.calls.set(id,call.data());
+          showIncoming(session);
+        },() => {
+          session.calls.delete(id);
+          showIncoming(session);
+        });
+        session.subscriptions.set(id,stop);
+      });
+      showIncoming(session);
+    },() => {
+      session.calls.clear();
+      session.subscriptions.forEach(stop => stop());
+      session.subscriptions.clear();
+      showIncoming(session);
+    });
+  }
+  return {update,watch};
 })();

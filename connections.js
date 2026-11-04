@@ -5,6 +5,7 @@ globalThis.TemuulConnections = (() => {
   let busy = false;
   let listeningId = '';
   let profileThread = '';
+  let requestedThread = '';
   const feedback = message => { find('connectionStatus').textContent = message; };
   const connection = id => sdk.doc(sdk.db,'connections',id);
   const name = () => (user.displayName || 'Тэмүүлийн гишүүн').trim().slice(0,48) || 'Тэмүүлийн гишүүн';
@@ -135,6 +136,10 @@ globalThis.TemuulConnections = (() => {
       if(scope !== currentScope) return;
       records = snapshot.docs.map(doc => ({...doc.data(),id:doc.id}))
         .sort((a,b) => (b.createdAt?.seconds || 0)-(a.createdAt?.seconds || 0));
+      if(requestedThread){
+        if(records.some(record => record.id === requestedThread)) selected = requestedThread;
+        requestedThread = '';
+      }
       if(find('connectionStatus').textContent === 'Холбоог ачаалж байна…') feedback('');
       renderList();
       renderThread();
@@ -277,5 +282,12 @@ globalThis.TemuulConnections = (() => {
       });
     };
   }
-  return {init,update};
+  function select(id){
+    if(!records.some(record => record.id === id)){ requestedThread = id; return; }
+    selected = id;
+    renderList();
+    renderThread();
+    find('connectionPeer').focus();
+  }
+  return {init,update,select};
 })();
