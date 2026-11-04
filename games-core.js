@@ -25,7 +25,7 @@ export function safeScores(raw){
   if(!raw||typeof raw!=='object')return out;
   for(const key of ['memory','reaction','puzzle','merge','mines']){
     const value=raw[key];
-    if(value&&Number.isFinite(value.score)&&value.score>=(key==='merge'?0:1)&&value.score<1e9){
+    if(value&&Number.isFinite(value.score)&&(value.score>0||key==='merge'&&value.score===0)&&value.score<1e9){
       out[key]={score:value.score,at:Number.isFinite(value.at)?value.at:0};
     }
   }
@@ -34,7 +34,7 @@ export function safeScores(raw){
 }
 export function recordScore(raw,game,score,now=Date.now()){
   const next=safeScores(raw);
-  if(!['memory','reaction','puzzle','merge','mines'].includes(game)||!Number.isFinite(score)||score<(game==='merge'?0:1))return {scores:next,improved:false};
+  if(!['memory','reaction','puzzle','merge','mines'].includes(game)||!Number.isFinite(score)||score<0||(score===0&&game!=='merge'))return {scores:next,improved:false};
   const improved=!next[game]||(game==='merge'?score>next[game].score:score<next[game].score);
   if(improved)next[game]={score,at:now};
   next.plays++;
