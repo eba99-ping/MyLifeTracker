@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import {makeMaze,toggleLamp,dropIndex,fourWins} from '../games-extra.js';
 import {shuffle,neighbors,moveTile,solved,makePuzzle,safeScores,recordScore,mergeBoard,mineField,mineNeighbors,revealMineArea,lineWinner,computerMove,snakeStep} from '../games-core.js';
 let seed=73;
 const random=()=>((seed=(seed*1664525+1013904223)>>>0)/2**32);
@@ -56,3 +57,24 @@ assert.equal(snakeStep([54,53,63,64,65],0,1,24),null);
 assert.deepEqual(snakeStep([54,53,63,64],0,1,24),{body:[64,54,53,63],ate:false});
 assert.equal(recordScore(recordScore(null,'meteor',5).scores,'meteor',8).scores.meteor.score,8);
 console.log('PASS: snake growth, wall and body collisions, tail movement and arcade scores');
+for(let sample=0;sample<20;sample++){
+  const maze=makeMaze(random), seen=new Set(), pending=[12];
+  while(pending.length){
+    const at=pending.pop();
+    if(!maze[at]||seen.has(at))continue;
+    seen.add(at);pending.push(at-11,at+11,at-1,at+1);
+  }
+  assert(seen.has(108));
+  assert.equal(seen.size,49);
+}
+const lamps=Array(16).fill(false);
+assert.equal(toggleLamp(lamps,0).filter(Boolean).length,3);
+assert.equal(toggleLamp(lamps,5).filter(Boolean).length,5);
+assert.deepEqual(toggleLamp(toggleLamp(lamps,5),5),lamps);
+const four=Array(42).fill('');
+assert.equal(dropIndex(four,0),35);
+for(const index of [35,36,37,38])four[index]='X';
+assert(fourWins(four,38));
+assert.equal(dropIndex(four,0),28);
+assert.equal(recordScore(recordScore(null,'math',4).scores,'math',8).scores.math.score,8);
+console.log('PASS: generated maze routes, lamp toggles, four-in-a-row gravity and score directions');

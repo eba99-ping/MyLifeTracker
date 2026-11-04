@@ -1,4 +1,5 @@
-import {shuffle,neighbors,moveTile,solved,makePuzzle,safeScores,recordScore,mergeBoard,mineNeighbors,mineField,revealMineArea,lineWinner,computerMove,snakeStep} from './games-core.js?v=2.24.0';
+import {shuffle,neighbors,moveTile,solved,makePuzzle,safeScores,recordScore,mergeBoard,mineNeighbors,mineField,revealMineArea,lineWinner,computerMove,snakeStep} from './games-core.js?v=2.25.0';
+import {extraGames,mountExtra} from './games-extra.js?v=2.25.0';
 
 const root=document.getElementById('page-games');
 if(root){
@@ -14,6 +15,10 @@ if(root){
   $('puzzleBoard').style.setProperty('--puzzle-art',`url("${art}")`);
   const unit={memory:'алхалт',reaction:'ms',puzzle:'нүүдэл',merge:'оноо',mines:'секунд',line:'дараалсан ялалт',lights:'шат',snake:'жимс',meteor:'оноо'};
   const titles={memory:'Хосоо олоорой',reaction:'Гялс дараарай',puzzle:'Бяцхан цэцэрлэг',merge:'2048',mines:'Мина илрүүлэгч',line:'3 дараалуулах',lights:'Гэрлийн хэмнэл',snake:'Жимсчин могой',meteor:'Солирын бороо'};
+  for(const [id,[title,scoreUnit]] of Object.entries(extraGames)){
+    titles[id]=title;
+    unit[id]=scoreUnit;
+  }
   const directions={ArrowLeft:'left',ArrowUp:'up',ArrowDown:'down',ArrowRight:'right'};
   let numbers=[],points=0,mines=null,revealed=new Set(),flags=new Set(),flagMode=false,swipe=null;
   let marks=[],streak=0,sequence=[],lightIndex=0,lightLevel=0;
@@ -46,15 +51,22 @@ if(root){
     if(game!==id)streak=0;
     resetSession();game=id;$('gamesHub').hidden=true;$('gameStage').hidden=false;
     for(const name of Object.keys(titles)){
-      if(!motionGames.has(name))$(name+'Game').hidden=name!==game;
+      if(!motionGames.has(name)&&!Object.hasOwn(extraGames,name))$(name+'Game').hidden=name!==game;
     }
     $('motionGame').hidden=!motionGames.has(game);
+    $('extraGame').hidden=!Object.hasOwn(extraGames,game);
     $('gameTitle').textContent=titles[game];
     $('gamesPauseNote').textContent='';
     if(game==='memory')newMemory();if(game==='reaction')newReaction();if(game==='puzzle')newPuzzle();
     if(game==='merge')newMerge();if(game==='mines')newMines();
     if(game==='line')newLine();if(game==='lights')newLights();
     if(motionGames.has(game))newMotion();
+    if(Object.hasOwn(extraGames,game)){
+      mountExtra(game,$('extraGame'),{announce,shuffle,finish:(score,text)=>{
+        if(score>0)result(score,text);
+        else{finished=true;stop();announce(text);}
+      }});
+    }
     $('gameTitle').focus({preventScroll:true});
     window.scrollTo({top:0,behavior:'instant'});
   }

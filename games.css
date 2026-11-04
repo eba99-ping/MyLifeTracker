@@ -56,6 +56,27 @@ html[data-theme=dark] .game-cover{background:#312846;color:#d4bef6}html[data-the
 .motion-grid>span[data-kind="rock"]::after{background:#f0a75f;border-radius:32% 60% 38% 55%;transform:rotate(-20deg)}
 .motion-grid>span[data-kind="ship"]::after{background:#89ddf2;border-radius:0;clip-path:polygon(50% 0,100% 100%,50% 77%,0 100%)}
 .motion-start:not([hidden]){display:block;margin:12px auto 0}
+.game-cover.extra-cover{font-size:clamp(18px,4vw,38px);font-weight:850;letter-spacing:.06em}
+.game-cover.maze-cover{background:#d9e7cb;color:#395b36}
+.game-cover.words-cover{background:#f1deeb;color:#704565}
+.game-cover.lamps-cover{background:#e6dff7;color:#634897}
+.game-cover.math-cover{background:#f6e3bf;color:#72531e}
+.game-cover.four-cover{background:#dbe8f8;color:#3a5692}
+.extra-grid{display:grid;grid-template-columns:repeat(var(--columns),minmax(0,1fr));gap:5px;width:min(100%,360px);margin:10px auto}
+.extra-grid>span,.extra-grid>button{display:grid;place-items:center;min-width:0;aspect-ratio:1;border-radius:7px;padding:0;font-weight:800}
+.extra-maze{gap:2px;padding:5px;background:var(--line);border-radius:10px}
+.extra-maze>span{background:var(--line);font-size:clamp(9px,3.4vw,17px)}
+.extra-maze>span[data-open="true"]{background:var(--surface);color:var(--brand)}
+.extra-lamps>button[aria-pressed="true"]{background:#ffe18a;color:#543b03;border-color:#dcb34a}
+.extra-four>span{border-radius:50%;background:var(--surface-2);border:1px solid var(--line)}
+.extra-four>span[data-mark="X"]{background:#6a54af;color:#fff}
+.extra-four>span[data-mark="O"]{background:#15765b;color:#fff}
+.extra-four-controls>button{min-height:38px}
+.extra-options{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:14px 0}
+.extra-options>button{min-width:44px}
+.extra-question,.extra-answer,.extra-game-info{text-align:center;margin:8px 0}
+.extra-answer{min-height:1.4em;font-weight:700;color:var(--brand)}
+#extraGame>button:not([hidden]){display:block;margin:auto}
 .reaction-pad{transition:none}
 #gamesPauseNote:empty{display:none}
 @media(max-width:700px){.game-toolbar{display:grid;grid-template-columns:1fr auto}.game-toolbar h3{grid-column:1/-1;grid-row:1}.game-toolbar #gameBack{grid-row:2;justify-self:start}.game-toolbar #gameRestart{grid-row:2}.game-stats{gap:6px}.game-stats>div{flex:1;min-width:0;max-width:130px;padding:8px}}

@@ -20,9 +20,9 @@ export function makePuzzle(random=Math.random){
   }
   return solved(board)?moveTile(board,7):board;
 }
-const higherScores=new Set(['merge','line','lights','snake','meteor']);
+const higherScores=new Set(['merge','line','lights','snake','meteor','words','math']);
 export function safeScores(raw){
-  const out={version:1,memory:null,reaction:null,puzzle:null,merge:null,mines:null,line:null,lights:null,snake:null,meteor:null,plays:0};
+  const out={version:1,memory:null,reaction:null,puzzle:null,merge:null,mines:null,line:null,lights:null,snake:null,meteor:null,maze:null,words:null,lamps:null,math:null,four:null,plays:0};
   if(!raw||typeof raw!=='object')return out;
   for(const key of Object.keys(out).filter(key=>out[key]===null)){
     const value=raw[key];
