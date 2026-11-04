@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {shuffle,neighbors,moveTile,solved,makePuzzle,safeScores,recordScore,mergeBoard,mineField,mineNeighbors,revealMineArea} from '../games-core.js';
+import {shuffle,neighbors,moveTile,solved,makePuzzle,safeScores,recordScore,mergeBoard,mineField,mineNeighbors,revealMineArea,lineWinner,computerMove} from '../games-core.js';
 let seed=73;
 const random=()=>((seed=(seed*1664525+1013904223)>>>0)/2**32);
 const original=[0,1,2,3,4,5,6,7,8];
@@ -42,3 +42,10 @@ for(let first=0;first<36;first++){
   assert(![...open].some(i=>mines.has(i)||flags.has(i)));
 }
 console.log('PASS: 2048 merge order, high scores, mine-free opening and flag-safe reveal');
+assert.equal(lineWinner(['X','','O','','X','O','','','X']),0);
+assert.equal(lineWinner(['X','O','X','X','O','O','O','X','X']),-1);
+assert.equal(computerMove(['X','X','','O','O','','','','']),5,'Win before blocking');
+assert.equal(computerMove(['X','X','','','O','','','','']),2,'Block an imminent win');
+assert.equal(recordScore(recordScore(null,'lights',5).scores,'lights',3).scores.lights.score,5);
+assert.equal(recordScore(recordScore(null,'line',1).scores,'line',2).scores.line.score,2);
+console.log('PASS: line wins, computer tactics and new game high scores');

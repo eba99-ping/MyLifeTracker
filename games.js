@@ -1,4 +1,4 @@
-import {shuffle,neighbors,moveTile,solved,makePuzzle,safeScores,recordScore,mergeBoard,mineNeighbors,mineField,revealMineArea} from './games-core.js?v=2.22.0';
+import {shuffle,neighbors,moveTile,solved,makePuzzle,safeScores,recordScore,mergeBoard,mineNeighbors,mineField,revealMineArea,lineWinner,computerMove} from './games-core.js?v=2.23.0';
 
 const root=document.getElementById('page-games');
 if(root){
@@ -12,10 +12,12 @@ if(root){
   const art=`data:image/svg+xml,${encodeURIComponent(scene)}`;
   $('puzzleReference').src=art;
   $('puzzleBoard').style.setProperty('--puzzle-art',`url("${art}")`);
-  const unit={memory:'алхалт',reaction:'ms',puzzle:'нүүдэл',merge:'оноо',mines:'секунд'};
-  const titles={memory:'Хосоо олоорой',reaction:'Гялс дараарай',puzzle:'Бяцхан цэцэрлэг',merge:'2048',mines:'Мина илрүүлэгч'};
+  const unit={memory:'алхалт',reaction:'ms',puzzle:'нүүдэл',merge:'оноо',mines:'секунд',line:'дараалсан ялалт',lights:'шат'};
+  const titles={memory:'Хосоо олоорой',reaction:'Гялс дараарай',puzzle:'Бяцхан цэцэрлэг',merge:'2048',mines:'Мина илрүүлэгч',line:'3 дараалуулах',lights:'Гэрлийн хэмнэл'};
   const directions={ArrowLeft:'left',ArrowUp:'up',ArrowDown:'down',ArrowRight:'right'};
   let numbers=[],points=0,mines=null,revealed=new Set(),flags=new Set(),flagMode=false,swipe=null;
+  let marks=[],streak=0,sequence=[],lightIndex=0,lightLevel=0;
+  const lightButtons=[...root.querySelectorAll('[data-light]')];
   function summaries(){
     for(const id of Object.keys(titles))$('best-'+id).textContent=scores[id]?`Шилдэг: ${Math.round(scores[id].score)} ${unit[id]}`:'Анхны амжилтаа тогтоогоорой';
     $('gamesPlayCount').textContent=`${scores.plays} тоглолт дуусгасан · Энэ төхөөрөмж дээр хадгална`;
@@ -38,12 +40,14 @@ if(root){
   }
   function showGame(id){
     if(!Object.hasOwn(titles,id))return;
+    if(game!==id)streak=0;
     resetSession();game=id;$('gamesHub').hidden=true;$('gameStage').hidden=false;
     for(const name of Object.keys(titles))$(name+'Game').hidden=name!==game;
     $('gameTitle').textContent=titles[game];
     $('gamesPauseNote').textContent='';
     if(game==='memory')newMemory();if(game==='reaction')newReaction();if(game==='puzzle')newPuzzle();
     if(game==='merge')newMerge();if(game==='mines')newMines();
+    if(game==='line')newLine();if(game==='lights')newLights();
     $('gameTitle').focus({preventScroll:true});
     window.scrollTo({top:0,behavior:'instant'});
   }
@@ -192,6 +196,92 @@ if(root){
     }
     drawMines();
   }
+  function drawLine(){
+    $('lineStreak').textContent=String(streak);
+    $('lineBoard').replaceChildren(...marks.map((mark,index)=>{
+      const cell=document.createElement('button');
+      cell.type='button';
+      cell.textContent=mark;
+      cell.dataset.mark=mark;
+      cell.disabled=finished||locked||!!mark;
+      cell.setAttribute('aria-label',`${index+1}-р нүд, ${mark||'хоосон'}`);
+      cell.onclick=()=>placeMark(index);
+      return cell;
+    }));
+  }
+  function newLine(){
+    marks=Array(9).fill('');
+    drawLine();announce('Чиний ээлж. X тавих нүдээ сонго.');
+  }
+  function finishLine(){
+    const winner=marks[lineWinner(marks)];
+    if(!winner&&marks.includes(''))return false;
+    if(winner==='X'){
+      streak++;
+      result(streak,`Чи яллаа! ${streak} дараалсан ялалт.`);
+    }else{
+      finished=true;streak=0;
+      announce(winner==='O'?'Компьютер яллаа. Дахин тоглоод үзээрэй.':'Тэнцлээ. Дахин тоглож болно.');
+    }
+    drawLine();
+    return true;
+  }
+  function placeMark(index){
+    if(game!=='line'||finished||locked||marks[index])return;
+    marks[index]='X';
+    if(finishLine())return;
+    locked=true;drawLine();announce('Компьютерийн ээлж…');
+    timer=setTimeout(()=>{
+      const next=computerMove(marks);
+      if(next>=0)marks[next]='O';
+      locked=false;
+      if(!finishLine()){drawLine();announce('Чиний ээлж.');}
+    },420);
+  }
+  function lightPad(active=-1){
+    lightButtons.forEach((button,index)=>{
+      button.disabled=finished||locked;
+      button.classList.toggle('lit',active===index);
+    });
+  }
+  function newLights(){
+    sequence=[];lightLevel=0;
+    $('lightsLevel').textContent='0';
+    nextLights();
+  }
+  function nextLights(){
+    sequence.push(Math.floor(Math.random()*lightButtons.length));
+    locked=true;lightIndex=0;lightPad();announce('Дарааллыг ажиглаарай.');
+    const flash=index=>{
+      if(index===sequence.length){
+        locked=false;lightPad();announce('Одоо ижил дарааллаар дар.');
+        return;
+      }
+      const pad=sequence[index];
+      lightPad(pad);announce(lightButtons[pad].getAttribute('aria-label'));
+      timer=setTimeout(()=>{
+        lightPad();
+        timer=setTimeout(()=>flash(index+1),240);
+      },Math.max(310,560-lightLevel*12));
+    };
+    timer=setTimeout(()=>flash(0),850);
+  }
+  function tapLight(index){
+    if(game!=='lights'||finished||locked)return;
+    if(index!==sequence[lightIndex]){
+      if(lightLevel)result(lightLevel,`Дараалал зөрлөө. ${lightLevel} шат давлаа.`);
+      else{finished=true;announce('Дараалал зөрлөө. Дахин эхлүүлээд үзээрэй.');}
+      lightPad();return;
+    }
+    lightIndex++;
+    if(lightIndex<sequence.length){announce(`${lightIndex} / ${sequence.length} зөв`);return;}
+    lightLevel++;
+    $('lightsLevel').textContent=String(lightLevel);
+    if(lightLevel===20){result(lightLevel,'20 шатыг бүгдийг давлаа!');lightPad();return;}
+    locked=true;lightPad();announce(`${lightLevel}-р шат давлаа!`);
+    timer=setTimeout(nextLights,700);
+  }
+  lightButtons.forEach((button,index)=>button.onclick=()=>tapLight(index));
   $('mineMode').onclick=()=>{flagMode=!flagMode;$('mineMode').setAttribute('aria-pressed',String(flagMode));};
   root.querySelectorAll('[data-merge]').forEach(button=>button.onclick=()=>shiftNumbers(button.dataset.merge));
   $('mergeGame').addEventListener('keydown',event=>{

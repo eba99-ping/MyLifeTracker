@@ -30,6 +30,21 @@ html[data-theme=dark] .game-cover{background:#312846;color:#d4bef6}html[data-the
 .mines-grid button[data-open="true"]{background:var(--surface);cursor:default}
 .mines-grid button[data-bomb="true"]{background:#f38e86;color:#4a2327}
 #mineMode[aria-pressed="true"]{background:var(--brand-soft);color:var(--brand)}
+.game-cover.line-cover{background:#dce3f5;color:#485b96}
+.game-cover.lights-cover{background:#e9dcf3;color:#72518d}
+.line-grid{grid-template-columns:repeat(3,minmax(0,1fr));max-width:310px}
+.line-grid>button{font-size:clamp(24px,8vw,48px);cursor:pointer}
+.line-grid>button[data-mark="X"]{color:var(--brand)}
+.line-grid>button[data-mark="O"]{color:var(--green)}
+.line-grid>button:disabled{opacity:1;cursor:default}
+.lights-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:min(100%,310px);margin:14px auto}
+.lights-grid>button{aspect-ratio:1.2;border:2px solid transparent;border-radius:16px;font-size:clamp(26px,9vw,46px);color:#fff;background:var(--pad);cursor:pointer}
+.lights-grid>button:disabled{cursor:default;opacity:.55}
+.lights-grid>button.lit{opacity:1;border-color:white;outline:2px solid var(--pad);outline-offset:1px}
+.lights-grid>button[data-light="0"]{--pad:#b84256}
+.lights-grid>button[data-light="1"]{--pad:#355aa4}
+.lights-grid>button[data-light="2"]{--pad:#197253}
+.lights-grid>button[data-light="3"]{--pad:#92600d}
 .reaction-pad{transition:none}
 #gamesPauseNote:empty{display:none}
 @media(max-width:700px){.game-toolbar{display:grid;grid-template-columns:1fr auto}.game-toolbar h3{grid-column:1/-1;grid-row:1}.game-toolbar #gameBack{grid-row:2;justify-self:start}.game-toolbar #gameRestart{grid-row:2}.game-stats{gap:6px}.game-stats>div{flex:1;min-width:0;max-width:130px;padding:8px}}
