@@ -151,6 +151,25 @@ body:before{content:"";position:fixed;inset:0 0 auto;height:var(--safe-top);back
 #connectionSearchResult:not(:empty){display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px;border-radius:12px;background:var(--surface-2)}
 .connection-message img,#connectionAttachment img{display:block;max-width:min(100%,260px);max-height:280px;object-fit:contain;border-radius:10px}
 .connection-message audio,#connectionAttachment audio{display:block;width:min(240px,100%);max-width:100%;margin-top:6px}
+.friend-photo{object-fit:cover}
+.friend-card-header,.friend-pet-card{display:flex;align-items:center;gap:10px}
+.friend-card-identity{display:grid;gap:2px;min-width:0;overflow-wrap:anywhere}
+.friend-card-identity small,.friend-pet-info small{color:var(--muted)}
+#friendProfileCard .friend-card-identity strong{margin:0}
+.friend-pet-card{margin-top:10px;padding:8px;border:1px solid var(--line);border-radius:12px;background:var(--surface-2)}
+.friend-pet-art{width:60px;flex:0 0 60px}
+.friend-pet-art svg{display:block;width:100%;height:auto}
+.friend-pet-info{display:grid;gap:3px;min-width:0;flex:1;overflow-wrap:anywhere}
+.friend-pet-info progress{width:min(100%,170px);height:9px;accent-color:var(--brand)}
+#friendProfileCard .friend-pet-info strong{margin:0}
+.friend-search-profile{min-width:0;flex:1}
+.chat-image-trigger{padding:0;border:0;background:transparent;border-radius:10px;cursor:zoom-in}
+.chat-image-trigger:focus-visible{outline:2px solid var(--brand);outline-offset:3px}
+.chat-image-viewer{width:min(680px,calc(100% - 24px));max-height:calc(100dvh - 24px);padding:14px;border:1px solid var(--line);border-radius:18px;background:var(--surface);color:var(--ink)}
+.chat-image-viewer::backdrop{background:#101322c9}
+.chat-image-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.chat-image-viewer img{display:block;width:100%;max-height:65dvh;object-fit:contain;background:var(--surface-2);border-radius:12px}
+.chat-image-viewer a{display:inline-flex;margin-top:12px;text-decoration:none}
 @media(max-width:360px){.top-actions{gap:4px}.top-actions>button{min-width:40px}.brand{gap:5px}}
 .connection-message{align-self:flex-start;max-width:88%;padding:8px 12px;border-radius:12px;background:var(--surface-2);overflow-wrap:anywhere}
 .connection-message.mine{align-self:flex-end;background:var(--brand-soft)}

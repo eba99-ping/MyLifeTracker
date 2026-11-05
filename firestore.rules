@@ -143,6 +143,31 @@ service cloud.firestore {
       }
     }
 
+    match /chatProfiles/{uid} {
+      function validPet(pet) {
+        return pet.keys().hasOnly(['name','shape','color','accessory','xp','level','current','needed'])
+          && pet.name is string && pet.name.size() > 0 && pet.name.size() <= 48
+          && pet.shape in ['cat','bear','bunny','panda']
+          && pet.color.matches('^#[a-fA-F0-9]{6}$')
+          && pet.accessory in ['none','sprout','star','flower','crown','bow','headphones','wizard','halo','diamond']
+          && pet.xp is int && pet.xp >= 0 && pet.xp <= 100000000
+          && pet.level is int && pet.level >= 1 && pet.level <= 200000
+          && pet.needed is int && pet.needed > 0 && pet.needed <= 10000
+          && pet.current is int && pet.current >= 0 && pet.current <= pet.needed;
+      }
+      function validProfile() {
+        let data = request.resource.data;
+        return data.keys().hasOnly(['handle','name','avatar','pet'])
+          && data.handle == get(/databases/$(database)/documents/chatHandles/$(uid)).data.handle
+          && data.name is string && data.name.size() > 0 && data.name.size() <= 48
+          && data.avatar is string && data.avatar.size() <= 160000
+          && (data.avatar == '' || data.avatar.matches('^data:image/jpeg;base64,[A-Za-z0-9+/]+={0,2}$')
+            || data.avatar.matches('^https://lh3[.]googleusercontent[.]com/[^ ]+$'))
+          && validPet(data.pet);
+      }
+      allow get: if request.auth != null;
+      allow create, update: if request.auth != null && request.auth.uid == uid && validProfile();
+    }
     match /chatHandles/{uid} {
       allow get: if request.auth != null && request.auth.uid == uid;
       allow create: if request.auth != null && request.auth.uid == uid

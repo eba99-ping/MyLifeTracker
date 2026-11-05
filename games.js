@@ -1,5 +1,5 @@
-import {shuffle,neighbors,moveTile,solved,makePuzzle,safeScores,recordScore,mergeBoard,mineNeighbors,mineField,revealMineArea,lineWinner,computerMove,snakeStep} from './games-core.js?v=2.26.0';
-import {extraGames,mountExtra} from './games-extra.js?v=2.26.0';
+import {shuffle,neighbors,moveTile,solved,makePuzzle,safeScores,recordScore,mergeBoard,mineNeighbors,mineField,revealMineArea,lineWinner,computerMove,snakeStep} from './games-core.js?v=2.27.0';
+import {extraGames,mountExtra} from './games-extra.js?v=2.27.0';
 
 const root=document.getElementById('page-games');
 if(root){

@@ -7,12 +7,74 @@ globalThis.TemuulConnections = (() => {
   let profileThread = '';
   let requestedThread = '';
   let handle='', attachment=null, recording=null, recordingTimer;
+  let publisher=null;
+  const friendProfiles=new Map(), profileSubscriptions=new Map();
   const tr = (mn,en) => globalThis.TemuulLocale?.t(mn,en) ?? mn;
   const feedback = (mn,en) => { find('connectionStatus').textContent = tr(mn,en); };
   const validHandle = value => /^[a-z0-9_]{3,20}$/.test(value);
   const handleValue = input => input.value.trim().toLowerCase().replace(/^@/,'');
   const payloadLimit=220000;
   const audioTypes=['audio/webm','audio/mp4','audio/ogg'];
+  const safeAvatar=value=>typeof value==='string'&&value.length<=160000&&
+    (/^data:image\/jpeg;base64,[A-Za-z0-9+/]+={0,2}$/.test(value)||/^https:\/\/lh3\.googleusercontent\.com\/[^\s]+$/.test(value))?value:'';
+  const label=(value,fallback)=>typeof value==='string'&&value.trim()?value.trim().slice(0,48):fallback;
+  const peerUid=record=>record.members.find(uid=>uid!==user?.uid);
+
+  function account(api,identity,read){
+    if(publisher?.uid===identity?.uid&&publisher)return;
+    if(publisher)clearTimeout(publisher.timer);
+    publisher=null;
+    if(!api||!identity)return;
+    const current={api,uid:identity.uid,read,changes:new Set(),handle:'',busy:false,exists:false};
+    publisher=current;
+    const handleRef=api.doc(api.db,'chatHandles',current.uid);
+    const profileRef=api.doc(api.db,'chatProfiles',current.uid);
+    Promise.all([api.getDoc(handleRef),api.getDoc(profileRef)]).then(([registered,profile])=>{
+      if(publisher!==current)return;
+      current.handle=registered.data()?.handle||'';
+      current.exists=profile.exists();
+      if(current.handle&&!current.exists)current.changes.add('initial');
+      schedulePublish(current);
+    }).catch(()=>{});
+  }
+
+  function schedulePublish(current){
+    if(publisher!==current||!current.handle||!navigator.onLine||!current.changes.size)return;
+    clearTimeout(current.timer);
+    current.timer=setTimeout(()=>flushProfile(current),300);
+  }
+
+  function publish(part){
+    if(!publisher)return;
+    publisher.changes.add(part);
+    schedulePublish(publisher);
+  }
+
+  async function flushProfile(current){
+    if(publisher!==current||current.busy||!navigator.onLine||!current.changes.size)return;
+    const {api,uid}=current;
+    const changes=[...current.changes];
+    current.changes.clear();
+    current.busy=true;
+    try{
+      const data=current.read();
+      const bounded=(value,min,max)=>Math.max(min,Math.min(max,Math.floor(Number(value)||0)));
+      const pet={...data.pet,name:label(data.pet.name,'Nomi'),xp:bounded(data.pet.xp,0,100000000),
+        level:bounded(data.pet.level,1,200000),needed:bounded(data.pet.needed,1,10000)};
+      pet.current=bounded(data.pet.current,0,pet.needed);
+      const patch={handle:current.handle};
+      if(!current.exists||changes.includes('initial')||changes.includes('profile')){
+        patch.name=label(data.name,'@'+current.handle);
+        patch.avatar=safeAvatar(data.avatar);
+      }
+      if(!current.exists||changes.includes('initial')||changes.includes('pet'))patch.pet=pet;
+      await api.setDoc(api.doc(api.db,'chatProfiles',uid),patch,{merge:true});
+      current.exists=true;
+      schedulePublish(current);
+    }catch{
+      for(const change of changes)current.changes.add(change);
+    }finally{current.busy=false;}
+  }
   const connection = id => sdk.doc(sdk.db,'connections',id);
   const name = () => (user.displayName || 'Тэмүүлийн гишүүн').trim().slice(0,48) || 'Тэмүүлийн гишүүн';
   const labels = {waiting:'Урилга бэлэн',pending:'Зөвшөөрөл хүлээж байна',active:'Чат нээлттэй',closed:'Хаасан'};
@@ -25,6 +87,66 @@ globalThis.TemuulConnections = (() => {
     return node;
   }
 
+  function avatarCard(data,fallback){
+    const src=safeAvatar(data?.avatar);
+    if(!src)return element('span',fallback.slice(0,1).toUpperCase(),'friend-avatar');
+    const image=element('img','','friend-avatar friend-photo');
+    image.src=src;image.alt='';image.referrerPolicy='no-referrer';
+    image.onerror=()=>image.replaceWith(element('span',fallback.slice(0,1).toUpperCase(),'friend-avatar'));
+    return image;
+  }
+
+  function renderFriendCard(card,data,fallback,bio=''){
+    const name=label(data?.name,fallback);
+    const header=element('div','','friend-card-header');
+    const identity=element('div','','friend-card-identity');
+    identity.append(element('strong',name));
+    if(data?.handle)identity.append(element('small','@'+data.handle));
+    header.append(avatarCard(data,name),identity);
+    card.replaceChildren(header);
+    if(bio)card.append(element('p',bio));
+    const pet=data?.pet;
+    if(!pet||!globalThis.TemuulPixelPet)return;
+    const panel=element('div','','friend-pet-card');
+    const art=element('div','','friend-pet-art');
+    art.setAttribute('aria-hidden','true');
+    const accessory=['none','sprout','star','flower','crown','bow','headphones','wizard','halo','diamond'].includes(pet.accessory)?pet.accessory:'none';
+    art.innerHTML='<svg viewBox="0 0 200 205">'+TemuulPixelPet.artwork({shape:pet.shape,color:pet.color,accessory,xp:pet.xp})+'</svg>';
+    const copy=element('div','','friend-pet-info');
+    const level=Number(pet.level)||1,current=Number(pet.current)||0,needed=Math.max(1,Number(pet.needed)||1);
+    const progress=element('progress');
+    progress.max=needed;progress.value=current;
+    progress.setAttribute('aria-label','Pet XP');
+    copy.append(element('strong',label(pet.name,'Pet')),element('small',`Level ${level} · ${current} / ${needed} XP`),progress);
+    panel.append(art,copy);card.append(panel);
+  }
+
+  function observeFriendProfiles(){
+    const wanted=new Set(records.filter(record=>record.status==='active').map(peerUid).filter(Boolean));
+    for(const [uid,stop] of profileSubscriptions){
+      if(wanted.has(uid))continue;
+      stop();profileSubscriptions.delete(uid);friendProfiles.delete(uid);
+    }
+    const currentScope=scope;
+    for(const uid of wanted){
+      if(profileSubscriptions.has(uid))continue;
+      const stop=sdk.onSnapshot(sdk.doc(sdk.db,'chatProfiles',uid),snapshot=>{
+        if(scope!==currentScope||!profileSubscriptions.has(uid))return;
+        friendProfiles.set(uid,snapshot.data());
+        renderList();
+        const record=records.find(item=>item.id===selected);
+        if(record&&peerUid(record)===uid){
+          find('connectionPeer').textContent=label(snapshot.data()?.name,peerName(record));
+          if(find('friendProfile').open){
+            const card=find('friendProfileCard');
+            renderFriendCard(card,snapshot.data(),peerName(record),card.dataset.bio||'');
+          }
+        }
+      },()=>{});
+      profileSubscriptions.set(uid,stop);
+    }
+  }
+
   function renderList(){
     const items = [];
     for(const [title,statuses] of [['Найзууд',['active']],['Хүсэлт ба урилга',['pending','waiting']],['Хаасан чат',['closed']]]){
@@ -32,12 +154,13 @@ globalThis.TemuulConnections = (() => {
       if(!group.length) continue;
       items.push(element('h4',tr(title),'friend-group-title'));
       for(const record of group){
-        const peer = peerName(record);
+        const publicProfile=friendProfiles.get(peerUid(record));
+        const peer = label(publicProfile?.name,peerName(record));
         const button = element('button','','connection-item');
         button.type = 'button';
         const copy = element('span','');
         copy.append(element('strong',peer),element('small',tr(labels[record.status])));
-        button.append(element('span',peer.slice(0,1).toUpperCase(),'friend-avatar'),copy);
+        button.append(avatarCard(publicProfile,peer),copy);
         button.setAttribute('aria-pressed',String(record.id === selected));
         button.onclick = () => {
           selected = record.id;
@@ -59,8 +182,9 @@ globalThis.TemuulConnections = (() => {
     if(activeId !== profileThread){
       clearAttachment();
       profileThread = activeId;
-      profile.open = false;
+      profile.open = !!activeId;
       find('friendProfileCard').replaceChildren();
+      delete find('friendProfileCard').dataset.bio;
       find('friendProfileName').value = '';
       find('friendProfileBio').value = '';
     }
@@ -75,7 +199,7 @@ globalThis.TemuulConnections = (() => {
       return;
     }
     const owner = record.members[0] === user.uid;
-    find('connectionPeer').textContent = peerName(record);
+    find('connectionPeer').textContent = label(friendProfiles.get(peerUid(record))?.name,peerName(record));
     find('connectionThreadStatus').textContent = tr(labels[record.status]);
     find('connectionAccept').hidden = !owner || record.status !== 'pending';
     find('connectionClose').hidden = record.status === 'closed';
@@ -102,7 +226,7 @@ globalThis.TemuulConnections = (() => {
         const own = data.sender === user.uid;
         const bubble = element('div','','connection-message'+(own?' mine':''));
         bubble.append(element('small',own?tr('Та','You'):find('connectionPeer').textContent));
-        bubble.append(mediaElement(data) || element('p',data.text || ''));
+        bubble.append(mediaElement(data,true) || element('p',data.text || ''));
         return bubble;
       });
       messages.replaceChildren(...(rows.length ? rows : [element('p',tr('Одоогоор зурвас алга.'))]));
@@ -116,6 +240,9 @@ globalThis.TemuulConnections = (() => {
     const nextUid = active ? nextUser?.uid : null;
     if(nextUid && nextUid === user?.uid && stopList) return;
     scope++;
+    if(find('chatImageViewer').open)find('chatImageViewer').close();
+    for(const stop of profileSubscriptions.values())stop();
+    profileSubscriptions.clear();friendProfiles.clear();
     clearAttachment();
     stopList?.();
     stopMessages?.();
@@ -156,6 +283,7 @@ globalThis.TemuulConnections = (() => {
       if(find('connectionStatus').textContent === 'Холбоог ачаалж байна…') feedback('');
       renderList();
       renderThread();
+      observeFriendProfiles();
     },() => { if(scope === currentScope) feedback('Холбоог ачаалж чадсангүй. Интернэтээ шалгаад хэсгийг дахин нээгээрэй.'); });
   }
 
@@ -164,14 +292,34 @@ globalThis.TemuulConnections = (() => {
     find('connectionHandle').value='@'+value;
     find('connectionHandle').readOnly=true;
     find('connectionHandleSave').hidden=true;
+    if(publisher?.uid===user.uid){
+      publisher.handle=value;
+      if(!publisher.exists)publish('initial');
+    }
   }
 
-  function mediaElement(data){
+  function openImage(src){
+    const viewer=find('chatImageViewer');
+    find('chatImageFull').src=src;
+    find('chatImageDownload').href=src;
+    find('chatImageDownload').download='temuul-chat.jpg';
+    if(!viewer.open)viewer.showModal();
+  }
+
+  function mediaElement(data,viewable=false){
     if(typeof data.payload!=='string'||data.payload.length>payloadLimit||!/^[A-Za-z0-9+/]+={0,2}$/.test(data.payload))return null;
     if(data.kind==='image'&&data.mime==='image/jpeg'){
       const image=document.createElement('img');
       image.alt=tr('Илгээсэн зураг','Shared image');image.loading='lazy';
       image.src='data:image/jpeg;base64,'+data.payload;
+      if(viewable){
+        const trigger=element('button','','chat-image-trigger');
+        trigger.type='button';
+        trigger.setAttribute('aria-label',tr('Зураг томоор нээх','Open full image'));
+        trigger.append(image);
+        trigger.onclick=()=>openImage(image.src);
+        return trigger;
+      }
       return image;
     }
     if(data.kind==='audio'&&audioTypes.includes(data.mime)){
@@ -262,6 +410,10 @@ globalThis.TemuulConnections = (() => {
 
   function init(openProfile){
     find('connectionSignIn').onclick = openProfile;
+    find('chatImageViewer').addEventListener('close',()=>{
+      find('chatImageFull').removeAttribute('src');
+      find('chatImageDownload').removeAttribute('href');
+    });
     find('friendProfile').ontoggle = async event => {
       if(!event.currentTarget.open || !profileThread) return;
       const record = records.find(item => item.id === profileThread);
@@ -277,8 +429,8 @@ globalThis.TemuulConnections = (() => {
         const [other,own] = await Promise.all([sdk.getDoc(sdk.doc(ref,'profiles',peer)),sdk.getDoc(sdk.doc(ref,'profiles',user.uid))]);
         if(scope !== activeScope || profileThread !== record.id) return;
         const shown = other.data();
-        const display = shown?.name || fallback;
-        card.replaceChildren(element('span',display.slice(0,1).toUpperCase(),'friend-avatar'),element('strong',display),element('p',shown?.bio || 'Танилцуулга нэмээгүй байна.'));
+        card.dataset.bio=shown?.bio||'';
+        renderFriendCard(card,friendProfiles.get(peer),shown?.name||fallback,card.dataset.bio);
         find('friendProfileName').value = own.data()?.name || name();
         find('friendProfileBio').value = own.data()?.bio || '';
       }catch{
@@ -329,9 +481,13 @@ globalThis.TemuulConnections = (() => {
         if(!target){feedback('Хэрэглэгч олдсонгүй.','User not found.');return;}
         if(target===user.uid){feedback('Энэ таны username.','This is your username.');return;}
         const existing=records.find(item=>item.members.includes(target)&&item.status!=='closed');
+        const shared=await sdk.getDoc(sdk.doc(sdk.db,'chatProfiles',target)).catch(()=>null);
+        if(!current())return;
         const button=element('button',existing?tr('Нээх','Open'):tr('Найзын хүсэлт илгээх','Send friend request'),'btn secondary small');
         button.type='button';
-        results.append(element('strong','@'+value),button);
+        const preview=element('div','','friend-search-profile');
+        renderFriendCard(preview,shared?.data(), '@'+value);
+        results.append(preview,button);
         button.onclick=()=>{
           if(existing){select(existing.id);return;}
           run(button,async stillCurrent=>{
@@ -357,7 +513,7 @@ globalThis.TemuulConnections = (() => {
       });
     }
     const connectivity=()=>{find('connectionOffline').hidden=navigator.onLine;};
-    window.addEventListener('online',connectivity);
+    window.addEventListener('online',()=>{connectivity();if(publisher)schedulePublish(publisher);});
     window.addEventListener('offline',connectivity);
     document.addEventListener('temuul:language',()=>{if(user){renderList();renderThread();}});
     connectivity();
@@ -463,5 +619,5 @@ globalThis.TemuulConnections = (() => {
     renderThread();
     find('connectionPeer').focus();
   }
-  return {init,update,select};
+  return {init,update,select,account,publish};
 })();
