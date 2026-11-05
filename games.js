@@ -1,8 +1,9 @@
-import {shuffle,neighbors,moveTile,solved,makePuzzle,safeScores,recordScore,mergeBoard,mineNeighbors,mineField,revealMineArea,lineWinner,computerMove,snakeStep} from './games-core.js?v=2.25.0';
-import {extraGames,mountExtra} from './games-extra.js?v=2.25.0';
+import {shuffle,neighbors,moveTile,solved,makePuzzle,safeScores,recordScore,mergeBoard,mineNeighbors,mineField,revealMineArea,lineWinner,computerMove,snakeStep} from './games-core.js?v=2.26.0';
+import {extraGames,mountExtra} from './games-extra.js?v=2.26.0';
 
 const root=document.getElementById('page-games');
 if(root){
+  const tr=(mn,en)=>globalThis.TemuulLocale?.t(mn,en)??mn;
   const $=id=>document.getElementById(id),KEY='myLifeTracker.games.v1';
   let scores,storageAvailable=true;
   try{scores=safeScores(JSON.parse(localStorage.getItem(KEY)||'null'));}catch{scores=safeScores(null);}
@@ -27,9 +28,9 @@ if(root){
   const motionVectors={left:[-1,0],right:[1,0],up:[0,-1],down:[0,1]};
   let motion;
   function summaries(){
-    for(const id of Object.keys(titles))$('best-'+id).textContent=scores[id]?`Шилдэг: ${Math.round(scores[id].score)} ${unit[id]}`:'Анхны амжилтаа тогтоогоорой';
-    $('gamesPlayCount').textContent=`${scores.plays} тоглолт дуусгасан · Энэ төхөөрөмж дээр хадгална`;
-    $('gamesStorageNote').textContent=storageAvailable?'Интернетгүй үед ч тоглоно. Амжилт зөвхөн энэ төхөөрөмж дээр хадгалагдана.':'Хадгалах боломжгүй байна. Тоглож болно, гэхдээ энэ удаагийн амжилт хадгалагдахгүй.';
+    for(const id of Object.keys(titles))$('best-'+id).textContent=scores[id]?`${tr('Шилдэг')}: ${Math.round(scores[id].score)} ${tr(unit[id])}`:tr('Анхны амжилтаа тогтоогоорой');
+    $('gamesPlayCount').textContent=tr(`${scores.plays} тоглолт дуусгасан · Энэ төхөөрөмж дээр хадгална`,`${scores.plays} games completed · Saved on this device`);
+    $('gamesStorageNote').textContent=storageAvailable?tr('Интернетгүй үед ч тоглоно. Амжилт зөвхөн энэ төхөөрөмж дээр хадгалагдана.','Play offline. Records are saved on this device.'):tr('Хадгалах боломжгүй байна. Энэ удаагийн амжилт хадгалагдахгүй.','Storage is unavailable, so this session’s records won’t be saved.');
   }
   function announce(text,win=false){$('gameAnnouncement').textContent=text;$('gameAnnouncement').classList.toggle('win',win);}
   function stop(){clearTimeout(timer);clearInterval(ticker);timer=ticker=0;}
@@ -55,7 +56,7 @@ if(root){
     }
     $('motionGame').hidden=!motionGames.has(game);
     $('extraGame').hidden=!Object.hasOwn(extraGames,game);
-    $('gameTitle').textContent=titles[game];
+    $('gameTitle').textContent=tr(titles[game]);
     $('gamesPauseNote').textContent='';
     if(game==='memory')newMemory();if(game==='reaction')newReaction();if(game==='puzzle')newPuzzle();
     if(game==='merge')newMerge();if(game==='mines')newMines();
@@ -413,6 +414,10 @@ if(root){
   });
   const pause=()=>{if(game)showHub('Тоглолтыг түр зогсоолоо. Хүссэн тоглоомоо сонгоод дахин эхлүүлээрэй.');};
   document.addEventListener('visibilitychange',()=>{if(document.hidden)pause();});
+  document.addEventListener('temuul:language',()=>{
+    summaries();
+    if(game)$('gameTitle').textContent=tr(titles[game]);
+  });
   new MutationObserver(()=>{if(!root.classList.contains('active'))pause();}).observe(root,{attributes:true,attributeFilter:['class']});
   summaries();
 }

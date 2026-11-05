@@ -143,6 +143,15 @@ body:before{content:"";position:fixed;inset:0 0 auto;height:var(--safe-top);back
 .nav button[data-page="connections"] b{color:var(--brand)}
 .incoming-call{position:fixed;z-index:65;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;align-items:center;gap:12px;width:max-content;max-width:calc(100% - 24px);padding:10px 12px;border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink);box-shadow:0 8px 24px #0003}
 .incoming-call[hidden]{display:none}
+.language-toggle{min-width:44px;min-height:40px;padding:0 9px;border:1px solid var(--line);border-radius:12px;background:var(--brand-soft);color:var(--ink);font:inherit;font-size:11px;font-weight:800;cursor:pointer}
+.auth-card>.language-toggle{float:right;margin-left:8px}
+.language-toggle:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.tool-group-title{grid-column:1/-1;font-size:14px;margin:12px 0 0;color:var(--muted)}
+#connectionOffline{padding:10px 12px;border:1px solid var(--line);border-radius:12px;color:var(--muted)}
+#connectionSearchResult:not(:empty){display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px;border-radius:12px;background:var(--surface-2)}
+.connection-message img,#connectionAttachment img{display:block;max-width:min(100%,260px);max-height:280px;object-fit:contain;border-radius:10px}
+.connection-message audio,#connectionAttachment audio{display:block;width:min(240px,100%);max-width:100%;margin-top:6px}
+@media(max-width:360px){.top-actions{gap:4px}.top-actions>button{min-width:40px}.brand{gap:5px}}
 .connection-message{align-self:flex-start;max-width:88%;padding:8px 12px;border-radius:12px;background:var(--surface-2);overflow-wrap:anywhere}
 .connection-message.mine{align-self:flex-end;background:var(--brand-soft)}
 .connection-message p{margin:4px 0;white-space:pre-wrap}

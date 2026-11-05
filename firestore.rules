@@ -43,6 +43,16 @@ service cloud.firestore {
       allow get: if member(resource.data) || (signedIn() && resource.data.status == 'waiting'
         && !resource.data.keys().hasAny(['shortCode']));
       allow list: if member(resource.data);
+      function usernameRequest() {
+        let data = request.resource.data;
+        let sender = get(/databases/$(database)/documents/chatHandles/$(request.auth.uid)).data.handle;
+        let target = get(/databases/$(database)/documents/chatUsernames/$(data.targetHandle)).data.uid;
+        return data.keys().hasOnly(['members','names','status','createdAt','targetHandle'])
+          && target != request.auth.uid && data.members == [target,request.auth.uid]
+          && data.names == ['@'+data.targetHandle,'@'+sender]
+          && data.status == 'pending' && data.createdAt == request.time;
+      }
+      allow create: if signedIn() && code.matches('^[a-f0-9]{32}$') && usernameRequest();
       allow create: if signedIn() && code.matches('^[a-f0-9]{32}$')
         && request.resource.data.keys().hasOnly(['members','names','status','createdAt','shortCode'])
         && (!request.resource.data.keys().hasAny(['shortCode'])
@@ -76,11 +86,18 @@ service cloud.firestore {
         }
         allow get: if member(connection());
         allow list: if member(connection()) && request.query.limit <= 50;
+        function validMessage() {
+          let data = request.resource.data;
+          return (data.keys().hasOnly(['sender','text','createdAt'])
+              && data.text is string && data.text.size() > 0 && data.text.size() <= 1000)
+            || (data.keys().hasOnly(['sender','kind','mime','payload','createdAt'])
+              && ((data.kind == 'image' && data.mime == 'image/jpeg')
+                || (data.kind == 'audio' && data.mime in ['audio/webm','audio/mp4','audio/ogg']))
+              && data.payload is string && data.payload.size() > 0 && data.payload.size() <= 220000);
+        }
         allow create: if member(connection()) && connection().status == 'active'
-          && request.resource.data.keys().hasOnly(['sender','text','createdAt'])
           && request.resource.data.sender == request.auth.uid
-          && request.resource.data.text is string && request.resource.data.text.size() > 0
-          && request.resource.data.text.size() <= 1000
+          && validMessage()
           && request.resource.data.createdAt == request.time;
       }
 
@@ -126,6 +143,20 @@ service cloud.firestore {
       }
     }
 
+    match /chatHandles/{uid} {
+      allow get: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['handle'])
+        && request.resource.data.handle.matches('^[a-z0-9_]{3,20}$')
+        && getAfter(/databases/$(database)/documents/chatUsernames/$(request.resource.data.handle)).data.uid == uid;
+    }
+    match /chatUsernames/{handle} {
+      allow get: if request.auth != null;
+      allow create: if request.auth != null && handle.matches('^[a-z0-9_]{3,20}$')
+        && request.resource.data.keys().hasOnly(['uid'])
+        && request.resource.data.uid == request.auth.uid
+        && getAfter(/databases/$(database)/documents/chatHandles/$(request.auth.uid)).data.handle == handle;
+    }
     match /connectionCodes/{pin} {
       function validCode() {
         let thread = getAfter(/databases/$(database)/documents/connections/$(request.resource.data.thread)).data;
