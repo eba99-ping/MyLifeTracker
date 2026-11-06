@@ -93,6 +93,8 @@ globalThis.TemuulLocale = (() => {
     'Интернетгүй байна. Холболт сэргээд чат үргэлжлүүлээрэй.':'You’re offline. Reconnect to continue chatting.',
     '🖼 Зураг':'🖼 Photo','🎙 Бичих':'🎙 Record','Хавсралт арилгах':'Remove attachment',
     'Чатын зураг':'Chat image','Илгээсэн зураг':'Shared image','↓ Зураг татах':'↓ Download image',
+    'Шинэ зурвас':'New message','💬 Шинэ зурвас ирлээ':'💬 New message','🔔 Чатын мэдэгдэл асаах':'🔔 Enable chat notifications',
+    '🔔 Мэдэгдэл асаалттай':'🔔 Notifications enabled','Мэдэгдлийн зөвшөөрлөө шалгаарай':'Check your notification permissions','Энэ хөтөч системийн мэдэгдэл дэмжихгүй байна':'System notifications are unavailable in this browser',
     'Username үүсгэвэл нэвтэрсэн хэрэглэгчид таны нэр, зураг, Pet-ийн ахицыг харж болно.':'When you create a username, signed-in users can see your name, photo, and pet progress.',
     'Урилга бэлэн':'Invite ready','Зөвшөөрөл хүлээж байна':'Pending approval','Чат нээлттэй':'Chat open','Хаасан':'Closed',
     'Хүсэлт ба урилга':'Requests and invites','Хаасан чат':'Closed chats','Холбоо хараахан алга.':'No connections yet.',

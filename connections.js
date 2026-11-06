@@ -9,6 +9,7 @@ globalThis.TemuulConnections = (() => {
   let handle='', attachment=null, recording=null, recordingTimer;
   let publisher=null;
   const friendProfiles=new Map(), profileSubscriptions=new Map();
+  const privateProfiles=new Map(), privateSubscriptions=new Map();
   const tr = (mn,en) => globalThis.TemuulLocale?.t(mn,en) ?? mn;
   const feedback = (mn,en) => { find('connectionStatus').textContent = tr(mn,en); };
   const validHandle = value => /^[a-z0-9_]{3,20}$/.test(value);
@@ -21,11 +22,11 @@ globalThis.TemuulConnections = (() => {
   const peerUid=record=>record.members.find(uid=>uid!==user?.uid);
 
   function account(api,identity,read){
-    if(publisher?.uid===identity?.uid&&publisher)return;
-    if(publisher)clearTimeout(publisher.timer);
+    if(publisher?.uid===identity?.uid&&publisher&&(publisher.ready||publisher.loading))return;
+    if(publisher){clearTimeout(publisher.timer);publisher.stopFriends?.();}
     publisher=null;
     if(!api||!identity)return;
-    const current={api,uid:identity.uid,read,changes:new Set(),handle:'',busy:false,exists:false};
+    const current={api,uid:identity.uid,read,changes:new Set(),handle:'',busy:false,exists:false,loading:true,threads:new Set(),missing:new Set()};
     publisher=current;
     const handleRef=api.doc(api.db,'chatHandles',current.uid);
     const profileRef=api.doc(api.db,'chatProfiles',current.uid);
@@ -33,13 +34,37 @@ globalThis.TemuulConnections = (() => {
       if(publisher!==current)return;
       current.handle=registered.data()?.handle||'';
       current.exists=profile.exists();
+      current.ready=true;
+      if(!current.handle)watchPrivateFriends(current);
       if(current.handle&&!current.exists)current.changes.add('initial');
       schedulePublish(current);
-    }).catch(()=>{});
+    }).catch(()=>{}).finally(()=>{current.loading=false;});
+  }
+
+  function watchPrivateFriends(current){
+    const {api,uid}=current;
+    const query=api.query(api.collection(api.db,'connections'),api.where('members','array-contains',uid));
+    current.stopFriends=api.onSnapshot(query,{includeMetadataChanges:true},snapshot=>{
+      if(publisher!==current||current.handle||snapshot.metadata.fromCache)return;
+      const threads=new Set(snapshot.docs.filter(doc=>doc.data().status==='active').map(doc=>doc.id));
+      for(const id of threads){
+        if(current.threads.has(id))continue;
+        const ref=api.doc(api.db,'connections',id,'friendCards',uid);
+        api.getDoc(ref).then(card=>{
+          if(publisher!==current||current.handle||!current.threads.has(id)||card.exists())return;
+          current.missing.add(id);
+          schedulePublish(current);
+        }).catch(()=>{});
+      }
+      current.threads=threads;
+      for(const id of current.missing)if(!threads.has(id))current.missing.delete(id);
+      schedulePublish(current);
+    },()=>{});
   }
 
   function schedulePublish(current){
-    if(publisher!==current||!current.handle||!navigator.onLine||!current.changes.size)return;
+    if(publisher!==current||!current.ready||!navigator.onLine)return;
+    if(current.handle?!current.changes.size:!current.missing.size&&!(current.threads.size&&current.changes.size))return;
     clearTimeout(current.timer);
     current.timer=setTimeout(()=>flushProfile(current),300);
   }
@@ -51,7 +76,7 @@ globalThis.TemuulConnections = (() => {
   }
 
   async function flushProfile(current){
-    if(publisher!==current||current.busy||!navigator.onLine||!current.changes.size)return;
+    if(publisher!==current||current.busy||!navigator.onLine||(!current.changes.size&&!current.missing.size))return;
     const {api,uid}=current;
     const changes=[...current.changes];
     current.changes.clear();
@@ -62,6 +87,17 @@ globalThis.TemuulConnections = (() => {
       const pet={...data.pet,name:label(data.pet.name,'Nomi'),xp:bounded(data.pet.xp,0,100000000),
         level:bounded(data.pet.level,1,200000),needed:bounded(data.pet.needed,1,10000)};
       pet.current=bounded(data.pet.current,0,pet.needed);
+      if(!current.handle){
+        const ids=[...(changes.length?current.threads:current.missing)];
+        const card={handle:'',name:label(data.name,'Тэмүүлийн гишүүн'),avatar:safeAvatar(data.avatar),pet};
+        await Promise.all(ids.map(async id=>{
+          if(publisher!==current||!current.threads.has(id))return;
+          await api.setDoc(api.doc(api.db,'connections',id,'friendCards',uid),card);
+          current.missing.delete(id);
+        }));
+        schedulePublish(current);
+        return;
+      }
       const patch={handle:current.handle};
       if(!current.exists||changes.includes('initial')||changes.includes('profile')){
         patch.name=label(data.name,'@'+current.handle);
@@ -75,6 +111,7 @@ globalThis.TemuulConnections = (() => {
       for(const change of changes)current.changes.add(change);
     }finally{current.busy=false;}
   }
+  const sharedFor=record=>friendProfiles.get(peerUid(record))||privateProfiles.get(record.id);
   const connection = id => sdk.doc(sdk.db,'connections',id);
   const name = () => (user.displayName || 'Тэмүүлийн гишүүн').trim().slice(0,48) || 'Тэмүүлийн гишүүн';
   const labels = {waiting:'Урилга бэлэн',pending:'Зөвшөөрөл хүлээж байна',active:'Чат нээлттэй',closed:'Хаасан'};
@@ -136,14 +173,37 @@ globalThis.TemuulConnections = (() => {
         renderList();
         const record=records.find(item=>item.id===selected);
         if(record&&peerUid(record)===uid){
-          find('connectionPeer').textContent=label(snapshot.data()?.name,peerName(record));
+          const data=sharedFor(record);
+          find('connectionPeer').textContent=label(data?.name,peerName(record));
           if(find('friendProfile').open){
             const card=find('friendProfileCard');
-            renderFriendCard(card,snapshot.data(),peerName(record),card.dataset.bio||'');
+            renderFriendCard(card,data,peerName(record),card.dataset.bio||'');
           }
         }
       },()=>{});
       profileSubscriptions.set(uid,stop);
+    }
+    const threads=records.filter(record=>record.status==='active');
+    const ids=new Set(threads.map(record=>record.id));
+    for(const [id,stop] of privateSubscriptions){
+      if(ids.has(id))continue;
+      stop();privateSubscriptions.delete(id);privateProfiles.delete(id);
+    }
+    for(const record of threads){
+      const id=record.id,peer=peerUid(record);
+      if(!peer||privateSubscriptions.has(id))continue;
+      const stop=sdk.onSnapshot(sdk.doc(connection(id),'friendCards',peer),snapshot=>{
+        if(scope!==currentScope||!privateSubscriptions.has(id))return;
+        privateProfiles.set(id,snapshot.data());
+        renderList();
+        if(selected===id){
+          const data=sharedFor(record);
+          find('connectionPeer').textContent=label(data?.name,peerName(record));
+          const card=find('friendProfileCard');
+          if(find('friendProfile').open)renderFriendCard(card,data,peerName(record),card.dataset.bio||'');
+        }
+      },()=>{});
+      privateSubscriptions.set(id,stop);
     }
   }
 
@@ -154,7 +214,7 @@ globalThis.TemuulConnections = (() => {
       if(!group.length) continue;
       items.push(element('h4',tr(title),'friend-group-title'));
       for(const record of group){
-        const publicProfile=friendProfiles.get(peerUid(record));
+        const publicProfile=sharedFor(record);
         const peer = label(publicProfile?.name,peerName(record));
         const button = element('button','','connection-item');
         button.type = 'button';
@@ -199,7 +259,7 @@ globalThis.TemuulConnections = (() => {
       return;
     }
     const owner = record.members[0] === user.uid;
-    find('connectionPeer').textContent = label(friendProfiles.get(peerUid(record))?.name,peerName(record));
+    find('connectionPeer').textContent = label(sharedFor(record)?.name,peerName(record));
     find('connectionThreadStatus').textContent = tr(labels[record.status]);
     find('connectionAccept').hidden = !owner || record.status !== 'pending';
     find('connectionClose').hidden = record.status === 'closed';
@@ -243,6 +303,8 @@ globalThis.TemuulConnections = (() => {
     if(find('chatImageViewer').open)find('chatImageViewer').close();
     for(const stop of profileSubscriptions.values())stop();
     profileSubscriptions.clear();friendProfiles.clear();
+    for(const stop of privateSubscriptions.values())stop();
+    privateSubscriptions.clear();privateProfiles.clear();
     clearAttachment();
     stopList?.();
     stopMessages?.();
@@ -294,6 +356,7 @@ globalThis.TemuulConnections = (() => {
     find('connectionHandleSave').hidden=true;
     if(publisher?.uid===user.uid){
       publisher.handle=value;
+      publisher.stopFriends?.();
       if(!publisher.exists)publish('initial');
     }
   }
@@ -430,7 +493,7 @@ globalThis.TemuulConnections = (() => {
         if(scope !== activeScope || profileThread !== record.id) return;
         const shown = other.data();
         card.dataset.bio=shown?.bio||'';
-        renderFriendCard(card,friendProfiles.get(peer),shown?.name||fallback,card.dataset.bio);
+        renderFriendCard(card,sharedFor(record),shown?.name||fallback,card.dataset.bio);
         find('friendProfileName').value = own.data()?.name || name();
         find('friendProfileBio').value = own.data()?.bio || '';
       }catch{

@@ -313,6 +313,32 @@ globalThis.TemuulVoice = (() => {
     }
   }
 
+  function watchMessages(session,sdk,id){
+    const messages=sdk.collection(sdk.db,'connections',id,'messages');
+    const latest=sdk.query(messages,sdk.orderBy('createdAt','desc'),sdk.limit(1));
+    let seen,initialized=false;
+    return sdk.onSnapshot(latest,{includeMetadataChanges:true},snapshot=>{
+      if(inbox!==session||snapshot.metadata.fromCache||snapshot.metadata.hasPendingWrites)return;
+      const documentSnap=snapshot.docs[0];
+      const previous=seen;
+      seen=documentSnap?.id;
+      if(!initialized){initialized=true;return;}
+      if(!seen||seen===previous||documentSnap.data().sender===session.uid)return;
+      if(room?.id===id&&!document.hidden)return;
+      const notice=byId('chatMessageNotice');
+      notice.hidden=false;
+      byId('chatMessageOpen').onclick=()=>{
+        notice.hidden=true;
+        session.open(id);
+      };
+      if(document.hidden&&globalThis.Notification?.permission==='granted'){
+        navigator.serviceWorker?.controller?.postMessage({type:'SHOW_NOTIFICATION',
+          title:globalThis.TemuulLocale?.t('💬 Шинэ зурвас ирлээ','💬 New message')||'💬 Шинэ зурвас ирлээ',
+          options:{tag:'temuul-message-'+id,data:{url:`/?call=${encodeURIComponent(id)}#connections`}}});
+      }
+    },()=>{});
+  }
+
   function watch(sdk,user,open){
     if(inbox?.uid === user?.uid && inbox) return;
     if(inbox){
@@ -323,6 +349,7 @@ globalThis.TemuulVoice = (() => {
     }
     inbox = null;
     byId('incomingCall').hidden = true;
+    byId('chatMessageNotice').hidden = true;
     if(!sdk || !user) return;
     const session = {uid:user.uid,open,calls:new Map(),subscriptions:new Map(),notified:new Set()};
     inbox = session;
@@ -349,7 +376,8 @@ globalThis.TemuulVoice = (() => {
           session.calls.delete(id);
           showIncoming(session);
         });
-        session.subscriptions.set(id,stop);
+        const stopMessages=watchMessages(session,sdk,id);
+        session.subscriptions.set(id,()=>{stop();stopMessages();});
       });
       showIncoming(session);
     },() => {
@@ -359,5 +387,14 @@ globalThis.TemuulVoice = (() => {
       showIncoming(session);
     });
   }
+  byId('chatMessageDismiss').onclick=()=>{byId('chatMessageNotice').hidden=true;};
+  byId('chatEnableNotifications').onclick=async()=>{
+    const button=byId('chatEnableNotifications');
+    let permission;
+    try{permission=await globalThis.Notification?.requestPermission();}
+    catch{permission='unavailable';}
+    const text=permission==='granted'?'🔔 Мэдэгдэл асаалттай':permission==='denied'?'Мэдэгдлийн зөвшөөрлөө шалгаарай':'Энэ хөтөч системийн мэдэгдэл дэмжихгүй байна';
+    button.textContent=globalThis.TemuulLocale?.t(text)||text;
+  };
   return {update,watch};
 })();
